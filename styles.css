@@ -46,6 +46,10 @@ body:not(.home) {
   padding-top: 56px;
 }
 
+body.error {
+  padding-top: 56px;
+}
+
 /* Typography Hierarchy */
 h1, h2, .display-2, .display-4 {
   font-family: 'Dancing Script', sans-serif;
@@ -793,6 +797,13 @@ h2.heading-blush-bg.pt-6 {
   margin-bottom: 0;
   padding: 0;
   position: relative;
+}
+
+.hero-carousel video {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Home Carousel Logo Overlay */
@@ -2486,6 +2497,7 @@ div.text-center.mt-5 {
   #heroCarousel .carousel-inner,
   #heroCarousel .carousel-item,
   #heroCarousel .carousel-item img,
+  #heroCarousel .carousel-item video,
   .hero-carousel {
     height: 100vh !important;
     min-height: 100vh !important;
@@ -2885,4 +2897,32 @@ footer .nav-link:focus {
   background-color: var(--coreGold) !important;
   color: var(--coreCharcoal) !important;
   border: 2px solid var(--coreGold) !important;
+}
+
+/* 404 Error Page Styles */
+.hover-shadow {
+  transition: all 0.3s ease;
+  border-color: #dee2e6 !important;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  border-color: var(--coreGold) !important;
+  transform: translateY(-2px);
+}
+
+.text-gold {
+  color: var(--coreGold) !important;
+}
+
+.btn-outline-gold {
+  color: var(--coreGold);
+  border-color: var(--coreGold);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-gold:hover {
+  background-color: var(--coreGold);
+  border-color: var(--coreGold);
+  color: white;
 }
