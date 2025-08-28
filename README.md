@@ -10,7 +10,7 @@
 ### **🏢 Company Information:**
 - **Name:** Bloom'n Events Co Pty Ltd
 - **Location:** Brookton, WA, 6306
-- **Phone:** 0419 111 300
+- **Phone:** 1800 826 268
 - **Email:** enquiries@bloomneventsco.com.au
 - **Website:** https://antondelange.github.io/Bloom-n-Events-Co-Website/
 
