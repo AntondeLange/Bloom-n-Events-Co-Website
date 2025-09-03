@@ -1,4 +1,41 @@
 // Bloom'n Events Co - Consolidated Scripts
+// Performance optimized with lazy loading and efficient event handling
+
+// Performance optimization: Use requestIdleCallback for non-critical tasks
+const runWhenIdle = (callback) => {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(callback);
+    } else {
+        setTimeout(callback, 1);
+    }
+};
+
+// Debounce function for performance optimization
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// Throttle function for scroll events
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
 
 // Single DOMContentLoaded event listener for all functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,37 +46,66 @@ document.addEventListener('DOMContentLoaded', function() {
         const portfolioDropdown = navbar.querySelector('.dropdown');
         let lastScrollTop = 0;
         
+        // Initialize navbar to start at bottom
+        const initializeNavbar = () => {
+            // Always start at bottom - force the classes
+            navbar.classList.remove('fixed-top');
+            navbar.classList.add('fixed-bottom');
+            body.classList.remove('navbar-top');
+            if (portfolioDropdown) {
+                portfolioDropdown.classList.remove('dropdown');
+                portfolioDropdown.classList.add('dropup');
+            }
+            console.log('Navbar initialized at bottom, classes:', navbar.className);
+        };
+        
+        // Initialize navbar position
+        initializeNavbar();
+        
         // Dynamic navbar behaviour for home page with dropdown direction switching
-        window.addEventListener('scroll', function() {
+        // Throttled for better performance
+        const handleScroll = throttle(function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            console.log('Scroll event fired, scrollTop:', scrollTop);
             
             // Check if we're near the top of the page
             if (scrollTop <= 100) {
                 // At the top - switch to fixed-bottom (dropup behaviour)
-                navbar.classList.remove('fixed-top');
-                navbar.classList.add('fixed-bottom');
-                body.classList.remove('navbar-top');
-                
-                // Switch to dropup (menu opens upward) when navbar is at bottom
-                if (portfolioDropdown) {
-                    portfolioDropdown.classList.remove('dropdown');
-                    portfolioDropdown.classList.add('dropup');
+                if (!navbar.classList.contains('fixed-bottom')) {
+                    navbar.classList.remove('fixed-top');
+                    navbar.classList.add('fixed-bottom');
+                    body.classList.remove('navbar-top');
+                    
+                    // Switch to dropup (menu opens upward) when navbar is at bottom
+                    if (portfolioDropdown) {
+                        portfolioDropdown.classList.remove('dropdown');
+                        portfolioDropdown.classList.add('dropup');
+                    }
+                    console.log('Switched to bottom, scroll:', scrollTop, 'classes:', navbar.className);
                 }
             } else {
                 // Away from top - switch to fixed-top (dropdown behaviour)
-                navbar.classList.remove('fixed-bottom');
-                navbar.classList.add('fixed-top');
-                body.classList.add('navbar-top');
-                
-                // Switch to dropdown (menu opens downward) when navbar is at top
-                if (portfolioDropdown) {
-                    portfolioDropdown.classList.remove('dropup');
-                    portfolioDropdown.classList.add('dropdown');
+                if (!navbar.classList.contains('fixed-top')) {
+                    navbar.classList.remove('fixed-bottom');
+                    navbar.classList.add('fixed-top');
+                    body.classList.add('navbar-top');
+                    
+                    // Switch to dropdown (menu opens downward) when navbar is at top
+                    if (portfolioDropdown) {
+                        portfolioDropdown.classList.remove('dropup');
+                        portfolioDropdown.classList.add('dropdown');
+                    }
+                    console.log('Switched to top, scroll:', scrollTop, 'classes:', navbar.className);
                 }
             }
             
             lastScrollTop = scrollTop;
-        });
+        }, 16); // ~60fps
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Test scroll event
+        console.log('Scroll event listener added');
         
         // Mobile menu click prevention
         const mobileMenu = navbar.querySelector('.navbar-collapse');
@@ -51,64 +117,117 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ===== FORM VALIDATION =====
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('is-invalid');
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            });
-            
-            if (!isValid) {
-                e.preventDefault();
-            }
-        });
-    });
+    // Note: Enhanced form validation is handled later in the script
     
-    // ===== IMAGE LAZY LOADING =====
+    // ===== ENHANCED IMAGE LAZY LOADING =====
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
+                    
+                    // Add loading state
+                    img.classList.add('loading');
+                    
+                    // Create a new image to preload
+                    const newImg = new Image();
+                    newImg.onload = () => {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy', 'loading');
+                        img.classList.add('loaded');
+                        
+                        // Track image load for analytics
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'image_load', {
+                                event_category: 'Performance',
+                                event_label: img.alt || 'Unknown',
+                                value: 1
+                            });
+                        }
+                    };
+                    newImg.onerror = () => {
+                        img.classList.remove('lazy', 'loading');
+                        img.classList.add('error');
+                        console.warn('Failed to load image:', img.dataset.src);
+                    };
+                    newImg.src = img.dataset.src;
+                    
                     imageObserver.unobserve(img);
                 }
             });
+        }, {
+            rootMargin: '50px 0px', // Start loading 50px before image comes into view
+            threshold: 0.01
         });
         
         const lazyImages = document.querySelectorAll('img[data-src]');
         lazyImages.forEach(img => imageObserver.observe(img));
     }
     
-    // ===== ACCESSIBILITY ENHANCEMENTS =====
+    // ===== ENHANCED ACCESSIBILITY FEATURES =====
     // Add skip link functionality
     const skipLink = document.createElement('a');
     skipLink.href = '#main-content';
     skipLink.textContent = 'Skip to main content';
     skipLink.className = 'skip-link sr-only sr-only-focusable';
-    skipLink.style.cssText = 'position: absolute; top: -40px; left: 6px; z-index: 1000; background: var(--coreCharcoal); color: var(--coreGold); padding: 8px; text-decoration: none; border-radius: 4px;';
+    skipLink.style.cssText = 'position: absolute; top: -40px; left: 6px; z-index: 1000; background: var(--coreCharcoal); color: var(--coreGold); padding: 8px; text-decoration: none; border-radius: 4px; transition: top 0.3s ease;';
+    
+    // Enhanced skip link behavior
+    skipLink.addEventListener('focus', () => {
+        skipLink.style.top = '6px';
+    });
+    
+    skipLink.addEventListener('blur', () => {
+        skipLink.style.top = '-40px';
+    });
     
     document.body.insertBefore(skipLink, document.body.firstChild);
     
-    // Add focus styles for keyboard navigation
+    // Enhanced focus management for keyboard navigation
     const focusableElements = document.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
     focusableElements.forEach(element => {
         element.addEventListener('focus', function() {
             this.style.outline = '2px solid var(--coreGold)';
             this.style.outlineOffset = '2px';
+            
+            // Announce focus changes to screen readers
+            if (this.getAttribute('aria-label') || this.textContent.trim()) {
+                const announcement = this.getAttribute('aria-label') || this.textContent.trim();
+                announceToScreenReader(announcement);
+            }
         });
         
         element.addEventListener('blur', function() {
             this.style.outline = 'none';
+        });
+    });
+    
+    // Screen reader announcement function
+    function announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            document.body.removeChild(announcement);
+        }, 1000);
+    }
+    
+    // Enhanced keyboard navigation for carousels
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(carousel => {
+        carousel.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                const direction = e.key === 'ArrowLeft' ? 'prev' : 'next';
+                const control = carousel.querySelector(`.carousel-control-${direction}`);
+                if (control) {
+                    control.click();
+                }
+            }
         });
     });
     
@@ -182,13 +301,25 @@ document.addEventListener('DOMContentLoaded', function() {
         let hasInteracted = false;
         
         // Show notification after 3 seconds if user hasn't interacted
-        setTimeout(() => {
-            if (!hasInteracted) {
-                chatbotNotification.style.display = 'flex';
-            }
-        }, 3000);
+        // Use requestIdleCallback for better performance
+        runWhenIdle(() => {
+            setTimeout(() => {
+                if (!hasInteracted) {
+                    chatbotNotification.style.display = 'flex';
+                    
+                    // Track chatbot notification display
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'chatbot_notification_shown', {
+                            event_category: 'Engagement',
+                            event_label: 'Auto Notification',
+                            value: 1
+                        });
+                    }
+                }
+            }, 3000);
+        });
         
-        // Toggle chatbot
+        // Toggle chatbot with analytics tracking
         chatbotToggle.addEventListener('click', () => {
             isOpen = !isOpen;
             if (isOpen) {
@@ -196,8 +327,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 chatbotInput.focus();
                 chatbotNotification.style.display = 'none';
                 hasInteracted = true;
+                
+                // Track chatbot open
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'chatbot_opened', {
+                        event_category: 'Engagement',
+                        event_label: 'Chatbot Interaction',
+                        value: 1
+                    });
+                }
             } else {
                 chatbotContainer.classList.remove('show');
+                
+                // Track chatbot close
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'chatbot_closed', {
+                        event_category: 'Engagement',
+                        event_label: 'Chatbot Interaction',
+                        value: 1
+                    });
+                }
             }
         });
         
@@ -587,6 +736,207 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
             };
             document.body.appendChild(testButton);
+        }
+    }
+    
+    // ===== ERROR HANDLING AND PERFORMANCE MONITORING =====
+    
+    // Global error handler
+    window.addEventListener('error', (e) => {
+        console.error('JavaScript Error:', e.error);
+        
+        // Track errors in analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'exception', {
+                description: e.error?.message || 'Unknown error',
+                fatal: false
+            });
+        }
+    });
+    
+    // Unhandled promise rejection handler
+    window.addEventListener('unhandledrejection', (e) => {
+        console.error('Unhandled Promise Rejection:', e.reason);
+        
+        // Track promise rejections in analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'exception', {
+                description: e.reason?.message || 'Unhandled promise rejection',
+                fatal: false
+            });
+        }
+    });
+    
+    // Performance monitoring
+    if ('PerformanceObserver' in window) {
+        // Monitor Core Web Vitals
+        const observer = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                if (entry.entryType === 'largest-contentful-paint') {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'lcp', {
+                            event_category: 'Web Vitals',
+                            value: Math.round(entry.startTime),
+                            non_interaction: true,
+                        });
+                    }
+                }
+                
+                if (entry.entryType === 'first-input') {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'fid', {
+                            event_category: 'Web Vitals',
+                            value: Math.round(entry.processingStart - entry.startTime),
+                            non_interaction: true,
+                        });
+                    }
+                }
+                
+                if (entry.entryType === 'layout-shift') {
+                    if (!entry.hadRecentInput) {
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'cls', {
+                                event_category: 'Web Vitals',
+                                value: entry.value,
+                                non_interaction: true,
+                            });
+                        }
+                    }
+                }
+            }
+        });
+        
+        observer.observe({type: 'largest-contentful-paint', buffered: true});
+        observer.observe({type: 'first-input', buffered: true});
+        observer.observe({type: 'layout-shift', buffered: true});
+    }
+    
+    // Service Worker registration for offline functionality
+    if ('serviceWorker' in navigator) {
+        runWhenIdle(() => {
+            navigator.serviceWorker.register('/sw.js').catch((error) => {
+                console.log('Service Worker registration failed:', error);
+            });
+        });
+    }
+    
+    // Preload critical resources
+    const preloadCriticalResources = () => {
+        const criticalImages = [
+            'images/logo-wht.png',
+            'images/logo-blk-long.png'
+        ];
+        
+        criticalImages.forEach(src => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = src;
+            document.head.appendChild(link);
+        });
+    };
+    
+    // Run preloading when idle
+    runWhenIdle(preloadCriticalResources);
+    
+    // Enhanced form validation with better UX
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('input, textarea, select');
+        
+        inputs.forEach(input => {
+            // Real-time validation
+            input.addEventListener('blur', () => {
+                validateField(input);
+            });
+            
+            input.addEventListener('input', debounce(() => {
+                if (input.classList.contains('is-invalid')) {
+                    validateField(input);
+                }
+            }, 300));
+        });
+        
+        form.addEventListener('submit', (e) => {
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                
+                // Focus first invalid field
+                const firstInvalid = form.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+    });
+    
+    function validateField(field) {
+        const value = field.value.trim();
+        const isRequired = field.hasAttribute('required');
+        const type = field.type;
+        
+        let isValid = true;
+        let errorMessage = '';
+        
+        if (isRequired && !value) {
+            isValid = false;
+            errorMessage = 'This field is required';
+        } else if (value) {
+            switch (type) {
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid email address';
+                    }
+                    break;
+                case 'tel':
+                    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                    if (!phoneRegex.test(value.replace(/\s/g, ''))) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid phone number';
+                    }
+                    break;
+            }
+        }
+        
+        // Update field state
+        if (isValid) {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+            removeErrorMessage(field);
+        } else {
+            field.classList.remove('is-valid');
+            field.classList.add('is-invalid');
+            showErrorMessage(field, errorMessage);
+        }
+        
+        return isValid;
+    }
+    
+    function showErrorMessage(field, message) {
+        removeErrorMessage(field);
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'invalid-feedback';
+        errorDiv.textContent = message;
+        
+        field.parentNode.appendChild(errorDiv);
+    }
+    
+    function removeErrorMessage(field) {
+        const existingError = field.parentNode.querySelector('.invalid-feedback');
+        if (existingError) {
+            existingError.remove();
         }
     }
 });

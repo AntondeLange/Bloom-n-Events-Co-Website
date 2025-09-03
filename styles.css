@@ -1,5 +1,16 @@
 /* Font import moved to HTML for better performance */
 
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* CSS Variables & Imports */
 :root {
   --coreCharcoal: #1E1E1E;
@@ -33,21 +44,21 @@ body {
 /* Body Layout States */
 body.home {
   padding-top: 0;
-  padding-bottom: 56px;
+  padding-bottom: 65px; /* Increased to match navbar height */
   transition: padding 0.3s ease;
 }
 
 body.home.navbar-top {
-  padding-top: 56px;
+  padding-top: 65px; /* Increased to match navbar height */
   padding-bottom: 0;
 }
 
 body:not(.home) {
-  padding-top: 56px;
+  padding-top: 65px; /* Increased to match navbar height */
 }
 
 body.error {
-  padding-top: 56px;
+  padding-top: 65px; /* Increased to match navbar height */
 }
 
 /* Typography Hierarchy */
@@ -111,6 +122,7 @@ body.policies .highlight {
   height: 65px !important;
   min-height: 65px !important;
   max-height: 65px !important;
+  z-index: 1030; /* Ensure navbar stays above content */
 }
 
 .navbar .container {
@@ -2236,7 +2248,12 @@ div.text-center.mt-5 {
 /* Responsive Design */
 @media (max-width: 991.98px) {
   body.home {
-    padding-bottom: 0;
+    padding-bottom: 65px; /* Keep bottom padding for mobile navbar */
+  }
+  
+  /* Ensure content doesn't overlap with navbar on mobile */
+  body.home main {
+    margin-bottom: 20px; /* Extra margin to prevent overlap */
   }
   
   #heroCarousel,
@@ -2488,6 +2505,20 @@ div.text-center.mt-5 {
 }
 
 @media (max-width: 576px) {
+  /* Extra small screens - ensure no overlap */
+  body.home {
+    padding-bottom: 70px; /* Extra padding for very small screens */
+  }
+  
+  body.home main {
+    margin-bottom: 30px; /* Extra margin for very small screens */
+  }
+  
+  /* Ensure footer has proper spacing */
+  footer {
+    margin-top: 30px !important;
+  }
+  
   .gallery-section {
     padding: 15px;
   }
@@ -3278,7 +3309,7 @@ footer .nav-link:focus {
 /* Mobile Responsive Chatbot */
 @media (max-width: 576px) {
   .chatbot-widget {
-    bottom: 15px;
+    bottom: 80px; /* Position above navbar on mobile */
     right: 15px;
   }
   
@@ -3339,4 +3370,128 @@ footer .nav-link:focus {
 
 .chatbot-messages::-webkit-scrollbar-thumb:hover {
   background: var(--coreCharcoal);
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* GPU acceleration for animations */
+.carousel-item,
+.carousel-item img,
+.hero-carousel video,
+.chatbot-container,
+.chatbot-toggle,
+.btn,
+.card,
+.navbar {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimize image loading states */
+img.loading {
+  opacity: 0.7;
+  filter: blur(2px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+img.loaded {
+  opacity: 1;
+  filter: none;
+}
+
+img.error {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Form validation styles */
+.is-valid {
+  border-color: #28a745 !important;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn,
+  .btn-gold,
+  .navbar,
+  .card {
+    border-width: 2px !important;
+  }
+  
+  .chatbot-toggle,
+  .chatbot-container {
+    border-width: 3px !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .chatbot-widget,
+  .navbar,
+  .carousel-control-prev,
+  .carousel-control-next,
+  .carousel-indicators {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .card,
+  .section-main {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
 }
