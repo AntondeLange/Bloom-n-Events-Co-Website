@@ -386,6 +386,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Mobile-specific input handling
+        chatbotInput.addEventListener('input', () => {
+            // Ensure input is visible on mobile
+            chatbotInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        // Prevent zoom on input focus (iOS Safari)
+        chatbotInput.addEventListener('focus', () => {
+            if (window.innerWidth <= 768) {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                }
+            }
+        });
+        
+        chatbotInput.addEventListener('blur', () => {
+            if (window.innerWidth <= 768) {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+                }
+            }
+        });
+        
         // Quick reply buttons - use event delegation on the messages container
         chatbotMessages.addEventListener('click', (e) => {
             if (e.target.classList.contains('chatbot-quick-reply')) {
@@ -393,20 +418,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.stopPropagation();
                 
                 const message = e.target.dataset.message;
-                console.log('Quick reply clicked:', message); // Debug log
+                const action = e.target.dataset.action; // Check for navigation action
+                console.log('Quick reply clicked:', message, 'Action:', action); // Debug log
                 
-                // Add user message immediately
-                addMessage(message, 'user');
-                
-                // Show typing indicator
-                showTyping();
-                
-                // Get bot response after delay
-                setTimeout(() => {
-                    hideTyping();
-                    const response = getBotResponse(message);
-                    addMessage(response.text, 'bot', response.quickReplies);
-                }, 1000 + Math.random() * 1000);
+                // Check if this is a navigation action
+                if (action && action.startsWith('navigate:')) {
+                    const targetPage = action.replace('navigate:', '');
+                    console.log('Navigating to:', targetPage);
+                    
+                    // Add user message
+                    addMessage(message, 'user');
+                    
+                    // Show typing indicator
+                    showTyping();
+                    
+                    // Navigate after a short delay
+                    setTimeout(() => {
+                        hideTyping();
+                        addMessage(`Taking you to our ${targetPage} page...`, 'bot');
+                        setTimeout(() => {
+                            window.location.href = targetPage;
+                        }, 1000);
+                    }, 1000);
+                } else {
+                    // Regular conversation flow
+                    addMessage(message, 'user');
+                    
+                    // Show typing indicator
+                    showTyping();
+                    
+                    // Get bot response after delay
+                    setTimeout(() => {
+                        hideTyping();
+                        const response = getBotResponse(message);
+                        addMessage(response.text, 'bot', response.quickReplies);
+                    }, 1000 + Math.random() * 1000);
+                }
             }
         });
         
@@ -436,26 +483,50 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.type = 'button';
                     button.textContent = reply.text;
                     button.dataset.message = reply.message;
+                    if (reply.action) {
+                        button.dataset.action = reply.action;
+                    }
                     button.style.cursor = 'pointer';
                     
                     // Add click event directly to each button as backup
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('Direct button click:', reply.message);
+                        console.log('Direct button click:', reply.message, 'Action:', reply.action);
                         
-                        // Add user message immediately
-                        addMessage(reply.message, 'user');
-                        
-                        // Show typing indicator
-                        showTyping();
-                        
-                        // Get bot response after delay
-                        setTimeout(() => {
-                            hideTyping();
-                            const response = getBotResponse(reply.message);
-                            addMessage(response.text, 'bot', response.quickReplies);
-                        }, 1000 + Math.random() * 1000);
+                        // Check if this is a navigation action
+                        if (reply.action && reply.action.startsWith('navigate:')) {
+                            const targetPage = reply.action.replace('navigate:', '');
+                            console.log('Navigating to:', targetPage);
+                            
+                            // Add user message
+                            addMessage(reply.message, 'user');
+                            
+                            // Show typing indicator
+                            showTyping();
+                            
+                            // Navigate after a short delay
+                            setTimeout(() => {
+                                hideTyping();
+                                addMessage(`Taking you to our ${targetPage} page...`, 'bot');
+                                setTimeout(() => {
+                                    window.location.href = targetPage;
+                                }, 1000);
+                            }, 1000);
+                        } else {
+                            // Regular conversation flow
+                            addMessage(reply.message, 'user');
+                            
+                            // Show typing indicator
+                            showTyping();
+                            
+                            // Get bot response after delay
+                            setTimeout(() => {
+                                hideTyping();
+                                const response = getBotResponse(reply.message);
+                                addMessage(response.text, 'bot', response.quickReplies);
+                            }, 1000 + Math.random() * 1000);
+                        }
                     });
                     
                     quickRepliesDiv.appendChild(button);
@@ -493,9 +564,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: "We excel at corporate events! From team building workshops to networking events and company celebrations. We've worked with major clients like Hawaiian and Centuria. Our corporate services include event planning, custom displays, and team building activities.",
                     quickReplies: [
                         { text: "Team Building", message: "Tell me about your team building workshops" },
-                        { text: "Networking Events", message: "What networking events do you organize?" },
-                        { text: "Corporate Displays", message: "Show me your corporate display work" },
-                        { text: "Get Quote", message: "I need a quote for a corporate event" }
+                        { text: "View Events", message: "Show me your corporate events", action: "navigate:events.html" },
+                        { text: "View Displays", message: "Show me your corporate display work", action: "navigate:displays.html" },
+                        { text: "Contact Us", message: "I need a quote for a corporate event", action: "navigate:contact.html" }
                     ]
                 };
             }
@@ -505,10 +576,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return {
                     text: "Food festivals are our specialty! We've created amazing events like the Hawaiian World of Flavours and Neighbourhood Nibbles. We handle everything from concept to execution, including displays, activities, and vendor coordination.",
                     quickReplies: [
-                        { text: "Hawaiian Events", message: "Tell me about your Hawaiian food festival work" },
-                        { text: "Event Planning", message: "How do you plan food festivals?" },
-                        { text: "Vendor Coordination", message: "Do you coordinate with food vendors?" },
-                        { text: "Gallery", message: "Show me your food festival photos" }
+                        { text: "View Events", message: "Show me your food festival events", action: "navigate:events.html" },
+                        { text: "View Gallery", message: "Show me your food festival photos", action: "navigate:gallery.html" },
+                        { text: "Our Capabilities", message: "What can you do for food festivals?", action: "navigate:capabilities.html" },
+                        { text: "Contact Us", message: "I want to discuss a food festival", action: "navigate:contact.html" }
                     ]
                 };
             }
@@ -518,10 +589,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return {
                     text: "Our adult workshops are perfect for team building, community events, or just fun! We offer craft activities, cooking classes, and creative projects. Great for corporate events, community groups, or special occasions.",
                     quickReplies: [
-                        { text: "Craft Workshops", message: "What craft workshops do you offer for adults?" },
-                        { text: "Cooking Classes", message: "Tell me about your adult cooking classes" },
-                        { text: "Team Building", message: "Do you do corporate team building workshops?" },
-                        { text: "Book Workshop", message: "How can I book an adult workshop?" }
+                        { text: "View Workshops", message: "Show me your adult workshops", action: "navigate:workshops.html" },
+                        { text: "View Gallery", message: "Show me workshop photos", action: "navigate:gallery.html" },
+                        { text: "Our Team", message: "Who runs the workshops?", action: "navigate:team.html" },
+                        { text: "Contact Us", message: "How can I book a workshop?", action: "navigate:contact.html" }
                     ]
                 };
             }
@@ -531,10 +602,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return {
                     text: "Kids love our workshops! We create engaging, age-appropriate activities that are both fun and educational. Perfect for school holiday programs, birthday parties, or community events. All activities are safe and supervised.",
                     quickReplies: [
-                        { text: "School Holidays", message: "What school holiday workshops do you offer?" },
-                        { text: "Birthday Parties", message: "Do you do kids birthday party workshops?" },
-                        { text: "Age Groups", message: "What age groups do you cater for?" },
-                        { text: "Safety", message: "How do you ensure child safety?" }
+                        { text: "View Workshops", message: "Show me your kids workshops", action: "navigate:workshops.html" },
+                        { text: "View Gallery", message: "Show me kids workshop photos", action: "navigate:gallery.html" },
+                        { text: "Our Team", message: "Who runs the kids workshops?", action: "navigate:team.html" },
+                        { text: "Contact Us", message: "How can I book a kids workshop?", action: "navigate:contact.html" }
                     ]
                 };
             }
@@ -596,10 +667,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return {
                     text: "We'd love to hear from you! You can reach us through our contact page on the website, or I can help you get started right here. We're based in Brookton, WA, and serve the greater Perth area.",
                     quickReplies: [
-                        { text: "Contact Page", message: "I want to visit your contact page" },
-                        { text: "Location", message: "Where exactly are you located?" },
-                        { text: "Service Areas", message: "What areas do you serve?" },
-                        { text: "Get Started", message: "I want to get started with an event" }
+                        { text: "Contact Page", message: "Take me to your contact page", action: "navigate:contact.html" },
+                        { text: "About Us", message: "Tell me about your company", action: "navigate:about.html" },
+                        { text: "Our Team", message: "Who works at Bloom'n Events?", action: "navigate:team.html" },
+                        { text: "Get Quote", message: "I want a quote for my event", action: "navigate:contact.html" }
                     ]
                 };
             }
@@ -686,21 +757,37 @@ document.addEventListener('DOMContentLoaded', function() {
             return {
                 text: "I'm here to help with all your event planning needs! Whether you're looking for event planning, workshops, custom displays, or just want to learn more about our services, I'm happy to assist. What would you like to know?",
                 quickReplies: [
-                    { text: "Event Planning", message: "Tell me about your event planning services" },
-                    { text: "Workshops", message: "What workshops do you offer?" },
-                    { text: "Displays", message: "Show me your displays" },
-                    { text: "Contact", message: "How can I contact you?" }
+                    { text: "View Events", message: "Show me your events", action: "navigate:events.html" },
+                    { text: "View Workshops", message: "Show me your workshops", action: "navigate:workshops.html" },
+                    { text: "View Displays", message: "Show me your displays", action: "navigate:displays.html" },
+                    { text: "Contact Us", message: "How can I contact you?", action: "navigate:contact.html" }
                 ]
             };
         }
         
-        // Close chatbot when clicking outside
+        // Close chatbot when clicking outside (with mobile considerations)
         document.addEventListener('click', (e) => {
             if (isOpen && !chatbotWidget.contains(e.target)) {
                 isOpen = false;
                 chatbotContainer.classList.remove('show');
             }
         });
+        
+        // Mobile-specific touch handling
+        if ('ontouchstart' in window) {
+            // Prevent chatbot from closing on touch outside on mobile
+            document.addEventListener('touchstart', (e) => {
+                if (isOpen && !chatbotWidget.contains(e.target)) {
+                    // Only close if it's a tap outside, not a scroll
+                    const touch = e.touches[0];
+                    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+                    if (target && !chatbotWidget.contains(target)) {
+                        isOpen = false;
+                        chatbotContainer.classList.remove('show');
+                    }
+                }
+            }, { passive: true });
+        }
         
         // Prevent chatbot from closing when clicking inside
         chatbotContainer.addEventListener('click', (e) => {
