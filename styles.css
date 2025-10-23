@@ -885,6 +885,12 @@ body.home main {
   object-position: center;
 }
 
+/* Stabilize carousel images to reduce CLS */
+#heroCarousel .carousel-item img,
+#heroCarousel .carousel-item video {
+  aspect-ratio: 16 / 9;
+}
+
 #heroCarousel .carousel-control-prev,
 #heroCarousel .carousel-control-next {
   width: 5%;
@@ -1074,6 +1080,11 @@ body.home main {
   box-shadow: 0 4px 8px var(--coreCharcoal) !important;
   padding: 5px !important;
   box-sizing: border-box !important;
+}
+
+/* Explicit aspect ratio for testimonial rectangular logos */
+.testimonial-img-rectangular {
+  aspect-ratio: 4 / 1;
 }
 
 /* Home page testimonial layout adjustments */

@@ -39,6 +39,32 @@ const throttle = (func, limit) => {
 
 // Single DOMContentLoaded event listener for all functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== PARTIALS INJECTION (Navbar/Footer) =====
+    const loadPartials = async () => {
+        const isHome = document.body.classList.contains('home');
+        const navbarPartial = isHome ? 'partials/navbar-home.html' : 'partials/navbar-default.html';
+        const footerPartial = 'partials/footer.html';
+        try {
+            const [navHtml, footerHtml] = await Promise.all([
+                fetch(navbarPartial, { cache: 'no-cache' }).then(r => r.ok ? r.text() : ''),
+                fetch(footerPartial, { cache: 'no-cache' }).then(r => r.ok ? r.text() : '')
+            ]);
+            if (navHtml) {
+                const existingNav = document.querySelector('nav.navbar');
+                if (existingNav) existingNav.outerHTML = navHtml;
+            }
+            if (footerHtml) {
+                const existingFooter = document.querySelector('footer');
+                if (existingFooter) existingFooter.outerHTML = footerHtml;
+            }
+        } catch (e) {
+            console.warn('Partial injection failed', e);
+        }
+        // Re-initialize interactive components after injection
+        if (typeof window.setupDropdowns === 'function') window.setupDropdowns();
+        if (document.body.classList.contains('home') && typeof window.setupHomeNavbar === 'function') window.setupHomeNavbar();
+    };
+    loadPartials();
     // ===== NAVBAR FUNCTIONALITY =====
     const navbar = document.getElementById('homeNavbar');
     if (navbar) {
@@ -119,49 +145,114 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== FORM VALIDATION =====
     // Note: Enhanced form validation is handled later in the script
     
-    // ===== ENHANCED IMAGE LAZY LOADING =====
+    // ===== ENHANCED IMAGE AND IFRAME LAZY LOADING =====
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    
-                    // Add loading state
-                    img.classList.add('loading');
-                    
-                    // Create a new image to preload
-                    const newImg = new Image();
-                    newImg.onload = () => {
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy', 'loading');
-                        img.classList.add('loaded');
-                        
-                        // Track image load for analytics
-                        if (typeof gtag !== 'undefined') {
-                            gtag('event', 'image_load', {
-                                event_category: 'Performance',
-                                event_label: img.alt || 'Unknown',
-                                value: 1
-                            });
-                        }
-                    };
-                    newImg.onerror = () => {
-                        img.classList.remove('lazy', 'loading');
-                        img.classList.add('error');
-                        console.warn('Failed to load image:', img.dataset.src);
-                    };
-                    newImg.src = img.dataset.src;
-                    
-                    imageObserver.unobserve(img);
+                if (!entry.isIntersecting) return;
+                const img = entry.target;
+                // Skip carousel images entirely to avoid flicker
+                if (img.closest('.carousel')) {
+                    observer.unobserve(img);
+                    return;
                 }
+                img.classList.add('loading');
+                const sourceToLoad = img.dataset.src || null;
+                const srcsetToLoad = img.dataset.srcset || null;
+                if (!sourceToLoad && !srcsetToLoad) {
+                    // No data-* provided; rely on native lazy, just mark as viewed
+                    img.classList.remove('loading');
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                    return;
+                }
+                const newImg = new Image();
+                if (srcsetToLoad) newImg.srcset = srcsetToLoad;
+                newImg.onload = () => {
+                    if (sourceToLoad) img.src = sourceToLoad;
+                    if (srcsetToLoad) img.srcset = srcsetToLoad;
+                    img.classList.remove('lazy', 'loading');
+                    img.classList.add('loaded');
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'image_load', {
+                            event_category: 'Performance',
+                            event_label: img.alt || 'Unknown',
+                            value: 1
+                        });
+                    }
+                    observer.unobserve(img);
+                };
+                newImg.onerror = () => {
+                    img.classList.remove('lazy', 'loading');
+                    img.classList.add('error');
+                    console.warn('Failed to load image:', sourceToLoad || srcsetToLoad || '(unknown)');
+                    observer.unobserve(img);
+                };
+                newImg.src = sourceToLoad || img.currentSrc || img.src;
             });
         }, {
-            rootMargin: '50px 0px', // Start loading 50px before image comes into view
+            rootMargin: '200px 0px',
             threshold: 0.01
         });
-        
-        const lazyImages = document.querySelectorAll('img[data-src]');
-        lazyImages.forEach(img => imageObserver.observe(img));
+
+        // Observe both explicit data-* lazy images and native-lazy images
+        document.querySelectorAll('img[data-src], img[data-srcset], img[loading="lazy"]').forEach(img => imageObserver.observe(img));
+
+        // Lazy load iframes (e.g., maps) using data-src
+        const iframeObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const target = entry.target;
+                // If observing placeholder, load adjacent iframe
+                if (target.classList && target.classList.contains('map-placeholder')) {
+                    const iframe = target.nextElementSibling;
+                    if (iframe && iframe.hasAttribute('data-src')) {
+                        const src = iframe.getAttribute('data-src');
+                        iframe.src = src;
+                        iframe.removeAttribute('data-src');
+                        iframe.style.display = 'block';
+                        target.remove();
+                    }
+                    observer.unobserve(target);
+                    return;
+                }
+                // Observing an iframe directly
+                const iframe = target;
+                const src = iframe.getAttribute('data-src');
+                if (src) {
+                    iframe.src = src;
+                    iframe.removeAttribute('data-src');
+                    if (iframe.style && iframe.style.display === 'none') {
+                        iframe.style.display = 'block';
+                    }
+                    const prev = iframe.previousElementSibling;
+                    if (prev && prev.classList && prev.classList.contains('map-placeholder')) {
+                        prev.remove();
+                    }
+                }
+                observer.unobserve(target);
+            });
+        }, { rootMargin: '200px 0px', threshold: 0.01 });
+        document.querySelectorAll('iframe[data-src]').forEach(iframe => iframeObserver.observe(iframe));
+        document.querySelectorAll('.map-placeholder').forEach(ph => iframeObserver.observe(ph));
+    }
+
+    // ===== REVEAL-ON-SCROLL (respects reduced motion) =====
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '100px 0px', threshold: 0.1 });
+        document.querySelectorAll('.section-main, .card, .social-card, .testimonial-item, [data-reveal]')
+            .forEach(el => {
+                el.classList.add('will-reveal');
+                revealObserver.observe(el);
+            });
     }
     
     // ===== ENHANCED ACCESSIBILITY FEATURES =====
@@ -183,6 +274,42 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.insertBefore(skipLink, document.body.firstChild);
     
+    // ===== BOOTSTRAP DROPDOWN INITIALIZATION + FALLBACK =====
+    (function initDropdowns() {
+        const toggles = document.querySelectorAll('.navbar .dropdown-toggle');
+        if (toggles.length === 0) return;
+        if (window.bootstrap && bootstrap.Dropdown) {
+            toggles.forEach(t => {
+                try { new bootstrap.Dropdown(t); } catch {}
+            });
+        } else {
+            // Fallback: minimal manual toggle
+            const closeAll = () => {
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+                document.querySelectorAll('.dropdown.show, .dropup.show').forEach(d => d.classList.remove('show'));
+            };
+            toggles.forEach(t => {
+                t.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const parent = t.closest('.dropdown, .dropup');
+                    const menu = parent && parent.querySelector('.dropdown-menu');
+                    if (!parent || !menu) return;
+                    const willOpen = !menu.classList.contains('show');
+                    closeAll();
+                    if (willOpen) {
+                        parent.classList.add('show');
+                        menu.classList.add('show');
+                        t.setAttribute('aria-expanded', 'true');
+                    } else {
+                        t.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+            document.addEventListener('click', closeAll);
+        }
+    })();
+
     // Enhanced focus management for keyboard navigation
     const focusableElements = document.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
     focusableElements.forEach(element => {
@@ -231,53 +358,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // ===== AUTO-FULLSCREEN IMAGE FUNCTIONALITY =====
-    // Get all images in main content, excluding carousels and client logos
-    const images = document.querySelectorAll('main img:not(.carousel-item img):not(.client-logo-img):not(.navbar-logo):not(.footer-logo)');
-    
-    images.forEach((img, index) => {
-        // Create unique ID for each image
+    // ===== LIGHTBOX FOR NON-CAROUSEL IMAGES =====
+    const lightboxImages = Array.from(document.querySelectorAll('main img'))
+        .filter(img => !img.closest('.carousel') && !img.classList.contains('client-logo-img') && !img.classList.contains('navbar-logo') && !img.classList.contains('footer-logo') && !img.closest('a') && !img.hasAttribute('data-no-lightbox'));
+    lightboxImages.forEach((img, index) => {
         const modalId = `fullscreen-${Date.now()}-${index}`;
-        
-        // Wrap image in clickable link
         const wrapper = document.createElement('a');
         wrapper.href = `#${modalId}`;
         wrapper.style.display = 'block';
         wrapper.style.textDecoration = 'none';
-        
-        // Insert wrapper before image and move image into it
         img.parentNode.insertBefore(wrapper, img);
         wrapper.appendChild(img);
-        
-        // Create fullscreen modal
         const modal = document.createElement('div');
         modal.id = modalId;
         modal.className = 'fullscreen-modal';
         modal.innerHTML = `
-            <div class="modal-content">
-                <a href="#" class="close-btn">&times;</a>
+            <div class="modal-content" role="dialog" aria-modal="true">
+                <a href="#" class="close-btn" aria-label="Close">&times;</a>
                 <img src="${img.src}" alt="${img.alt} - Fullscreen">
             </div>
         `;
-        
-        // Add modal to body
         document.body.appendChild(modal);
-        
-        // Add click event to close modal
         const closeBtn = modal.querySelector('.close-btn');
         closeBtn.addEventListener('click', function(e) {
             e.preventDefault();
             window.location.hash = '';
         });
-        
-        // Close modal when clicking outside the image
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 window.location.hash = '';
             }
         });
-        
-        // Close modal with ESC key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && window.location.hash === `#${modalId}`) {
                 window.location.hash = '';
@@ -299,6 +410,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (chatbotWidget) {
         let isOpen = false;
         let hasInteracted = false;
+        let lastFocusedBeforeOpen = null;
         
         // Show notification after 3 seconds if user hasn't interacted
         // Use requestIdleCallback for better performance
@@ -327,6 +439,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 chatbotInput.focus();
                 chatbotNotification.style.display = 'none';
                 hasInteracted = true;
+                chatbotToggle.setAttribute('aria-expanded', 'true');
+                lastFocusedBeforeOpen = document.activeElement;
+                trapFocus(chatbotContainer);
                 
                 // Track chatbot open
                 if (typeof gtag !== 'undefined') {
@@ -338,6 +453,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else {
                 chatbotContainer.classList.remove('show');
+                releaseFocusTrap();
+                chatbotToggle.setAttribute('aria-expanded', 'false');
+                if (lastFocusedBeforeOpen && document.contains(lastFocusedBeforeOpen)) {
+                    lastFocusedBeforeOpen.focus();
+                } else {
+                    chatbotToggle.focus();
+                }
                 
                 // Track chatbot close
                 if (typeof gtag !== 'undefined') {
@@ -354,6 +476,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbotClose.addEventListener('click', () => {
             isOpen = false;
             chatbotContainer.classList.remove('show');
+            releaseFocusTrap();
+            chatbotToggle.setAttribute('aria-expanded', 'false');
+            chatbotToggle.focus();
         });
         
         // Send message
@@ -770,6 +895,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (isOpen && !chatbotWidget.contains(e.target)) {
                 isOpen = false;
                 chatbotContainer.classList.remove('show');
+                releaseFocusTrap();
+                chatbotToggle.setAttribute('aria-expanded', 'false');
+                chatbotToggle.focus();
             }
         });
         
@@ -793,6 +921,37 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbotContainer.addEventListener('click', (e) => {
             e.stopPropagation();
         });
+
+        // Focus trap helpers
+        let focusTrapHandler = null;
+        function trapFocus(container) {
+            const FOCUSABLE_SELECTORS = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+            const focusables = Array.from(container.querySelectorAll(FOCUSABLE_SELECTORS));
+            if (focusables.length === 0) return;
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            focusTrapHandler = function(e) {
+                if (e.key !== 'Tab') return;
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            };
+            container.addEventListener('keydown', focusTrapHandler);
+        }
+        function releaseFocusTrap() {
+            if (focusTrapHandler) {
+                chatbotContainer.removeEventListener('keydown', focusTrapHandler);
+                focusTrapHandler = null;
+            }
+        }
         
         // Debug function - you can call this in browser console to test
         window.testChatbot = function(message) {
@@ -901,7 +1060,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Service Worker registration for offline functionality
     if ('serviceWorker' in navigator) {
         runWhenIdle(() => {
-            navigator.serviceWorker.register('/sw.js').catch((error) => {
+            // Use relative path for GitHub Pages and similar hosts
+            navigator.serviceWorker.register('sw.js').catch((error) => {
                 console.log('Service Worker registration failed:', error);
             });
         });
@@ -923,8 +1083,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
     
-    // Run preloading when idle
+    // Run preloading when idle and prefetch on intent
     runWhenIdle(preloadCriticalResources);
+    runWhenIdle(() => {
+        const isSameOrigin = (url) => {
+            try { const u = new URL(url, location.href); return u.origin === location.origin; } catch { return false; }
+        };
+        const prefetch = (href) => {
+            if (!href || !isSameOrigin(href)) return;
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = href;
+            link.as = 'document';
+            document.head.appendChild(link);
+        };
+        document.querySelectorAll('a[href]').forEach(a => {
+            a.addEventListener('mouseenter', () => prefetch(a.getAttribute('href')));
+            a.addEventListener('touchstart', () => prefetch(a.getAttribute('href')), { passive: true });
+        });
+    });
     
     // Enhanced form validation with better UX
     const forms = document.querySelectorAll('form');
@@ -1026,4 +1203,59 @@ document.addEventListener('DOMContentLoaded', function() {
             existingError.remove();
         }
     }
+
+    // ===== BACK TO TOP BUTTON =====
+    (function setupBackToTop() {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'back-to-top';
+        btn.setAttribute('aria-label', 'Back to top');
+        btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:1000;display:none;border:none;border-radius:999px;padding:10px 12px;background:var(--coreGold);color:#000;box-shadow:0 2px 8px rgba(0,0,0,.2);cursor:pointer;';
+        btn.innerHTML = '<i class="bi bi-arrow-up"></i>';
+        document.body.appendChild(btn);
+        const onScroll = throttle(() => {
+            const y = window.pageYOffset || document.documentElement.scrollTop;
+            btn.style.display = y > 400 ? 'block' : 'none';
+        }, 100);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+    })();
+
+    // ===== ANALYTICS: CTA, TEL, MAILTO =====
+    document.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href') || '';
+        if (typeof gtag === 'undefined') return;
+        if (href.startsWith('tel:')) {
+            gtag('event', 'click_tel', { event_category: 'Engagement', event_label: href });
+        } else if (href.startsWith('mailto:')) {
+            gtag('event', 'click_mailto', { event_category: 'Engagement', event_label: href });
+        } else if (a.classList.contains('btn') || a.classList.contains('btn-gold')) {
+            gtag('event', 'click_cta', { event_category: 'Engagement', event_label: href });
+        }
+    });
+
+    // ===== HERO VIDEO SAVEDATA / VISIBILITY HANDLING =====
+    (function enhanceHeroVideo() {
+        const video = document.querySelector('.hero-carousel video');
+        if (!video) return;
+        const saveData = navigator.connection && navigator.connection.saveData;
+        const shouldReduce = prefersReducedMotion || saveData;
+        const pauseIfHidden = () => {
+            if (document.hidden) { try { video.pause(); } catch {} } else { if (!shouldReduce) { try { video.play(); } catch {} } }
+        };
+        if (shouldReduce) { try { video.pause(); } catch {} }
+        document.addEventListener('visibilitychange', pauseIfHidden);
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !shouldReduce) { try { video.play(); } catch {} } else { try { video.pause(); } catch {} }
+                });
+            }, { threshold: 0.25 });
+            obs.observe(video);
+        }
+    })();
 });
