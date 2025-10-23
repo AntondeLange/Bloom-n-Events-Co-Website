@@ -1103,6 +1103,28 @@ document.addEventListener('DOMContentLoaded', function() {
     runWhenIdle(preloadCriticalResources);
     // Note: IG feed now provided by SociableKIT embed
     runWhenIdle(() => {
+        const igFeed = document.querySelector('.sk-instagram-feed');
+        const fbPage = document.querySelector('.fb-page');
+        if (!igFeed || !fbPage) return;
+        const adjustHeight = () => {
+            const h = Math.round(igFeed.getBoundingClientRect().height);
+            if (h && h > 0) {
+                fbPage.setAttribute('data-height', String(h));
+                if (window.FB && FB.XFBML && typeof FB.XFBML.parse === 'function') {
+                    // Re-render FB widget with new height
+                    try { FB.XFBML.parse(fbPage.parentNode); } catch {}
+                }
+            }
+        };
+        // Initial attempt after widgets likely loaded
+        setTimeout(adjustHeight, 2500);
+        // Observe changes in IG feed to re-adjust when it finishes rendering
+        const mo = new MutationObserver(() => setTimeout(adjustHeight, 300));
+        mo.observe(igFeed, { childList: true, subtree: true });
+        // Also re-adjust on resize
+        window.addEventListener('resize', debounce(adjustHeight, 300));
+    });
+    runWhenIdle(() => {
         const isSameOrigin = (url) => {
             try { const u = new URL(url, location.href); return u.origin === location.origin; } catch { return false; }
         };
