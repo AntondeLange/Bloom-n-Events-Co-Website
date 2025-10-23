@@ -1101,41 +1101,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Run preloading when idle and prefetch on intent
     runWhenIdle(preloadCriticalResources);
-    // Hydrate IG/LinkedIn cards from prebuilt JSON if present
-    runWhenIdle(async () => {
-        try {
-            const res = await fetch('data/social_feeds.json', { cache: 'no-cache' });
-            if (!res.ok) return;
-            const data = await res.json();
-            const ig = (data.feeds || []).find(f => f.platform === 'instagram');
-            if (ig && ig.items && ig.items.length) {
-                const igCard = document.querySelector('[data-ig-card]');
-                if (igCard) {
-                    const grid = document.createElement('div');
-                    grid.style.display = 'grid';
-                    grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-                    grid.style.gap = '6px';
-                    ig.items.slice(0, 6).forEach(item => {
-                        const a = document.createElement('a');
-                        a.href = item.url;
-                        a.target = '_blank';
-                        a.rel = 'noopener noreferrer';
-                        const img = document.createElement('img');
-                        img.src = item.image;
-                        img.alt = (item.caption || 'Instagram post').slice(0, 120);
-                        img.style.width = '100%';
-                        img.style.height = '100px';
-                        img.style.objectFit = 'cover';
-                        img.loading = 'lazy';
-                        a.appendChild(img);
-                        grid.appendChild(a);
-                    });
-                    igCard.innerHTML = '';
-                    igCard.appendChild(grid);
-                }
-            }
-        } catch {}
-    });
+    // Note: IG feed now provided by SociableKIT embed
     runWhenIdle(() => {
         const isSameOrigin = (url) => {
             try { const u = new URL(url, location.href); return u.origin === location.origin; } catch { return false; }
