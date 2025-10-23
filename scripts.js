@@ -111,6 +111,45 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', handleScroll, { passive: true });
         // Run once to set initial state after load/injection
         handleScroll();
+
+        // Robust fallback using IntersectionObserver on a top sentinel
+        if ('IntersectionObserver' in window) {
+            let sentinel = document.getElementById('navbar-sentinel');
+            if (!sentinel) {
+                sentinel = document.createElement('div');
+                sentinel.id = 'navbar-sentinel';
+                sentinel.style.position = 'absolute';
+                sentinel.style.top = '0';
+                sentinel.style.left = '0';
+                sentinel.style.width = '1px';
+                sentinel.style.height = '1px';
+                sentinel.style.pointerEvents = 'none';
+                document.body.prepend(sentinel);
+            }
+            const io = new IntersectionObserver((entries) => {
+                const entry = entries[0];
+                if (entry && entry.isIntersecting) {
+                    // near top
+                    navbar.classList.remove('fixed-top');
+                    navbar.classList.add('fixed-bottom');
+                    body.classList.remove('navbar-top');
+                    if (portfolioDropdown) {
+                        portfolioDropdown.classList.remove('dropdown');
+                        portfolioDropdown.classList.add('dropup');
+                    }
+                } else {
+                    // scrolled away from top
+                    navbar.classList.remove('fixed-bottom');
+                    navbar.classList.add('fixed-top');
+                    body.classList.add('navbar-top');
+                    if (portfolioDropdown) {
+                        portfolioDropdown.classList.remove('dropup');
+                        portfolioDropdown.classList.add('dropdown');
+                    }
+                }
+            }, { rootMargin: '-100px 0px 0px 0px', threshold: 0 });
+            io.observe(sentinel);
+        }
         const mobileMenu = navbar.querySelector('.navbar-collapse');
         if (mobileMenu) {
             mobileMenu.addEventListener('click', function(e) { e.stopPropagation(); });
