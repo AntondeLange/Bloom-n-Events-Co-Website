@@ -66,81 +66,58 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     loadPartials();
     // ===== NAVBAR FUNCTIONALITY =====
-    const navbar = document.getElementById('homeNavbar');
-    if (navbar) {
+    function setupHomeNavbar() {
+        const navbar = document.getElementById('homeNavbar');
+        if (!navbar) return;
         const body = document.body;
-        const portfolioDropdown = navbar.querySelector('.dropdown');
+        let portfolioDropdown = navbar.querySelector('.dropdown');
         let lastScrollTop = 0;
-        
-        // Initialize navbar to start at bottom
         const initializeNavbar = () => {
-            // Always start at bottom - force the classes
             navbar.classList.remove('fixed-top');
             navbar.classList.add('fixed-bottom');
             body.classList.remove('navbar-top');
+            portfolioDropdown = navbar.querySelector('.dropdown') || navbar.querySelector('.dropup');
             if (portfolioDropdown) {
                 portfolioDropdown.classList.remove('dropdown');
                 portfolioDropdown.classList.add('dropup');
             }
-            console.log('Navbar initialized at bottom, classes:', navbar.className);
         };
-        
-        // Initialize navbar position
         initializeNavbar();
-        
-        // Dynamic navbar behaviour for home page with dropdown direction switching
-        // Throttled for better performance
         const handleScroll = throttle(function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            console.log('Scroll event fired, scrollTop:', scrollTop);
-            
-            // Check if we're near the top of the page
             if (scrollTop <= 100) {
-                // At the top - switch to fixed-bottom (dropup behaviour)
                 if (!navbar.classList.contains('fixed-bottom')) {
                     navbar.classList.remove('fixed-top');
                     navbar.classList.add('fixed-bottom');
                     body.classList.remove('navbar-top');
-                    
-                    // Switch to dropup (menu opens upward) when navbar is at bottom
                     if (portfolioDropdown) {
                         portfolioDropdown.classList.remove('dropdown');
                         portfolioDropdown.classList.add('dropup');
                     }
-                    console.log('Switched to bottom, scroll:', scrollTop, 'classes:', navbar.className);
                 }
             } else {
-                // Away from top - switch to fixed-top (dropdown behaviour)
                 if (!navbar.classList.contains('fixed-top')) {
                     navbar.classList.remove('fixed-bottom');
                     navbar.classList.add('fixed-top');
                     body.classList.add('navbar-top');
-                    
-                    // Switch to dropdown (menu opens downward) when navbar is at top
                     if (portfolioDropdown) {
                         portfolioDropdown.classList.remove('dropup');
                         portfolioDropdown.classList.add('dropdown');
                     }
-                    console.log('Switched to top, scroll:', scrollTop, 'classes:', navbar.className);
                 }
             }
-            
             lastScrollTop = scrollTop;
-        }, 16); // ~60fps
-        
+        }, 16);
         window.addEventListener('scroll', handleScroll, { passive: true });
-        
-        // Test scroll event
-        console.log('Scroll event listener added');
-        
-        // Mobile menu click prevention
+        // Run once to set initial state after load/injection
+        handleScroll();
         const mobileMenu = navbar.querySelector('.navbar-collapse');
         if (mobileMenu) {
-            mobileMenu.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+            mobileMenu.addEventListener('click', function(e) { e.stopPropagation(); });
         }
     }
+    window.setupHomeNavbar = setupHomeNavbar;
+    if (document.body.classList.contains('home')) setupHomeNavbar();
     
     // ===== FORM VALIDATION =====
     // Note: Enhanced form validation is handled later in the script
