@@ -326,6 +326,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })();
 
+    // ===== AUTO-INJECT WEBP SOURCES VIA <picture> =====
+    (function enhanceImagesWithWebP() {
+        const isSupported = (function() {
+            try {
+                const canvas = document.createElement('canvas');
+                return !!(canvas.getContext && canvas.getContext('2d')) && canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+            } catch { return false; }
+        })();
+        // If browser supports WebP natively, still add <picture> so srcset picks the best
+        const skipClasses = new Set(['navbar-logo', 'footer-logo', 'client-logo-img']);
+        const candidates = Array.from(document.querySelectorAll('main img'))
+            .filter(img => !skipClasses.has(Array.from(img.classList)[0]))
+            .filter(img => !img.closest('.fullscreen-modal'))
+            .filter(img => !img.closest('.sk-instagram-feed'));
+        candidates.forEach(img => {
+            if (img.closest('picture')) return;
+            const hasSrc = !!img.getAttribute('src');
+            const hasSrcset = !!img.getAttribute('srcset');
+            if (!hasSrc && !hasSrcset) return;
+            const sizes = img.getAttribute('sizes') || '';
+            let webpSrcset = '';
+            if (hasSrcset) {
+                // Convert each candidate in srcset to .webp sibling
+                const parts = img.getAttribute('srcset').split(',').map(p => p.trim());
+                webpSrcset = parts.map(p => {
+                    const [url, descriptor] = p.split(/\s+(?=[^\s]*$)/); // split last token
+                    const w = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+                    return descriptor ? `${w} ${descriptor}` : w;
+                }).join(', ');
+            } else if (hasSrc) {
+                const url = img.getAttribute('src');
+                webpSrcset = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+            }
+            if (!webpSrcset) return;
+            const picture = document.createElement('picture');
+            const source = document.createElement('source');
+            source.type = 'image/webp';
+            source.setAttribute('srcset', webpSrcset);
+            if (sizes) source.setAttribute('sizes', sizes);
+            // Insert picture before img and move img inside
+            img.parentNode.insertBefore(picture, img);
+            picture.appendChild(source);
+            picture.appendChild(img);
+        });
+    })();
+
     // Enhanced focus management for keyboard navigation
     const focusableElements = document.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
     focusableElements.forEach(element => {
