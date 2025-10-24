@@ -1327,6 +1327,18 @@ document.addEventListener('DOMContentLoaded', function() {
     (function enhanceHeroVideo() {
         const video = document.querySelector('.hero-carousel video');
         if (!video) return;
+        // Add WebM source ahead of MP4 if available
+        const mp4 = video.querySelector('source[type="video/mp4"]');
+        if (mp4) {
+            const webmUrl = mp4.getAttribute('src').replace(/\.mp4$/i, '.webm');
+            const existingWebm = video.querySelector('source[type="video/webm"]');
+            if (!existingWebm) {
+                const s = document.createElement('source');
+                s.type = 'video/webm';
+                s.src = webmUrl;
+                video.insertBefore(s, mp4);
+            }
+        }
         const saveData = navigator.connection && navigator.connection.saveData;
         const shouldReduce = prefersReducedMotion || saveData;
         const pauseIfHidden = () => {
