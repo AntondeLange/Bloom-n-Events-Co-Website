@@ -290,6 +290,34 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.insertBefore(skipLink, document.body.firstChild);
     
+    // ===== LAZY-LOAD THIRD-PARTY SOCIAL WIDGETS =====
+    (function lazyLoadSocialWidgets() {
+        const section = document.querySelector('#socialMediaHeading')?.closest('section');
+        if (!section || !('IntersectionObserver' in window)) return;
+        let loaded = false;
+        const loadScripts = () => {
+            if (loaded) return; loaded = true;
+            const fb = document.createElement('script');
+            fb.async = true; fb.defer = true; fb.crossOrigin = 'anonymous';
+            fb.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0';
+            fb.nonce = 'bloomn';
+            document.body.appendChild(fb);
+            const ig = document.createElement('script');
+            ig.src = 'https://widgets.sociablekit.com/instagram-feed/widget.js';
+            ig.defer = true; document.body.appendChild(ig);
+            const li = document.createElement('script');
+            li.src = 'https://widgets.sociablekit.com/linkedin-profile-posts/widget.js';
+            li.defer = true; document.body.appendChild(li);
+        };
+        const io = new IntersectionObserver((entries) => {
+            if (entries.some(e => e.isIntersecting)) {
+                loadScripts();
+                io.disconnect();
+            }
+        }, { rootMargin: '0px 0px -20% 0px' });
+        io.observe(section);
+    })();
+
     // ===== BOOTSTRAP DROPDOWN INITIALIZATION + FALLBACK =====
     (function initDropdowns() {
         const toggles = document.querySelectorAll('.navbar .dropdown-toggle');
