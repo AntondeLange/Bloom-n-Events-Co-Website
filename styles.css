@@ -2868,16 +2868,17 @@ footer .nav-link:focus {
   
   footer .row .col-6 .row {
     display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
+    flex-direction: column !important; /* Stack link groups */
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 12px !important;
     margin: 0 !important;
+    width: 100% !important;
   }
   
   footer .row .col-6 .row .col-4 {
-    flex: 1 !important;
-    width: auto !important;
+    flex: none !important;
+    width: 100% !important; /* Full-width link groups */
     padding: 0 5px !important;
     text-align: center !important;
   }
@@ -2908,6 +2909,12 @@ footer .nav-link:focus {
     flex: none !important;
     text-align: center !important;
     margin-bottom: 15px !important;
+  }
+  /* Move CTA + social below logo on mobile */
+  footer .row .col-3.footer-column.text-center:last-child {
+    order: 3 !important;
+    width: 100% !important;
+    flex: none !important;
   }
   
   .footer-logo {
