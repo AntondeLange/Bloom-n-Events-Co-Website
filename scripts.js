@@ -156,7 +156,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     window.setupHomeNavbar = setupHomeNavbar;
-    if (document.body.classList.contains('home')) setupHomeNavbar();
+    if (document.body.classList.contains('home')) {
+        // Ensure init after partials and after window load to avoid early runs
+        if (document.readyState === 'complete') {
+            setupHomeNavbar();
+        } else {
+            window.addEventListener('load', () => setTimeout(setupHomeNavbar, 0), { once: true });
+        }
+    }
     
     // ===== FORM VALIDATION =====
     // Note: Enhanced form validation is handled later in the script
@@ -312,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         // Fallback: load on first interaction or after timeout
         const triggerOnce = () => { loadScripts(); window.removeEventListener('scroll', triggerOnce); window.removeEventListener('touchstart', triggerOnce); };
-        setTimeout(loadScripts, 5000);
+        setTimeout(loadScripts, 3000);
         window.addEventListener('scroll', triggerOnce, { passive: true, once: true });
         window.addEventListener('touchstart', triggerOnce, { passive: true, once: true });
         if ('IntersectionObserver' in window) {
