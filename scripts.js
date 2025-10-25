@@ -292,8 +292,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===== LAZY-LOAD THIRD-PARTY SOCIAL WIDGETS =====
     (function lazyLoadSocialWidgets() {
-        const section = document.querySelector('#socialMediaHeading')?.closest('section');
-        if (!section || !('IntersectionObserver' in window)) return;
+        const heading = document.querySelector('#socialMediaHeading');
+        const section = heading ? heading.closest('section') : document.querySelector('.social-card')?.closest('section');
+        if (!section) return;
         let loaded = false;
         const loadScripts = () => {
             if (loaded) return; loaded = true;
@@ -309,13 +310,26 @@ document.addEventListener('DOMContentLoaded', function() {
             li.src = 'https://widgets.sociablekit.com/linkedin-profile-posts/widget.js';
             li.defer = true; document.body.appendChild(li);
         };
-        const io = new IntersectionObserver((entries) => {
-            if (entries.some(e => e.isIntersecting)) {
-                loadScripts();
-                io.disconnect();
-            }
-        }, { rootMargin: '0px 0px -20% 0px' });
-        io.observe(section);
+        // Fallback: load on first interaction or after timeout
+        const triggerOnce = () => { loadScripts(); window.removeEventListener('scroll', triggerOnce); window.removeEventListener('touchstart', triggerOnce); };
+        setTimeout(loadScripts, 5000);
+        window.addEventListener('scroll', triggerOnce, { passive: true, once: true });
+        window.addEventListener('touchstart', triggerOnce, { passive: true, once: true });
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                if (entries.some(e => e.isIntersecting)) {
+                    loadScripts();
+                    io.disconnect();
+                }
+            }, { rootMargin: '400px 0px 400px 0px' });
+            io.observe(section);
+            // Immediate visibility check
+            const rect = section.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) loadScripts();
+        } else {
+            // No IO support
+            loadScripts();
+        }
     })();
 
     // ===== BOOTSTRAP DROPDOWN INITIALIZATION + FALLBACK =====
