@@ -523,7 +523,7 @@ body.contact .form-control:focus {
   transition: all 0.3s ease;
   height: 100%;
   box-shadow: 0 4px 8px var(--coreCharcoal) !important;
-  max-height: 800px; /* Limit overall card height */
+  max-height: 750px; /* Limit overall card height */
 }
 
 .social-card:hover {
@@ -549,7 +549,7 @@ body.contact .form-control:focus {
 
 /* Limit social card body height and allow internal scrolling if content exceeds */
 .social-card .card-body {
-  max-height: 800px;
+  max-height: 750px;
   overflow: auto;
 }
 
