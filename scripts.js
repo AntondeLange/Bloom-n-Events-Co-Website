@@ -60,9 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (e) {
             console.warn('Partial injection failed', e);
         }
-        // Re-initialize interactive components after injection
+        // Re-initialize dropdowns after injection; navbar init is deferred to window 'load'
         if (typeof window.setupDropdowns === 'function') window.setupDropdowns();
-        if (document.body.classList.contains('home') && typeof window.setupHomeNavbar === 'function') window.setupHomeNavbar();
     };
     loadPartials();
     // ===== NAVBAR FUNCTIONALITY =====
@@ -75,11 +74,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const initializeNavbar = () => {
             navbar.classList.remove('fixed-top');
             navbar.classList.add('fixed-bottom');
-            body.classList.remove('navbar-top');
+            body.setAttribute('class', body.className.replace(/\bnavbar-top\b/, '').trim());
             portfolioDropdown = navbar.querySelector('.dropdown') || navbar.querySelector('.dropup');
             if (portfolioDropdown) {
                 portfolioDropdown.classList.remove('dropdown');
                 portfolioDropdown.classList.add('dropup');
+            }
+            // Clear any inline positional styles once CSS is fully loaded so Bootstrap classes take over
+            if (document.readyState === 'complete') {
+                navbar.style.position = '';
+                navbar.style.top = '';
+                navbar.style.bottom = '';
+                navbar.style.left = '';
+                navbar.style.right = '';
             }
         };
         initializeNavbar();
