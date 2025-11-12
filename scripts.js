@@ -1428,6 +1428,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('logoAnimation');
         if (!container) return;
         const animationPath = container.getAttribute('data-src') || 'animations/BloomnLogoAnimation.json';
+        const iframePath = container.getAttribute('data-iframe') || 'animations/BloomnLogoAnimation/index.html';
         // Lazy-load lottie only on home page and only if JSON exists
         const loadLottie = () => {
             const s = document.createElement('script');
@@ -1467,7 +1468,29 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         })
                         .catch(() => {
-                            // No animation available; leave container empty silently
+                            // Fallback: try iframe-based animation project
+                            if (iframePath) {
+                                fetch(iframePath, { method: 'HEAD', cache: 'no-cache' })
+                                    .then(r => {
+                                        if (!r.ok) throw new Error('No iframe animation');
+                                        const iframe = document.createElement('iframe');
+                                        iframe.src = iframePath;
+                                        iframe.title = 'Bloomn Logo Animation';
+                                        iframe.setAttribute('aria-hidden', 'true');
+                                        iframe.style.border = '0';
+                                        iframe.style.background = 'transparent';
+                                        iframe.style.width = '100%';
+                                        iframe.style.height = '100%';
+                                        // Ensure pointer events don't block carousel
+                                        iframe.style.pointerEvents = 'none';
+                                        // Clear container and insert iframe
+                                        container.innerHTML = '';
+                                        container.appendChild(iframe);
+                                    })
+                                    .catch(() => {
+                                        // leave empty
+                                    });
+                            }
                         });
                 } catch { /* noop */ }
             };
