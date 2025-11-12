@@ -1,0 +1,72 @@
+/* Brand palette inferred from provided logo */
+:root {
+  --bg: #1f1f1f;
+  --gold: #d7b24a; /* richer gold for line art */
+  --gold-fill: #f0cf67; /* warm gold for fills */
+  --text: #ffffff;
+  --subtext: #e6e6e6;
+}
+
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+.logo-stage {
+  width: min(92vw, 720px);
+  aspect-ratio: 1 / 1;
+  perspective: 800px;
+}
+
+#bloomnLogo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-style: preserve-3d;
+}
+
+/* When a raster is present, fade it in for exact appearance */
+.has-raster #logoRaster { opacity: 1; }
+.has-raster .scaffold { opacity: 0.001; } /* keep in DOM for layout if needed */
+
+/* When external SVG is loaded, hide scaffold art and use the real vectors */
+.has-external .scaffold { display: none; }
+
+/* Ensure external SVG fills the container properly */
+#externalArtwork {
+  width: 100%;
+  height: 100%;
+}
+
+/* Style for interactive overlays */
+.hotspot {
+  transition: opacity 0.2s ease;
+}
+
+.hotspot:hover {
+  opacity: 0.8;
+}
+
+.hotspot:focus { outline: none; }
+.hotspot:hover { filter: brightness(1.02); }
+
+/* Accessibility target size hint */
+[data-route] { touch-action: manipulation; }
+
+/* Subtle entrance */
+.logo-stage--enter {
+  animation: enter 900ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes enter {
+  from { transform: translate3d(0, 12px, 0); opacity: 0; }
+  to { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+
