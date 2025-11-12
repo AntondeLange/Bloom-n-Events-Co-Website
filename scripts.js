@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadPartials();
     // ===== NAVBAR FUNCTIONALITY =====
     function setupHomeNavbar() {
-        const navbar = document.getElementById('homeNavbar');
+    const navbar = document.getElementById('homeNavbar');
         if (!navbar) return;
         const body = document.body;
         let portfolioDropdown = navbar.querySelector('.dropdown');
@@ -173,13 +173,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
-                const img = entry.target;
+                    const img = entry.target;
                 // Skip carousel images entirely to avoid flicker
                 if (img.closest('.carousel')) {
                     observer.unobserve(img);
                     return;
                 }
-                img.classList.add('loading');
+                    img.classList.add('loading');
                 const sourceToLoad = img.dataset.src || null;
                 const srcsetToLoad = img.dataset.srcset || null;
                 if (!sourceToLoad && !srcsetToLoad) {
@@ -189,35 +189,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     observer.unobserve(img);
                     return;
                 }
-                const newImg = new Image();
+                    const newImg = new Image();
                 if (srcsetToLoad) newImg.srcset = srcsetToLoad;
-                newImg.onload = () => {
+                    newImg.onload = () => {
                     if (sourceToLoad) img.src = sourceToLoad;
                     if (srcsetToLoad) img.srcset = srcsetToLoad;
-                    img.classList.remove('lazy', 'loading');
-                    img.classList.add('loaded');
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'image_load', {
-                            event_category: 'Performance',
-                            event_label: img.alt || 'Unknown',
-                            value: 1
-                        });
-                    }
+                        img.classList.remove('lazy', 'loading');
+                        img.classList.add('loaded');
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'image_load', {
+                                event_category: 'Performance',
+                                event_label: img.alt || 'Unknown',
+                                value: 1
+                            });
+                        }
                     observer.unobserve(img);
-                };
-                newImg.onerror = () => {
-                    img.classList.remove('lazy', 'loading');
-                    img.classList.add('error');
+                    };
+                    newImg.onerror = () => {
+                        img.classList.remove('lazy', 'loading');
+                        img.classList.add('error');
                     console.warn('Failed to load image:', sourceToLoad || srcsetToLoad || '(unknown)');
                     observer.unobserve(img);
-                };
+                    };
                 newImg.src = sourceToLoad || img.currentSrc || img.src;
             });
         }, {
             rootMargin: '200px 0px',
             threshold: 0.01
         });
-
+        
         // Observe both explicit data-* lazy images and native-lazy images
         document.querySelectorAll('img[data-src], img[data-srcset], img[loading="lazy"]').forEach(img => imageObserver.observe(img));
 
@@ -392,53 +392,84 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(img => !skipClasses.has(Array.from(img.classList)[0]))
             .filter(img => !img.closest('.fullscreen-modal'))
             .filter(img => !img.closest('.sk-instagram-feed'));
-        candidates.forEach(img => {
-            if (img.closest('picture')) return;
-            const hasSrc = !!img.getAttribute('src');
-            const hasSrcset = !!img.getAttribute('srcset');
-            if (!hasSrc && !hasSrcset) return;
-            const sizes = img.getAttribute('sizes') || '';
-            let webpSrcset = '';
-            let testUrl = '';
+        // Global gate: if a representative .webp doesn't load, skip all injections (avoid 404 spam locally)
+        const computeTestUrl = (imgEl) => {
+            const hasSrc = !!imgEl.getAttribute('src');
+            const hasSrcset = !!imgEl.getAttribute('srcset');
             if (hasSrcset) {
-                // Convert each candidate in srcset to .webp sibling
-                const parts = img.getAttribute('srcset').split(',').map(p => p.trim());
-                const converted = parts.map(p => {
-                    const [url, descriptor] = p.split(/\s+(?=[^\s]*$)/); // split last token
-                    const w = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-                    return descriptor ? `${w} ${descriptor}` : w;
-                }).join(', ');
-                webpSrcset = converted;
-                // Use the first candidate url as a test
-                const first = converted.split(',')[0].trim();
-                testUrl = (first.split(/\s+/)[0] || '').trim();
-            } else if (hasSrc) {
-                const url = img.getAttribute('src');
-                webpSrcset = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-                testUrl = webpSrcset;
+                const parts = imgEl.getAttribute('srcset').split(',').map(p => p.trim());
+                const [url] = (parts[0] || '').split(/\s+(?=[^\s]*$)/);
+                return url ? url.replace(/\.(jpg|jpeg|png)$/i, '.webp') : '';
             }
-            if (!webpSrcset) return;
-            // Only inject if a representative .webp actually loads to avoid broken images
-            const probe = new Image();
-            probe.onload = () => {
-                const picture = document.createElement('picture');
-                const source = document.createElement('source');
-                source.type = 'image/webp';
-                source.setAttribute('srcset', webpSrcset);
-                if (sizes) source.setAttribute('sizes', sizes);
-                img.parentNode.insertBefore(picture, img);
-                picture.appendChild(source);
-                picture.appendChild(img);
-            };
-            probe.onerror = () => {
-                // Skip injection; keep original jpg/png so image renders
-            };
-            if (isSupported && testUrl) {
-                probe.src = testUrl;
+            if (hasSrc) {
+                const url = imgEl.getAttribute('src');
+                return url ? url.replace(/\.(jpg|jpeg|png)$/i, '.webp') : '';
             }
-        });
+            return '';
+        };
+        let representativeUrl = '';
+        for (const img of candidates) {
+            representativeUrl = computeTestUrl(img);
+            if (representativeUrl) break;
+        }
+        if (isSupported && representativeUrl) {
+            const globalProbe = new Image();
+            globalProbe.onerror = () => {
+                // Abort all injections globally
+            };
+            globalProbe.onload = () => {
+                // Proceed with per-image cautious injection (with per-image probe)
+                candidates.forEach(img => {
+                    if (img.closest('picture')) return;
+                    const hasSrc = !!img.getAttribute('src');
+                    const hasSrcset = !!img.getAttribute('srcset');
+                    if (!hasSrc && !hasSrcset) return;
+                    const sizes = img.getAttribute('sizes') || '';
+                    let webpSrcset = '';
+                    let testUrl = '';
+                    if (hasSrcset) {
+                        // Convert each candidate in srcset to .webp sibling
+                        const parts = img.getAttribute('srcset').split(',').map(p => p.trim());
+                        const converted = parts.map(p => {
+                            const [url, descriptor] = p.split(/\s+(?=[^\s]*$)/); // split last token
+                            const w = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+                            return descriptor ? `${w} ${descriptor}` : w;
+                        }).join(', ');
+                        webpSrcset = converted;
+                        // Use the first candidate url as a test
+                        const first = converted.split(',')[0].trim();
+                        testUrl = (first.split(/\s+/)[0] || '').trim();
+                    } else if (hasSrc) {
+                        const url = img.getAttribute('src');
+                        webpSrcset = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+                        testUrl = webpSrcset;
+                    }
+                    if (!webpSrcset) return;
+                    // Only inject if a representative .webp for this image loads
+                    const probe = new Image();
+                    probe.onload = () => {
+                        const picture = document.createElement('picture');
+                        const source = document.createElement('source');
+                        source.type = 'image/webp';
+                        source.setAttribute('srcset', webpSrcset);
+                        if (sizes) source.setAttribute('sizes', sizes);
+                        img.parentNode.insertBefore(picture, img);
+                        picture.appendChild(source);
+                        picture.appendChild(img);
+                    };
+                    probe.onerror = () => {
+                        // Skip injection; keep original jpg/png so image renders
+                    };
+                    if (testUrl) {
+                        probe.src = testUrl;
+                    }
+                });
+            };
+            globalProbe.src = representativeUrl;
+        }
+        // If not supported or no representativeUrl, do nothing (original images remain)
     })();
-
+    
     // Enhanced focus management for keyboard navigation
     const focusableElements = document.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
     focusableElements.forEach(element => {

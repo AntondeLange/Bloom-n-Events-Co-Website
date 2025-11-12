@@ -477,12 +477,6 @@ function createInteractiveOverlays() {
         seed3: $('#seed3'),
         seed4: $('#seed4')
       };
-        dandelionNoSeeds: !!elements.dandelionNoSeeds,
-        seed1: !!elements.seed1,
-        seed2: !!elements.seed2,
-        seed3: !!elements.seed3,
-        seed4: !!elements.seed4
-      });
       return elements;
     };
     
@@ -517,12 +511,6 @@ function createInteractiveOverlays() {
     
     // Debug: log seed elements
     const initialSeeds = getSeedElements();
-      dandelionNoSeeds: !!initialSeeds.dandelionNoSeeds,
-      seed1: !!initialSeeds.seed1,
-      seed2: !!initialSeeds.seed2,
-      seed3: !!initialSeeds.seed3,
-      seed4: !!initialSeeds.seed4
-    });
     
     // Expose reset function globally
     resetDandelionStateFn = resetDandelionState;
@@ -741,12 +729,6 @@ function createInteractiveOverlays() {
         // Always query fresh from DOM on hover
         const seeds = getSeedElements();
         
-          dandelionNoSeeds: !!seeds.dandelionNoSeeds,
-          seed1: !!seeds.seed1,
-          seed2: !!seeds.seed2,
-          seed3: !!seeds.seed3,
-          seed4: !!seeds.seed4
-        });
         
         if (seeds.dandelionNoSeeds && seeds.seed1 && seeds.seed2 && seeds.seed3 && seeds.seed4) {
           
@@ -808,13 +790,7 @@ function createInteractiveOverlays() {
           
           // Small delay to ensure visibility is set before animation
           requestAnimationFrame(() => {
-              seed1: seeds.seed1,
-              seed2: seeds.seed2,
-              seed3: seeds.seed3,
-              seed4: seeds.seed4,
-              seedLabels: seedLabels,
-              seedAnimations: seedAnimations
-            });
+            
             // Animate seeds spreading out to the right
             animateSeedsSpreading([seeds.seed1, seeds.seed2, seeds.seed3, seeds.seed4], seedLabels, seedAnimations, cancelSeedsAutoHide);
             // Start auto-hide timer AFTER animation starts
