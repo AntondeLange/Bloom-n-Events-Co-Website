@@ -392,7 +392,19 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(img => !skipClasses.has(Array.from(img.classList)[0]))
             .filter(img => !img.closest('.fullscreen-modal'))
             .filter(img => !img.closest('.sk-instagram-feed'));
-        // Global gate: if a representative .webp doesn't load, skip all injections (avoid 404 spam locally)
+        // Helper: silent existence check via fetch (no console 404 noise)
+        const checkWebPExists = async (url) => {
+            if (!url) return false;
+            try {
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) return false;
+                const ct = res.headers.get('content-type') || '';
+                return ct.startsWith('image/webp');
+            } catch {
+                return false;
+            }
+        };
+        // Global gate: if a representative .webp doesn't exist, skip all injections (avoid 404 spam locally)
         const computeTestUrl = (imgEl) => {
             const hasSrc = !!imgEl.getAttribute('src');
             const hasSrcset = !!imgEl.getAttribute('srcset');
@@ -407,19 +419,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return '';
         };
-        let representativeUrl = '';
-        for (const img of candidates) {
-            representativeUrl = computeTestUrl(img);
-            if (representativeUrl) break;
-        }
-        if (isSupported && representativeUrl) {
-            const globalProbe = new Image();
-            globalProbe.onerror = () => {
-                // Abort all injections globally
-            };
-            globalProbe.onload = () => {
-                // Proceed with per-image cautious injection (with per-image probe)
-                candidates.forEach(img => {
+        (async () => {
+            let representativeUrl = '';
+            for (const img of candidates) {
+                representativeUrl = computeTestUrl(img);
+                if (representativeUrl) break;
+            }
+            const canInject = isSupported && representativeUrl && await checkWebPExists(representativeUrl);
+            if (!canInject) return;
+            // Proceed with per-image cautious injection (with per-image fetch probe)
+            candidates.forEach(async img => {
                     if (img.closest('picture')) return;
                     const hasSrc = !!img.getAttribute('src');
                     const hasSrcset = !!img.getAttribute('srcset');
@@ -445,9 +454,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         testUrl = webpSrcset;
                     }
                     if (!webpSrcset) return;
-                    // Only inject if a representative .webp for this image loads
-                    const probe = new Image();
-                    probe.onload = () => {
+                    // Only inject if a representative .webp for this image exists
+                    const exists = await checkWebPExists(testUrl);
+                    if (exists) {
                         const picture = document.createElement('picture');
                         const source = document.createElement('source');
                         source.type = 'image/webp';
@@ -456,17 +465,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         img.parentNode.insertBefore(picture, img);
                         picture.appendChild(source);
                         picture.appendChild(img);
-                    };
-                    probe.onerror = () => {
-                        // Skip injection; keep original jpg/png so image renders
-                    };
-                    if (testUrl) {
-                        probe.src = testUrl;
                     }
                 });
-            };
-            globalProbe.src = representativeUrl;
-        }
+        })();
         // If not supported or no representativeUrl, do nothing (original images remain)
     })();
     
