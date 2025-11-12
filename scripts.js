@@ -1422,4 +1422,62 @@ document.addEventListener('DOMContentLoaded', function() {
             obs.observe(video);
         }
     })();
+
+    // ===== HERO LOGO ANIMATION (Lottie) =====
+    (function initHeroLogoAnimation() {
+        const container = document.getElementById('logoAnimation');
+        if (!container) return;
+        const animationPath = container.getAttribute('data-src') || 'animations/BloomnLogoAnimation.json';
+        // Lazy-load lottie only on home page and only if JSON exists
+        const loadLottie = () => {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js';
+            s.defer = true;
+            s.onload = () => {
+                try {
+                    // Probe animation JSON before loading to avoid console noise
+                    fetch(animationPath, { cache: 'no-cache' })
+                        .then(r => r.ok ? r.json() : Promise.reject(new Error('Animation JSON not found')))
+                        .then(() => {
+                            // Load animation
+                            const anim = window.lottie.loadAnimation({
+                                container,
+                                renderer: 'svg',
+                                loop: true,
+                                autoplay: true,
+                                path: animationPath,
+                                rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
+                            });
+                            // Respect reduced motion and page visibility
+                            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                            if (prefersReducedMotion) { try { anim.pause(); } catch {} }
+                            document.addEventListener('visibilitychange', () => {
+                                if (document.hidden) { try { anim.pause(); } catch {} }
+                                else if (!prefersReducedMotion) { try { anim.play(); } catch {} }
+                            });
+                            // Pause/play based on visibility in viewport
+                            if ('IntersectionObserver' in window) {
+                                const obs = new IntersectionObserver((entries) => {
+                                    entries.forEach(entry => {
+                                        if (entry.isIntersecting && !prefersReducedMotion) { try { anim.play(); } catch {} }
+                                        else { try { anim.pause(); } catch {} }
+                                    });
+                                }, { threshold: 0.1 });
+                                obs.observe(container);
+                            }
+                        })
+                        .catch(() => {
+                            // No animation available; leave container empty silently
+                        });
+                } catch { /* noop */ }
+            };
+            document.body.appendChild(s);
+        };
+        // Defer to idle or after load
+        if (document.readyState === 'complete') {
+            runWhenIdle(loadLottie);
+        } else {
+            window.addEventListener('load', () => runWhenIdle(loadLottie), { once: true });
+        }
+    })();
 });
