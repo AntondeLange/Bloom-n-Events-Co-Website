@@ -323,6 +323,13 @@ function createInteractiveOverlays() {
       navigate('/about');
     });
     lily.addEventListener('keypress', (e) => { if (e.key === 'Enter') navigate('/about'); });
+    
+    // Auto-start subtle motion for hero embed (no hover inside iframe)
+    setTimeout(() => {
+      try { lily.dispatchEvent(new PointerEvent('pointerenter')); } catch { lily.dispatchEvent(new Event('pointerenter')); }
+      // Keep label hidden for ambient animation
+      if (lilyLabel) lilyLabel.setAttribute('opacity', '0');
+    }, 600);
   } else {
   }
   
@@ -380,6 +387,13 @@ function createInteractiveOverlays() {
       navigate('/team');
     });
     daisy.addEventListener('keypress', (e) => { if (e.key === 'Enter') navigate('/team'); });
+    
+    // Auto-start subtle motion for hero embed (no hover inside iframe)
+    setTimeout(() => {
+      try { daisy.dispatchEvent(new PointerEvent('pointerenter')); } catch { daisy.dispatchEvent(new Event('pointerenter')); }
+      // Keep label hidden for ambient animation
+      if (daisyLabel) daisyLabel.setAttribute('opacity', '0');
+    }, 800);
   } else {
   }
   

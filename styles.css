@@ -833,10 +833,10 @@ h2.heading-blush-bg.pt-6 {
   transform: translate(-50%, -50%);
   z-index: 20;
   pointer-events: none;
-  width: 300px;
-  height: 300px;
+  width: 420px;
+  height: 420px;
   max-width: 80%;
-  opacity: 0.5;
+  opacity: 1;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
   transition: all 0.3s ease;
 }
