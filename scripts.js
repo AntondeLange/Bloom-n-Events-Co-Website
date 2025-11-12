@@ -399,28 +399,43 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!hasSrc && !hasSrcset) return;
             const sizes = img.getAttribute('sizes') || '';
             let webpSrcset = '';
+            let testUrl = '';
             if (hasSrcset) {
                 // Convert each candidate in srcset to .webp sibling
                 const parts = img.getAttribute('srcset').split(',').map(p => p.trim());
-                webpSrcset = parts.map(p => {
+                const converted = parts.map(p => {
                     const [url, descriptor] = p.split(/\s+(?=[^\s]*$)/); // split last token
                     const w = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
                     return descriptor ? `${w} ${descriptor}` : w;
                 }).join(', ');
+                webpSrcset = converted;
+                // Use the first candidate url as a test
+                const first = converted.split(',')[0].trim();
+                testUrl = (first.split(/\s+/)[0] || '').trim();
             } else if (hasSrc) {
                 const url = img.getAttribute('src');
                 webpSrcset = url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+                testUrl = webpSrcset;
             }
             if (!webpSrcset) return;
-            const picture = document.createElement('picture');
-            const source = document.createElement('source');
-            source.type = 'image/webp';
-            source.setAttribute('srcset', webpSrcset);
-            if (sizes) source.setAttribute('sizes', sizes);
-            // Insert picture before img and move img inside
-            img.parentNode.insertBefore(picture, img);
-            picture.appendChild(source);
-            picture.appendChild(img);
+            // Only inject if a representative .webp actually loads to avoid broken images
+            const probe = new Image();
+            probe.onload = () => {
+                const picture = document.createElement('picture');
+                const source = document.createElement('source');
+                source.type = 'image/webp';
+                source.setAttribute('srcset', webpSrcset);
+                if (sizes) source.setAttribute('sizes', sizes);
+                img.parentNode.insertBefore(picture, img);
+                picture.appendChild(source);
+                picture.appendChild(img);
+            };
+            probe.onerror = () => {
+                // Skip injection; keep original jpg/png so image renders
+            };
+            if (isSupported && testUrl) {
+                probe.src = testUrl;
+            }
         });
     })();
 
