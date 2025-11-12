@@ -1790,7 +1790,6 @@ footer .row {
 
 footer .col-6,
 footer .col-3 {
-  flex: 1 !important;
   min-width: 0 !important;
 }
 
@@ -2210,6 +2209,22 @@ body.team .team-member-image img {
   body.team .row-cols-lg-6 .card-body * {
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
+  }
+}
+
+/* Desktop footer column widths: 3/8 (links), 2/8 (logo), 3/8 (CTA) */
+@media (min-width: 769px) {
+  footer .footer-col-links {
+    flex: 0 0 37.5% !important;
+    max-width: 37.5% !important;
+  }
+  footer .footer-col-logo {
+    flex: 0 0 25% !important;
+    max-width: 25% !important;
+  }
+  footer .footer-col-cta {
+    flex: 0 0 37.5% !important;
+    max-width: 37.5% !important;
   }
 }
 
