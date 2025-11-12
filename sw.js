@@ -44,8 +44,14 @@ self.addEventListener('fetch', (event) => {
       const cached = await caches.match(req);
       if (cached) return cached;
       const res = await fetch(req);
-      const cache = await caches.open(RUNTIME_CACHE);
-      cache.put(req, res.clone());
+      try {
+        if (res && (res.ok || res.type === 'opaque')) {
+          const cache = await caches.open(RUNTIME_CACHE);
+          await cache.put(req, res.clone());
+        }
+      } catch (_) {
+        // no-op: avoid unhandled promise rejection in cache.put
+      }
       return res;
     })());
     return;
@@ -55,13 +61,19 @@ self.addEventListener('fetch', (event) => {
   event.respondWith((async () => {
     try {
       const res = await fetch(req);
-      const cache = await caches.open(RUNTIME_CACHE);
-      cache.put(req, res.clone());
+      try {
+        if (res && (res.ok || res.type === 'opaque')) {
+          const cache = await caches.open(RUNTIME_CACHE);
+          await cache.put(req, res.clone());
+        }
+      } catch (_) {
+        // no-op
+      }
       return res;
     } catch (err) {
       const cached = await caches.match(req);
       if (cached) return cached;
-      throw err;
+      return new Response('Network error', { status: 504, statusText: 'Gateway Timeout' });
     }
   })());
 });
