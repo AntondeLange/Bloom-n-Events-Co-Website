@@ -20,9 +20,11 @@ async function* walk(dir) {
 }
 
 async function convertFile(file) {
-  const ext = path.extname(file).toLowerCase();
-  if (!validExt.has(ext)) return;
-  const out = file.replace(ext, '.webp');
+  const originalExt = path.extname(file);
+  const extLower = originalExt.toLowerCase();
+  if (!validExt.has(extLower)) return;
+  // Build output path by slicing off the original extension to avoid case-sensitivity pitfalls
+  const out = file.slice(0, -originalExt.length) + '.webp';
   try {
     const srcStat = await fs.promises.stat(file);
     try {
