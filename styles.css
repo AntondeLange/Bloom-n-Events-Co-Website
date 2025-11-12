@@ -2228,6 +2228,16 @@ body.team .team-member-image img {
   }
 }
 
+/* Ensure logo fits within its 2/8 column on desktop */
+@media (min-width: 769px) {
+  footer .footer-col-logo .footer-logo {
+    width: 100% !important;
+    max-width: 220px !important;
+    height: auto !important;
+    max-height: 220px !important;
+  }
+}
+
 /* Displays Page Styles */
 body.displays .display-section {
   margin-bottom: 60px !important;
