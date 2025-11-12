@@ -377,6 +377,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== AUTO-INJECT WEBP SOURCES VIA <picture> =====
     (function enhanceImagesWithWebP() {
+        // Only enable when deployment has generated matching .webp assets
+        const webpAssetsReady = !!document.querySelector('meta[name="webp-assets"][content="true"]');
+        if (!webpAssetsReady) return;
         const isSupported = (function() {
             try {
                 const canvas = document.createElement('canvas');
