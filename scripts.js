@@ -712,12 +712,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const message = e.target.dataset.message;
                 const action = e.target.dataset.action; // Check for navigation action
-                console.log('Quick reply clicked:', message, 'Action:', action); // Debug log
                 
                 // Check if this is a navigation action
                 if (action && action.startsWith('navigate:')) {
                     const targetPage = action.replace('navigate:', '');
-                    console.log('Navigating to:', targetPage);
                     
                     // Add user message
                     addMessage(message, 'user');
@@ -785,12 +783,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('Direct button click:', reply.message, 'Action:', reply.action);
                         
                         // Check if this is a navigation action
                         if (reply.action && reply.action.startsWith('navigate:')) {
                             const targetPage = reply.action.replace('navigate:', '');
-                            console.log('Navigating to:', targetPage);
                             
                             // Add user message
                             addMessage(reply.message, 'user');
@@ -1121,36 +1117,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Debug function - you can call this in browser console to test
-        window.testChatbot = function(message) {
-            console.log('Testing chatbot with message:', message);
-            const response = getBotResponse(message);
-            console.log('Bot response:', response);
-            addMessage(response.text, 'bot', response.quickReplies);
-        };
-        
-        // Add a test button for debugging (remove in production)
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            const testButton = document.createElement('button');
-            testButton.textContent = 'Test Chatbot';
-            testButton.style.position = 'fixed';
-            testButton.style.top = '10px';
-            testButton.style.right = '10px';
-            testButton.style.zIndex = '10001';
-            testButton.style.padding = '10px';
-            testButton.style.background = 'red';
-            testButton.style.color = 'white';
-            testButton.style.border = 'none';
-            testButton.style.borderRadius = '5px';
-            testButton.onclick = () => {
-                addMessage('Test message', 'user');
-                setTimeout(() => {
-                    const response = getBotResponse('Tell me about your event planning services');
-                    addMessage(response.text, 'bot', response.quickReplies);
-                }, 1000);
-            };
-            document.body.appendChild(testButton);
-        }
     }
     
     // ===== ERROR HANDLING AND PERFORMANCE MONITORING =====
@@ -1462,84 +1428,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })();
 
-    // ===== HERO LOGO ANIMATION (Lottie) =====
-    (function initHeroLogoAnimation() {
-        const container = document.getElementById('logoAnimation');
-        if (!container) return;
-        const animationPath = container.getAttribute('data-src') || 'animations/BloomnLogoAnimation.json';
-        const iframePath = container.getAttribute('data-iframe') || 'animations/BloomnLogoAnimation/index.html';
-        // Lazy-load lottie only on home page and only if JSON exists
-        const loadLottie = () => {
-            const s = document.createElement('script');
-            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js';
-            s.defer = true;
-            s.onload = () => {
-                try {
-                    // Probe animation JSON before loading to avoid console noise
-                    fetch(animationPath, { cache: 'no-cache' })
-                        .then(r => r.ok ? r.json() : Promise.reject(new Error('Animation JSON not found')))
-                        .then(() => {
-                            // Load animation
-                            const anim = window.lottie.loadAnimation({
-                                container,
-                                renderer: 'svg',
-                                loop: true,
-                                autoplay: true,
-                                path: animationPath,
-                                rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-                            });
-                            // Respect reduced motion and page visibility
-                            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                            if (prefersReducedMotion) { try { anim.pause(); } catch {} }
-                            document.addEventListener('visibilitychange', () => {
-                                if (document.hidden) { try { anim.pause(); } catch {} }
-                                else if (!prefersReducedMotion) { try { anim.play(); } catch {} }
-                            });
-                            // Pause/play based on visibility in viewport
-                            if ('IntersectionObserver' in window) {
-                                const obs = new IntersectionObserver((entries) => {
-                                    entries.forEach(entry => {
-                                        if (entry.isIntersecting && !prefersReducedMotion) { try { anim.play(); } catch {} }
-                                        else { try { anim.pause(); } catch {} }
-                                    });
-                                }, { threshold: 0.1 });
-                                obs.observe(container);
-                            }
-                        })
-                        .catch(() => {
-                            // Fallback: try iframe-based animation project
-                            if (iframePath) {
-                                fetch(iframePath, { method: 'HEAD', cache: 'no-cache' })
-                                    .then(r => {
-                                        if (!r.ok) throw new Error('No iframe animation');
-                                        const iframe = document.createElement('iframe');
-                                        iframe.src = iframePath;
-                                        iframe.title = 'Bloomn Logo Animation';
-                                        iframe.setAttribute('aria-hidden', 'true');
-                                        iframe.style.border = '0';
-                                        iframe.style.background = 'transparent';
-                                        iframe.style.width = '100%';
-                                        iframe.style.height = '100%';
-                                        // Ensure pointer events don't block carousel
-                                        iframe.style.pointerEvents = 'none';
-                                        // Clear container and insert iframe
-                                        container.innerHTML = '';
-                                        container.appendChild(iframe);
-                                    })
-                                    .catch(() => {
-                                        // leave empty
-                                    });
-                            }
-                        });
-                } catch { /* noop */ }
-            };
-            document.body.appendChild(s);
+    // ===== GALLERY CAROUSEL IMAGE ERROR HANDLING =====
+    (function initGalleryImageErrorHandling() {
+        const setupErrorHandling = () => {
+            // Handle image loading errors in gallery carousels
+            const galleryCarousels = document.querySelectorAll('.gallery-section .carousel img');
+            galleryCarousels.forEach(img => {
+                // Skip if already has error handler
+                if (img.dataset.errorHandlerAdded) return;
+                img.dataset.errorHandlerAdded = 'true';
+                
+                // Store original src for fallback
+                const originalSrc = img.src || img.getAttribute('src');
+                const originalSrcset = img.srcset || img.getAttribute('srcset');
+                
+                img.addEventListener('error', function() {
+                    // If srcset failed, try falling back to base src without srcset
+                    if (this.srcset && this.src !== originalSrc) {
+                        this.srcset = '';
+                        this.src = originalSrc;
+                    } else if (this.src !== originalSrc) {
+                        // Try original src
+                        this.src = originalSrc;
+                        if (originalSrcset) this.srcset = originalSrcset;
+                    } else {
+                        // If base image also fails, show placeholder
+                        console.warn('Gallery image failed to load:', originalSrc);
+                        this.style.display = 'none';
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'image-error-placeholder';
+                        placeholder.style.cssText = 'width: 100%; height: 800px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;';
+                        placeholder.textContent = 'Image unavailable';
+                        this.parentElement.appendChild(placeholder);
+                    }
+                }, { once: true });
+            });
         };
-        // Defer to idle or after load
-        if (document.readyState === 'complete') {
-            runWhenIdle(loadLottie);
+        
+        // Run immediately and also after DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupErrorHandling);
         } else {
-            window.addEventListener('load', () => runWhenIdle(loadLottie), { once: true });
+            setupErrorHandling();
         }
+        
+        // Also run after a short delay to catch dynamically loaded images
+        setTimeout(setupErrorHandling, 100);
     })();
 });
