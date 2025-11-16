@@ -1,0 +1,20 @@
+deployment:
+  tasks:
+    # Set your deploy target. This resolves to the cPanel account's public_html.
+    - export DEPLOYPATH="/home/$(whoami)/public_html"
+
+    # Create the target directory if it doesn't exist.
+    - /bin/mkdir -p "$DEPLOYPATH"
+
+    # Sync files from the repo to public_html, excluding VCS and editor/system artifacts.
+    # --delete ensures removed files in repo are also removed from deploy target.
+    - /bin/rsync -a --delete \
+        --exclude ".git" \
+        --exclude ".gitignore" \
+        --exclude ".github" \
+        --exclude ".cursor" \
+        --exclude ".DS_Store" \
+        --exclude "CLEANUP_CHECKLIST.md" \
+        ./ "$DEPLOYPATH"/
+
+
