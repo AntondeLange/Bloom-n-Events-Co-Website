@@ -18,8 +18,15 @@
 </IfModule>
 
 # Force HTTPS Redirect (if not handled automatically)
+# Allow DCV validation files to be accessed without redirects
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
+    # Allow .well-known directory for SSL validation (DCV)
+    RewriteCond %{REQUEST_URI} ^/.well-known/ [NC]
+    RewriteRule ^ - [L]
+    
+    # Force HTTPS for all other requests
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
