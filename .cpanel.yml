@@ -7,14 +7,17 @@ deployment:
     - /bin/mkdir -p "$DEPLOYPATH"
 
     # Sync files from the repo to public_html, excluding VCS and editor/system artifacts.
+    # Using --progress and --partial for better handling of large files
     # --delete ensures removed files in repo are also removed from deploy target.
-    - /bin/rsync -a --delete \
+    - /bin/rsync -av --partial --progress --delete \
         --exclude ".git" \
         --exclude ".gitignore" \
         --exclude ".github" \
         --exclude ".cursor" \
         --exclude ".DS_Store" \
         --exclude "CLEANUP_CHECKLIST.md" \
+        --timeout=300 \
         ./ "$DEPLOYPATH"/
+
 
 
