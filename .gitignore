@@ -20,7 +20,15 @@ Thumbs.db
 *.bak
 *.log
 CLEANUP_CHECKLIST.md
+deploy.zip
+*.md
+!README.md
+DNS_*.txt
+DNS_*.md
+AUTODISCOVER_*.md
+performance-summary.md
 
 # Node modules (if any)
 node_modules/
+
 

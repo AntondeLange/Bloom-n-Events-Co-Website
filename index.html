@@ -47,11 +47,13 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//connect.facebook.net">
+    <link rel="dns-prefetch" href="//widgets.sociablekit.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Preload critical fonts -->
+    <!-- Preload critical fonts with font-display: swap -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat:wght@400;600&display=swap"></noscript>
     
@@ -63,6 +65,17 @@
     <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="styles.css"></noscript>
     
+    <!-- Inline critical CSS for above-the-fold content -->
+    <style>
+        /* Critical above-the-fold styles */
+        body{margin:0;padding:0;font-family:Montserrat,sans-serif}
+        .navbar{min-height:60px}
+        .hero-carousel{position:relative;width:100%;height:100vh;min-height:500px}
+        .carousel-logo-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;max-width:300px;height:auto}
+        .carousel-item{height:100vh;min-height:500px}
+        .carousel-item img,.carousel-item video{width:100%;height:100%;object-fit:cover}
+    </style>
+    
     <!-- Non-critical CSS with deferred loading -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" media="print" onload="this.media='all'" integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk" crossorigin="anonymous"></noscript>
@@ -70,9 +83,6 @@
     <!-- Optimized favicon and app icons -->
     <link rel="icon" href="images/logo-wht.png" type="image/png">
     <link rel="apple-touch-icon" href="images/logo-wht.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/logo-wht.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/logo-wht.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="images/logo-wht.png">
     <link rel="preload" href="images/logo-wht.png" as="image">
     
     <!-- Structured Data for SEO -->
@@ -142,18 +152,71 @@
     }
     </script>
     
-    <!-- Google tag (gtag.js) with optimized loading -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V"></script>
+    <!-- Google tag (gtag.js) with optimized deferred loading -->
     <script>
+      // Defer Google Analytics loading until after page load
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-T5DJCCT19V');
+      gtag('config', 'G-T5DJCCT19V', {
+        'send_page_view': false
+      });
+      
+      // Load gtag.js after page is interactive
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+          document.head.appendChild(script);
+          script.onload = function() {
+            gtag('config', 'G-T5DJCCT19V', {
+              'send_page_view': true
+            });
+          };
+        });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+            document.head.appendChild(script);
+            script.onload = function() {
+              gtag('config', 'G-T5DJCCT19V', {
+                'send_page_view': true
+              });
+            };
+          }, 1000);
+        });
+      }
     </script>
     
-    <!-- Performance Monitoring -->
+    <!-- Performance Monitoring - Deferred -->
     <script>
-      // Performance monitoring
+      // Defer performance monitoring until after page load
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          if ('PerformanceObserver' in window) {
+            const observer = new PerformanceObserver((list) => {
+              for (const entry of list.getEntries()) {
+                if (entry.entryType === 'largest-contentful-paint') {
+                  if (typeof gtag === 'function') {
+                    gtag('event', 'lcp', {
+                      event_category: 'Web Vitals',
+                      value: Math.round(entry.startTime),
+                      non_interaction: true
+                    });
+                  }
+                }
+              }
+            });
+            observer.observe({type: 'largest-contentful-paint', buffered: true});
+          }
+        });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
       if ('PerformanceObserver' in window) {
         const observer = new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
@@ -169,6 +232,9 @@
           }
         });
         observer.observe({type: 'largest-contentful-paint', buffered: true});
+            }
+          }, 1000);
+        });
       }
     </script>
 </head>
@@ -198,7 +264,7 @@
 
             <!-- Centered Logo - Full Height -->
             <a class="navbar-brand mx-auto" href="index.html" aria-label="Home">
-                <img src="images/logo-blk-long.png" alt="Bloom'n Events Co" class="navbar-logo">
+                <img src="images/logo-blk-long.png" alt="Bloom'n Events Co" class="navbar-logo" loading="eager" fetchpriority="high" width="200" height="60">
             </a>
 
             <!-- Right Contact Button -->
@@ -229,7 +295,7 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <video class="d-block w-100" autoplay muted loop playsinline preload="metadata" poster="images/logo-wht.png">
+                        <video class="d-block w-100" autoplay muted loop playsinline preload="none" poster="images/logo-wht.png" width="1920" height="1080">
                             <source src="images/bloomn-hero.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -238,7 +304,8 @@
                         <img src="images/Hawaiian%20World%20Of%20Flavours/Hawaian250315-0173.jpg" 
                              class="d-block w-100" 
                              alt="Hawaiian food festival event"
-                             loading="lazy"
+                             loading="eager"
+                             fetchpriority="high"
                              decoding="async"
                              width="1600" height="900"
                              sizes="(max-width: 576px) 100vw, (max-width: 992px) 100vw, 100vw"
@@ -318,7 +385,7 @@
             </div>
             
             <!-- Logo Overlay -->
-            <img src="images/logo-wht.png" alt="Bloom'n Events Co" class="carousel-logo-overlay" loading="eager" decoding="async">
+            <img src="images/logo-wht.png" alt="Bloom'n Events Co" class="carousel-logo-overlay" loading="eager" fetchpriority="high" decoding="async" width="200" height="200">
         </section>
 
 
@@ -548,10 +615,38 @@
         </div>
     </div>
 
-    <!-- Social widgets are lazy-loaded when the section enters view -->
-
     <!-- Optimized JavaScript Loading -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="scripts.js" defer></script>
+    
+    <!-- Video loading optimization -->
+    <script>
+      // Optimize hero video loading - only load when carousel is visible
+      document.addEventListener('DOMContentLoaded', function() {
+        const heroVideo = document.querySelector('.hero-carousel video');
+        if (!heroVideo) return;
+        
+        // Only preload video when carousel is active and visible
+        const carousel = document.getElementById('heroCarousel');
+        if (carousel) {
+          const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                // Carousel is visible, set video to preload metadata
+                heroVideo.preload = 'metadata';
+                // Start loading video source
+                if (heroVideo.readyState === 0) {
+                  heroVideo.load();
+                }
+                observer.disconnect();
+              }
+            });
+          }, { rootMargin: '50px' });
+          
+          observer.observe(carousel);
+        }
+      });
+    </script>
 </body>
 </html>
+ub
