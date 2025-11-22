@@ -38,7 +38,9 @@ app.use(compression());
 
 // CORS - restrict to frontend URL in production
 app.use(cors({
-  origin: env.FRONTEND_URL || (env.NODE_ENV === 'production' ? false : '*'),
+  origin: env.FRONTEND_URL || (env.NODE_ENV === 'production' 
+    ? ['https://antondelange.github.io', 'https://www.bloomneventsco.com.au'] // Production domains
+    : '*'), // Development: allow all
   credentials: true,
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
