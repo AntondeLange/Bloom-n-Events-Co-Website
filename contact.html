@@ -385,7 +385,45 @@
             
             try {
                 // Submit to backend API
-                const apiUrl = getContactApiUrl();
+                let apiUrl = getContactApiUrl();
+                
+                // Debug: Log the URL we got
+                console.log('🔍 Initial API URL from getContactApiUrl():', apiUrl);
+                
+                // Force localhost:3000 for development if we're on localhost
+                const isLocalhost = window.location.hostname === 'localhost' || 
+                                   window.location.hostname === '127.0.0.1' || 
+                                   window.location.hostname === '';
+                
+                if (isLocalhost) {
+                    // Ensure we use the full localhost URL for development
+                    if (!apiUrl.startsWith('http')) {
+                        apiUrl = `http://localhost:3000${apiUrl}`;
+                        console.log('🔧 Fixed development URL:', apiUrl);
+                    }
+                } else {
+                    // Production: MUST use full URL, not relative
+                    if (!apiUrl.startsWith('http')) {
+                        console.error('❌ Backend URL not configured for production!');
+                        console.error('Current hostname:', window.location.hostname);
+                        console.error('PROD_URL from config:', CONFIG.BACKEND.PROD_URL);
+                        throw new Error('Backend API is not configured. Please contact the website administrator.');
+                    }
+                    // Verify it's the Railway URL
+                    if (!apiUrl.includes('railway.app')) {
+                        console.warn('⚠️ API URL does not appear to be Railway URL:', apiUrl);
+                    }
+                }
+                
+                // Debug logging (visible in browser console)
+                console.log('🌐 Contact Form API Debug:');
+                console.log('  - Current URL:', window.location.href);
+                console.log('  - Hostname:', window.location.hostname);
+                console.log('  - Protocol:', window.location.protocol);
+                console.log('  - API URL (before fix):', getContactApiUrl());
+                console.log('  - API URL (final):', apiUrl);
+                console.log('  - Form data:', formData);
+                
                 logger.debug('Submitting contact form to:', apiUrl);
                 logger.debug('Form data:', formData);
                 
@@ -397,6 +435,9 @@
                     body: JSON.stringify(formData)
                 });
                 
+                console.log('📡 Response status:', response.status);
+                console.log('📡 Response URL:', response.url);
+                
                 logger.debug('Response status:', response.status);
                 logger.debug('Response headers:', Object.fromEntries(response.headers.entries()));
                 
@@ -404,7 +445,14 @@
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
                     const text = await response.text();
+                    console.error('❌ Non-JSON response:', text);
                     logger.error('Non-JSON response:', text);
+                    
+                    // Check if it's a 404 - provide helpful error message
+                    if (response.status === 404) {
+                        throw new Error(`API endpoint not found. Please check: 1) Backend server is running on port 3000, 2) The API URL is correct: ${apiUrl}`);
+                    }
+                    
                     throw new Error(`Server returned ${response.status}: ${text.substring(0, 100)}`);
                 }
                 
