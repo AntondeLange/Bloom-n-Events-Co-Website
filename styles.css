@@ -2633,6 +2633,11 @@ div.text-center.mt-5 {
   }
   
   /* Mobile-specific home carousel height fixes */
+  .hero-carousel .carousel-logo-overlay {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
+  
   #heroCarousel,
   #heroCarousel .carousel-inner,
   #heroCarousel .carousel-item,
