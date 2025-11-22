@@ -456,6 +456,69 @@ body.contact .form-control:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--coreGold) 25%, transparent) !important;
 }
 
+/* Message Input Wrapper with Character Counter and Progress Bar */
+.message-input-wrapper {
+  position: relative;
+}
+
+.message-input-wrapper textarea {
+  padding-bottom: 45px; /* Space for footer */
+  resize: vertical;
+}
+
+.message-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 12px 8px 12px;
+  border-radius: 0 0 8px 8px;
+  pointer-events: none; /* Allow clicks through to textarea */
+}
+
+.message-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #e0e0e0;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.message-progress-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.2s ease;
+  background: #4caf50; /* Default green */
+  border-radius: 0 0 0 8px;
+}
+
+.message-char-counter {
+  font-size: 0.875rem;
+  color: var(--coreCharcoal);
+  font-weight: 600;
+  z-index: 2;
+  background-color: rgba(242, 232, 218, 0.95);
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.message-char-counter.warning {
+  color: #ff9800;
+}
+
+.message-char-counter.error {
+  color: #f44336;
+}
+
 /* Card & Component Styles */
 .card {
   background-color: var(--coreChampers);
@@ -3026,7 +3089,7 @@ footer .nav-link:focus {
 /* ===== CHATBOT STYLES ===== */
 .chatbot-widget {
   position: fixed;
-  bottom: 20px;
+  bottom: 120px; /* Positioned to clear navbar with comfortable spacing */
   right: 20px;
   z-index: 10000;
   font-family: 'Montserrat', sans-serif;
@@ -3041,7 +3104,7 @@ footer .nav-link:focus {
   height: 60px;
   background-color: var(--coreGold);
   border: 2px solid var(--coreCharcoal);
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3049,6 +3112,9 @@ footer .nav-link:focus {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   position: relative;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .chatbot-toggle:hover {
@@ -3058,14 +3124,40 @@ footer .nav-link:focus {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
-.chatbot-toggle i {
+.chatbot-toggle i,
+.chatbot-toggle-icon {
   font-size: 24px;
   color: var(--coreCharcoal);
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: block;
+  object-fit: contain;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
 }
 
-.chatbot-toggle:hover i {
+.chatbot-toggle-icon {
+  filter: brightness(0) saturate(100%) invert(0%);
+  width: 40px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+  object-fit: contain;
+  object-position: center center;
+  flex-shrink: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chatbot-toggle:hover i,
+.chatbot-toggle:hover .chatbot-toggle-icon {
   color: var(--coreGold);
+  filter: brightness(0) saturate(100%) invert(67%) sepia(45%) saturate(500%) hue-rotate(15deg);
 }
 
 .chatbot-notification {
@@ -3214,8 +3306,16 @@ footer .nav-link:focus {
   color: var(--coreGold);
 }
 
-.chatbot-avatar i {
+.chatbot-avatar i,
+.chatbot-avatar-icon {
   font-size: 16px;
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.chatbot-avatar-icon {
+  filter: brightness(0) saturate(100%) invert(0%);
 }
 
 .chatbot-message-content {
@@ -3378,7 +3478,7 @@ footer .nav-link:focus {
 /* Mobile Responsive Chatbot */
 @media (max-width: 576px) {
   .chatbot-widget {
-    bottom: 90px; /* Position above navbar on mobile with more space */
+    bottom: 190px; /* Position above navbar on mobile (90px + 100px) */
     right: 20px; /* More space from edge */
     left: auto; /* Ensure it doesn't stretch */
     z-index: 10001; /* Higher z-index to ensure visibility */
@@ -3390,8 +3490,11 @@ footer .nav-link:focus {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Enhanced shadow for visibility */
   }
   
-  .chatbot-toggle i {
-    font-size: 22px; /* Slightly larger icon */
+  .chatbot-toggle i,
+  .chatbot-toggle-icon {
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
   }
   
   .chatbot-container {
@@ -3430,7 +3533,7 @@ footer .nav-link:focus {
 /* Extra small screens - ensure chatbot is always visible */
 @media (max-width: 375px) {
   .chatbot-widget {
-    bottom: 85px;
+    bottom: 185px; /* Positioned above navbar (85px + 100px) */
     right: 15px;
     z-index: 10001; /* Ensure highest priority */
   }
@@ -3445,10 +3548,14 @@ footer .nav-link:focus {
     width: 50px;
     height: 50px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Enhanced shadow for small screens */
+    border-radius: 10px;
   }
   
-  .chatbot-toggle i {
-    font-size: 20px;
+  .chatbot-toggle i,
+  .chatbot-toggle-icon {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
   }
 }
 

@@ -112,7 +112,7 @@
                             <div class="heading-blush-bg text-center">
                                 <h1 id="contactHeading" class="display-4 content-heading-large">Contact Us</h1>
                             </div>
-                            <form class="p-4 pt-6" id="contactForm" action="mailto:enquiries@bloomneventsco.com.au" method="POST">
+                            <form class="p-4 pt-6" id="contactForm" method="POST">
                                 <div class="mb-3">
                                     <label for="firstName" class="form-label">First Name</label>
                                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" autocomplete="given-name" required>
@@ -135,7 +135,15 @@
 
                                 <div class="mb-3">
                                     <label for="message" class="form-label">Your Message</label>
-                                    <textarea class="form-control" id="message" name="message" rows="3" placeholder="Your Message" autocomplete="off" required></textarea>
+                                    <div class="message-input-wrapper position-relative">
+                                        <textarea class="form-control" id="message" name="message" rows="3" placeholder="Your Message" autocomplete="off" maxlength="200" required></textarea>
+                                        <div class="message-progress-bar">
+                                            <div class="message-progress-fill" id="messageProgress"></div>
+                                        </div>
+                                        <div class="message-footer">
+                                            <div class="message-char-counter" id="messageCounter">0/200</div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
@@ -246,18 +254,92 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="scripts.js" defer></script>
+    <script src="scripts.js" type="module" defer></script>
     
-    <!-- Contact Form - Mailto Solution -->
-    <script>
+    <!-- Contact Form - Backend API Integration -->
+    <script type="module">
+        import { getContactApiUrl, CONFIG } from './scripts/config.js';
+        import { logger } from './scripts/logger.js';
+        
+        // Message character limit
+        const MESSAGE_MAX_LENGTH = 200;
+        const messageInput = document.getElementById('message');
+        const messageCounter = document.getElementById('messageCounter');
+        const messageProgress = document.getElementById('messageProgress');
+        
+        // Update character counter and progress bar
+        function updateMessageCounter() {
+            const currentLength = messageInput.value.length;
+            const percentage = (currentLength / MESSAGE_MAX_LENGTH) * 100;
+            
+            // Update counter text
+            messageCounter.textContent = `${currentLength}/${MESSAGE_MAX_LENGTH}`;
+            
+            // Update progress bar width
+            messageProgress.style.width = `${Math.min(percentage, 100)}%`;
+            
+            // Update counter color based on length
+            messageCounter.classList.remove('warning', 'error');
+            if (currentLength > MESSAGE_MAX_LENGTH * 0.9) {
+                // Over 90% (180+ characters) - show error color
+                messageCounter.classList.add('error');
+            } else if (currentLength > MESSAGE_MAX_LENGTH * 0.75) {
+                // Over 75% (150+ characters) - show warning color
+                messageCounter.classList.add('warning');
+            }
+            
+            // Update progress bar color dynamically
+            // Green (0-75%), Orange (75-90%), Red (90-100%)
+            if (percentage <= 75) {
+                // Pure green
+                messageProgress.style.background = '#4caf50';
+            } else if (percentage <= 90) {
+                // Transition from green to orange
+                const orangeProgress = ((percentage - 75) / 15) * 100; // 0-100% of orange zone
+                messageProgress.style.background = `linear-gradient(90deg, #4caf50 0%, #ff9800 ${orangeProgress}%)`;
+            } else {
+                // Transition from orange to red
+                const redProgress = ((percentage - 90) / 10) * 100; // 0-100% of red zone
+                messageProgress.style.background = `linear-gradient(90deg, #4caf50 0%, #ff9800 75%, #f44336 ${75 + (redProgress * 0.25)}%)`;
+            }
+        }
+        
+        // Add event listener for real-time updates
+        messageInput.addEventListener('input', updateMessageCounter);
+        
+        // Handle paste events - truncate if over limit
+        const alertContainer = document.getElementById('alertContainer');
+        messageInput.addEventListener('paste', function(event) {
+            setTimeout(() => {
+                if (messageInput.value.length > MESSAGE_MAX_LENGTH) {
+                    messageInput.value = messageInput.value.substring(0, MESSAGE_MAX_LENGTH);
+                    // Show warning if content was truncated
+                    const warningDiv = document.createElement('div');
+                    warningDiv.className = 'alert alert-warning alert-dismissible fade show';
+                    warningDiv.setAttribute('role', 'alert');
+                    warningDiv.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Note:</strong> Message was truncated to 200 characters.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    alertContainer.replaceChildren(warningDiv);
+                    // Auto-dismiss after 3 seconds
+                    setTimeout(() => {
+                        warningDiv.remove();
+                    }, 3000);
+                }
+                updateMessageCounter();
+            }, 10);
+        });
+        
+        // Initialize counter on page load
+        updateMessageCounter();
+        
         // Contact form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
             const submitText = document.getElementById('submitText');
             const loadingText = document.getElementById('loadingText');
             const alertContainer = document.getElementById('alertContainer');
+            const contactForm = document.getElementById('contactForm');
             
             // Show loading state
             submitText.classList.add('d-none');
@@ -265,72 +347,155 @@
             submitBtn.disabled = true;
             
             // Clear previous alerts
-            alertContainer.innerHTML = '';
+            alertContainer.replaceChildren();
             
             // Get form data
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const company = document.getElementById('company').value || 'Not specified';
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const company = document.getElementById('company').value.trim() || '';
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
             
-            // Create email content
-            const subject = `New Contact Form Submission - ${firstName} ${lastName}`;
-            const body = `From: ${firstName} ${lastName}
-Email: ${email}
-Company: ${company}
-
-Message:
-${message}
-
----
-This message was sent via the Bloom'n Events Co website contact form.`;
-            
-            // Create mailto URL
-            const mailtoUrl = `mailto:enquiries@bloomneventsco.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            
-            // Track form submission in Google Analytics
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'form_submit', {
-                    'form_name': 'contact_form',
-                    'value': 1
-                });
-                
-                // Track Web Vitals
-                new PerformanceObserver((entryList) => {
-                    for (const entry of entryList.getEntries()) {
-                        if (entry.entryType === 'largest-contentful-paint') {
-                            gtag('event', 'LCP', {
-                                'event_category': 'Web Vitals',
-                                'value': Math.round(entry.startTime),
-                                'non_interaction': true
-                            });
-                        }
-                    }
-                }).observe({entryTypes: ['largest-contentful-paint']});
+            // Validate form data
+            if (!firstName || !lastName || !email || !message) {
+                showAlert(alertContainer, 'danger', 'Please fill in all required fields.');
+                resetButton(submitBtn, submitText, loadingText);
+                return;
             }
             
-            // Show success message
-            alertContainer.innerHTML = `
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <strong>Thank you!</strong> Your email client will open to send your message to enquiries@bloomneventsco.com.au
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `;
+            // Validate message character limit
+            if (message.length > MESSAGE_MAX_LENGTH) {
+                showAlert(alertContainer, 'danger', `Message cannot exceed ${MESSAGE_MAX_LENGTH} characters. Please shorten your message.`);
+                messageInput.focus();
+                resetButton(submitBtn, submitText, loadingText);
+                return;
+            }
             
-            // Open email client
-            window.location.href = mailtoUrl;
+            // Prepare form data for API
+            const formData = {
+                firstName,
+                lastName,
+                email,
+                message
+            };
             
-            // Reset form after short delay
-            setTimeout(() => {
-                document.getElementById('contactForm').reset();
+            if (company) {
+                formData.company = company;
+            }
+            
+            try {
+                // Submit to backend API
+                const apiUrl = getContactApiUrl();
+                logger.debug('Submitting contact form to:', apiUrl);
+                logger.debug('Form data:', formData);
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                logger.debug('Response status:', response.status);
+                logger.debug('Response headers:', Object.fromEntries(response.headers.entries()));
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    logger.error('Non-JSON response:', text);
+                    throw new Error(`Server returned ${response.status}: ${text.substring(0, 100)}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    logger.error('API error response:', data);
+                    throw new Error(data.message || data.error || `Failed to submit form (${response.status})`);
+                }
+                
+                // Success - show success message
+                showAlert(alertContainer, 'success', data.message || 'Thank you for your message! We will get back to you soon.');
+                
+                // Track form submission in Google Analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_submit', {
+                        'form_name': 'contact_form',
+                        'value': 1
+                    });
+                }
+                
+                // Reset form after short delay
+                setTimeout(() => {
+                    contactForm.reset();
+                    updateMessageCounter(); // Reset counter and progress bar
+                    resetButton(submitBtn, submitText, loadingText);
+                }, 2000);
+                
+            } catch (error) {
+                logger.error('Contact form submission error:', error);
+                console.error('Full error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                
+                // Show error message with more details
+                let errorMessage = error.message || 'Sorry, we encountered an error processing your submission.';
+                
+                // Add helpful hints for common errors
+                if (error.message && error.message.includes('405')) {
+                    errorMessage += ' (Method Not Allowed - Please check if the backend server is running and configured correctly)';
+                } else if (error.message && error.message.includes('CORS')) {
+                    errorMessage += ' (CORS Error - Please access the page via a web server, not file://)';
+                } else if (error.message && error.message.includes('Failed to fetch')) {
+                    errorMessage += ' (Connection Error - Please check if the backend server is running on port 3000)';
+                }
+                
+                showAlert(alertContainer, 'danger', errorMessage);
+                
                 // Reset button state
-                submitText.classList.remove('d-none');
-                loadingText.classList.add('d-none');
-                submitBtn.disabled = false;
-            }, 1000);
+                resetButton(submitBtn, submitText, loadingText);
+            }
         });
+        
+        // Helper function to show alert
+        function showAlert(container, type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.setAttribute('role', 'alert');
+            
+            const icon = document.createElement('i');
+            icon.className = type === 'success' 
+                ? 'bi bi-check-circle-fill me-2' 
+                : 'bi bi-exclamation-triangle-fill me-2';
+            
+            const strong = document.createElement('strong');
+            strong.textContent = type === 'success' ? 'Thank you! ' : 'Error! ';
+            
+            const messageText = document.createTextNode(message);
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'btn-close';
+            closeBtn.setAttribute('data-bs-dismiss', 'alert');
+            closeBtn.setAttribute('aria-label', 'Close');
+            
+            alertDiv.appendChild(icon);
+            alertDiv.appendChild(strong);
+            alertDiv.appendChild(messageText);
+            alertDiv.appendChild(closeBtn);
+            
+            container.replaceChildren(alertDiv);
+        }
+        
+        // Helper function to reset button state
+        function resetButton(submitBtn, submitText, loadingText) {
+            submitText.classList.remove('d-none');
+            loadingText.classList.add('d-none');
+            submitBtn.disabled = false;
+        }
     </script>
 </body>
 </html>

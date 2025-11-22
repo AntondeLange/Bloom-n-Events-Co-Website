@@ -1,6 +1,10 @@
 // Bloom'n Events Co - Consolidated Scripts
 // Performance optimized with lazy loading and efficient event handling
 
+// Import utilities
+import { CONFIG, getBackendUrl, getApiUrl } from './scripts/config.js';
+import { logger } from './scripts/logger.js';
+
 // Performance optimization: Use requestIdleCallback for non-critical tasks
 const runWhenIdle = (callback) => {
     if ('requestIdleCallback' in window) {
@@ -58,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (existingFooter) existingFooter.outerHTML = footerHtml;
             }
         } catch (e) {
-            console.warn('Partial injection failed', e);
+            logger.warn('Partial injection failed', e);
         }
         // Re-initialize dropdowns after injection; navbar init is deferred to window 'load'
         if (typeof window.setupDropdowns === 'function') window.setupDropdowns();
@@ -215,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     newImg.onerror = () => {
                         img.classList.remove('lazy', 'loading');
                         img.classList.add('error');
-                    console.warn('Failed to load image:', sourceToLoad || srcsetToLoad || '(unknown)');
+                    logger.warn('Failed to load image:', sourceToLoad || srcsetToLoad || '(unknown)');
                     observer.unobserve(img);
                     };
                 newImg.src = sourceToLoad || img.currentSrc || img.src;
@@ -540,14 +544,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = document.createElement('div');
         modal.id = modalId;
         modal.className = 'fullscreen-modal';
-        modal.innerHTML = `
-            <div class="modal-content" role="dialog" aria-modal="true">
-                <a href="#" class="close-btn" aria-label="Close">&times;</a>
-                <img src="${img.src}" alt="${img.alt} - Fullscreen">
-            </div>
-        `;
+        
+        // Create modal content safely
+        const modalContent = document.createElement('div');
+        modalContent.className = 'modal-content';
+        modalContent.setAttribute('role', 'dialog');
+        modalContent.setAttribute('aria-modal', 'true');
+        
+        const closeBtn = document.createElement('a');
+        closeBtn.href = '#';
+        closeBtn.className = 'close-btn';
+        closeBtn.setAttribute('aria-label', 'Close');
+        closeBtn.textContent = '×';
+        
+        const modalImg = document.createElement('img');
+        modalImg.src = img.src; // Image src is already loaded from trusted source
+        modalImg.alt = `${img.alt || ''} - Fullscreen`.trim();
+        
+        modalContent.appendChild(closeBtn);
+        modalContent.appendChild(modalImg);
+        modal.appendChild(modalContent);
         document.body.appendChild(modal);
-        const closeBtn = modal.querySelector('.close-btn');
+        
         closeBtn.addEventListener('click', function(e) {
             e.preventDefault();
             window.location.hash = '';
@@ -575,6 +593,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatbotTyping = document.getElementById('chatbot-typing');
     const chatbotNotification = document.getElementById('chatbot-notification');
     
+    // OpenAI API Configuration via Backend Proxy
+    // API Key Name: bloom'n-website-chatbot-prod
+    // 
+    // The API key is securely stored on the backend server.
+    // Update BACKEND_URL to match your deployment (e.g., Vercel serverless function, Railway, etc.)
+    // Use config for backend URL
+    const BACKEND_URL = getBackendUrl();
+    const OPENAI_API_URL = getApiUrl();
+    const USE_OPENAI = true; // Backend proxy is ready
+    
+    // Debug: Log API URL (remove in production)
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+        logger.debug('Backend API URL:', OPENAI_API_URL);
+    }
+    
+    // Chatbot system prompt
+    const CHATBOT_SYSTEM_PROMPT = `You are a helpful assistant for Bloom'n Events Co, a professional event planning and display company based in Brookton, Western Australia. 
+
+Company Information:
+- Name: Bloom'n Events Co Pty Ltd
+- Location: Brookton, WA
+- Services: Corporate event planning, workshops (adults and kids), custom displays, food festivals
+- Notable clients: Hawaiian, Centuria, Stockland
+- Service area: Greater Perth area and Western Australia
+
+Your role is to:
+- Answer questions about their services (corporate events, workshops, displays)
+- Provide information about their capabilities and past work
+- Help visitors understand their offerings
+- Guide users to appropriate pages (events.html, workshops.html, displays.html, contact.html, gallery.html, team.html, about.html)
+- Be friendly, professional, and helpful
+- If asked about pricing, explain that pricing depends on scope and suggest contacting them for a quote
+- Keep responses concise and conversational
+- Always maintain a positive, enthusiastic tone about events and celebrations
+
+If you don't know something specific, suggest they contact the company directly through the contact page.`;
+    
     if (chatbotWidget) {
         let isOpen = false;
         let hasInteracted = false;
@@ -596,7 +651,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }
                 }
-            }, 3000);
+            }, CONFIG.CHAT.NOTIFICATION_DELAY);
         });
         
         // Toggle chatbot with analytics tracking
@@ -650,7 +705,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Send message
-        function sendMessage() {
+        async function sendMessage() {
             const message = chatbotInput.value.trim();
             if (!message) return;
             
@@ -661,12 +716,123 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show typing indicator
             showTyping();
             
-            // Get bot response after delay
-            setTimeout(() => {
+            try {
+                let response;
+                
+                // Try OpenAI API if configured
+                if (USE_OPENAI) {
+                    try {
+                        response = await getOpenAIResponse(message);
+                        if (response && response.text) {
+                            hideTyping();
+                            addMessage(response.text, 'bot', response.quickReplies);
+                            return;
+                        }
+                    } catch (error) {
+                        logger.warn('OpenAI API error, falling back to rule-based responses:', error);
+                        logger.debug('API URL attempted:', OPENAI_API_URL);
+                        logger.debug('Error details:', error.message);
+                        // Fall through to rule-based response
+                    }
+                }
+                
+                // Fallback to rule-based response
+                setTimeout(() => {
+                    hideTyping();
+                    response = getBotResponse(message);
+                    addMessage(response.text, 'bot', response.quickReplies);
+                }, 1000 + Math.random() * 1000);
+                
+            } catch (error) {
+                logger.error('Error sending message:', error);
                 hideTyping();
-                const response = getBotResponse(message);
-                addMessage(response.text, 'bot', response.quickReplies);
-            }, 1000 + Math.random() * 1000);
+                addMessage("I'm sorry, I encountered an error. Please try again or contact us directly through our contact page.", 'bot', [
+                    { text: "Contact Us", message: "Take me to the contact page", action: "navigate:contact.html" }
+                ]);
+            }
+        }
+        
+        // Get OpenAI API response via backend proxy
+        async function getOpenAIResponse(userMessage) {
+            if (!USE_OPENAI) {
+                return null;
+            }
+            
+            // Get conversation history (last 10 messages for context)
+            const conversationHistory = Array.from(chatbotMessages.querySelectorAll('.chatbot-message'))
+                .slice(-10)
+                .map(msg => {
+                    const isBot = msg.classList.contains('chatbot-message-bot');
+                    const text = msg.querySelector('.chatbot-message-content p')?.textContent || '';
+                    return {
+                        role: isBot ? 'assistant' : 'user',
+                        content: text
+                    };
+                })
+                .filter(msg => msg.content.trim().length > 0); // Filter out empty messages
+            
+            // Send request to backend proxy
+            const response = await fetch(OPENAI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: userMessage,
+                    conversationHistory: conversationHistory
+                })
+            });
+            
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({ error: 'Unknown error' }));
+                throw new Error(error.error || error.message || 'API request failed');
+            }
+            
+            const data = await response.json();
+            const aiResponse = data.reply || '';
+            
+            // Extract quick replies if the response suggests navigation
+            const quickReplies = extractQuickReplies(aiResponse);
+            
+            return {
+                text: aiResponse,
+                quickReplies: quickReplies.length > 0 ? quickReplies : getDefaultQuickReplies()
+            };
+        }
+        
+        // Extract quick reply suggestions from AI response
+        function extractQuickReplies(response) {
+            const quickReplies = [];
+            const lowerResponse = response.toLowerCase();
+            
+            // Check for common navigation suggestions
+            if (lowerResponse.includes('contact') || lowerResponse.includes('get in touch')) {
+                quickReplies.push({ text: "Contact Us", message: "How can I contact you?", action: "navigate:contact.html" });
+            }
+            if (lowerResponse.includes('gallery') || lowerResponse.includes('photos') || lowerResponse.includes('examples')) {
+                quickReplies.push({ text: "View Gallery", message: "Show me your gallery", action: "navigate:gallery.html" });
+            }
+            if (lowerResponse.includes('workshop')) {
+                quickReplies.push({ text: "View Workshops", message: "Tell me about your workshops", action: "navigate:workshops.html" });
+            }
+            if (lowerResponse.includes('display')) {
+                quickReplies.push({ text: "View Displays", message: "Show me your displays", action: "navigate:displays.html" });
+            }
+            if (lowerResponse.includes('event')) {
+                quickReplies.push({ text: "View Events", message: "Show me your events", action: "navigate:events.html" });
+            }
+            
+            return quickReplies.slice(0, 4); // Limit to 4 quick replies
+        }
+        
+        // Get default quick replies
+        function getDefaultQuickReplies() {
+            return [
+                { text: "View Events", message: "Show me your events", action: "navigate:events.html" },
+                { text: "View Workshops", message: "Show me your workshops", action: "navigate:workshops.html" },
+                { text: "View Displays", message: "Show me your displays", action: "navigate:displays.html" },
+                { text: "Contact Us", message: "How can I contact you?", action: "navigate:contact.html" }
+            ];
         }
         
         // Send button click
@@ -755,7 +921,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const avatar = document.createElement('div');
             avatar.className = 'chatbot-avatar';
-            avatar.innerHTML = sender === 'bot' ? '<i class="bi bi-flower1"></i>' : '<i class="bi bi-person"></i>';
+            if (sender === 'bot') {
+                const butterflyImg = document.createElement('img');
+                butterflyImg.src = 'images/butterfly-icon.svg';
+                butterflyImg.alt = 'Bloom\'n Events Co';
+                butterflyImg.className = 'chatbot-avatar-icon';
+                butterflyImg.width = 32;
+                butterflyImg.height = 32;
+                avatar.appendChild(butterflyImg);
+            } else {
+                // Create user icon safely
+                const userIcon = document.createElement('i');
+                userIcon.className = 'bi bi-person';
+                avatar.appendChild(userIcon);
+            }
             
             const content = document.createElement('div');
             content.className = 'chatbot-message-content';
@@ -1123,7 +1302,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Global error handler
     window.addEventListener('error', (e) => {
-        console.error('JavaScript Error:', e.error);
+        logger.error('JavaScript Error:', e.error);
         
         // Track errors in analytics
         if (typeof gtag !== 'undefined') {
@@ -1136,7 +1315,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Unhandled promise rejection handler
     window.addEventListener('unhandledrejection', (e) => {
-        console.error('Unhandled Promise Rejection:', e.reason);
+        logger.error('Unhandled Promise Rejection:', e.reason);
         
         // Track promise rejections in analytics
         if (typeof gtag !== 'undefined') {
@@ -1196,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', function() {
         runWhenIdle(() => {
             // Use relative path for GitHub Pages and similar hosts
             navigator.serviceWorker.register('sw.js').catch((error) => {
-                console.log('Service Worker registration failed:', error);
+                logger.error('Service Worker registration failed:', error);
             });
         });
     }
@@ -1368,7 +1547,11 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.className = 'back-to-top';
         btn.setAttribute('aria-label', 'Back to top');
         btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:1000;display:none;border:none;border-radius:999px;padding:10px 12px;background:var(--coreGold);color:#000;box-shadow:0 2px 8px rgba(0,0,0,.2);cursor:pointer;';
-        btn.innerHTML = '<i class="bi bi-arrow-up"></i>';
+        
+        // Create arrow icon safely
+        const arrowIcon = document.createElement('i');
+        arrowIcon.className = 'bi bi-arrow-up';
+        btn.appendChild(arrowIcon);
         document.body.appendChild(btn);
         const onScroll = throttle(() => {
             const y = window.pageYOffset || document.documentElement.scrollTop;
@@ -1453,7 +1636,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (originalSrcset) this.srcset = originalSrcset;
                     } else {
                         // If base image also fails, show placeholder
-                        console.warn('Gallery image failed to load:', originalSrc);
+                        logger.warn('Gallery image failed to load:', originalSrc);
                         this.style.display = 'none';
                         const placeholder = document.createElement('div');
                         placeholder.className = 'image-error-placeholder';
@@ -1475,4 +1658,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Also run after a short delay to catch dynamically loaded images
         setTimeout(setupErrorHandling, 100);
     })();
+    
+    // Auto-update copyright year
+    function updateCopyrightYear() {
+        const currentYearSpan = document.getElementById('current-year');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+    }
+    
+    // Update immediately and after partials load
+    updateCopyrightYear();
+    setTimeout(updateCopyrightYear, 500); // After partials load
 });
