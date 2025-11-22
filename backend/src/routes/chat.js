@@ -7,10 +7,10 @@ import { OPENAI_CONFIG } from '../config/constants.js';
 
 const router = express.Router();
 
-// Initialize OpenAI client
-const client = new OpenAI({
+// Initialize OpenAI client (only if API key is provided)
+const client = env.OPENAI_API_KEY ? new OpenAI({
   apiKey: env.OPENAI_API_KEY,
-});
+}) : null;
 
 // Chatbot system prompt
 const SYSTEM_PROMPT = `You are a helpful assistant for Bloom'n Events Co, a professional event planning and display company based in Brookton, Western Australia. 
@@ -36,6 +36,15 @@ If you don't know something specific, suggest they contact the company directly 
 
 router.post('/chat', chatRateLimiter, async (req, res) => {
   try {
+    // Check if OpenAI client is initialized
+    if (!client || !env.OPENAI_API_KEY) {
+      return res.status(503).json({
+        success: false,
+        error: 'Service unavailable',
+        message: 'Chat service is not configured. Please set OPENAI_API_KEY in environment variables.'
+      });
+    }
+
     // Validate and sanitize input
     const validated = validateChatRequest(req.body);
     const { message, conversationHistory } = validated;
