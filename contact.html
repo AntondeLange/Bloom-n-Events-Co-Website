@@ -258,6 +258,9 @@
     
     <!-- Contact Form - Backend API Integration -->
     <script type="module">
+        // Fallback Railway URL in case config.js is cached
+        const RAILWAY_BACKEND_URL = 'https://bloom-n-events-co-website-production.up.railway.app';
+        
         import { getContactApiUrl, CONFIG } from './scripts/config.js';
         import { logger } from './scripts/logger.js';
         
@@ -389,6 +392,7 @@
                 
                 // Debug: Log the URL we got
                 console.log('🔍 Initial API URL from getContactApiUrl():', apiUrl);
+                console.log('🔍 CONFIG.BACKEND.PROD_URL:', CONFIG.BACKEND.PROD_URL);
                 
                 // Force localhost:3000 for development if we're on localhost
                 const isLocalhost = window.location.hostname === 'localhost' || 
@@ -404,14 +408,17 @@
                 } else {
                     // Production: MUST use full URL, not relative
                     if (!apiUrl.startsWith('http')) {
-                        console.error('❌ Backend URL not configured for production!');
-                        console.error('Current hostname:', window.location.hostname);
-                        console.error('PROD_URL from config:', CONFIG.BACKEND.PROD_URL);
-                        throw new Error('Backend API is not configured. Please contact the website administrator.');
+                        console.warn('⚠️ Config PROD_URL is empty, using fallback Railway URL');
+                        // Use fallback Railway URL if config is cached/empty
+                        apiUrl = `${RAILWAY_BACKEND_URL}/api/contact`;
+                        console.log('✅ Using fallback Railway URL:', apiUrl);
                     }
                     // Verify it's the Railway URL
                     if (!apiUrl.includes('railway.app')) {
                         console.warn('⚠️ API URL does not appear to be Railway URL:', apiUrl);
+                        // Force Railway URL as fallback
+                        apiUrl = `${RAILWAY_BACKEND_URL}/api/contact`;
+                        console.log('✅ Forced Railway URL:', apiUrl);
                     }
                 }
                 
