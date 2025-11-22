@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4'; // Updated to force cache refresh for config.js
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
@@ -34,6 +34,12 @@ self.addEventListener('fetch', (event) => {
 
   // HTML: always go to network (no caching)
   if (req.destination === 'document' || (req.headers.get('accept') || '').includes('text/html')) {
+    event.respondWith(fetch(req));
+    return;
+  }
+
+  // Config files: always go to network (no caching) - important for backend URL updates
+  if (url.pathname.includes('config.js') || url.pathname.includes('logger.js')) {
     event.respondWith(fetch(req));
     return;
   }
