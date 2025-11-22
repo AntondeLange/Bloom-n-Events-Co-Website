@@ -455,9 +455,19 @@
                     console.error('❌ Non-JSON response:', text);
                     logger.error('Non-JSON response:', text);
                     
-                    // Check if it's a 404 - provide helpful error message
+                    // Check if it's a 404 or 502 - provide helpful error message
                     if (response.status === 404) {
-                        throw new Error(`API endpoint not found. Please check: 1) Backend server is running on port 3000, 2) The API URL is correct: ${apiUrl}`);
+                        const isProduction = window.location.hostname !== 'localhost' && 
+                                            window.location.hostname !== '127.0.0.1';
+                        if (isProduction) {
+                            throw new Error(`API endpoint not found. The backend service may be temporarily unavailable. Please try again later or contact us directly.`);
+                        } else {
+                            throw new Error(`API endpoint not found. Please check: 1) Backend server is running on port 3000, 2) The API URL is correct: ${apiUrl}`);
+                        }
+                    }
+                    
+                    if (response.status === 502 || response.status === 503) {
+                        throw new Error(`Backend service is temporarily unavailable (${response.status}). Please try again in a moment or contact us directly.`);
                     }
                     
                     throw new Error(`Server returned ${response.status}: ${text.substring(0, 100)}`);
@@ -505,7 +515,15 @@
                 } else if (error.message && error.message.includes('CORS')) {
                     errorMessage += ' (CORS Error - Please access the page via a web server, not file://)';
                 } else if (error.message && error.message.includes('Failed to fetch')) {
-                    errorMessage += ' (Connection Error - Please check if the backend server is running on port 3000)';
+                    // Check if we're in production or development
+                    const isProduction = window.location.hostname !== 'localhost' && 
+                                        window.location.hostname !== '127.0.0.1';
+                    
+                    if (isProduction) {
+                        errorMessage += ' (Connection Error - The backend service may be temporarily unavailable. Please try again in a moment or contact us directly.)';
+                    } else {
+                        errorMessage += ' (Connection Error - Please check if the backend server is running on port 3000)';
+                    }
                 }
                 
                 showAlert(alertContainer, 'danger', errorMessage);
