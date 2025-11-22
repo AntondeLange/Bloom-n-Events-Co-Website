@@ -3149,6 +3149,9 @@ footer .nav-link:focus {
   object-position: center center;
   flex-shrink: 0;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -3497,6 +3500,12 @@ footer .nav-link:focus {
     height: 36px;
   }
   
+  .chatbot-toggle-icon {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
   .chatbot-container {
     width: calc(100vw - 40px); /* More margin for better fit */
     max-width: 350px; /* Prevent it from being too wide on larger phones */
@@ -3556,6 +3565,12 @@ footer .nav-link:focus {
     font-size: 18px;
     width: 32px;
     height: 32px;
+  }
+  
+  .chatbot-toggle-icon {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
   }
 }
 
