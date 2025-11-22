@@ -7,7 +7,8 @@ export const CONFIG = {
   // API Configuration
   BACKEND: {
     DEV_URL: 'http://localhost:3000',
-    PROD_URL: '', // Empty for production (uses relative paths)
+    // Production backend deployed on Railway
+    PROD_URL: 'https://bloom-n-events-co-website-production.up.railway.app',
     CHAT_ENDPOINT: '/api/chat', // Full endpoint path
     CONTACT_ENDPOINT: '/api/contact', // Contact form endpoint
     TIMEOUT: 30000, // 30 seconds
@@ -65,10 +66,29 @@ export const CONFIG = {
 // Get backend URL based on environment
 export function getBackendUrl() {
   if (typeof window !== 'undefined') {
-    // Production: use empty string for relative paths, Development: use localhost
-    return window.location.hostname === 'localhost' 
-      ? CONFIG.BACKEND.DEV_URL 
-      : CONFIG.BACKEND.PROD_URL;
+    const hostname = window.location.hostname;
+    
+    // Development: use localhost backend if accessing from localhost (any port)
+    const isLocalhost = hostname === 'localhost' || 
+                       hostname === '127.0.0.1' || 
+                       hostname === '' ||
+                       window.location.protocol === 'file:';
+    
+    if (isLocalhost) {
+      // Always use localhost:3000 for development
+      return CONFIG.BACKEND.DEV_URL;
+    }
+    
+    // Production: use production backend URL
+    // If PROD_URL is not set, show a helpful error
+    if (!CONFIG.BACKEND.PROD_URL || CONFIG.BACKEND.PROD_URL.includes('YOUR-BACKEND-URL')) {
+      console.error('⚠️ Production backend URL not configured!');
+      console.error('Please set CONFIG.BACKEND.PROD_URL in scripts/config.js with your deployed backend URL');
+      // Fallback to relative path (won't work on GitHub Pages, but prevents errors)
+      return '';
+    }
+    
+    return CONFIG.BACKEND.PROD_URL;
   }
   return CONFIG.BACKEND.DEV_URL;
 }
