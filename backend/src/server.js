@@ -10,7 +10,12 @@ import { env } from './config/env.mjs';
 import { connectDatabase } from './config/database.js';
 
 const app = express();
-const PORT = env.PORT;
+const PORT = env.PORT || process.env.PORT || 3000;
+
+// Add startup logging
+console.log('🚀 Starting Bloom\'n Events backend...');
+console.log('📋 Environment:', env.NODE_ENV);
+console.log('🔌 Port:', PORT);
 
 // Security headers
 app.use(helmet({
@@ -105,15 +110,24 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server started successfully on port ${PORT}`);
   if (env.NODE_ENV === 'development') {
     console.log(`🚀 Bloom'n Events backend listening on http://localhost:${PORT}`);
     console.log(`📡 Chat API: http://localhost:${PORT}/api/chat`);
     console.log(`📧 Contact API: http://localhost:${PORT}/api/contact`);
     console.log(`✅ Health check: http://localhost:${PORT}/health`);
     console.log(`🔒 Environment: ${env.NODE_ENV}`);
-  } else {
-    console.log(`Server started on port ${PORT}`);
   }
 });
 
+// Handle uncaught errors
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't exit - log and continue
+});
