@@ -37,13 +37,32 @@ app.use(helmet({
 app.use(compression());
 
 // CORS - restrict to frontend URL in production
+// Allow both GitHub Pages and custom domain
+const allowedOrigins = env.NODE_ENV === 'production'
+  ? [
+      'https://antondelange.github.io',
+      'https://www.bloomneventsco.com.au',
+      'https://bloomneventsco.com.au', // Without www
+      env.FRONTEND_URL // Also allow from environment variable
+    ].filter(Boolean) // Remove undefined values
+  : '*'; // Development: allow all
+
 app.use(cors({
-  origin: env.FRONTEND_URL || (env.NODE_ENV === 'production' 
-    ? ['https://antondelange.github.io', 'https://www.bloomneventsco.com.au'] // Production domains
-    : '*'), // Development: allow all
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins === '*' || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 // Request size limits
