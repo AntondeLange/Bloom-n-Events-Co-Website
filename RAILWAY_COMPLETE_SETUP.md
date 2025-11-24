@@ -73,7 +73,7 @@
 
    #### Variable 2: OPENAI_API_KEY
    - **Name:** `OPENAI_API_KEY`
-   - **Value:** `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`
+   - **Value:** `YOUR_OPENAI_API_KEY_HERE` (use your actual API key starting with `sk-`)
    - Click **"Add"**
 
    #### Variable 3: MONGODB_URI
