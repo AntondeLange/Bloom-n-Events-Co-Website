@@ -92,6 +92,15 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'bloomn-events-chatbot' });
 });
 
+// Explicit OPTIONS handler for CORS preflight (before routes)
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Max-Age', '86400');
+  res.sendStatus(204);
+});
+
 // API routes (register before MongoDB connection check)
 app.use('/api', chatRouter);
 app.use('/api', contactRouter);
