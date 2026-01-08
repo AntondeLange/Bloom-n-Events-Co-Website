@@ -9,7 +9,15 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
   FRONTEND_URL: z.string().url().optional(),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'), // Default to production for Railway
-  MONGODB_URI: z.string().min(1, 'MONGODB_URI is required').optional(), // Optional for now, will be required when submitting contact form
+  MONGODB_URI: z.string().min(1, 'MONGODB_URI is required').optional(), // Optional - no longer required for contact form
+  // Email configuration
+  ENQUIRIES_EMAIL: z.string().email('ENQUIRIES_EMAIL must be a valid email').optional(),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_SECURE: z.string().optional(), // 'true' or 'false'
+  SMTP_FROM: z.string().email().optional(),
 });
 
 /**
@@ -38,6 +46,13 @@ if (!parseResult.success) {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
     FRONTEND_URL: process.env.FRONTEND_URL,
     MONGODB_URI: process.env.MONGODB_URI,
+    ENQUIRIES_EMAIL: process.env.ENQUIRIES_EMAIL,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+    SMTP_SECURE: process.env.SMTP_SECURE,
+    SMTP_FROM: process.env.SMTP_FROM,
   };
 } else {
   env = parseResult.data;

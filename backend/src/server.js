@@ -105,11 +105,12 @@ app.options('*', (req, res) => {
 app.use('/api', chatRouter);
 app.use('/api', contactRouter);
 
-// Connect to MongoDB (non-blocking - server can still serve API routes)
+// Connect to MongoDB (optional - only needed if MongoDB features are used)
+// Contact form now uses email instead of MongoDB
 connectDatabase().catch((error) => {
-  console.error('⚠️ Failed to connect to MongoDB:', error.message);
-  console.error('⚠️ Contact form submissions will fail until MongoDB is configured');
-  // Don't exit - allow server to run for other endpoints (chat still works without MongoDB)
+  console.warn('⚠️ MongoDB connection skipped:', error.message);
+  console.warn('ℹ️  Contact form uses email, so MongoDB is not required');
+  // Don't exit - server can run without MongoDB
 });
 
 // Error handling middleware
