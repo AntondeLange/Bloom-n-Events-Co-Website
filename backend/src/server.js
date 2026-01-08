@@ -122,12 +122,14 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server started successfully on port ${PORT}`);
+  console.log(`🔒 Environment: ${env.NODE_ENV}`);
+  console.log(`📋 Allowed CORS origins:`, allowedOrigins);
+  console.log(`📡 Chat API: /api/chat`);
+  console.log(`📧 Contact API: /api/contact`);
+  console.log(`✅ Health check: /health`);
+  
   if (env.NODE_ENV === 'development') {
     console.log(`🚀 Bloom'n Events backend listening on http://localhost:${PORT}`);
-    console.log(`📡 Chat API: http://localhost:${PORT}/api/chat`);
-    console.log(`📧 Contact API: http://localhost:${PORT}/api/contact`);
-    console.log(`✅ Health check: http://localhost:${PORT}/health`);
-    console.log(`🔒 Environment: ${env.NODE_ENV}`);
   }
 });
 

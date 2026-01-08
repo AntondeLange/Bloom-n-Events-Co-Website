@@ -19,15 +19,11 @@ function createTransporter() {
     });
   }
 
-  // Otherwise, use Gmail OAuth or default to no authentication (for development)
-  // For production, you should set up SMTP credentials
-  if (env.NODE_ENV === 'development') {
-    console.warn('⚠️  No SMTP configuration found. Email sending will fail in production.');
-    console.warn('⚠️  Please configure SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS in Railway.');
-    return null;
-  }
-
-  throw new Error('SMTP configuration is required for email sending in production');
+  // Otherwise, log warning but don't throw error at startup
+  // Error will be thrown when trying to send email
+  console.warn('⚠️  No SMTP configuration found. Email sending will fail.');
+  console.warn('⚠️  Please configure SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS in Railway.');
+  return null;
 }
 
 /**
