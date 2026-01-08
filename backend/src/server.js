@@ -92,9 +92,20 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'bloomn-events-chatbot' });
 });
 
-// Explicit OPTIONS handler for CORS preflight (before routes)
+// Explicit OPTIONS handler for CORS preflight (must match CORS config)
 app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  const origin = req.headers.origin;
+  
+  // Check if origin is allowed (same logic as CORS middleware)
+  if (!origin) {
+    res.header('Access-Control-Allow-Origin', '*');
+  } else if (env.NODE_ENV !== 'production' || allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+  } else {
+    return res.status(403).json({ error: 'CORS not allowed' });
+  }
+  
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Max-Age', '86400');
