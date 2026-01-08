@@ -79,21 +79,10 @@ export function getBackendUrl() {
     }
     
     // Production: use production backend URL
-    // Debug logging
-    console.log('🔍 getBackendUrl() debug:', {
-      hostname,
-      PROD_URL: CONFIG.BACKEND.PROD_URL,
-      PROD_URL_length: CONFIG.BACKEND.PROD_URL?.length,
-      PROD_URL_type: typeof CONFIG.BACKEND.PROD_URL
-    });
-    
     // If PROD_URL is not set, show a helpful error
     if (!CONFIG.BACKEND.PROD_URL || 
         CONFIG.BACKEND.PROD_URL.trim() === '' || 
         CONFIG.BACKEND.PROD_URL.includes('YOUR-BACKEND-URL')) {
-      console.error('⚠️ Production backend URL not configured!');
-      console.error('PROD_URL value:', CONFIG.BACKEND.PROD_URL);
-      console.error('Please set CONFIG.BACKEND.PROD_URL in scripts/config.js with your deployed backend URL');
       // Fallback to relative path (won't work on GitHub Pages, but prevents errors)
       return '';
     }
