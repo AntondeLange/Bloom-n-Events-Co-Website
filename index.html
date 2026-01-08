@@ -436,28 +436,58 @@
         <!-- TESTIMONIALS -->
         <section class="testimonials section-main" aria-labelledby="testimonialsHeading">
             <div class="container">
-                <h2 id="testimonialsHeading" class="text-gold heading-blush-bg content-heading-large text-center mb-5">What Our Clients Say</h2>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="testimonial-card text-center p-4 h-100">
-                            <img src="images/Testimonials/testimonial-1.png" alt="Hawaiian" class="testimonial-logo mb-3" loading="lazy" decoding="async" style="max-height: 50px; width: auto;">
-                            <p class="testimonial-text mb-3">"We highly recommend Bloom n Co for their creativity, organisation, and commitment to delivering outstanding results."</p>
-                            <p class="testimonial-author mb-0"><strong>Sophie Brinklow</strong><br><small>Marketing Executive, Hawaiian</small></p>
+                <h2 id="testimonialsHeading" class="text-gold heading-blush-bg content-heading-large text-center">What Our Clients Say</h2>
+                <div id="testimonialCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active text-center">
+                            <div class="testimonial-item">
+                                <img src="images/Testimonials/testimonial-1.png" 
+                                     alt="Hawaiian" 
+                                     class="testimonial-img testimonial-img-rectangular mb-4" width="200" height="50">
+                                <h3 class="testimonial-name">Sophie Brinklow</h3>
+                                <p class="testimonial-position mb-3">Marketing Executive, Suburban Shopping Centres, Hawaiian</p>
+                                <div class="testimonial-content p-4 rounded">
+                                    <p class="mb-0">"Tamara and Anton were given the brief to provide a one-day event at Hawaiian's Forrestfield that celebrated the opening of a key tenant, but also highlighted the diversity of our food offering at the Centre. We wanted to create a fun and engaging family friendly activation that encouraged dwell and participation. Every aspect of the event was managed with professionalism and attention to detail, ensuring a seamless experience for both our retailers and the community. We highly recommend Bloom n Co for their creativity, organisation, and commitment to delivering outstanding results."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item text-center">
+                            <div class="testimonial-item">
+                                <img src="images/Testimonials/testimonial-2.png" 
+                                     alt="Centuria" 
+                                     class="testimonial-img testimonial-img-rectangular mb-4" width="200" height="50">
+                                <h3 class="testimonial-name">Val Neal</h3>
+                                <p class="testimonial-position mb-3">Customer Service Manager, One Forty St Georges</p>
+                                <div class="testimonial-content p-4 rounded">
+                                    <p class="mb-0">"We couldn't have done it without you. Everyone loved the concept."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item text-center">
+                            <div class="testimonial-item">
+                                <img src="images/Testimonials/testimonial-3.png" 
+                                     alt="Shane Di Lello" 
+                                     class="testimonial-img testimonial-img-rectangular mb-4" width="200" height="50">
+                                <h3 class="testimonial-name">Sarah Moore</h3>
+                                <p class="testimonial-position mb-3">Portfolio Marketing Manager, Hawaiian Pty Ltd</p>
+                                <div class="testimonial-content p-4 rounded">
+                                    <p class="mb-0">"Hawaiian engaged Bloom'n Events Co to run a food-based July school holiday activity across seven of our suburban neighbourhood assets. The activity was not only unique but beautifully presented, with every detail considered. Commercially, the activities drove traffic uplifts and encouraged dwell amongst our most valuable market segment – families. We would not hesitate to engage the Bloom'n team again."</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="testimonial-card text-center p-4 h-100">
-                            <img src="images/Testimonials/testimonial-2.png" alt="Centuria" class="testimonial-logo mb-3" loading="lazy" decoding="async" style="max-height: 50px; width: auto;">
-                            <p class="testimonial-text mb-3">"We couldn't have done it without you. Everyone loved the concept."</p>
-                            <p class="testimonial-author mb-0"><strong>Val Neal</strong><br><small>Customer Service Manager, Centuria</small></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="testimonial-card text-center p-4 h-100">
-                            <img src="images/Testimonials/testimonial-3.png" alt="Hawaiian" class="testimonial-logo mb-3" loading="lazy" decoding="async" style="max-height: 50px; width: auto;">
-                            <p class="testimonial-text mb-3">"The activities drove traffic uplifts and encouraged dwell amongst our most valuable market segment – families."</p>
-                            <p class="testimonial-author mb-0"><strong>Sarah Moore</strong><br><small>Portfolio Marketing Manager, Hawaiian</small></p>
-                        </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    <div class="carousel-indicators position-static mt-4">
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Testimonial 1"></button>
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Testimonial 2"></button>
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" aria-label="Testimonial 3"></button>
                     </div>
                 </div>
             </div>
