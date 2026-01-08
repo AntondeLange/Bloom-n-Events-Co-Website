@@ -12,7 +12,7 @@
 - **Location:** Brookton, WA, 6306
 - **Phone:** 1800 826 268
 - **Email:** enquiries@bloomneventsco.com.au
-- **Website:** https://antondelange.github.io/Bloom-n-Events-Co-Website/
+- **Website:** https://www.bloomneventsco.com.au
 
 ---
 
@@ -41,9 +41,14 @@ This website has undergone comprehensive optimization and testing, achieving **e
 ### **🎪 Service Pages:**
 - **`events.html`** - Corporate event planning services
 - **`workshops.html`** - Creative workshops for kids and adults
-- **`displays.html`** - Custom floral displays and installations
+- **`displays.html`** - Custom displays and installations
 - **`capabilities.html`** - Full-service event capabilities
 - **`team.html`** - Meet the team members
+
+### **📚 Case Studies:**
+- **`case-study-centuria-connect140.html`** - Corporate networking event case study
+- **`case-study-hawaiian-forrestfield.html`** - Food festival event case study
+- **`case-study-hawaiian-neighbourhood-nibbles.html`** - School holiday programme case study
 
 ### **⚖️ Legal Pages:**
 - **`tandcs.html`** - Terms & Conditions (Australian Consumer Law compliant)
@@ -52,9 +57,17 @@ This website has undergone comprehensive optimization and testing, achieving **e
 
 ### **🔧 Technical Files:**
 - **`styles.css`** - Custom styling and responsive design
-- **`scripts.js`** - Interactive functionality and form handling
+- **`scripts.js`** - Interactive functionality and chatbot integration
+- **`scripts/config.js`** - Frontend configuration
+- **`scripts/logger.js`** - Logging utility
+- **`sw.js`** - Service worker for caching
 - **`sitemap.xml`** - SEO sitemap for search engines
 - **`robots.txt`** - Search engine crawling directives
+- **`manifest.json`** - PWA manifest
+
+### **🤖 Backend (Chatbot Only):**
+- **`backend/`** - Node.js backend for chatbot functionality (OpenAI integration)
+- Contact form uses FormSubmit (no backend required)
 
 ---
 
@@ -164,9 +177,11 @@ This website has undergone comprehensive optimization and testing, achieving **e
 - **Resource Hints** - DNS prefetch and preconnect optimization
 
 ### **Hosting & Deployment:**
-- **GitHub Pages** - Free, reliable hosting with automatic SSL
-- **Custom Domain Ready** - Easy migration to custom domain
+- **GitHub Pages** - Static site hosting with automatic SSL
+- **Custom Domain** - www.bloomneventsco.com.au (configured)
 - **Automatic Deployment** - Git-based deployment workflow
+- **Contact Form** - FormSubmit integration (no backend required)
+- **Chatbot Backend** - Optional Railway deployment for OpenAI integration
 
 ---
 
@@ -217,8 +232,9 @@ This website has undergone comprehensive optimization and testing, achieving **e
 ## 📞 **Support & Resources**
 
 ### **Documentation:**
-- **Performance Summary:** `performance-summary.md` - Complete optimization details
-- **Security Guide:** `SECURITY-LINKS-MANUAL-FIX.md` - Security maintenance instructions
+- **README.md** - This file (project overview and setup)
+- **backend/README.md** - Backend setup for chatbot functionality
+- **CACHING_HEADERS.md** - Caching configuration guide
 
 ### **External Resources:**
 - **GitHub Pages:** https://pages.github.com/
@@ -287,6 +303,7 @@ This website represents a **professional, enterprise-level implementation** that
 
 ---
 
-*Last Updated: December 2024*  
+*Last Updated: January 2026*  
 *Status: Production Ready*  
-*Quality Level: Enterprise Professional*
+*Quality Level: Enterprise Professional*  
+*Domain: www.bloomneventsco.com.au*
