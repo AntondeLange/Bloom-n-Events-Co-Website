@@ -648,6 +648,13 @@ body.contact .form-control:focus {
   overflow: hidden;
 }
 
+.service-card .card-img-top {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+}
+
 .service-card .card-body {
   background-color: var(--coreChampers);
 }
