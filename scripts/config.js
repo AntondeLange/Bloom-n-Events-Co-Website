@@ -10,7 +10,6 @@ export const CONFIG = {
     // Production backend deployed on Railway
     PROD_URL: 'https://bloom-n-events-co-website-production.up.railway.app',
     CHAT_ENDPOINT: '/api/chat', // Full endpoint path
-    CONTACT_ENDPOINT: '/api/contact', // Contact form endpoint
     TIMEOUT: 30000, // 30 seconds
   },
   
@@ -110,11 +109,5 @@ export function getApiUrl() {
   // If baseUrl is empty (production), use the endpoint directly
   // Otherwise append endpoint to baseUrl
   return baseUrl ? `${baseUrl}${CONFIG.BACKEND.CHAT_ENDPOINT}` : CONFIG.BACKEND.CHAT_ENDPOINT;
-}
-
-// Get full API URL for contact form
-export function getContactApiUrl() {
-  const baseUrl = getBackendUrl();
-  return baseUrl ? `${baseUrl}${CONFIG.BACKEND.CONTACT_ENDPOINT}` : CONFIG.BACKEND.CONTACT_ENDPOINT;
 }
 

@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v4'; // Updated to force cache refresh for config.js
+const CACHE_VERSION = 'v5'; // Updated to force cache refresh after contact form simplification
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 

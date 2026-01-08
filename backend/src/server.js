@@ -4,10 +4,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import chatRouter from './routes/chat.js';
-import contactRouter from './routes/contact.js';
 import { apiRateLimiter } from './config/rateLimiter.js';
 import { env } from './config/env.mjs';
-import { connectDatabase } from './config/database.js';
 
 const app = express();
 const PORT = env.PORT || process.env.PORT || 3000;
@@ -112,17 +110,8 @@ app.options('*', (req, res) => {
   res.sendStatus(204);
 });
 
-// API routes (register before MongoDB connection check)
+// API routes
 app.use('/api', chatRouter);
-app.use('/api', contactRouter);
-
-// Connect to MongoDB (optional - only needed if MongoDB features are used)
-// Contact form now uses email instead of MongoDB
-connectDatabase().catch((error) => {
-  console.warn('⚠️ MongoDB connection skipped:', error.message);
-  console.warn('ℹ️  Contact form uses email, so MongoDB is not required');
-  // Don't exit - server can run without MongoDB
-});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -136,7 +125,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🔒 Environment: ${env.NODE_ENV}`);
   console.log(`📋 Allowed CORS origins:`, allowedOrigins);
   console.log(`📡 Chat API: /api/chat`);
-  console.log(`📧 Contact API: /api/contact`);
   console.log(`✅ Health check: /health`);
   
   if (env.NODE_ENV === 'development') {
