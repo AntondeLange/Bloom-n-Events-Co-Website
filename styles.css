@@ -2106,7 +2106,8 @@ body:not(.home):not(.about):not(.team) .section-main {
   position: relative !important;
 }
 
-.director-image-container img {
+.director-image-container img,
+.director-image {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
