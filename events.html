@@ -9,8 +9,8 @@
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="Corporate Events | Bloom'n Events Co">
     <meta property="og:description" content="Professional corporate event planning in Perth. From networking events to product launches, Bloom'n Events Co delivers memorable business experiences with style.">
-    <meta property="og:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
-    <meta property="og:url" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/events.html">
+    <meta property="og:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
+    <meta property="og:url" content="https://www.bloomneventsco.com.au/events.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bloom'n Events Co">
     <meta property="og:locale" content="en_AU">
@@ -19,7 +19,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Corporate Events | Bloom'n Events Co">
     <meta name="twitter:description" content="Professional corporate event planning in Perth. From networking events to product launches, Bloom'n Events Co delivers memorable business experiences.">
-    <meta name="twitter:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
+    <meta name="twitter:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
+    <link rel="canonical" href="https://www.bloomneventsco.com.au/events.html">
     
     <!-- Performance Optimization: Resource Hints -->
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -74,6 +75,55 @@
         });
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
       }
+    </script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Corporate Event Planning",
+        "provider": {
+            "@type": "Organization",
+            "name": "Bloom'n Events Co Pty Ltd",
+            "url": "https://www.bloomneventsco.com.au/",
+            "logo": "https://www.bloomneventsco.com.au/images/logo-wht.png"
+        },
+        "areaServed": {
+            "@type": "State",
+            "name": "Western Australia"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Corporate Event Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Networking Events",
+                        "description": "Professional networking event planning with intentional layouts and atmospheric styling"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Conferences & Workshops",
+                        "description": "Full event experiences from small roundtables to large conferences"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Product Launches & Activations",
+                        "description": "Immersive brand experiences with interactive installations and dynamic displays"
+                    }
+                }
+            ]
+        }
+    }
     </script>
 </head>
 

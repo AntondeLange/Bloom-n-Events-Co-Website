@@ -1,11 +1,11 @@
 # Robots.txt for Bloom'n Events Co Website
-# https://antondelange.github.io/Bloom-n-Events-Co-Website/
+# https://www.bloomneventsco.com.au/
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://antondelange.github.io/Bloom-n-Events-Co-Website/sitemap.xml
+Sitemap: https://www.bloomneventsco.com.au/sitemap.xml
 
 # Crawl-delay for politeness (optional)
 Crawl-delay: 1

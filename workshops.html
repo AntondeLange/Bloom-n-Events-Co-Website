@@ -9,8 +9,8 @@
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="Creative Workshops | Bloom'n Events Co">
     <meta property="og:description" content="Creative workshops for kids & adults in Perth. Hands-on learning experiences including Hawaiian themes, neighbourhood activities, and adult creative sessions with Bloom'n Events Co.">
-    <meta property="og:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
-    <meta property="og:url" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/workshops.html">
+    <meta property="og:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
+    <meta property="og:url" content="https://www.bloomneventsco.com.au/workshops.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bloom'n Events Co">
     <meta property="og:locale" content="en_AU">
@@ -19,7 +19,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Creative Workshops | Bloom'n Events Co">
     <meta name="twitter:description" content="Creative workshops for kids & adults in Perth. Hands-on learning experiences including Hawaiian themes and neighbourhood activities.">
-    <meta name="twitter:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
+    <meta name="twitter:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
+    <link rel="canonical" href="https://www.bloomneventsco.com.au/workshops.html">
     
     <!-- Performance Optimization: Resource Hints -->
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -74,6 +75,47 @@
         });
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
       }
+    </script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Creative Workshops",
+        "provider": {
+            "@type": "Organization",
+            "name": "Bloom'n Events Co Pty Ltd",
+            "url": "https://www.bloomneventsco.com.au/",
+            "logo": "https://www.bloomneventsco.com.au/images/logo-wht.png"
+        },
+        "areaServed": {
+            "@type": "State",
+            "name": "Western Australia"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Workshop Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Children's Workshops",
+                        "description": "Creative and educational workshops for children including Hawaiian themes and neighbourhood activities"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Adult Workshops",
+                        "description": "Hands-on learning experiences for adults including team building and creative sessions"
+                    }
+                }
+            ]
+        }
+    }
     </script>
 
 </head>

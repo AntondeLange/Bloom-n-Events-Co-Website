@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us | Bloom'n Events Co</title>
     <meta name="description" content="Contact Bloom'n Events Co for your next event. Phone: 1800 826 268, Email: enquiries@bloomneventsco.com.au. Located in Brookton, WA. Get a free quote today!">
+    <link rel="canonical" href="https://www.bloomneventsco.com.au/contact.html">
     
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="Contact Us | Bloom'n Events Co">
     <meta property="og:description" content="Contact Bloom'n Events Co for your next event. Phone: 1800 826 268, Email: enquiries@bloomneventsco.com.au. Located in Brookton, WA. Get a free quote today!">
-    <meta property="og:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
-    <meta property="og:url" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/contact.html">
+    <meta property="og:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
+    <meta property="og:url" content="https://www.bloomneventsco.com.au/contact.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bloom'n Events Co">
     <meta property="og:locale" content="en_AU">
@@ -19,7 +20,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Contact Us | Bloom'n Events Co">
     <meta name="twitter:description" content="Contact Bloom'n Events Co for your next event. Phone: 1800 826 268, Email: enquiries@bloomneventsco.com.au. Located in Brookton, WA.">
-    <meta name="twitter:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
+    <meta name="twitter:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
     
     <!-- Performance Optimization: Resource Hints -->
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -50,14 +51,99 @@
     <link rel="icon" href="images/logo-wht.png" type="image/png">
     <link rel="preload" href="images/logo-wht.png" as="image">
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V"></script>
+    <!-- Google tag (gtag.js) with optimized deferred loading -->
     <script>
+      // Defer Google Analytics loading until after page load
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'G-T5DJCCT19V');
+      gtag('config', 'G-T5DJCCT19V', {
+        'send_page_view': false
+      });
+      
+      // Load gtag.js after page is interactive
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+          document.head.appendChild(script);
+          script.onload = function() {
+            gtag('config', 'G-T5DJCCT19V', {
+              'send_page_view': true
+            });
+          };
+        });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+            document.head.appendChild(script);
+            script.onload = function() {
+              gtag('config', 'G-T5DJCCT19V', {
+                'send_page_view': true
+              });
+            };
+          }, 1000);
+        });
+      }
+    </script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Bloom'n Events Co Pty Ltd",
+        "image": "https://www.bloomneventsco.com.au/images/logo-wht.png",
+        "url": "https://www.bloomneventsco.com.au/",
+        "telephone": "1800 826 268",
+        "email": "enquiries@bloomneventsco.com.au",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Brookton",
+            "addressRegion": "WA",
+            "addressCountry": "AU"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -32.3667,
+            "longitude": 116.9833
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+            ],
+            "opens": "09:00",
+            "closes": "17:00"
+        },
+        "priceRange": "$$",
+        "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": -32.3667,
+                "longitude": 116.9833
+            },
+            "geoRadius": {
+                "@type": "Distance",
+                "value": 50000,
+                "unitCode": "MTR"
+            }
+        },
+        "sameAs": [
+            "https://www.facebook.com/bloomneventsco/",
+            "https://www.instagram.com/bloomneventsco/",
+            "https://www.linkedin.com/in/tamara-de-lange-nee-lilly-3421825b/"
+        ]
+    }
     </script>
 </head>
 <body class="contact">
@@ -169,7 +255,7 @@
 
                         <div class="col-md-6 second-col d-flex flex-column"> 
                             <div class="heading-blush-bg text-center">
-                                <h1 id="contactDetailsHeading" class="display-4 content-heading-large">Contact Details</h1>
+                                <h2 id="contactDetailsHeading" class="display-4 content-heading-large">Contact Details</h2>
                             </div>
                             <div style="height: 90px;"></div>
                                 <div class="card contact-details-card mb-6">

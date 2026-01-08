@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | Bloom'n Events Co</title>
     <meta name="description" content="Learn about Bloom'n Events Co - Perth's premier event planning company. Our story, values, and commitment to creating extraordinary experiences since our founding.">
+    <link rel="canonical" href="https://www.bloomneventsco.com.au/about.html">
     
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="About Us | Bloom'n Events Co">
     <meta property="og:description" content="Learn about Bloom'n Events Co - Perth's premier event planning company. Our story, values, and commitment to creating extraordinary experiences since our founding.">
-    <meta property="og:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
-    <meta property="og:url" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/about.html">
+    <meta property="og:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
+    <meta property="og:url" content="https://www.bloomneventsco.com.au/about.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Bloom'n Events Co">
     <meta property="og:locale" content="en_AU">
@@ -19,7 +20,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="About Us | Bloom'n Events Co">
     <meta name="twitter:description" content="Learn about Bloom'n Events Co - Perth's premier event planning company. Our story, values, and commitment to creating extraordinary experiences.">
-    <meta name="twitter:image" content="https://antondelange.github.io/Bloom-n-Events-Co-Website/images/logo-wht.png">
+    <meta name="twitter:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
     
     <!-- Performance Optimization: Resource Hints -->
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -50,14 +51,44 @@
     <link rel="icon" href="images/logo-wht.png" type="image/png">
     <link rel="preload" href="images/logo-wht.png" as="image">
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V"></script>
+    <!-- Google tag (gtag.js) with optimized deferred loading -->
     <script>
+      // Defer Google Analytics loading until after page load
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'G-T5DJCCT19V');
+      gtag('config', 'G-T5DJCCT19V', {
+        'send_page_view': false
+      });
+      
+      // Load gtag.js after page is interactive
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+          document.head.appendChild(script);
+          script.onload = function() {
+            gtag('config', 'G-T5DJCCT19V', {
+              'send_page_view': true
+            });
+          };
+        });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+            document.head.appendChild(script);
+            script.onload = function() {
+              gtag('config', 'G-T5DJCCT19V', {
+                'send_page_view': true
+              });
+            };
+          }, 1000);
+        });
+      }
     </script>
     <style>
         /* Scoped to About page hero only */
