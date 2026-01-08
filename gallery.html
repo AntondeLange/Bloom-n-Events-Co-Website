@@ -52,29 +52,41 @@
     <link rel="icon" href="images/logo-wht.png" type="image/png">
     <link rel="preload" href="images/logo-wht.png" as="image">
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V"></script>
+    <!-- Google tag (gtag.js) with optimized deferred loading -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'G-T5DJCCT19V');
+      gtag('config', 'G-T5DJCCT19V', {
+        'send_page_view': false
+      });
       
-      // Track Web Vitals
-      if ('PerformanceObserver' in window) {
-        const observer = new PerformanceObserver((entryList) => {
-          for (const entry of entryList.getEntries()) {
-            if (entry.entryType === 'largest-contentful-paint' && typeof gtag === 'function') {
-              gtag('event', 'LCP', {
-                event_category: 'Web Vitals',
-                value: Math.round(entry.startTime),
-                non_interaction: true
-              });
-            }
-          }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+          document.head.appendChild(script);
+          script.onload = function() {
+            gtag('config', 'G-T5DJCCT19V', {
+              'send_page_view': true
+            });
+          };
         });
-        observer.observe({ entryTypes: ['largest-contentful-paint'] });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+            document.head.appendChild(script);
+            script.onload = function() {
+              gtag('config', 'G-T5DJCCT19V', {
+                'send_page_view': true
+              });
+            };
+          }, 1000);
+        });
       }
     </script>
 </head>
@@ -330,6 +342,42 @@
                             <span class="carousel-control-next-icon" aria-hidden="true">›</span>
                             <span class="visually-hidden">Next</span>
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Case Studies Section -->
+    <section class="section-main" aria-labelledby="case-studies-heading">
+        <div class="container">
+            <h2 id="case-studies-heading" class="display-4 text-center heading-blush-bg content-heading-large mb-5">Case Studies</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h4 class="text-gold mb-3">Centuria Connect140</h4>
+                            <p class="text-charcoal">Corporate networking event that created meaningful connections for Perth business community.</p>
+                            <a href="case-study-centuria-connect140.html" class="btn btn-gold btn-sm">Read Case Study</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h4 class="text-gold mb-3">Hawaiian Forrestfield</h4>
+                            <p class="text-charcoal">Food festival event celebrating tenant opening and showcasing food diversity.</p>
+                            <a href="case-study-hawaiian-forrestfield.html" class="btn btn-gold btn-sm">Read Case Study</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h4 class="text-gold mb-3">Hawaiian Neighbourhood Nibbles</h4>
+                            <p class="text-charcoal">School holiday programme across seven shopping centres driving traffic and family engagement.</p>
+                            <a href="case-study-hawaiian-neighbourhood-nibbles.html" class="btn btn-gold btn-sm">Read Case Study</a>
+                        </div>
                     </div>
                 </div>
             </div>

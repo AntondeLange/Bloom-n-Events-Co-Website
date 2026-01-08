@@ -67,6 +67,28 @@
     <priority>0.8</priority>
   </url>
   
+  <!-- Case Studies -->
+  <url>
+    <loc>https://www.bloomneventsco.com.au/case-study-centuria-connect140.html</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.bloomneventsco.com.au/case-study-hawaiian-forrestfield.html</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.bloomneventsco.com.au/case-study-hawaiian-neighbourhood-nibbles.html</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
   <!-- Legal Pages -->
   <url>
     <loc>https://www.bloomneventsco.com.au/tandcs.html</loc>
