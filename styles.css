@@ -655,6 +655,14 @@ body.contact .form-control:focus {
   object-position: center;
 }
 
+/* Case Study Card Images */
+.card .card-img-top {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+}
+
 .service-card .card-body {
   background-color: var(--coreChampers);
 }
