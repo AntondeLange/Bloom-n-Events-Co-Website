@@ -652,6 +652,18 @@ body.contact .form-control:focus {
   background-color: var(--coreChampers);
 }
 
+/* CTA Card */
+.cta-card {
+  background-color: var(--coreChampers);
+  border: 2px solid var(--coreGold);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cta-card .card-body {
+  background-color: var(--coreChampers);
+}
+
 /* Content Block */
 .content-block {
   background-color: var(--coreChampers);
