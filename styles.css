@@ -546,6 +546,10 @@ body.contact .form-control:focus {
   box-shadow: 0 4px 8px var(--coreCharcoal);
 }
 
+.bg-light-gold {
+  background-color: rgba(191, 155, 48, 0.1) !important;
+}
+
 /* Inclusion Card */
 .inclusion-card {
   background-color: var(--coreChampers);
