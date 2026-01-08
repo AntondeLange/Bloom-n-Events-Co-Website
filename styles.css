@@ -640,6 +640,18 @@ body.contact .form-control:focus {
   box-shadow: 0 8px 16px var(--coreCharcoal);
 }
 
+/* Service Card */
+.service-card {
+  background-color: var(--coreChampers);
+  border: 2px solid var(--coreGold);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.service-card .card-body {
+  background-color: var(--coreChampers);
+}
+
 /* Content Block */
 .content-block {
   background-color: var(--coreChampers);
