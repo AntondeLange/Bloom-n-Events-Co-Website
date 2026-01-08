@@ -31,12 +31,34 @@ function createTransporter() {
 }
 
 /**
+ * Escape HTML to prevent XSS in email templates
+ * @param {string} text - Text to escape
+ * @returns {string} - Escaped HTML
+ */
+function escapeHtml(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/**
  * Send contact form email
  * @param {Object} contactData - The contact form data
  * @returns {Promise<Object>} - Email send result
  */
 export async function sendContactEmail(contactData) {
   const { firstName, lastName, company, email, message } = contactData;
+
+  // Escape HTML for safety
+  const safeFirstName = escapeHtml(firstName);
+  const safeLastName = escapeHtml(lastName);
+  const safeCompany = company ? escapeHtml(company) : '';
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message);
 
   const transporter = createTransporter();
   if (!transporter) {
@@ -45,7 +67,7 @@ export async function sendContactEmail(contactData) {
 
   const enquiriesEmail = env.ENQUIRIES_EMAIL || 'enquiries@bloomneventsco.com.au';
 
-  // Email subject
+  // Email subject (plain text, no HTML escaping needed)
   const subject = company
     ? `New Contact Form Submission from ${firstName} ${lastName} (${company})`
     : `New Contact Form Submission from ${firstName} ${lastName}`;
@@ -75,21 +97,21 @@ export async function sendContactEmail(contactData) {
           <div class="content">
             <div class="field">
               <div class="label">Name:</div>
-              <div class="value">${firstName} ${lastName}</div>
+              <div class="value">${safeFirstName} ${safeLastName}</div>
             </div>
-            ${company ? `
+            ${safeCompany ? `
             <div class="field">
               <div class="label">Company:</div>
-              <div class="value">${company}</div>
+              <div class="value">${safeCompany}</div>
             </div>
             ` : ''}
             <div class="field">
               <div class="label">Email:</div>
-              <div class="value"><a href="mailto:${email}">${email}</a></div>
+              <div class="value"><a href="mailto:${safeEmail}">${safeEmail}</a></div>
             </div>
             <div class="field">
               <div class="label">Message:</div>
-              <div class="value message">${message.replace(/\n/g, '<br>')}</div>
+              <div class="value message">${safeMessage.replace(/\n/g, '<br>')}</div>
             </div>
           </div>
         </div>
