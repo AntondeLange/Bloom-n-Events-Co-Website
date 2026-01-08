@@ -30,15 +30,17 @@ html {
 body {
   background-color: var(--coreChampers);
   background-image: url(images/BloomnBackground.jpg);
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  background-size: cover;
   color: var(--coreCharcoal);
   font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
   line-height: 1.6;
   transition: padding 0.3s ease;
+  min-height: 100vh;
 }
 
 /* Body Layout States */
