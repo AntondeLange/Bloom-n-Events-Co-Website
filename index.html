@@ -89,40 +89,53 @@
     <link rel="apple-touch-icon" href="images/butterfly-icon.svg">
     <link rel="preload" href="images/butterfly-icon.svg" as="image">
     
+    <!-- Preload critical hero assets -->
+    <link rel="preload" href="images/logo-wht.png" as="image" fetchpriority="high">
+    <link rel="preload" href="images/logo-blk-long.png" as="image" fetchpriority="high">
+    
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Organization",
+        "@type": "LocalBusiness",
+        "@id": "https://www.bloomneventsco.com.au/#organization",
         "name": "Bloom'n Events Co Pty Ltd",
         "url": "https://www.bloomneventsco.com.au/",
         "logo": "https://www.bloomneventsco.com.au/images/logo-wht.png",
-        "description": "Professional event planning & displays in Brookton, WA. Corporate events, workshops, custom displays.",
+        "image": "https://www.bloomneventsco.com.au/images/logo-wht.png",
+        "description": "Professional event planning and custom displays in Brookton, WA. Corporate events, creative workshops, and bespoke installations across Perth and Western Australia.",
         "address": {
             "@type": "PostalAddress",
             "addressLocality": "Brookton",
             "addressRegion": "WA",
+            "postalCode": "6306",
             "addressCountry": "AU"
         },
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "availableLanguage": "English"
+        "telephone": "1800826268",
+        "email": "enquiries@bloomneventsco.com.au",
+        "priceRange": "$$",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "09:00",
+                "closes": "17:00"
+            }
+        ],
+        "areaServed": {
+            "@type": "State",
+            "name": "Western Australia"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -32.3667,
+            "longitude": 116.9833
         },
         "sameAs": [
             "https://www.facebook.com/bloomneventsco/",
             "https://www.instagram.com/bloomneventsco/",
             "https://www.linkedin.com/in/tamara-de-lange-nee-lilly-3421825b/"
         ],
-        "serviceArea": {
-            "@type": "GeoCircle",
-            "geoMidpoint": {
-                "@type": "GeoCoordinates",
-                "latitude": -32.3667,
-                "longitude": 116.9833
-            },
-            "geoRadius": 50000
-        },
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Event Planning Services",
@@ -132,15 +145,15 @@
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Corporate Event Planning",
-                        "description": "Professional corporate event planning and management"
+                        "url": "https://www.bloomneventsco.com.au/events.html"
                     }
                 },
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "Service",
-                        "name": "Workshops",
-                        "description": "Adult and children's workshops for team building and community events"
+                        "name": "Creative Workshops",
+                        "url": "https://www.bloomneventsco.com.au/workshops.html"
                     }
                 },
                 {
@@ -148,7 +161,7 @@
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Custom Displays",
-                        "description": "Custom displays and decorations for events and businesses"
+                        "url": "https://www.bloomneventsco.com.au/displays.html"
                     }
                 }
             ]
@@ -317,7 +330,7 @@
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow service-card">
-                            <img src="images/Home/Corporate Events Hero Image.jpg" class="card-img-top" alt="Corporate Event Planning" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="images/Home/Corporate Events Hero Image.jpg" class="card-img-top" alt="Corporate Event Planning" loading="lazy" decoding="async" width="1600" height="900" sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw" srcset="images/Home/Corporate Events Hero Image-480w.jpg 480w, images/Home/Corporate Events Hero Image-768w.jpg 768w, images/Home/Corporate Events Hero Image-1200w.jpg 1200w, images/Home/Corporate Events Hero Image.jpg 1600w">
                             <div class="card-body text-center">
                                 <h3 class="text-gold mb-3">Corporate Events</h3>
                                 <p class="text-charcoal">Professional planning and execution for business events, conferences, and product launches.</p>
@@ -327,7 +340,7 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow service-card">
-                            <img src="images/Home/Creative Workshops Hero Image.jpg" class="card-img-top" alt="Creative Workshops" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="images/Home/Creative Workshops Hero Image.jpg" class="card-img-top" alt="Creative Workshops" loading="lazy" decoding="async" width="1600" height="900" sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw" srcset="images/Home/Creative Workshops Hero Image-480w.jpg 480w, images/Home/Creative Workshops Hero Image-768w.jpg 768w, images/Home/Creative Workshops Hero Image-1200w.jpg 1200w, images/Home/Creative Workshops Hero Image.jpg 1600w">
                             <div class="card-body text-center">
                                 <h3 class="text-gold mb-3">Creative Workshops</h3>
                                 <p class="text-charcoal">Engaging hands-on workshops for both children and adults, fostering creativity and connection.</p>
@@ -337,7 +350,7 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow service-card">
-                            <img src="images/Home/Custom Displays Hero Image.jpg" class="card-img-top" alt="Custom Displays" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="images/Home/Custom Displays Hero Image.jpg" class="card-img-top" alt="Custom Displays" loading="lazy" decoding="async" width="1600" height="900" sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw" srcset="images/Home/Custom Displays Hero Image-480w.jpg 480w, images/Home/Custom Displays Hero Image-768w.jpg 768w, images/Home/Custom Displays Hero Image-1200w.jpg 1200w, images/Home/Custom Displays Hero Image.jpg 1600w">
                             <div class="card-body text-center">
                                 <h3 class="text-gold mb-3">Custom Displays</h3>
                                 <p class="text-charcoal">Stunning, bespoke installations and decorations that transform any space for events or businesses.</p>
@@ -401,7 +414,7 @@
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow">
-                            <img src="images/Centuria Connect140/Connect140 (1).jpg" class="card-img-top" alt="Centuria Connect140 Networking Event" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="images/Centuria Connect140/Connect140 (1).jpg" class="card-img-top" alt="Centuria Connect140 Networking Event" loading="lazy" decoding="async" width="1600" height="900" sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw" srcset="images/Centuria Connect140/Connect140 (1)-480w.jpg 480w, images/Centuria Connect140/Connect140 (1)-768w.jpg 768w, images/Centuria Connect140/Connect140 (1)-1200w.jpg 1200w, images/Centuria Connect140/Connect140 (1).jpg 1600w">
                             <div class="card-body text-center">
                                 <h3 class="card-title text-gold mb-3">Corporate Networking Event Delivers Meaningful Connections</h3>
                                 <p class="card-text text-charcoal">How we created an engaging atmosphere for Centuria Capital that naturally facilitated meaningful conversations among Perth business professionals.</p>
@@ -411,7 +424,7 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow">
-                            <img src="images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE.jpg" class="card-img-top" alt="Hawaiian Forrestfield Food Festival" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE.jpg" class="card-img-top" alt="Hawaiian Forrestfield Food Festival" loading="lazy" decoding="async" width="1600" height="900" sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw" srcset="images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE-480w.jpg 480w, images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE-768w.jpg 768w, images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE-1200w.jpg 1200w, images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE.jpg 1600w">
                             <div class="card-body text-center">
                                 <h3 class="card-title text-gold mb-3">Food Festival Celebrates Tenant Opening & Drives Engagement</h3>
                                 <p class="card-text text-charcoal">One-day event for Hawaiian Shopping Centres that celebrated a key tenant opening while showcasing food diversity and driving community engagement.</p>
@@ -421,7 +434,7 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow">
-                            <img src="images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE.jpg" class="card-img-top" alt="Hawaiian Neighbourhood Nibbles School Holiday Programme" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE.jpg" class="card-img-top" alt="Hawaiian Neighbourhood Nibbles School Holiday Programme" loading="lazy" decoding="async" width="1600" height="900" sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 33vw" srcset="images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE-480w.jpg 480w, images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE-768w.jpg 768w, images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE-1200w.jpg 1200w, images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE.jpg 1600w">
                             <div class="card-body text-center">
                                 <h3 class="card-title text-gold mb-3">School Holiday Programme Drives Traffic Across 5 Centres in 5 Days</h3>
                                 <p class="card-text text-charcoal">Food-based July school holiday activity across seven Hawaiian shopping centres that drove traffic uplifts and encouraged family dwell time.</p>
@@ -561,7 +574,7 @@
                 
                 <!-- Logo in Center -->
                 <div class="col-3 text-center footer-column order-md-2">
-                    <img src="images/logo-blk.png" alt="Bloom'n Events Co Logo" class="img-fluid footer-logo mb-3">
+                    <img src="images/logo-blk.png" alt="Bloom'n Events Co Logo" class="img-fluid footer-logo mb-3" loading="lazy" decoding="async">
                     <p class="text-gold fw-light small mb-0">
                         Copyright &copy; <span id="current-year"></span> Bloom'n Events Co Pty Ltd. All rights reserved.
                     </p>

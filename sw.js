@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v5'; // Updated to force cache refresh after contact form simplification
+const CACHE_VERSION = 'v6'; // Updated to force cache refresh after chatbot styling changes
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 

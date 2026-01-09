@@ -1563,18 +1563,96 @@ If you don't know something specific, suggest they contact the company directly 
         });
     })();
 
-    // ===== ANALYTICS: CTA, TEL, MAILTO =====
+    // ===== ANALYTICS: Enhanced Event Tracking =====
     document.addEventListener('click', (e) => {
         const a = e.target.closest('a');
-        if (!a) return;
+        if (!a || typeof gtag === 'undefined') return;
+        
         const href = a.getAttribute('href') || '';
-        if (typeof gtag === 'undefined') return;
+        const linkText = a.textContent.trim() || '';
+        const pagePath = window.location.pathname;
+        
+        // Track telephone clicks
         if (href.startsWith('tel:')) {
-            gtag('event', 'click_tel', { event_category: 'Engagement', event_label: href });
-        } else if (href.startsWith('mailto:')) {
-            gtag('event', 'click_mailto', { event_category: 'Engagement', event_label: href });
-        } else if (a.classList.contains('btn') || a.classList.contains('btn-gold')) {
-            gtag('event', 'click_cta', { event_category: 'Engagement', event_label: href });
+            gtag('event', 'contact_click', {
+                'event_category': 'Engagement',
+                'event_label': 'Phone',
+                'method': 'telephone',
+                'value': 1
+            });
+            return;
+        }
+        
+        // Track email clicks
+        if (href.startsWith('mailto:')) {
+            gtag('event', 'contact_click', {
+                'event_category': 'Engagement',
+                'event_label': 'Email',
+                'method': 'email',
+                'value': 1
+            });
+            return;
+        }
+        
+        // Track service card clicks (homepage)
+        if (a.closest('.service-card')) {
+            const serviceCard = a.closest('.service-card');
+            const serviceTitle = serviceCard.querySelector('h3')?.textContent.trim() || 'Unknown Service';
+            const serviceName = serviceTitle.toLowerCase().replace(/\s+/g, '_');
+            
+            gtag('event', 'select_content', {
+                'content_type': 'service',
+                'content_id': serviceName,
+                'item_name': serviceTitle,
+                'event_label': href,
+                'value': 1
+            });
+            return;
+        }
+        
+        // Track case study clicks (homepage)
+        if (href.includes('case-study-')) {
+            const caseStudyCard = a.closest('.card');
+            const caseStudyTitle = caseStudyCard?.querySelector('.card-title')?.textContent.trim() || 'Unknown Case Study';
+            const caseStudyId = href.split('/').pop().replace('.html', '');
+            
+            gtag('event', 'select_content', {
+                'content_type': 'case_study',
+                'content_id': caseStudyId,
+                'item_name': caseStudyTitle,
+                'event_label': href,
+                'value': 1
+            });
+            return;
+        }
+        
+        // Track primary CTA clicks (hero and final CTA sections)
+        if (a.classList.contains('btn-gold') || a.classList.contains('btn-outline-gold')) {
+            const isPrimaryCTA = a.classList.contains('btn-gold') && 
+                                 (a.closest('.hero-cta') || a.closest('.cta-card') || a.closest('.cta-buttons'));
+            const ctaText = linkText || 'CTA';
+            const ctaLocation = a.closest('.hero-cta') ? 'hero' : 
+                               a.closest('.cta-card') || a.closest('.cta-buttons') ? 'final_cta' : 
+                               'other';
+            
+            if (isPrimaryCTA) {
+                gtag('event', 'generate_lead', {
+                    'event_category': 'Conversion',
+                    'event_label': ctaText,
+                    'location': ctaLocation,
+                    'method': href.includes('contact') ? 'contact_form' : 'portfolio_view',
+                    'value': 1
+                });
+            } else {
+                // Secondary CTA tracking
+                gtag('event', 'click', {
+                    'event_category': 'Engagement',
+                    'event_label': ctaText,
+                    'location': ctaLocation,
+                    'value': 1
+                });
+            }
+            return;
         }
     });
 

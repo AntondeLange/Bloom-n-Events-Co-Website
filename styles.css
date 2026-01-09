@@ -3153,9 +3153,9 @@ footer .nav-link:focus {
 .chatbot-toggle {
   width: 60px;
   height: 60px;
-  background-color: var(--coreGold);
-  border: 2px solid var(--coreCharcoal);
-  border-radius: 12px;
+  background-color: var(--coreChampers) !important;
+  border: 2px solid var(--coreGold) !important;
+  border-radius: 50% !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3165,20 +3165,20 @@ footer .nav-link:focus {
   position: relative;
   padding: 0;
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .chatbot-toggle:hover {
-  background-color: var(--coreCharcoal);
+  background-color: var(--coreChampers);
   border-color: var(--coreGold);
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 16px rgba(191, 155, 48, 0.4);
 }
 
 .chatbot-toggle i,
 .chatbot-toggle-icon {
   font-size: 24px;
-  color: var(--coreCharcoal);
+  color: var(--coreGold);
   transition: all 0.3s ease;
   width: 40px;
   height: 40px;
@@ -3190,7 +3190,7 @@ footer .nav-link:focus {
 }
 
 .chatbot-toggle-icon {
-  filter: brightness(0) saturate(100%) invert(0%);
+  filter: brightness(0) saturate(100%) invert(67%) sepia(45%) saturate(500%) hue-rotate(15deg);
   width: 40px !important;
   height: 40px !important;
   margin: 0 !important;
@@ -3203,33 +3203,32 @@ footer .nav-link:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .chatbot-toggle:hover i,
 .chatbot-toggle:hover .chatbot-toggle-icon {
   color: var(--coreGold);
-  filter: brightness(0) saturate(100%) invert(67%) sepia(45%) saturate(500%) hue-rotate(15deg);
+  filter: brightness(0) saturate(100%) invert(67%) sepia(45%) saturate(600%) hue-rotate(15deg);
 }
 
 .chatbot-notification {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -8px;
+  right: -8px;
   background-color: #ff4444;
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   font-weight: 600;
-  border: 2px solid white;
+  border: 3px solid var(--coreChampers);
   animation: pulse 2s infinite;
+  z-index: 10001;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes pulse {
@@ -3541,6 +3540,7 @@ footer .nav-link:focus {
   .chatbot-toggle {
     width: 55px; /* Slightly larger for better touch targets */
     height: 55px;
+    border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Enhanced shadow for visibility */
   }
   
@@ -3607,8 +3607,8 @@ footer .nav-link:focus {
   .chatbot-toggle {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Enhanced shadow for small screens */
-    border-radius: 10px;
   }
   
   .chatbot-toggle i,
