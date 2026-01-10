@@ -1,4 +1,16 @@
-/* Font import moved to HTML for better performance */
+/**
+ * Main Stylesheet - Bloom'n Events Co
+ * 
+ * Architecture:
+ * - Design tokens for consistent values
+ * - Typography scale for hierarchy
+ * - Spacing system for rhythm
+ * - Motion system for interactions
+ */
+
+/* Import design tokens and motion system */
+@import url('styles/tokens.css');
+@import url('styles/motion.css');
 
 /* Performance optimizations */
 * {
@@ -11,13 +23,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* CSS Variables & Imports */
+/* Legacy color variables (maintained for backward compatibility) */
 :root {
-  --coreCharcoal: #1E1E1E;
-  --coreGold: #BF9B30;
-  --coreChampers: #F2E8DA;
-  --coreBlush: #D5B7A0;
-  --coreCream: #F5F5DC;
+  --coreCharcoal: var(--color-brand-charcoal, #1E1E1E);
+  --coreGold: var(--color-brand-gold, #BF9B30);
+  --coreChampers: var(--color-brand-champers, #F2E8DA);
+  --coreBlush: var(--color-brand-blush, #D5B7A0);
+  --coreCream: var(--color-brand-cream, #F5F5DC);
   --coreGray: #808080;
   --bg-opacity: 0.75;
 }
@@ -63,25 +75,107 @@ body.error {
   padding-top: 65px; /* Increased to match navbar height */
 }
 
-/* Typography Hierarchy */
-h1, h2, .display-2, .display-4 {
-  font-family: 'Dancing Script', sans-serif;
-  font-weight: 700;
+/* ===== Typography Scale ===== */
+/* Standardized typographic hierarchy using design tokens */
+
+h1 {
+  font-family: var(--font-display, 'Dancing Script', cursive);
+  font-size: var(--font-size-5xl, 3rem);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-tight, 1.2);
   color: var(--coreGold);
-  text-shadow: 0 2px 4px var(--coreCharcoal);
+  text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
+  margin: 0 0 var(--space-6, 1.5rem) 0;
+  letter-spacing: var(--letter-spacing-normal, 0);
 }
 
-h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
+h2 {
+  font-family: var(--font-display, 'Dancing Script', cursive);
+  font-size: var(--font-size-4xl, 2.25rem);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-tight, 1.2);
+  color: var(--coreGold);
+  text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
+  margin: 0 0 var(--space-5, 1.25rem) 0;
+  letter-spacing: var(--letter-spacing-normal, 0);
+}
+
+h3 {
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: var(--font-size-2xl, 1.5rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-snug, 1.4);
   color: var(--coreCharcoal);
+  margin: 0 0 var(--space-4, 1rem) 0;
+  letter-spacing: var(--letter-spacing-normal, 0);
+}
+
+h4 {
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: var(--font-size-xl, 1.25rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-snug, 1.4);
+  color: var(--coreCharcoal);
+  margin: 0 0 var(--space-3, 0.75rem) 0;
+  letter-spacing: var(--letter-spacing-normal, 0);
+}
+
+h5 {
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: var(--font-size-lg, 1.125rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--coreCharcoal);
+  margin: 0 0 var(--space-3, 0.75rem) 0;
+  letter-spacing: var(--letter-spacing-normal, 0);
+}
+
+h6 {
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--coreCharcoal);
+  margin: 0 0 var(--space-2, 0.5rem) 0;
+  letter-spacing: var(--letter-spacing-normal, 0);
 }
 
 p {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
+  font-family: var(--font-body, 'Montserrat', sans-serif);
+  font-size: var(--font-size-base, 1rem);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-normal, 1.6);
   color: var(--coreCharcoal);
-  margin: 20px 0;
+  margin: 0 0 var(--space-4, 1rem) 0;
+}
+
+.lead {
+  font-size: var(--font-size-lg, 1.125rem);
+  line-height: var(--line-height-relaxed, 1.8);
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+.display-2,
+.display-4 {
+  font-family: var(--font-display, 'Dancing Script', cursive);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--coreGold);
+  text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--font-size-4xl, 2.25rem);
+  }
+  
+  h2 {
+    font-size: var(--font-size-3xl, 1.875rem);
+  }
+  
+  h3 {
+    font-size: var(--font-size-xl, 1.25rem);
+  }
 }
 
 /* Link Styles */
@@ -1522,16 +1616,34 @@ body.home .testimonial-item .testimonial-content {
 }
 
 /* Section & Layout Styles */
+/* ===== Section Spacing System ===== */
+/* Standardized vertical spacing using design tokens */
+
 .section-main {
-  padding: 40px 0;
+  padding: var(--section-padding-y, 4rem) 0;
 }
 
 .section-hero {
-  padding: 60px 0;
+  padding: var(--section-padding-y, 4rem) 0;
+  min-height: 50vh;
 }
 
 .section-secondary {
-  padding: 30px 0;
+  padding: var(--section-padding-y-sm, 3rem) 0;
+}
+
+@media (max-width: 768px) {
+  .section-main {
+    padding: var(--section-padding-y-sm, 3rem) 0;
+  }
+  
+  .section-hero {
+    padding: var(--section-padding-y-sm, 3rem) 0;
+  }
+  
+  .section-secondary {
+    padding: var(--space-8, 2rem) 0;
+  }
 }
 
 .section-gallery {
@@ -2134,13 +2246,7 @@ body:not(.home):not(.about):not(.team) .inclusion-card .display-type {
 }
 
 /* Events Page Layout */
-body:not(.home):not(.about):not(.team) .section-hero {
-  padding-bottom: 40px !important;
-}
-
-body:not(.home):not(.about):not(.team) .section-main {
-  padding-top: 0 !important;
-}
+/* Remove special padding rules for Events/Workshops/Displays - they should match About/Team styling */
 
 /* Team Page Styles */
 .director-image-container {

@@ -58,8 +58,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (existingNav) existingNav.outerHTML = navHtml;
             }
             if (footerHtml) {
-                const existingFooter = document.querySelector('footer');
-                if (existingFooter) existingFooter.outerHTML = footerHtml;
+                // Remove all existing footers first to prevent duplicates
+                const existingFooters = document.querySelectorAll('footer');
+                existingFooters.forEach(footer => footer.remove());
+                // Insert the footer before the closing body tag (before scripts)
+                const scripts = document.querySelectorAll('script[src*="scripts"], script[src*="bootstrap"], script[src*="gsap"]');
+                const insertionPoint = scripts.length > 0 ? scripts[0] : null;
+                if (insertionPoint && insertionPoint.parentNode) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = footerHtml;
+                    const footer = tempDiv.firstElementChild;
+                    if (footer) {
+                        insertionPoint.parentNode.insertBefore(footer, insertionPoint);
+                    }
+                } else {
+                    // Fallback: append to body
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = footerHtml;
+                    const footer = tempDiv.firstElementChild;
+                    if (footer) {
+                        document.body.appendChild(footer);
+                    }
+                }
             }
         } catch (e) {
             logger.warn('Partial injection failed', e);
@@ -1748,4 +1768,22 @@ If you don't know something specific, suggest they contact the company directly 
     // Update immediately and after partials load
     updateCopyrightYear();
     setTimeout(updateCopyrightYear, 500); // After partials load
+    
+    // ===== ANIMATION SYSTEM INITIALIZATION =====
+    // Initialize animations after partials are loaded and DOM is ready
+    if (typeof window.initAnimations === 'function') {
+        setTimeout(() => {
+            window.initAnimations();
+        }, 100);
+    } else {
+        // Fallback: import animations module if available
+        import('./scripts/animations.js').then((module) => {
+            if (module && module.initAnimations) {
+                module.initAnimations();
+            }
+        }).catch(() => {
+            // Animations module not available - graceful degradation
+            logger.debug('Animation system not available');
+        });
+    }
 });

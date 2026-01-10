@@ -33,4 +33,7 @@ node_modules/
 backend/.env
 backend/node_modules/
 
+# Large PDF files (exceed GitHub 100MB limit)
+FINAL Centuria 140sgt 50th Birthday.pdf
+
 
