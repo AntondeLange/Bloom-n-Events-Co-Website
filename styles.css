@@ -996,6 +996,95 @@ h2.heading-blush-bg.pt-6 {
   object-position: center;
 }
 
+/* Case Study Visual Evidence Carousels */
+#connect140Carousel,
+#worldOfFlavoursCarousel,
+#neighbourhoodNibblesCarousel,
+#centuria50thCarousel,
+#connect140HeroCarousel,
+#worldOfFlavoursHeroCarousel,
+#neighbourhoodNibblesHeroCarousel,
+#centuria50thHeroCarousel {
+  height: 600px;
+}
+
+#connect140Carousel .carousel-inner,
+#connect140Carousel .carousel-item,
+#worldOfFlavoursCarousel .carousel-inner,
+#worldOfFlavoursCarousel .carousel-item,
+#neighbourhoodNibblesCarousel .carousel-inner,
+#neighbourhoodNibblesCarousel .carousel-item,
+#centuria50thCarousel .carousel-inner,
+#centuria50thCarousel .carousel-item,
+#connect140HeroCarousel .carousel-inner,
+#connect140HeroCarousel .carousel-item,
+#worldOfFlavoursHeroCarousel .carousel-inner,
+#worldOfFlavoursHeroCarousel .carousel-item,
+#neighbourhoodNibblesHeroCarousel .carousel-inner,
+#neighbourhoodNibblesHeroCarousel .carousel-item,
+#centuria50thHeroCarousel .carousel-inner,
+#centuria50thHeroCarousel .carousel-item {
+  height: 600px;
+}
+
+#connect140Carousel .carousel-item img,
+#worldOfFlavoursCarousel .carousel-item img,
+#neighbourhoodNibblesCarousel .carousel-item img,
+#centuria50thCarousel .carousel-item img,
+#connect140HeroCarousel .carousel-item img,
+#worldOfFlavoursHeroCarousel .carousel-item img,
+#neighbourhoodNibblesHeroCarousel .carousel-item img,
+#centuria50thHeroCarousel .carousel-item img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  object-position: center;
+  background-color: var(--coreChampers);
+}
+
+@media (max-width: 768px) {
+  #connect140Carousel,
+  #worldOfFlavoursCarousel,
+  #neighbourhoodNibblesCarousel,
+  #centuria50thCarousel,
+  #connect140HeroCarousel,
+  #worldOfFlavoursHeroCarousel,
+  #neighbourhoodNibblesHeroCarousel,
+  #centuria50thHeroCarousel {
+    height: 400px;
+  }
+  
+  #connect140Carousel .carousel-inner,
+  #connect140Carousel .carousel-item,
+  #worldOfFlavoursCarousel .carousel-inner,
+  #worldOfFlavoursCarousel .carousel-item,
+  #neighbourhoodNibblesCarousel .carousel-inner,
+  #neighbourhoodNibblesCarousel .carousel-item,
+  #centuria50thCarousel .carousel-inner,
+  #centuria50thCarousel .carousel-item,
+  #connect140HeroCarousel .carousel-inner,
+  #connect140HeroCarousel .carousel-item,
+  #worldOfFlavoursHeroCarousel .carousel-inner,
+  #worldOfFlavoursHeroCarousel .carousel-item,
+  #neighbourhoodNibblesHeroCarousel .carousel-inner,
+  #neighbourhoodNibblesHeroCarousel .carousel-item,
+  #centuria50thHeroCarousel .carousel-inner,
+  #centuria50thHeroCarousel .carousel-item {
+    height: 400px;
+  }
+  
+  #connect140Carousel .carousel-item img,
+  #worldOfFlavoursCarousel .carousel-item img,
+  #neighbourhoodNibblesCarousel .carousel-item img,
+  #centuria50thCarousel .carousel-item img,
+  #connect140HeroCarousel .carousel-item img,
+  #worldOfFlavoursHeroCarousel .carousel-item img,
+  #neighbourhoodNibblesHeroCarousel .carousel-item img,
+  #centuria50thHeroCarousel .carousel-item img {
+    height: 400px;
+  }
+}
+
 .gallery-section .carousel {
   background-color: transparent !important;
   border: none !important;
