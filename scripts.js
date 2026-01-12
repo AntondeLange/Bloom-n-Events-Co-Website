@@ -1982,6 +1982,86 @@ If you don't know something specific, suggest they contact the company directly 
         }
     })();
     
+    // ===== CASE STUDY PAGE ENHANCEMENTS =====
+    // Section-based scroll reveals for case study pages
+    const initCaseStudyReveals = () => {
+        if (!document.body.classList.contains('case-study')) return;
+        
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+        
+        const sections = document.querySelectorAll('.case-study-section, body.case-study .section-main > .container > section');
+        
+        if (sections.length === 0) return;
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -10% 0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            section.classList.add('case-study-section');
+            observer.observe(section);
+        });
+    };
+    
+    // Optimized image loading for case study pages
+    const initCaseStudyImageLoading = () => {
+        if (!document.body.classList.contains('case-study')) return;
+        
+        const images = document.querySelectorAll('.case-study-image, body.case-study img[loading="lazy"]');
+        
+        if (images.length === 0) return;
+        
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    
+                    // Load image if it has a data-src attribute
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                    
+                    // Add loaded class for fade-in effect
+                    img.addEventListener('load', () => {
+                        img.classList.add('loaded');
+                    }, { once: true });
+                    
+                    // If image is already loaded (cached), add loaded class immediately
+                    if (img.complete && img.naturalHeight !== 0) {
+                        img.classList.add('loaded');
+                    }
+                    
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px'
+        });
+        
+        images.forEach(img => {
+            imageObserver.observe(img);
+        });
+    };
+    
+    // Initialize case study enhancements
+    if (document.body.classList.contains('case-study')) {
+        initCaseStudyReveals();
+        initCaseStudyImageLoading();
+    }
+    
     // ===== ANIMATION SYSTEM INITIALIZATION =====
     // Initialize animations after partials are loaded and DOM is ready
     if (typeof window.initAnimations === 'function') {

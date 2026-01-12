@@ -489,8 +489,9 @@ input[type="button"] {
 .btn-outline-info:hover,
 .btn-outline-light:hover,
 .btn-outline-dark:hover,
-button[type="submit"]:hover,
-button[type="button"]:hover,
+/* Exclude carousel control buttons from this styling */
+button[type="submit"]:hover:not(.carousel-control-prev):not(.carousel-control-next),
+button[type="button"]:hover:not(.carousel-control-prev):not(.carousel-control-next),
 input[type="submit"]:hover,
 input[type="button"]:hover {
   background-color: var(--coreCharcoal) !important;
@@ -783,6 +784,16 @@ body.contact .form-control:focus {
   background-color: var(--coreChampers);
 }
 
+/* Card text - full width */
+.card-body p,
+.card-body .text-charcoal,
+.card-body .lead,
+.card-body ul,
+.card-body li {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
 /* CTA Card */
 .cta-card {
   background-color: var(--coreChampers);
@@ -807,7 +818,7 @@ body.contact .form-control:focus {
 }
 
 .cta-card .card-body .lead {
-  max-width: var(--content-max-width-wide, 70ch); /* Maintain optimal reading width */
+  max-width: 100% !important; /* Full width for CTA cards */
   margin-left: auto;
   margin-right: auto;
 }
@@ -1039,7 +1050,7 @@ h2.heading-blush-bg.pt-6 {
 /* Carousel Styles */
 .carousel {
   background-color: var(--coreChampers);
-  border: 2px solid var(--coreGold);
+  border: none !important;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 8px var(--coreCharcoal);
@@ -1289,14 +1300,63 @@ body.home main {
   box-shadow: none !important;
 }
 
+/* General carousel control buttons - match gallery page styling EXACTLY */
+/* Maximum specificity to override all other button styles */
+.carousel-control-prev,
+.carousel-control-next,
+button.carousel-control-prev,
+button.carousel-control-next,
+button[type="button"].carousel-control-prev,
+button[type="button"].carousel-control-next {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover,
+.carousel-control-prev:focus,
+.carousel-control-next:focus,
+.carousel-control-prev:active,
+.carousel-control-next:active,
+.carousel-control-prev:visited,
+.carousel-control-next:visited {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+/* Additional overrides for any remaining border effects */
+.carousel-control-prev *,
+.carousel-control-next * {
+  border: none !important;
+  outline: none !important;
+}
+
+/* General carousel control icons - match gallery page styling EXACTLY */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   background-color: transparent !important;
-  border-radius: 50%;
-  padding: 20px;
+  border: none !important;
+  outline: none !important;
+  border-radius: 50% !important;
+  padding: 20px !important;
   color: var(--coreGold) !important;
-  filter: brightness(0) saturate(100%) invert(83%) sepia(31%) saturate(638%) hue-rotate(359deg) brightness(103%) contrast(107%) !important;
-  transition: all 0.3s ease;
+  filter: none !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Override Bootstrap's default SVG arrows to be gold colored */
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23BF9B30'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23BF9B30'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
 }
 
 .carousel-control-prev-icon:hover,
@@ -1555,7 +1615,7 @@ body.home .testimonial-item .testimonial-content {
   display: block !important;
   margin: 0 !important;
   padding: 0 !important;
-  border: 2px solid var(--coreGold) !important;
+  border: none !important;
   border-radius: 12px !important;
   box-shadow: 0 4px 8px var(--coreCharcoal) !important;
 }
@@ -1667,7 +1727,7 @@ body.home .testimonial-item .testimonial-content {
   border-radius: 50% !important;
   padding: 20px !important;
   color: var(--coreGold) !important;
-  filter: brightness(0) saturate(100%) invert(83%) sepia(31%) saturate(638%) hue-rotate(359deg) brightness(103%) contrast(107%) !important;
+  filter: none !important;
   transition: all 0.3s ease !important;
 }
 
@@ -3265,33 +3325,35 @@ div.text-center.mt-5 {
 
 /* Additional Utility Styles */
 /* Force Buttons to Use Core Colors - All Button Types */
+/* Exclude carousel control buttons from this styling */
 .btn-group .btn,
 .btn-toolbar .btn,
 .input-group .btn,
 .dropdown-toggle,
-body .btn,
-body button,
+body .btn:not(.carousel-control-prev):not(.carousel-control-next),
+body button:not(.carousel-control-prev):not(.carousel-control-next),
 body input[type="submit"],
 body input[type="button"],
-.btn:focus,
-.btn:active,
-.btn:visited,
-.btn:link,
-.btn:target,
-.btn:focus-visible,
-.btn:focus-within {
+.btn:focus:not(.carousel-control-prev):not(.carousel-control-next),
+.btn:active:not(.carousel-control-prev):not(.carousel-control-next),
+.btn:visited:not(.carousel-control-prev):not(.carousel-control-next),
+.btn:link:not(.carousel-control-prev):not(.carousel-control-next),
+.btn:target:not(.carousel-control-prev):not(.carousel-control-next),
+.btn:focus-visible:not(.carousel-control-prev):not(.carousel-control-next),
+.btn:focus-within:not(.carousel-control-prev):not(.carousel-control-next) {
   background-color: var(--coreGold) !important;
   color: var(--coreCharcoal) !important;
   border: 2px solid var(--coreGold) !important;
 }
 
 /* Button Hover States - All Button Types */
+/* Exclude carousel control buttons from this styling */
 .btn-group .btn:hover,
 .btn-toolbar .btn:hover,
 .input-group .btn:hover,
 .dropdown-toggle:hover,
-body .btn:hover,
-body button:hover,
+body .btn:hover:not(.carousel-control-prev):not(.carousel-control-next),
+body button:hover:not(.carousel-control-prev):not(.carousel-control-next),
 body input[type="submit"]:hover,
 body input[type="button"]:hover {
   background-color: var(--coreCharcoal) !important;
@@ -4683,15 +4745,93 @@ img.error {
 .success-stories-carousel-card .card {
   width: 100%;
   margin: 0;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+  position: relative;
+}
+
+/* Portfolio card hover states - subtle and premium */
+.success-stories-carousel-card:not(.active):hover .card {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.success-stories-carousel-card.active .card {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Card image hover effect */
+.success-stories-carousel-card .card-img-top {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.success-stories-carousel-card:not(.active):hover .card-img-top {
+  transform: scale(1.02);
+}
+
+/* Portfolio card metadata overlay - visible on mobile, enhanced on hover */
+.portfolio-card-metadata {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(30, 30, 30, 0.95) 0%, rgba(30, 30, 30, 0.7) 70%, transparent 100%);
+  padding: 1rem 1.25rem 1.25rem;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.success-stories-carousel-card .card {
+  position: relative;
+}
+
+.success-stories-carousel-card:not(.active):hover .portfolio-card-metadata,
+.success-stories-carousel-card.active .portfolio-card-metadata {
+  transform: translateY(0);
+}
+
+.portfolio-card-metadata-item {
+  color: var(--coreChampers);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.portfolio-card-metadata-item:last-child {
+  margin-bottom: 0;
+}
+
+.portfolio-card-metadata-item i {
+  color: var(--coreGold);
+  font-size: 0.75rem;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+/* Mobile: always show metadata */
+@media (max-width: 768px) {
+  .portfolio-card-metadata {
+    transform: translateY(0);
+    background: linear-gradient(to top, rgba(30, 30, 30, 0.98) 0%, rgba(30, 30, 30, 0.85) 100%);
+  }
 }
 
 .success-stories-carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--coreGold);
+  background: transparent;
   color: var(--coreCharcoal);
-  border: 2px solid var(--coreCharcoal);
+  border: none;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -4703,12 +4843,12 @@ img.error {
   transition: all 0.3s ease;
   font-size: 24px;
   padding: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 .success-stories-carousel-arrow:hover {
-  background: var(--coreCharcoal);
-  color: var(--coreGold);
+  background: rgba(30, 30, 30, 0.1);
+  color: var(--coreCharcoal);
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
@@ -4860,6 +5000,149 @@ img.error {
     min-height: 500px !important;
     max-height: 500px !important;
   }
+}
+
+/* ===== CASE STUDY PAGE REFINEMENTS ===== */
+/* Enhanced visual hierarchy for case study sections */
+body.case-study .section-main {
+  padding: var(--section-padding-y, 4rem) 0;
+}
+
+body.case-study .section-main > .container > section {
+  margin-bottom: var(--space-10, 2.5rem);
+}
+
+body.case-study .section-main > .container > section:last-child {
+  margin-bottom: 0;
+}
+
+/* Case study content cards - refined spacing */
+body.case-study .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.case-study .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Case study section scroll reveals */
+.case-study-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.case-study-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optimized image loading - lazy load with blur-up effect */
+.case-study-image {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: opacity;
+}
+
+.case-study-image.loaded {
+  opacity: 1;
+}
+
+.case-study-image[loading="lazy"] {
+  background-color: var(--coreChampers);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Case study carousel images - optimized loading */
+body.case-study .carousel-item img {
+  loading: lazy;
+  decoding: async;
+}
+
+body.case-study .carousel-item:not(.active) img {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+body.case-study .carousel-item.active img {
+  opacity: 1;
+}
+
+/* Case study carousel controls - match gallery page styling EXACTLY */
+body.case-study .carousel-control-prev,
+body.case-study .carousel-control-next,
+body.case-study button.carousel-control-prev,
+body.case-study button.carousel-control-next,
+body.case-study button[type="button"].carousel-control-prev,
+body.case-study button[type="button"].carousel-control-next {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+body.case-study .carousel-control-prev:hover,
+body.case-study .carousel-control-next:hover,
+body.case-study .carousel-control-prev:focus,
+body.case-study .carousel-control-next:focus,
+body.case-study .carousel-control-prev:active,
+body.case-study .carousel-control-next:active,
+body.case-study .carousel-control-prev:visited,
+body.case-study .carousel-control-next:visited {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+/* Additional overrides for any remaining border effects */
+body.case-study .carousel-control-prev *,
+body.case-study .carousel-control-next * {
+  border: none !important;
+  outline: none !important;
+}
+
+body.case-study .carousel-control-prev-icon,
+body.case-study .carousel-control-next-icon {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 50% !important;
+  padding: 20px !important;
+  color: var(--coreGold) !important;
+  filter: none !important;
+  transition: all 0.3s ease !important;
+}
+
+body.case-study .carousel-control-prev-icon:hover,
+body.case-study .carousel-control-next-icon:hover {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%) !important;
+}
+
+/* Case study carousel containers - remove gold borders */
+body.case-study .carousel {
+  border: none !important;
+}
+
+body.case-study .carousel-item img {
+  border: none !important;
+}
+
+/* Override all carousel arrow hover states to remove gold/yellow */
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  filter: brightness(0.8) !important;
+  opacity: 0.8 !important;
+}
+
+.gallery-section .carousel-control-prev-icon:hover,
+.gallery-section .carousel-control-next-icon:hover {
+  filter: brightness(0.8) !important;
+  opacity: 0.8 !important;
 }
 
 /* ===== PAGE-SPECIFIC SPACING OVERRIDES ===== */
