@@ -17,10 +17,47 @@
   box-sizing: border-box;
 }
 
+/* ===== ACCESSIBILITY: SKIP LINK ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--coreCharcoal);
+  color: var(--coreChampers);
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 10000;
+  border: 2px solid var(--coreGold);
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--coreGold);
+  outline-offset: 2px;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Allow carousel sections to break out on mobile */
+@media (max-width: 768px) {
+  /* Allow overflow for sections that contain carousels */
+  .section-main {
+    overflow-x: visible !important;
+    position: relative;
+  }
+  
+  /* Ensure wrapper can break out */
+  .success-stories-carousel-wrapper {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* ===== DESIGN TOKENS & VARIABLES ===== */
@@ -52,6 +89,10 @@ body {
   line-height: var(--line-height-normal, 1.6);
   transition: padding var(--transition-base);
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
 }
 
 /* ===== BODY LAYOUT STATES ===== */
@@ -81,34 +122,39 @@ body.error {
 
 h1 {
   font-family: var(--font-display, 'Dancing Script', cursive);
-  font-size: var(--font-size-5xl, 3rem);
+  font-size: clamp(2rem, 5vw, 3rem); /* Responsive: 2rem mobile, 3rem desktop */
   font-weight: var(--font-weight-bold, 700);
   line-height: var(--line-height-tight, 1.2);
   color: var(--coreGold);
   text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
   margin: 0 0 var(--space-8, 2rem) 0; /* Increased for better separation */
   letter-spacing: var(--letter-spacing-normal, 0);
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 h2 {
   font-family: var(--font-display, 'Dancing Script', cursive);
-  font-size: var(--font-size-4xl, 2.25rem);
+  font-size: clamp(1.75rem, 4vw, 2.25rem); /* Responsive: 1.75rem mobile, 2.25rem desktop */
   font-weight: var(--font-weight-bold, 700);
   line-height: var(--line-height-tight, 1.2);
   color: var(--coreGold);
   text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
   margin: 0 0 var(--space-8, 2rem) 0; /* Increased for better separation */
   letter-spacing: var(--letter-spacing-normal, 0);
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 h3 {
   font-family: var(--font-body, 'Montserrat', sans-serif);
-  font-size: var(--font-size-2xl, 1.5rem);
+  font-size: clamp(1.25rem, 3vw, 1.5rem); /* Responsive: 1.25rem mobile, 1.5rem desktop */
   font-weight: var(--font-weight-semibold, 600);
   line-height: var(--line-height-snug, 1.4);
   color: var(--coreCharcoal);
   margin: 0 0 var(--space-6, 1.5rem) 0; /* Increased for better hierarchy */
   letter-spacing: var(--letter-spacing-normal, 0);
+  word-wrap: break-word;
 }
 
 h4 {
@@ -1853,6 +1899,30 @@ body.home .testimonial-item .testimonial-content {
 }
 
 /* Section & Layout Styles */
+/* ===== CONTAINER RESPONSIVENESS ===== */
+/* Ensure all containers are responsive and don't cause horizontal overflow */
+.container,
+.container-fluid {
+  width: 100%;
+  max-width: 100%;
+  padding-left: var(--space-4, 1rem);
+  padding-right: var(--space-4, 1rem);
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding-left: var(--space-5, 1.25rem);
+    padding-right: var(--space-5, 1.25rem);
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding-left: var(--space-6, 1.5rem);
+    padding-right: var(--space-6, 1.5rem);
+  }
+}
+
 /* ===== SECTION SPACING SYSTEM ===== */
 /* Standardized vertical rhythm using design tokens */
 /* Creates calm, intentional spacing between content blocks */
@@ -1877,6 +1947,121 @@ body.home .testimonial-item .testimonial-content {
   margin-bottom: 0;
 }
 
+/* ===== RESPONSIVE SECTION SPACING ===== */
+/* Mobile-first: smaller padding on mobile, larger on desktop */
+@media (max-width: 576px) {
+  .section-main,
+  .section-hero {
+    padding: var(--space-8, 2rem) 0; /* 2rem on mobile */
+  }
+  
+  .section-secondary {
+    padding: var(--space-6, 1.5rem) 0; /* 1.5rem on mobile */
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .section-main,
+  .section-hero {
+    padding: var(--section-padding-y-sm, 3rem) 0; /* 3rem on tablet */
+  }
+  
+  .section-secondary {
+    padding: var(--space-8, 2rem) 0; /* 2rem on tablet */
+  }
+}
+
+@media (min-width: 769px) {
+  .section-main,
+  .section-hero {
+    padding: var(--section-padding-y, 4rem) 0; /* 4rem on desktop */
+  }
+  
+  .section-secondary {
+    padding: var(--section-padding-y-sm, 3rem) 0; /* 3rem on desktop */
+  }
+}
+
+/* ===== RESPONSIVE COMPONENTS ===== */
+/* Cards - Ensure responsive behavior */
+.card {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.card-img-top,
+.card-img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+/* Buttons - Ensure minimum touch target size (44x44px for accessibility) */
+.btn,
+button:not(.carousel-control-prev):not(.carousel-control-next) {
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 44px;
+  padding: 0.75rem 1.5rem; /* Adequate padding for touch */
+  box-sizing: border-box;
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 0.5rem 1rem;
+}
+
+.btn-lg {
+  min-height: 48px;
+  padding: 1rem 2rem;
+}
+
+/* Images - Ensure responsive behavior */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+img[width],
+img[height] {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Video - Ensure responsive behavior */
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Mobile: Ensure buttons stack properly */
+@media (max-width: 576px) {
+  .btn-group,
+  .hero-cta,
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-group .btn,
+  .hero-cta .btn,
+  .cta-buttons .btn {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  
+  .btn-group .btn:last-child,
+  .hero-cta .btn:last-child,
+  .cta-buttons .btn:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Legacy media query for backward compatibility */
 @media (max-width: 768px) {
   .section-main {
     padding: var(--section-padding-y-sm, 3rem) 0;
@@ -3930,6 +4115,7 @@ footer .nav-link:focus {
     right: 20px; /* More space from edge */
     left: auto; /* Ensure it doesn't stretch */
     z-index: 10001; /* Higher z-index to ensure visibility */
+    position: fixed; /* Ensure fixed positioning */
   }
   
   .chatbot-toggle {
@@ -3955,11 +4141,20 @@ footer .nav-link:focus {
   .chatbot-container {
     width: calc(100vw - 40px); /* More margin for better fit */
     max-width: 350px; /* Prevent it from being too wide on larger phones */
-    height: calc(100vh - 120px); /* More height for better usability */
+    height: calc(100vh - 200px); /* Reduced height to prevent top cutoff - accounts for navbar + spacing */
+    max-height: calc(100vh - 200px); /* Ensure it doesn't exceed viewport */
     bottom: 75px; /* Better positioning */
     right: 20px; /* Match widget positioning */
     left: auto; /* Don't stretch full width */
     z-index: 10000; /* Ensure it's above other content */
+    position: fixed; /* Ensure fixed positioning */
+    top: auto; /* Ensure top is not set */
+    overflow-y: auto; /* Allow scrolling if content is too tall */
+  }
+  
+  .chatbot-container.show {
+    display: flex;
+    flex-direction: column;
   }
   
   .chatbot-messages {
@@ -3991,12 +4186,18 @@ footer .nav-link:focus {
     bottom: 185px; /* Positioned above navbar (85px + 100px) */
     right: 15px;
     z-index: 10001; /* Ensure highest priority */
+    position: fixed !important; /* Ensure fixed positioning */
   }
   
   .chatbot-container {
     width: calc(100vw - 30px);
+    height: calc(100vh - 200px); /* Reduced height to prevent top cutoff */
+    max-height: calc(100vh - 200px); /* Ensure it doesn't exceed viewport */
     right: 15px;
     z-index: 10000;
+    position: fixed !important; /* Ensure fixed positioning */
+    top: auto !important; /* Ensure top is not set */
+    overflow-y: auto; /* Allow scrolling if content is too tall */
   }
   
   .chatbot-toggle {
@@ -4244,23 +4445,31 @@ img.error {
   padding: 2rem 1rem;
 }
 
+/* ===== HERO SECTION - RESPONSIVE TYPOGRAPHY & LAYOUT ===== */
 .hero-headline {
   font-family: 'Dancing Script', cursive;
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive scaling: 2rem mobile, 3.5rem desktop */
   font-weight: 700;
   color: var(--coreGold);
   text-shadow: 0 2px 4px rgba(30, 30, 30, 0.5);
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-6, 1.5rem);
   line-height: 1.2;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .hero-subhead {
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Responsive scaling: 1rem mobile, 1.25rem desktop */
   color: var(--coreChampers);
-  max-width: 800px;
-  margin: 0 auto 2rem;
+  max-width: min(800px, 90vw); /* Responsive max-width */
+  margin: 0 auto var(--space-10, 2.5rem);
   text-shadow: 0 1px 2px rgba(30, 30, 30, 0.5);
-  line-height: 1.6;
+  line-height: 1.75;
+  font-weight: 400;
+  padding: 0 1rem; /* Prevent edge touching on mobile */
 }
 
 .hero-cta {
@@ -4268,19 +4477,25 @@ img.error {
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
+  padding: 0 1rem; /* Prevent edge touching on mobile */
 }
 
-@media (max-width: 768px) {
+.hero-content {
+  min-height: 400px; /* Reserve space to prevent layout shift */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 576px) {
   .hero-section {
-    min-height: 500px;
+    min-height: 100dvh; /* Use dynamic viewport height for mobile */
   }
   
-  .hero-headline {
-    font-size: 2.5rem;
-  }
-  
-  .hero-subhead {
-    font-size: 1.1rem;
+  .hero-content {
+    padding: 1.5rem 1rem;
   }
   
   .hero-cta {
@@ -4290,30 +4505,20 @@ img.error {
   
   .hero-cta .btn {
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
   }
 }
 
-/* ===== HERO REFINEMENTS - IMPROVED HIERARCHY & MOTION ===== */
-/* Enhanced spacing and typography for better clarity */
-.hero-headline {
-  margin-bottom: var(--space-6, 1.5rem) !important; /* Increased spacing */
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+@media (min-width: 577px) and (max-width: 768px) {
+  .hero-section {
+    min-height: 600px;
+  }
 }
 
-.hero-subhead {
-  margin: 0 auto var(--space-10, 2.5rem) !important; /* Increased spacing before CTA */
-  line-height: 1.75 !important; /* Improved readability */
-  font-weight: 400;
-}
-
-.hero-content {
-  min-height: 400px; /* Reserve space to prevent layout shift */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (min-width: 769px) {
+  .hero-section {
+    min-height: 100vh;
+  }
 }
 
 .hero-background {
@@ -4574,37 +4779,6 @@ img.error {
   line-height: 1.6;
 }
 
-.hero-cta {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .hero-section {
-    min-height: 500px;
-  }
-  
-  .hero-headline {
-    font-size: 2.5rem;
-  }
-  
-  .hero-subhead {
-    font-size: 1.1rem;
-  }
-  
-  .hero-cta {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .hero-cta .btn {
-    width: 100%;
-    max-width: 300px;
-  }
-}
-
 /* Proof Section */
 .client-logo {
   opacity: 0.7;
@@ -4710,12 +4884,17 @@ img.error {
   padding: 0 60px;
   margin: 0 auto;
   max-width: 1400px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible; /* Allow arrows to be visible */
 }
 
 .success-stories-carousel-container {
   overflow: hidden;
   width: 100%;
+  max-width: 100%;
   position: relative;
+  box-sizing: border-box;
 }
 
 .success-stories-carousel-track {
@@ -4724,6 +4903,8 @@ img.error {
   gap: 30px;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .success-stories-carousel-card {
@@ -4858,11 +5039,11 @@ img.error {
 }
 
 .success-stories-carousel-prev {
-  left: 0;
+  left: 10px; /* Slight offset from edge for better visibility */
 }
 
 .success-stories-carousel-next {
-  right: 0;
+  right: 10px; /* Slight offset from edge for better visibility */
 }
 
 /* Removed disabled state for infinite loop carousel */
@@ -4882,18 +5063,102 @@ img.error {
 }
 
 @media (max-width: 768px) {
+  /* Break out of container padding on mobile to prevent double padding causing cutoff */
+  .section-main {
+    overflow-x: visible !important; /* Allow carousel to break out of section */
+  }
+  
+  .container {
+    overflow-x: visible !important; /* Allow carousel to break out */
+  }
+  
+  .container .success-stories-carousel-wrapper {
+    margin-left: -1rem !important; /* Negative margin to break out of container padding (1rem = 16px) */
+    margin-right: -1rem !important;
+    width: calc(100% + 2rem) !important; /* Expand to full width including container padding */
+    padding: 0 55px !important; /* Padding for arrows: 40px arrow + 15px spacing */
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* Ensure the wrapper doesn't get clipped by parent containers */
+  .section-main .container {
+    overflow-x: visible !important;
+  }
+  
   .success-stories-carousel-wrapper {
-    padding: 0 45px;
+    padding: 0 55px; /* Padding for arrows: 40px arrow + 15px spacing */
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .success-stories-carousel-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent horizontal scroll */
+    box-sizing: border-box;
+  }
+  
+  .success-stories-carousel-track {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
   
   .success-stories-carousel-card {
-    flex: 0 0 100%;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    min-width: 0; /* Allow flexbox to shrink */
+  }
+  
+  .success-stories-carousel-card .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0;
+    box-sizing: border-box;
   }
   
   .success-stories-carousel-arrow {
     width: 40px;
     height: 40px;
     font-size: 20px;
+    z-index: 15; /* Ensure arrows are above cards */
+  }
+  
+  .success-stories-carousel-prev {
+    left: 10px; /* Positioned from the wrapper edge, accounting for container breakout */
+  }
+  
+  .success-stories-carousel-next {
+    right: 10px; /* Positioned from the wrapper edge, accounting for container breakout */
+  }
+}
+
+/* Additional fix for very small screens */
+@media (max-width: 576px) {
+  .container .success-stories-carousel-wrapper {
+    margin-left: -1rem; /* Negative margin to break out of container padding */
+    margin-right: -1rem;
+    width: calc(100% + 2rem); /* Expand to full width including container padding */
+    padding: 0 50px; /* Slightly less padding on very small screens */
+    box-sizing: border-box;
+  }
+  
+  .success-stories-carousel-prev {
+    left: 5px; /* Closer to edge on very small screens */
+  }
+  
+  .success-stories-carousel-next {
+    right: 5px; /* Closer to edge on very small screens */
   }
 }
 
