@@ -1771,93 +1771,104 @@ If you don't know something specific, suggest they contact the company directly 
     
     // ===== SUCCESS STORIES CAROUSEL =====
     (function initSuccessStoriesCarousel() {
-        const track = document.getElementById('successStoriesCarouselTrack');
-        const prevBtn = document.querySelector('.success-stories-carousel-prev');
-        const nextBtn = document.querySelector('.success-stories-carousel-next');
-        const cards = document.querySelectorAll('.success-stories-carousel-card');
-        const container = track?.parentElement;
+        // Initialize all success stories carousels on the page
+        const tracks = document.querySelectorAll('[id$="SuccessStoriesCarouselTrack"]');
         
-        if (!track || !prevBtn || !nextBtn || cards.length === 0 || !container) return;
-        
-        let currentIndex = 3; // Start on the celebration card (Landmark Anniversary Event / 50th Birthday)
-        const totalCards = cards.length;
-        const gap = 30; // Match CSS gap
-        
-        // Initialize: set celebration card (index 3) as active
-        function initializeCarousel() {
-            cards.forEach((card, index) => {
-                card.classList.remove('active');
-                if (index === currentIndex) {
-                    card.classList.add('active');
-                }
-            });
-            // Delay transform update to ensure layout is complete
-            setTimeout(updateTransform, 100);
-        }
-        
-        // Update transform to center the active card
-        function updateTransform() {
-            if (cards.length === 0) return;
-            const containerWidth = container.offsetWidth;
-            const cardWidth = cards[0].offsetWidth;
-            // Calculate offset to center the active card
-            const offset = (containerWidth / 2) - (cardWidth / 2) - (currentIndex * (cardWidth + gap));
-            track.style.transform = `translateX(${offset}px)`;
-        }
-        
-        // Move to specific index (with wrapping)
-        function moveToIndex(index) {
-            // Normalize index to valid range using modulo (handles negative numbers correctly)
-            currentIndex = ((index % totalCards) + totalCards) % totalCards;
-            cards.forEach((card, i) => {
-                card.classList.toggle('active', i === currentIndex);
-            });
-            updateTransform();
-        }
-        
-        // Navigation handlers with infinite loop
-        prevBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            // Loop: prev from first card goes to last card
-            moveToIndex(currentIndex - 1);
+        tracks.forEach((track) => {
+            const wrapper = track.closest('.success-stories-carousel-wrapper');
+            if (!wrapper) return;
+            
+            const prevBtn = wrapper.querySelector('.success-stories-carousel-prev');
+            const nextBtn = wrapper.querySelector('.success-stories-carousel-next');
+            const cards = wrapper.querySelectorAll('.success-stories-carousel-card');
+            const container = track.parentElement;
+            
+            if (!prevBtn || !nextBtn || cards.length === 0 || !container) return;
+            
+            initCarousel(track, prevBtn, nextBtn, cards, container);
         });
         
-        nextBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            // Loop: next from last card goes to first card
-            moveToIndex(currentIndex + 1);
-        });
-        
-        // Card click handlers
-        cards.forEach((card, index) => {
-            card.addEventListener('click', (e) => {
-                // Prevent click if card is already active
-                if (card.classList.contains('active')) return;
-                // Prevent navigation if clicking on a link inside the card
-                if (e.target.closest('a')) return;
+        function initCarousel(track, prevBtn, nextBtn, cards, container) {
+            let currentIndex = 3; // Start on the celebration card (Landmark Anniversary Event / 50th Birthday)
+            const totalCards = cards.length;
+            const gap = 30; // Match CSS gap
+            
+            // Initialize: set celebration card (index 3) as active
+            function initializeCarousel() {
+                cards.forEach((card, index) => {
+                    card.classList.remove('active');
+                    if (index === currentIndex) {
+                        card.classList.add('active');
+                    }
+                });
+                // Delay transform update to ensure layout is complete
+                setTimeout(updateTransform, 100);
+            }
+            
+            // Update transform to center the active card
+            function updateTransform() {
+                if (cards.length === 0) return;
+                const containerWidth = container.offsetWidth;
+                const cardWidth = cards[0].offsetWidth;
+                // Calculate offset to center the active card
+                const offset = (containerWidth / 2) - (cardWidth / 2) - (currentIndex * (cardWidth + gap));
+                track.style.transform = `translateX(${offset}px)`;
+            }
+            
+            // Move to specific index (with wrapping)
+            function moveToIndex(index) {
+                // Normalize index to valid range using modulo (handles negative numbers correctly)
+                currentIndex = ((index % totalCards) + totalCards) % totalCards;
+                cards.forEach((card, i) => {
+                    card.classList.toggle('active', i === currentIndex);
+                });
+                updateTransform();
+            }
+            
+            // Navigation handlers with infinite loop
+            prevBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                moveToIndex(index);
+                // Loop: prev from first card goes to last card
+                moveToIndex(currentIndex - 1);
             });
-        });
-        
-        // Handle window resize
-        let resizeTimer;
-        const handleResize = () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                updateTransform();
-            }, 250);
-        };
-        window.addEventListener('resize', handleResize);
-        
-        // Initialize on load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeCarousel);
-        } else {
-            initializeCarousel();
+            
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Loop: next from last card goes to first card
+                moveToIndex(currentIndex + 1);
+            });
+            
+            // Card click handlers
+            cards.forEach((card, index) => {
+                card.addEventListener('click', (e) => {
+                    // Prevent click if card is already active
+                    if (card.classList.contains('active')) return;
+                    // Prevent navigation if clicking on a link inside the card
+                    if (e.target.closest('a')) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    moveToIndex(index);
+                });
+            });
+            
+            // Handle window resize
+            let resizeTimer;
+            const handleResize = () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    updateTransform();
+                }, 250);
+            };
+            window.addEventListener('resize', handleResize);
+            
+            // Initialize on load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeCarousel);
+            } else {
+                initializeCarousel();
+            }
         }
     })();
     

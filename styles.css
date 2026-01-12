@@ -1741,7 +1741,7 @@ body.home .testimonial-item .testimonial-content {
 
 .section-hero {
   padding: var(--section-padding-y, 4rem) 0;
-  min-height: 50vh;
+  min-height: calc(50vh - 150px);
 }
 
 .section-secondary {
@@ -2326,7 +2326,7 @@ main img:not(.carousel-item img):not(.client-logo-img):not(.navbar-logo):not(.fo
 }
 
 /* Events Page Image Sizing */
-body:not(.home):not(.about):not(.team) main img:not(.navbar-logo):not(.footer-logo) {
+body:not(.home):not(.about):not(.team) main img:not(.navbar-logo):not(.footer-logo):not(.hero-image):not(.hero-video) {
   width: 208px !important;
   height: 138.39px !important;
   object-fit: cover !important;
@@ -4013,6 +4013,8 @@ img.error {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .hero-background {
@@ -4024,10 +4026,32 @@ img.error {
   z-index: 1;
 }
 
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero-background img,
+.hero-background video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+.hero-video,
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
 }
 
 .hero-overlay {
@@ -4226,6 +4250,8 @@ img.error {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .hero-background {
@@ -4237,10 +4263,32 @@ img.error {
   z-index: 1;
 }
 
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero-background img,
+.hero-background video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+.hero-video,
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
 }
 
 .hero-overlay {
@@ -4521,5 +4569,172 @@ img.error {
     width: 40px;
     height: 40px;
     font-size: 20px;
+  }
+}
+
+/* Case Study Hero Section - Overlay Heading */
+.case-study-hero-section {
+  position: relative;
+  width: 100%;
+  margin-top: 65px;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+.case-study-hero-carousel {
+  position: relative;
+  width: 100%;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+.case-study-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.5);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.case-study-hero-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.case-study-hero-heading {
+  font-family: 'Dancing Script', cursive;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--coreGold);
+  text-shadow: 0 2px 8px rgba(30, 30, 30, 0.8), 0 0 0 2px rgba(30, 30, 30, 0.5);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.case-study-hero-subhead {
+  font-size: 1.25rem;
+  color: var(--coreChampers);
+  max-width: 900px;
+  margin: 0 auto;
+  text-shadow: 0 2px 4px rgba(30, 30, 30, 0.8);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .case-study-hero-heading {
+    font-size: 2rem;
+  }
+  
+  .case-study-hero-subhead {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+}
+
+/* Ensure hero carousels fill properly */
+.case-study-hero-carousel .carousel-inner,
+.case-study-hero-carousel .carousel-item {
+  height: 600px;
+}
+
+.case-study-hero-carousel .carousel-item img {
+  width: 100% !important;
+  height: 600px !important;
+  min-height: 600px !important;
+  max-height: 600px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .case-study-hero-carousel .carousel-inner,
+  .case-study-hero-carousel .carousel-item {
+    height: 500px;
+  }
+  
+  .case-study-hero-carousel .carousel-item img {
+    height: 500px !important;
+    min-height: 500px !important;
+    max-height: 500px !important;
+  }
+}
+
+/* About Page - Reduced Section Spacing (40% of default) */
+body.about .section-main,
+body.about .section-hero {
+  padding: 1.6rem 0 !important; /* 40% of 4rem */
+}
+
+/* Reduce gap below Vision/Mission section specifically */
+body.about .section-hero {
+  margin-bottom: 0 !important;
+  padding-bottom: 0.64rem !important; /* 40% of 1.6rem - reduced bottom padding */
+  min-height: calc(50vh - 150px) !important; /* Reduce height by 150px */
+}
+
+/* FAQ Section - No background */
+section[aria-labelledby="faqsHeading"] {
+  background-color: transparent !important;
+}
+
+/* FAQ Accordion Body - coreChampers background */
+.accordion-body {
+  background-color: var(--coreChampers) !important;
+}
+
+/* What We Do Section - 5 Column Image Layout */
+#whatWeDoHeading ~ .row .row.g-2 > div {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+@media (max-width: 991.98px) {
+  #whatWeDoHeading ~ .row .row.g-2 > div {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #whatWeDoHeading ~ .row .row.g-2 > div {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+body.about .section-main:first-of-type {
+  padding-top: 0.64rem !important; /* 40% of 1.6rem - reduced top padding for first section */
+}
+
+@media (max-width: 768px) {
+  body.about .section-main,
+  body.about .section-hero {
+    padding: 1.2rem 0 !important; /* 40% of 3rem */
+  }
+  
+  body.about .section-hero {
+    padding-bottom: 0.48rem !important; /* 40% of 1.2rem - reduced bottom padding */
+  }
+  
+  body.about .section-main:first-of-type {
+    padding-top: 0.48rem !important; /* 40% of 1.2rem - reduced top padding for first section */
   }
 }
