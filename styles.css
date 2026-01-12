@@ -2546,6 +2546,36 @@ body.team .team-member-image img {
   }
 }
 
+/* Team Section - Fixed Height Cards */
+#teamHeading ~ .row .team-card {
+  height: 400px !important;
+}
+
+#teamHeading ~ .row .team-member-image {
+  height: 400px !important;
+}
+
+#teamHeading ~ .row .team-member-image img {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Collaborators Section - Fixed Height Cards */
+#collaboratorsHeading ~ .row .team-card {
+  height: 400px !important;
+}
+
+#collaboratorsHeading ~ .row .team-member-image {
+  height: 400px !important;
+}
+
+#collaboratorsHeading ~ .row .team-member-image img {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
 /* Desktop footer column widths: 3/8 (links), 2/8 (logo), 3/8 (CTA) */
 @media (min-width: 769px) {
   footer .footer-col-links {

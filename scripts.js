@@ -1772,7 +1772,8 @@ If you don't know something specific, suggest they contact the company directly 
     // ===== SUCCESS STORIES CAROUSEL =====
     (function initSuccessStoriesCarousel() {
         // Initialize all success stories carousels on the page
-        const tracks = document.querySelectorAll('[id$="SuccessStoriesCarouselTrack"]');
+        // Match both "successStoriesCarouselTrack" (homepage) and "*SuccessStoriesCarouselTrack" (other pages)
+        const tracks = document.querySelectorAll('[id$="SuccessStoriesCarouselTrack"], [id$="successStoriesCarouselTrack"]');
         
         tracks.forEach((track) => {
             const wrapper = track.closest('.success-stories-carousel-wrapper');
@@ -1863,11 +1864,18 @@ If you don't know something specific, suggest they contact the company directly 
             };
             window.addEventListener('resize', handleResize);
             
-            // Initialize on load
+            // Initialize on load - wait for layout to be ready
+            const runInit = () => {
+                // Use requestAnimationFrame to ensure layout is complete
+                requestAnimationFrame(() => {
+                    setTimeout(initializeCarousel, 50);
+                });
+            };
+            
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initializeCarousel);
+                document.addEventListener('DOMContentLoaded', runInit);
             } else {
-                initializeCarousel();
+                runInit();
             }
         }
     })();
