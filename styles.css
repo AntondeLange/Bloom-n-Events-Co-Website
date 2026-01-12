@@ -12,7 +12,7 @@
 @import url('styles/tokens.css');
 @import url('styles/motion.css');
 
-/* Performance optimizations */
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
 * {
   box-sizing: border-box;
 }
@@ -23,6 +23,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== DESIGN TOKENS & VARIABLES ===== */
 /* Legacy color variables (maintained for backward compatibility) */
 :root {
   --coreCharcoal: var(--color-brand-charcoal, #1E1E1E);
@@ -32,11 +33,9 @@ html {
   --coreCream: var(--color-brand-cream, #F5F5DC);
   --coreGray: #808080;
   --bg-opacity: 0.75;
-}
-
-/* Base Styles & Typography */
-html {
-  scroll-behavior: smooth;
+  
+  /* Layout constants - consolidate magic numbers */
+  --navbar-height: 65px;
 }
 
 body {
@@ -47,36 +46,38 @@ body {
   background-position: center;
   background-size: cover;
   color: var(--coreCharcoal);
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-body, 'Montserrat'), sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
-  transition: padding 0.3s ease;
+  line-height: var(--line-height-normal, 1.6);
+  transition: padding var(--transition-base);
   min-height: 100vh;
 }
 
-/* Body Layout States */
+/* ===== BODY LAYOUT STATES ===== */
+/* Handles navbar spacing across different page types */
 body.home {
   padding-top: 0;
-  padding-bottom: 65px; /* Increased to match navbar height */
-  transition: padding 0.3s ease;
+  padding-bottom: var(--navbar-height);
+  transition: padding var(--transition-base);
 }
 
 body.home.navbar-top {
-  padding-top: 65px; /* Increased to match navbar height */
+  padding-top: var(--navbar-height);
   padding-bottom: 0;
 }
 
 body:not(.home) {
-  padding-top: 65px; /* Increased to match navbar height */
+  padding-top: var(--navbar-height);
 }
 
 body.error {
-  padding-top: 65px; /* Increased to match navbar height */
+  padding-top: var(--navbar-height);
 }
 
-/* ===== Typography Scale ===== */
+/* ===== TYPOGRAPHY SCALE ===== */
 /* Standardized typographic hierarchy using design tokens */
+/* All typography uses token-based sizing for consistency and maintainability */
 
 h1 {
   font-family: var(--font-display, 'Dancing Script', cursive);
@@ -85,7 +86,7 @@ h1 {
   line-height: var(--line-height-tight, 1.2);
   color: var(--coreGold);
   text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
-  margin: 0 0 var(--space-6, 1.5rem) 0;
+  margin: 0 0 var(--space-8, 2rem) 0; /* Increased for better separation */
   letter-spacing: var(--letter-spacing-normal, 0);
 }
 
@@ -96,7 +97,7 @@ h2 {
   line-height: var(--line-height-tight, 1.2);
   color: var(--coreGold);
   text-shadow: var(--shadow-text, 0 2px 4px var(--coreCharcoal));
-  margin: 0 0 var(--space-5, 1.25rem) 0;
+  margin: 0 0 var(--space-8, 2rem) 0; /* Increased for better separation */
   letter-spacing: var(--letter-spacing-normal, 0);
 }
 
@@ -106,7 +107,7 @@ h3 {
   font-weight: var(--font-weight-semibold, 600);
   line-height: var(--line-height-snug, 1.4);
   color: var(--coreCharcoal);
-  margin: 0 0 var(--space-4, 1rem) 0;
+  margin: 0 0 var(--space-6, 1.5rem) 0; /* Increased for better hierarchy */
   letter-spacing: var(--letter-spacing-normal, 0);
 }
 
@@ -140,19 +141,40 @@ h6 {
   letter-spacing: var(--letter-spacing-normal, 0);
 }
 
+/* ===== BODY TEXT ===== */
+/* Improved readability with better line-height and spacing */
+/* Calm, intentional typography for premium feel */
 p {
   font-family: var(--font-body, 'Montserrat', sans-serif);
   font-size: var(--font-size-base, 1rem);
   font-weight: var(--font-weight-normal, 400);
-  line-height: var(--line-height-normal, 1.6);
+  line-height: var(--line-height-relaxed, 1.75); /* Increased from 1.6 for better readability */
   color: var(--coreCharcoal);
-  margin: 0 0 var(--space-4, 1rem) 0;
+  margin: 0 0 var(--space-6, 1.5rem) 0; /* Increased from 1rem for better separation */
 }
 
+/* Apply optimal reading width to paragraphs in content areas */
+.section-main p,
+.section-hero p,
+.section-secondary p,
+.about-content p {
+  max-width: var(--content-max-width, 65ch); /* Optimal reading width */
+}
+
+/* Override max-width for Vision and Mission paragraphs */
+.section-hero p.text-charcoal {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Lead paragraph - larger, more spacious */
 .lead {
   font-size: var(--font-size-lg, 1.125rem);
   line-height: var(--line-height-relaxed, 1.8);
-  margin-bottom: var(--space-6, 1.5rem);
+  margin-bottom: var(--space-8, 2rem); /* Increased for better separation */
+  max-width: var(--content-max-width-wide, 70ch); /* Slightly wider for lead text */
+  font-weight: var(--font-weight-normal, 400);
+  color: var(--coreCharcoal);
 }
 
 .display-2,
@@ -771,6 +793,23 @@ body.contact .form-control:focus {
 
 .cta-card .card-body {
   background-color: var(--coreChampers);
+  text-align: center !important; /* Ensure all content is centered */
+  padding: 3rem !important; /* Override team page reduced padding - match p-5 */
+}
+
+.cta-card .card-body p,
+.cta-card .card-body .lead,
+.cta-card .card-body .text-charcoal {
+  text-align: center !important; /* Center all paragraph text */
+  margin-left: auto;
+  margin-right: auto;
+  display: block; /* Ensure block-level for centering */
+}
+
+.cta-card .card-body .lead {
+  max-width: var(--content-max-width-wide, 70ch); /* Maintain optimal reading width */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Content Block */
@@ -783,16 +822,9 @@ body.contact .form-control:focus {
   box-shadow: 0 2px 5px var(--coreCharcoal) var(--bg-opacity);
 }
 
-/* Heading Styles */
-h2 {
-  background-color: var(--coreChampers);
-  border: 1px solid var(--coreGold);
-  border-radius: 8px;
-  padding: 16px 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 8px var(--coreCharcoal) var(--bg-opacity);
-  text-align: center;
-}
+/* ===== HEADING STYLES ===== */
+/* Note: Base h2 styles are defined in typography section above */
+/* This section handles styled heading variants only */
 
 /* Social Media Heading */
 #socialMediaHeading,
@@ -817,6 +849,7 @@ h1.content-heading-large,
 h2.content-heading-large {
   color: var(--coreGold) !important;
   text-shadow: 0 4px 8px var(--coreCharcoal), 0 0 0 2px var(--coreCharcoal), 0 0 0 4px var(--coreCharcoal) !important;
+  text-align: center !important; /* Ensure text is centered */
 }
 
 /* Display page card headings */
@@ -842,7 +875,7 @@ body.events .inclusion-card h4 {
 /* Testimonials Heading - Spacing */
 #testimonialsHeading,
 h1#testimonialsHeading {
-  margin-bottom: 20px !important;
+  margin-bottom: var(--space-5, 1.25rem) !important; /* Standardized from 20px */
 }
 
 /* Consistent Heading Styles */
@@ -850,14 +883,28 @@ h1#testimonialsHeading {
   text-shadow: 0 4px 8px var(--coreCharcoal) !important;
 }
 
+/* ===== STYLED HEADING VARIANTS ===== */
+/* Heading with background - used for section headings */
 .heading-blush-bg,
 h1.heading-blush-bg,
 h2.heading-blush-bg {
   background-color: var(--coreBlush) !important;
   border: 2px solid var(--coreGold) !important;
-  padding: 10px 15px 10px 15px !important;
-  border-radius: 5px !important;
-  box-shadow: 0 4px 8px var(--coreCharcoal) !important;
+  padding: var(--space-3, 0.75rem) var(--space-4, 1rem) !important; /* Standardized padding */
+  border-radius: var(--radius-md, 0.5rem) !important;
+  box-shadow: var(--shadow-md) !important;
+  margin-bottom: var(--space-10, 2.5rem) !important; /* Consistent spacing below headings */
+  display: block; /* Full width for proper appearance */
+  width: 100%; /* Ensure full width */
+  text-align: center; /* Center content by default */
+}
+
+/* Acknowledgment text styling */
+.acknowledgement-text {
+  text-align: center !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .heading-blush-bg.pt-6,
@@ -866,13 +913,27 @@ h2.heading-blush-bg.pt-6 {
   padding-top: 24px !important;
 }
 
-/* General Utility Classes */
+/* ===== LAYOUT UTILITY CLASSES ===== */
+/* Reusable spacing utilities for consistent vertical rhythm */
 .pt-6 {
-  padding-top: 4rem !important;
+  padding-top: var(--space-16, 4rem) !important;
 }
 
 .mb-6 {
-  margin-bottom: 4rem !important;
+  margin-bottom: var(--space-16, 4rem) !important;
+}
+
+/* Content width utilities for optimal readability */
+.content-width {
+  max-width: var(--content-max-width, 65ch);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content-width-wide {
+  max-width: var(--content-max-width-wide, 70ch);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-heading:not(.heading-blush-bg) {
@@ -1732,20 +1793,28 @@ body.home .testimonial-item .testimonial-content {
 }
 
 /* Section & Layout Styles */
-/* ===== Section Spacing System ===== */
-/* Standardized vertical spacing using design tokens */
+/* ===== SECTION SPACING SYSTEM ===== */
+/* Standardized vertical rhythm using design tokens */
+/* Creates calm, intentional spacing between content blocks */
 
 .section-main {
   padding: var(--section-padding-y, 4rem) 0;
+  margin-bottom: 0; /* Remove any default margins for clean separation */
+}
+
+.section-main + .section-main {
+  margin-top: 0; /* Ensure consistent spacing between sections */
 }
 
 .section-hero {
   padding: var(--section-padding-y, 4rem) 0;
   min-height: calc(50vh - 150px);
+  margin-bottom: 0;
 }
 
 .section-secondary {
   padding: var(--section-padding-y-sm, 3rem) 0;
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
@@ -1762,24 +1831,27 @@ body.home .testimonial-item .testimonial-content {
   }
 }
 
+/* Special section variants - consider migrating to tokens */
 .section-gallery {
-  padding: 40px 0;
+  padding: var(--space-10, 2.5rem) 0; /* 40px */
 }
 
 .section-footer {
-  padding: 20px 0;
+  padding: var(--space-5, 1.25rem) 0; /* 20px */
 }
 
+/* ===== CONTENT SECTION STYLES ===== */
 /* Event, Workshop, and Display Sections */
+/* Standardized spacing and styling for content blocks */
 .event-section,
 .workshop-section,
 .display-section {
   background-color: var(--coreChampers);
   border: 2px solid var(--coreGold);
-  border-radius: 12px;
-  padding: 30px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 8px var(--coreCharcoal);
+  border-radius: var(--radius-lg, 0.75rem);
+  padding: var(--space-8, 2rem); /* Standardized from 30px */
+  margin-bottom: var(--space-8, 2rem); /* Consistent spacing */
+  box-shadow: var(--shadow-md);
 }
 
 .event-image,
@@ -2461,6 +2533,15 @@ body.team .card-body p {
   margin-bottom: 5px !important;
 }
 
+/* Override team-specific card-body padding for CTA cards */
+body.team .cta-card .card-body {
+  padding: 3rem !important; /* Match p-5 padding from other pages */
+}
+
+body.team .cta-card .card-body p {
+  margin-bottom: 1rem !important; /* Restore normal paragraph spacing in CTA */
+}
+
 body.team .team-member-image {
   height: 140px !important;
 }
@@ -2655,7 +2736,7 @@ div.text-center.mt-5 {
 /* Responsive Design */
 @media (max-width: 991.98px) {
   body.home {
-    padding-bottom: 65px; /* Keep bottom padding for mobile navbar */
+    padding-bottom: var(--navbar-height); /* Keep bottom padding for mobile navbar */
   }
   
   /* Ensure content doesn't overlap with navbar on mobile */
@@ -4090,7 +4171,7 @@ img.error {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(30, 30, 30, 0.4);
+  background: rgba(30, 30, 30, 0.5); /* Darkened by 10% (from 0.4 to 0.5) */
   z-index: 2;
 }
 
@@ -4148,6 +4229,80 @@ img.error {
   .hero-cta .btn {
     width: 100%;
     max-width: 300px;
+  }
+}
+
+/* ===== HERO REFINEMENTS - IMPROVED HIERARCHY & MOTION ===== */
+/* Enhanced spacing and typography for better clarity */
+.hero-headline {
+  margin-bottom: var(--space-6, 1.5rem) !important; /* Increased spacing */
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-subhead {
+  margin: 0 auto var(--space-10, 2.5rem) !important; /* Increased spacing before CTA */
+  line-height: 1.75 !important; /* Improved readability */
+  font-weight: 400;
+}
+
+.hero-content {
+  min-height: 400px; /* Reserve space to prevent layout shift */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-background {
+  will-change: transform; /* Optimize for parallax */
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.hero-section {
+  will-change: transform; /* Optimize for parallax */
+}
+
+/* ===== RESTRAINED MOTION ANIMATIONS ===== */
+/* Staggered entrance animations - subtle and purposeful */
+@keyframes heroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Initial state - hidden until animation */
+.hero-animate-fade-in {
+  opacity: 0;
+  animation: heroFadeInUp 0.8s ease-out forwards;
+}
+
+.hero-animate-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.hero-animate-delay-2 {
+  animation-delay: 0.4s;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .hero-background {
+    will-change: auto;
+  }
+  
+  .hero-section {
+    will-change: auto;
   }
 }
 
@@ -4327,7 +4482,7 @@ img.error {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(30, 30, 30, 0.4);
+  background: rgba(30, 30, 30, 0.5); /* Darkened by 10% (from 0.4 to 0.5) */
   z-index: 2;
 }
 
@@ -4707,7 +4862,9 @@ img.error {
   }
 }
 
+/* ===== PAGE-SPECIFIC SPACING OVERRIDES ===== */
 /* About Page - Reduced Section Spacing (40% of default) */
+/* Note: This is a page-specific override. Consider if this should be a design token variant */
 body.about .section-main,
 body.about .section-hero {
   padding: 1.6rem 0 !important; /* 40% of 4rem */
@@ -4717,7 +4874,7 @@ body.about .section-hero {
 body.about .section-hero {
   margin-bottom: 0 !important;
   padding-bottom: 0.64rem !important; /* 40% of 1.6rem - reduced bottom padding */
-  min-height: calc(50vh - 150px) !important; /* Reduce height by 150px */
+  min-height: calc(50vh - 150px) !important;
 }
 
 /* FAQ Section - No background */
@@ -4766,5 +4923,81 @@ body.about .section-main:first-of-type {
   
   body.about .section-main:first-of-type {
     padding-top: 0.48rem !important; /* 40% of 1.2rem - reduced top padding for first section */
+  }
+}
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+/* Consistent, natural scroll-based section reveals */
+/* Motion reinforces content hierarchy without visual noise */
+
+@keyframes sectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes childReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base reveal state - hidden until in view */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+/* Revealed state - triggered by IntersectionObserver */
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered child elements */
+.scroll-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0.05s; }
+.scroll-reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.1s; }
+.scroll-reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.15s; }
+.scroll-reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.2s; }
+.scroll-reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.25s; }
+.scroll-reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.3s; }
+.scroll-reveal-stagger.revealed > *:nth-child(7) { transition-delay: 0.35s; }
+.scroll-reveal-stagger.revealed > *:nth-child(8) { transition-delay: 0.4s; }
+.scroll-reveal-stagger.revealed > *:nth-child(9) { transition-delay: 0.45s; }
+.scroll-reveal-stagger.revealed > *:nth-child(10) { transition-delay: 0.5s; }
+
+.scroll-reveal-stagger.revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

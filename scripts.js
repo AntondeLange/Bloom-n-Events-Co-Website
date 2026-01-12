@@ -1,5 +1,17 @@
-// Bloom'n Events Co - Consolidated Scripts
-// Performance optimized with lazy loading and efficient event handling
+/**
+ * Bloom'n Events Co - Main JavaScript Entry Point
+ * 
+ * Architecture:
+ * - Single DOMContentLoaded listener for all functionality
+ * - Modular imports for configuration and logging
+ * - Performance-optimized with lazy loading and efficient event handling
+ * - No scroll hijacking or gimmicky interactions
+ * 
+ * Motion Philosophy:
+ * - Subtle, purposeful animations only
+ * - Respects prefers-reduced-motion
+ * - Performance-first approach
+ */
 
 // Import utilities
 import { CONFIG, getBackendUrl, getApiUrl } from './scripts/config.js';
@@ -41,8 +53,49 @@ const throttle = (func, limit) => {
     };
 };
 
+// ===== HERO PARALLAX - RESTRAINED MOTION =====
+// Subtle parallax effect for hero background (only on homepage)
+function initHeroParallax() {
+    // Check if user prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return; // Skip parallax if user prefers reduced motion
+    }
+    
+    const heroSection = document.querySelector('body.home .hero-section');
+    const heroBackground = document.querySelector('body.home .hero-background');
+    
+    if (!heroSection || !heroBackground) return;
+    
+    // Throttled scroll handler for performance
+    let ticking = false;
+    const handleScroll = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                const heroHeight = heroSection.offsetHeight;
+                
+                // Only apply parallax when hero is in view
+                if (scrolled < heroHeight) {
+                    // Subtle parallax - background moves slower than scroll
+                    const parallaxSpeed = 0.3; // Restrained movement
+                    const yPos = -(scrolled * parallaxSpeed);
+                    heroBackground.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                }
+                
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+    
+    // Use passive listener for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
+}
+
 // Single DOMContentLoaded event listener for all functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize hero parallax
+    initHeroParallax();
     // ===== PARTIALS INJECTION (Navbar/Footer) =====
     const loadPartials = async () => {
         const isHome = document.body.classList.contains('home');
@@ -291,21 +344,70 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.map-placeholder').forEach(ph => iframeObserver.observe(ph));
     }
 
-    // ===== REVEAL-ON-SCROLL (respects reduced motion) =====
+    // ===== SCROLL REVEAL SYSTEM =====
+    // Consistent scroll-based section reveals with fade + translate
+    // Animations trigger once, natural timing, respects reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-        const revealObserver = new IntersectionObserver((entries) => {
+        // Main section reveals - major content blocks
+        const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    revealObserver.unobserve(entry.target);
+                    entry.target.classList.add('revealed');
+                    sectionObserver.unobserve(entry.target); // Trigger once
                 }
             });
-        }, { rootMargin: '100px 0px', threshold: 0.1 });
-        document.querySelectorAll('.section-main, .card, .social-card, .testimonial-item, [data-reveal]')
-            .forEach(el => {
-                el.classList.add('will-reveal');
-                revealObserver.observe(el);
+        }, { 
+            rootMargin: '0px 0px -10% 0px', // Trigger when 10% from bottom of viewport
+            threshold: 0.1 
+        });
+        
+        // Apply to major sections
+        document.querySelectorAll('.section-main, .section-hero, .section-secondary, .cta-card, .workshop-section, .event-section, .display-section')
+            .forEach(section => {
+                section.classList.add('scroll-reveal');
+                sectionObserver.observe(section);
+            });
+        
+        // Staggered child elements - cards, grid items, etc.
+        const staggerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    staggerObserver.unobserve(entry.target); // Trigger once
+                }
+            });
+        }, { 
+            rootMargin: '0px 0px -5% 0px', // Slightly earlier trigger for child elements
+            threshold: 0.05 
+        });
+        
+        // Apply to card groups and grid containers
+        document.querySelectorAll('.row.g-4, .row.g-3, .row.g-2, .card-group, .cta-buttons, .hero-cta')
+            .forEach(group => {
+                group.classList.add('scroll-reveal-stagger');
+                staggerObserver.observe(group);
+            });
+        
+        // Individual cards and items (if not in a stagger group)
+        const itemObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    itemObserver.unobserve(entry.target);
+                }
+            });
+        }, { 
+            rootMargin: '0px 0px -10% 0px',
+            threshold: 0.1 
+        });
+        
+        // Apply to standalone cards and items
+        document.querySelectorAll('.card:not(.scroll-reveal-stagger .card), .service-card:not(.scroll-reveal-stagger .service-card), .testimonial-item:not(.scroll-reveal-stagger .testimonial-item), [data-reveal]')
+            .forEach(item => {
+                item.classList.add('scroll-reveal');
+                itemObserver.observe(item);
             });
     }
     
