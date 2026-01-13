@@ -137,9 +137,52 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (e) {
             logger.warn('Partial injection failed', e);
         }
+        // Set active nav link based on current page (after partials are loaded)
+        setActiveNavLink();
         // Re-initialize dropdowns after injection; navbar init is deferred to window 'load'
         if (typeof window.setupDropdowns === 'function') window.setupDropdowns();
     };
+    
+    // Function to set active nav link based on current page URL
+    const setActiveNavLink = () => {
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle), .navbar-nav .dropdown-item');
+        const dropdownToggles = document.querySelectorAll('.navbar-nav .dropdown-toggle');
+        
+        // First, clear all active states
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            link.removeAttribute('aria-current');
+        });
+        dropdownToggles.forEach(toggle => {
+            toggle.classList.remove('active');
+            toggle.removeAttribute('aria-current');
+        });
+        
+        // Find and mark the active link
+        let activeFound = false;
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && (href === currentPage || href.endsWith(currentPage))) {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+                activeFound = true;
+                
+                // If it's a dropdown item, also mark the parent dropdown toggle
+                if (link.classList.contains('dropdown-item')) {
+                    const dropdown = link.closest('.dropdown');
+                    if (dropdown) {
+                        const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+                        if (dropdownToggle) {
+                            dropdownToggle.classList.add('active');
+                            dropdownToggle.setAttribute('aria-current', 'page');
+                        }
+                    }
+                }
+            }
+        });
+    };
+    
     loadPartials();
     // ===== NAVBAR FUNCTIONALITY =====
     function setupHomeNavbar() {
