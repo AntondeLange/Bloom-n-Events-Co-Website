@@ -248,43 +248,75 @@
     }
     </script>
     
-    <!-- Google tag (gtag.js) with optimized deferred loading -->
+    <!-- Google tag (gtag.js) with optimized deferred loading and cookie consent -->
     <script>
-      // Defer Google Analytics loading until after page load
+      // Initialize dataLayer
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-T5DJCCT19V', {
-        'send_page_view': false
+      
+      // Set default consent to denied (will be updated when user accepts)
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied'
       });
       
-      // Load gtag.js after page is interactive
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() {
-          const script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
-          document.head.appendChild(script);
-          script.onload = function() {
-            gtag('config', 'G-T5DJCCT19V', {
-              'send_page_view': true
-            });
-          };
-        });
-      } else {
-        window.addEventListener('load', function() {
-          setTimeout(function() {
+      // Check for existing consent
+      function checkCookieConsent() {
+        const consent = localStorage.getItem('cookieConsent');
+        if (consent === 'accepted') {
+          gtag('consent', 'update', {
+            'analytics_storage': 'granted'
+          });
+          loadAnalytics();
+        } else {
+          // Still load gtag.js but with consent denied
+          loadAnalytics();
+        }
+      }
+      
+      // Load gtag.js script
+      function loadAnalytics() {
+        if (document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
+          return; // Already loaded
+        }
+        
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(function() {
             const script = document.createElement('script');
             script.async = true;
             script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
             document.head.appendChild(script);
             script.onload = function() {
+              const consent = localStorage.getItem('cookieConsent');
               gtag('config', 'G-T5DJCCT19V', {
-                'send_page_view': true
+                'send_page_view': consent === 'accepted'
               });
             };
-          }, 1000);
-        });
+          });
+        } else {
+          window.addEventListener('load', function() {
+            setTimeout(function() {
+              const script = document.createElement('script');
+              script.async = true;
+              script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
+              document.head.appendChild(script);
+              script.onload = function() {
+                const consent = localStorage.getItem('cookieConsent');
+                gtag('config', 'G-T5DJCCT19V', {
+                  'send_page_view': consent === 'accepted'
+                });
+              };
+            }, 1000);
+          });
+        }
+      }
+      
+      // Initialize on page load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkCookieConsent);
+      } else {
+        checkCookieConsent();
       }
     </script>
     
@@ -829,8 +861,8 @@
             <div class="row align-items-center">
                 <!-- All Links on Left -->
                 <div class="col-6 footer-column">
-            <div class="row">
-                        <div class="col-4">
+                    <div class="row">
+                        <div class="col-6">
                             <h5>Bloom'n</h5>
                             <ul class="nav d-flex flex-column row-gap-0">
                                 <li class="nav-item"><a class="nav-link text-light" href="index.html">Home</a></li>
@@ -839,21 +871,14 @@
                                 <li class="nav-item"><a class="nav-link text-light" href="gallery.html">Gallery</a></li>
                             </ul>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <h5>Portfolio</h5>
                             <ul class="nav d-flex flex-column row-gap-0">
                                 <li class="nav-item"><a class="nav-link text-light" href="events.html">Events</a></li>
                                 <li class="nav-item"><a class="nav-link text-light" href="workshops.html">Workshops</a></li>
                                 <li class="nav-item"><a class="nav-link text-light" href="displays.html">Displays</a></li>
                                 <li class="nav-item"><a class="nav-link text-light" href="capabilities.html">Our Capabilities</a></li>
-                    </ul>
-                </div>
-                        <div class="col-4">
-                            <h5>Policies</h5>
-                            <ul class="nav d-flex flex-column row-gap-0">
-                                <li class="nav-item"><a class="nav-link text-light" href="tandcs.html">Terms & Conditions</a></li>
-                                <li class="nav-item"><a class="nav-link text-light" href="policies.html">Company Policies</a></li>
-                    </ul>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -862,7 +887,7 @@
                 <div class="col-3 text-center footer-column order-md-2">
                     <img src="images/logo-blk.png" alt="Bloom'n Events Co Logo" class="img-fluid footer-logo mb-3" loading="lazy" decoding="async">
                     <p class="text-gold fw-light small mb-0">
-                        Copyright &copy; <span id="current-year"></span> Bloom'n Events Co Pty Ltd. All rights reserved.
+                        <a href="tandcs.html" class="text-gold text-decoration-none">Terms & Conditions</a>  |  <a href="policies.html" class="text-gold text-decoration-none">Company Policies</a>  |  Copyright &copy; <span id="current-year"></span> Bloom'n Events Co Pty Ltd. All rights reserved.
                     </p>
                 </div>
                 
@@ -872,12 +897,12 @@
                     <p class="text-light small mb-2">Let's discuss how we can make your next event unforgettable</p>
                     <a href="contact.html" class="btn btn-gold">Get in Touch</a>
                     <div class="d-flex flex-row justify-content-center gap-3 social-links social-spacing">
-                                            <a href="https://www.facebook.com/bloomneventsco/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
-                    <a href="https://www.instagram.com/bloomneventsco/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/bloom-n-events-co/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://pin.it/1K3o7UFvI" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><i class="bi bi-pinterest"></i></a>
-                    <a href="https://www.tiktok.com/@bloomneventsco" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><i class="bi bi-tiktok"></i></a>
-                        </div>
+                        <a href="https://www.facebook.com/bloomneventsco/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.instagram.com/bloomneventsco/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/bloom-n-events-co/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://pin.it/1K3o7UFvI" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><i class="bi bi-pinterest"></i></a>
+                        <a href="https://www.tiktok.com/@bloomneventsco" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><i class="bi bi-tiktok"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -986,6 +1011,106 @@
           observer.observe(heroSection);
         }
       });
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsentBanner" class="cookie-consent-banner" role="dialog" aria-labelledby="cookieConsentHeading" aria-live="polite">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-text">
+                <strong id="cookieConsentHeading">We use cookies</strong> to enhance your browsing experience and analyze website traffic. By clicking "Accept", you consent to our use of cookies. <a href="policies.html#privacy">Learn more</a>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button type="button" class="cookie-consent-btn cookie-consent-btn-accept" id="cookieAcceptBtn" aria-label="Accept cookies">Accept</button>
+                <button type="button" class="cookie-consent-btn cookie-consent-btn-decline" id="cookieDeclineBtn" aria-label="Decline cookies">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie Consent Management
+        (function() {
+            const COOKIE_CONSENT_KEY = 'cookieConsent';
+            const COOKIE_EXPIRY_DAYS = 365;
+            
+            const banner = document.getElementById('cookieConsentBanner');
+            const acceptBtn = document.getElementById('cookieAcceptBtn');
+            const declineBtn = document.getElementById('cookieDeclineBtn');
+            
+            if (!banner || !acceptBtn || !declineBtn) return;
+            
+            // Check if consent has been given
+            function getCookieConsent() {
+                const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+                return consent === 'accepted' || consent === 'declined' ? consent : null;
+            }
+            
+            // Save consent preference
+            function setCookieConsent(accepted) {
+                localStorage.setItem(COOKIE_CONSENT_KEY, accepted ? 'accepted' : 'declined');
+                const expiryDate = new Date();
+                expiryDate.setTime(expiryDate.getTime() + (COOKIE_EXPIRY_DAYS * 24 * 60 * 60 * 1000));
+                document.cookie = `${COOKIE_CONSENT_KEY}=${accepted ? 'accepted' : 'declined'}; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
+            }
+            
+            // Show banner if no consent given
+            function showBanner() {
+                const consent = getCookieConsent();
+                if (!consent) {
+                    banner.classList.add('show');
+                } else if (consent === 'accepted') {
+                    // Enable Google Analytics if consent was given
+                    enableAnalytics();
+                }
+            }
+            
+            // Hide banner
+            function hideBanner() {
+                banner.classList.remove('show');
+            }
+            
+            // Enable Google Analytics
+            function enableAnalytics() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('consent', 'update', {
+                        'analytics_storage': 'granted'
+                    });
+                    // Send page view now that consent is granted
+                    gtag('config', 'G-T5DJCCT19V', {
+                        'send_page_view': true
+                    });
+                }
+            }
+            
+            // Disable Google Analytics
+            function disableAnalytics() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('consent', 'update', {
+                        'analytics_storage': 'denied'
+                    });
+                }
+            }
+            
+            // Handle accept
+            acceptBtn.addEventListener('click', function() {
+                setCookieConsent(true);
+                enableAnalytics();
+                hideBanner();
+            });
+            
+            // Handle decline
+            declineBtn.addEventListener('click', function() {
+                setCookieConsent(false);
+                disableAnalytics();
+                hideBanner();
+            });
+            
+            // Initialize on page load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', showBanner);
+            } else {
+                showBanner();
+            }
+        })();
     </script>
 </body>
 </html>
