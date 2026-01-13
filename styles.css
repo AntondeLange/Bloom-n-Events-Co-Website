@@ -17,25 +17,6 @@
   box-sizing: border-box;
 }
 
-/* ===== ACCESSIBILITY: SKIP LINK ===== */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--coreCharcoal);
-  color: var(--coreChampers);
-  padding: 8px 16px;
-  text-decoration: none;
-  z-index: 10000;
-  border: 2px solid var(--coreGold);
-}
-
-.skip-link:focus {
-  top: 0;
-  outline: 3px solid var(--coreGold);
-  outline-offset: 2px;
-}
-
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -4929,6 +4910,16 @@ img.error {
   overflow: hidden;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Allow card to grow based on content */
+}
+
+/* Active card: allow vertical expansion - override h-100 class */
+.success-stories-carousel-card.active .card.h-100 {
+  height: auto !important; /* Override h-100 class to allow content-driven height */
+  min-height: auto !important;
+  max-height: none !important;
 }
 
 /* Portfolio card hover states - subtle and premium */
@@ -4939,6 +4930,23 @@ img.error {
 
 .success-stories-carousel-card.active .card {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  height: auto !important; /* Allow vertical expansion */
+  min-height: auto;
+  max-height: none;
+}
+
+/* Ensure card-body in active cards has proper spacing and layout */
+.success-stories-carousel-card.active .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem; /* Reduced padding since metadata will be below */
+}
+
+/* Ensure CTA button has proper spacing in active cards */
+.success-stories-carousel-card.active .card-body .btn {
+  margin-top: 1rem; /* Space above button */
+  margin-bottom: 0;
 }
 
 /* Card image hover effect */
@@ -4951,7 +4959,7 @@ img.error {
   transform: scale(1.02);
 }
 
-/* Portfolio card metadata overlay - visible on mobile, enhanced on hover */
+/* Portfolio card metadata - inactive cards: overlay behavior */
 .portfolio-card-metadata {
   position: absolute;
   bottom: 0;
@@ -4966,15 +4974,58 @@ img.error {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  z-index: 1;
 }
 
 .success-stories-carousel-card .card {
   position: relative;
 }
 
-.success-stories-carousel-card:not(.active):hover .portfolio-card-metadata,
-.success-stories-carousel-card.active .portfolio-card-metadata {
+/* Inactive cards: overlay metadata on hover */
+.success-stories-carousel-card:not(.active):hover .portfolio-card-metadata {
   transform: translateY(0);
+}
+
+/* Active card: metadata in document flow (no absolute positioning) */
+.success-stories-carousel-card.active .portfolio-card-metadata {
+  position: relative !important; /* Move to document flow */
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important; /* Remove transform */
+  background: rgba(30, 30, 30, 0.95) !important; /* Solid background for better readability */
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 1rem 1.25rem !important;
+  pointer-events: auto !important; /* Allow interaction */
+  z-index: auto !important;
+  order: 3; /* Ensure metadata comes after card-body using flexbox order */
+  flex-shrink: 0; /* Prevent metadata from shrinking */
+}
+
+/* Reorder elements in active card using flexbox: image → card-body → metadata */
+.success-stories-carousel-card.active .card-img-top {
+  order: 1;
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.success-stories-carousel-card.active .card-body {
+  order: 2;
+  flex: 1; /* Allow card-body to grow */
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.5rem !important; /* Space before metadata */
+}
+
+.success-stories-carousel-card.active .portfolio-card-metadata {
+  order: 3; /* Metadata after card-body */
+}
+
+/* Ensure CTA button has proper spacing in active cards */
+.success-stories-carousel-card.active .card-body .btn {
+  margin-top: 1rem !important; /* Space above button */
+  margin-bottom: 0 !important;
+  align-self: center; /* Center the button */
 }
 
 .portfolio-card-metadata-item {
@@ -4998,11 +5049,52 @@ img.error {
   flex-shrink: 0;
 }
 
-/* Mobile: always show metadata */
+/* Mobile: always show metadata in document flow */
 @media (max-width: 768px) {
   .portfolio-card-metadata {
-    transform: translateY(0);
-    background: linear-gradient(to top, rgba(30, 30, 30, 0.98) 0%, rgba(30, 30, 30, 0.85) 100%);
+    position: relative !important; /* Move to document flow on mobile */
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important; /* Remove transform */
+    background: rgba(30, 30, 30, 0.95) !important; /* Solid background for better readability */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 1rem 1.25rem !important;
+    pointer-events: auto !important; /* Allow interaction */
+    z-index: auto !important;
+    order: 3; /* Ensure metadata comes after card-body */
+    flex-shrink: 0; /* Prevent metadata from shrinking */
+  }
+  
+  /* Reorder elements on mobile: image → card-body → metadata */
+  .success-stories-carousel-card .card-img-top {
+    order: 1;
+    flex-shrink: 0;
+  }
+  
+  .success-stories-carousel-card .card-body {
+    order: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.5rem !important; /* Space before metadata */
+  }
+  
+  .success-stories-carousel-card .portfolio-card-metadata {
+    order: 3; /* Metadata after card-body */
+  }
+  
+  /* Ensure CTA button has proper spacing on mobile */
+  .success-stories-carousel-card .card-body .btn {
+    margin-top: 1rem !important; /* Space above button */
+    margin-bottom: 0 !important;
+    align-self: center; /* Center the button */
+  }
+  
+  /* Allow cards to expand vertically on mobile */
+  .success-stories-carousel-card .card.h-100 {
+    height: auto !important; /* Override h-100 on mobile */
   }
 }
 
@@ -5076,7 +5168,8 @@ img.error {
     margin-left: -1rem !important; /* Negative margin to break out of container padding (1rem = 16px) */
     margin-right: -1rem !important;
     width: calc(100% + 2rem) !important; /* Expand to full width including container padding */
-    padding: 0 55px !important; /* Padding for arrows: 40px arrow + 15px spacing */
+    max-width: 100vw !important; /* Ensure it never exceeds viewport width */
+    padding: 0 50px !important; /* Padding for arrows: 40px arrow + 10px spacing */
     box-sizing: border-box;
     position: relative;
   }
@@ -5087,7 +5180,7 @@ img.error {
   }
   
   .success-stories-carousel-wrapper {
-    padding: 0 55px; /* Padding for arrows: 40px arrow + 15px spacing */
+    padding: 0 50px; /* Padding for arrows: 40px arrow + 10px spacing */
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
@@ -5108,6 +5201,8 @@ img.error {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    gap: 0 !important; /* Remove gap on mobile since cards are 100% width */
+    /* Transform is handled by JavaScript - no CSS override needed */
   }
   
   .success-stories-carousel-card {
@@ -5118,6 +5213,11 @@ img.error {
     padding: 0;
     margin: 0;
     min-width: 0; /* Allow flexbox to shrink */
+  }
+  
+  /* Ensure first card starts at position 0 on mobile */
+  .success-stories-carousel-card:first-child {
+    margin-left: 0 !important;
   }
   
   .success-stories-carousel-card .card {
@@ -5146,11 +5246,16 @@ img.error {
 /* Additional fix for very small screens */
 @media (max-width: 576px) {
   .container .success-stories-carousel-wrapper {
-    margin-left: -1rem; /* Negative margin to break out of container padding */
-    margin-right: -1rem;
-    width: calc(100% + 2rem); /* Expand to full width including container padding */
-    padding: 0 50px; /* Slightly less padding on very small screens */
+    margin-left: -1rem !important; /* Negative margin to break out of container padding */
+    margin-right: -1rem !important;
+    width: calc(100% + 2rem) !important; /* Expand to full width including container padding */
+    max-width: 100vw !important; /* Ensure it never exceeds viewport width */
+    padding: 0 50px !important; /* Consistent padding: 40px arrow + 10px spacing */
     box-sizing: border-box;
+  }
+  
+  .success-stories-carousel-wrapper {
+    padding: 0 50px; /* Consistent padding: 40px arrow + 10px spacing */
   }
   
   .success-stories-carousel-prev {

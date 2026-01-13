@@ -413,23 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===== ENHANCED ACCESSIBILITY FEATURES =====
     // Add skip link functionality
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main-content';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'skip-link sr-only sr-only-focusable';
-    skipLink.style.cssText = 'position: absolute; top: -40px; left: 6px; z-index: 1000; background: var(--coreCharcoal); color: var(--coreGold); padding: 8px; text-decoration: none; border-radius: 4px; transition: top 0.3s ease;';
-    
-    // Enhanced skip link behavior
-    skipLink.addEventListener('focus', () => {
-        skipLink.style.top = '6px';
-    });
-    
-    skipLink.addEventListener('blur', () => {
-        skipLink.style.top = '-40px';
-    });
-    
-    document.body.insertBefore(skipLink, document.body.firstChild);
-    
     // ===== LAZY-LOAD THIRD-PARTY SOCIAL WIDGETS =====
     (function lazyLoadSocialWidgets() {
         const heading = document.querySelector('#socialMediaHeading');
@@ -1892,11 +1875,13 @@ If you don't know something specific, suggest they contact the company directly 
         });
         
         function initCarousel(track, prevBtn, nextBtn, cards, container) {
-            let currentIndex = 3; // Start on the celebration card (Landmark Anniversary Event / 50th Birthday)
+            // On mobile, start at index 0 to prevent offset issues; on desktop, start at index 3 (celebration card)
+            const isMobile = window.innerWidth <= 768;
+            let currentIndex = isMobile ? 0 : 3; // Start on first card on mobile, celebration card on desktop
             const totalCards = cards.length;
-            const gap = 30; // Match CSS gap
+            const gap = isMobile ? 0 : 30; // No gap on mobile (cards are 100% width), 30px gap on desktop
             
-            // Initialize: set celebration card (index 3) as active
+            // Initialize: set appropriate card as active
             function initializeCarousel() {
                 cards.forEach((card, index) => {
                     card.classList.remove('active');
@@ -1911,11 +1896,29 @@ If you don't know something specific, suggest they contact the company directly 
             // Update transform to center the active card
             function updateTransform() {
                 if (cards.length === 0) return;
-                const containerWidth = container.offsetWidth;
-                const cardWidth = cards[0].offsetWidth;
-                // Calculate offset to center the active card
-                const offset = (containerWidth / 2) - (cardWidth / 2) - (currentIndex * (cardWidth + gap));
-                track.style.transform = `translateX(${offset}px)`;
+                
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile && cards.length > 0) {
+                    // Mobile: position cards so active card is fully visible
+                    // On mobile, cards are 100% width of container, gap is 0 (cards touch)
+                    const cardWidth = cards[0].offsetWidth;
+                    // Calculate offset to position active card at the start of visible area
+                    // No gap on mobile since cards are 100% width
+                    // Ensure offset doesn't exceed bounds
+                    const maxOffset = 0; // First card should be at 0
+                    const minOffset = -(totalCards - 1) * cardWidth; // Last card offset
+                    let offset = -currentIndex * cardWidth;
+                    // Clamp offset to valid range
+                    offset = Math.max(minOffset, Math.min(maxOffset, offset));
+                    track.style.transform = `translateX(${offset}px)`;
+                } else {
+                    // Desktop: center the active card in the container
+                    const containerWidth = container.offsetWidth;
+                    const cardWidth = cards[0].offsetWidth;
+                    const offset = (containerWidth / 2) - (cardWidth / 2) - (currentIndex * (cardWidth + gap));
+                    track.style.transform = `translateX(${offset}px)`;
+                }
             }
             
             // Move to specific index (with wrapping)
@@ -1961,7 +1964,27 @@ If you don't know something specific, suggest they contact the company directly 
             const handleResize = () => {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(() => {
-                    updateTransform();
+                    // On resize, adjust currentIndex if switching between mobile/desktop
+                    const isMobileNow = window.innerWidth <= 768;
+                    if (isMobileNow && currentIndex !== 0) {
+                        // If switching to mobile, reset to first card
+                        currentIndex = 0;
+                        cards.forEach((card, index) => {
+                            card.classList.toggle('active', index === 0);
+                        });
+                        // Reset transform to 0 on mobile
+                        track.style.transform = 'translateX(0)';
+                    } else if (!isMobileNow && currentIndex === 0) {
+                        // If switching to desktop, move to celebration card
+                        currentIndex = 3;
+                        cards.forEach((card, index) => {
+                            card.classList.toggle('active', index === 3);
+                        });
+                    }
+                    // Recalculate transform after resize
+                    requestAnimationFrame(() => {
+                        updateTransform();
+                    });
                 }, 250);
             };
             window.addEventListener('resize', handleResize);
@@ -1970,7 +1993,24 @@ If you don't know something specific, suggest they contact the company directly 
             const runInit = () => {
                 // Use requestAnimationFrame to ensure layout is complete
                 requestAnimationFrame(() => {
-                    setTimeout(initializeCarousel, 50);
+                    // On mobile, reset to first card (index 0) to prevent offset issues
+                    const isMobile = window.innerWidth <= 768;
+                    if (isMobile && currentIndex !== 0) {
+                        currentIndex = 0;
+                        cards.forEach((card, index) => {
+                            card.classList.toggle('active', index === 0);
+                        });
+                        // Reset transform to 0 on mobile to ensure first card is visible
+                        track.style.transform = 'translateX(0)';
+                    }
+                    // Small delay to ensure layout is settled before calculating transforms
+                    setTimeout(() => {
+                        initializeCarousel();
+                        // Force a recalculation after a brief moment to catch any layout shifts
+                        requestAnimationFrame(() => {
+                            updateTransform();
+                        });
+                    }, 150);
                 });
             };
             
