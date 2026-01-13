@@ -1205,6 +1205,20 @@ h2.heading-blush-bg.pt-6 {
 }
 
 /* List & Content Styles */
+/* All bullet point lists display in 2 columns across all pages */
+ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carousel-indicators):not(.pagination):not(.breadcrumb) {
+  columns: 2 !important;
+  column-gap: 2rem !important;
+  list-style-position: inside !important;
+}
+
+/* Mobile: single column for lists */
+@media (max-width: 768px) {
+  ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carousel-indicators):not(.pagination):not(.breadcrumb) {
+    columns: 1 !important;
+  }
+}
+
 .display-list,
 .policies-list {
   columns: 2;
@@ -1325,7 +1339,7 @@ h2.heading-blush-bg.pt-6 {
 #neighbourhoodNibblesHeroCarousel,
 #centuria50thHeroCarousel,
 #breastCancerHeroCarousel {
-  height: 800px;
+  height: 1250px !important;
 }
 
 #connect140Carousel .carousel-inner,
@@ -1348,7 +1362,7 @@ h2.heading-blush-bg.pt-6 {
 #centuria50thHeroCarousel .carousel-item,
 #breastCancerHeroCarousel .carousel-inner,
 #breastCancerHeroCarousel .carousel-item {
-  height: 800px;
+  height: 1250px !important;
 }
 
 #connect140Carousel .carousel-item img,
@@ -1362,9 +1376,9 @@ h2.heading-blush-bg.pt-6 {
 #centuria50thHeroCarousel .carousel-item img,
 #breastCancerHeroCarousel .carousel-item img {
   width: 100% !important;
-  height: 800px !important;
-  min-height: 800px !important;
-  max-height: 800px !important;
+  height: 1250px !important;
+  min-height: 1250px !important;
+  max-height: 1250px !important;
   object-fit: cover !important;
   object-position: center !important;
   display: block !important;
@@ -1763,11 +1777,14 @@ button[type="button"].carousel-control-next {
   font-weight: 700 !important;
 }
 
-/* Rectangular testimonial images */
+/* Rectangular testimonial images - fixed size 200x50px */
 .testimonial-img-rectangular {
-  width: 100% !important;
+  width: 200px !important;
   max-width: 200px !important;
+  min-width: 200px !important;
   height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
   object-fit: contain !important;
   object-position: center !important;
   border: 3px solid var(--coreGold) !important;
@@ -1775,15 +1792,11 @@ button[type="button"].carousel-control-next {
   box-shadow: 0 4px 8px var(--coreCharcoal) !important;
   padding: 5px !important;
   box-sizing: border-box !important;
+  aspect-ratio: 4 / 1 !important;
 }
 
-/* Explicit aspect ratio for testimonial rectangular logos */
-.testimonial-img-rectangular {
-  aspect-ratio: 4 / 1;
-}
-
-/* Home page testimonial layout adjustments */
-body.home .testimonial-item {
+/* Testimonial layout adjustments - apply to all pages to match index page */
+.testimonial-item {
   text-align: center !important;
   overflow: visible !important;
   display: flex !important;
@@ -1791,25 +1804,39 @@ body.home .testimonial-item {
   align-items: center !important;
 }
 
-body.home .testimonial-item .testimonial-img-rectangular {
+.testimonial-item .testimonial-img-rectangular {
   position: static !important;
   float: none !important;
   margin: 0 0 20px 0 !important;
+  width: 200px !important;
+  max-width: 200px !important;
+  min-width: 200px !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border: 3px solid var(--coreGold) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 8px var(--coreCharcoal) !important;
+  padding: 5px !important;
+  box-sizing: border-box !important;
+  aspect-ratio: 4 / 1 !important;
 }
 
-body.home .testimonial-item .testimonial-name {
+.testimonial-item .testimonial-name {
   margin: 0 0 10px 0 !important;
   text-align: center !important;
   display: block !important;
 }
 
-body.home .testimonial-item .testimonial-position {
+.testimonial-item .testimonial-position {
   margin: 0 0 20px 0 !important;
   text-align: center !important;
   display: block !important;
 }
 
-body.home .testimonial-item .testimonial-content {
+.testimonial-item .testimonial-content {
   width: 100% !important;
   max-width: 800px !important;
   text-align: center !important;
@@ -5908,6 +5935,20 @@ body.case-study .section-main > .container > section:last-child {
   margin-bottom: 0;
 }
 
+/* Case study pages - display all bullet point lists in 2 columns */
+body.case-study ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carousel-indicators) {
+  columns: 2 !important;
+  column-gap: 2rem !important;
+  list-style-position: inside !important;
+}
+
+/* Mobile: single column for lists on case study pages */
+@media (max-width: 768px) {
+  body.case-study ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carousel-indicators) {
+    columns: 1 !important;
+  }
+}
+
 /* Case study content cards - refined spacing */
 body.case-study .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -5951,6 +5992,24 @@ body.case-study .card:hover {
 body.case-study .carousel-item img {
   loading: lazy;
   decoding: async;
+}
+
+/* Case study carousels - set height to 1250px */
+body.case-study .carousel:not(.case-study-hero-carousel) {
+  height: 1250px !important;
+}
+
+body.case-study .carousel:not(.case-study-hero-carousel) .carousel-inner,
+body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item {
+  height: 1250px !important;
+}
+
+body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item img {
+  height: 1250px !important;
+  min-height: 1250px !important;
+  max-height: 1250px !important;
+  object-fit: cover !important;
+  object-position: center !important;
 }
 
 body.case-study .carousel-item:not(.active) img {
