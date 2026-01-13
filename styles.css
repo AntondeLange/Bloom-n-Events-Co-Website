@@ -861,37 +861,118 @@ body.capabilities .section-main > .container > section:last-child {
 }
 
 /* Capabilities page - ensure all text uses full width */
+/* Exclude navbar and footer from these rules - be very specific */
 body.capabilities .section-main p,
 body.capabilities .section-secondary p,
 body.capabilities .section-hero p,
 body.capabilities .section-main .lead,
 body.capabilities .section-secondary .lead,
-body.capabilities .lead,
-body.capabilities .text-charcoal,
-body.capabilities p,
 body.capabilities .card-body p,
 body.capabilities .card-body .text-charcoal,
 body.capabilities .card-body .lead,
 body.capabilities .card-body h4,
-body.capabilities .card-body *,
-body.capabilities ul,
-body.capabilities li,
 body.capabilities .display-list,
 body.capabilities .display-list li,
-body.capabilities h2,
-body.capabilities h3,
-body.capabilities h4,
-body.capabilities h5,
-body.capabilities h6 {
+body.capabilities .section-main h2,
+body.capabilities .section-main h3,
+body.capabilities .section-main h4,
+body.capabilities .section-main h5,
+body.capabilities .section-main h6,
+body.capabilities .section-secondary h2,
+body.capabilities .section-secondary h3,
+body.capabilities .section-secondary h4,
+body.capabilities .section-secondary h5,
+body.capabilities .section-secondary h6 {
   max-width: 100% !important;
   width: 100% !important;
 }
 
+/* Exclude navbar and footer explicitly - do NOT apply width rules to these */
+body.capabilities .navbar,
+body.capabilities .navbar *,
+body.capabilities footer,
+body.capabilities footer * {
+  /* These are handled by the navbar-specific rules below */
+}
+
+/* Ensure navbar is not affected by capabilities page rules - HIGHEST SPECIFICITY */
+body.capabilities .navbar,
+body.capabilities .navbar *,
+body.capabilities .navbar > *,
+body.capabilities .navbar .container,
+body.capabilities .navbar .container *,
+body.capabilities .navbar-collapse,
+body.capabilities .navbar-collapse *,
+body.capabilities .navbar-nav,
+body.capabilities .navbar-nav *,
+body.capabilities .navbar-nav > *,
+body.capabilities .navbar-nav .nav-item,
+body.capabilities .navbar-nav .nav-item *,
+body.capabilities .navbar-nav .nav-link,
+body.capabilities .navbar-nav .nav-link *,
+body.capabilities .nav-link,
+body.capabilities .nav-item,
+body.capabilities .dropdown-toggle,
+body.capabilities .dropdown-menu,
+body.capabilities .dropdown-menu *,
+body.capabilities .dropdown-item,
+body.capabilities .navbar-brand,
+body.capabilities .navbar-brand *,
+body.capabilities .navbar-toggler,
+body.capabilities .navbar-toggler * {
+  max-width: none !important;
+  width: auto !important;
+  white-space: nowrap !important;
+  font-family: var(--font-body, 'Montserrat'), sans-serif !important;
+  font-weight: 500 !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  overflow: visible !important;
+}
+
+/* Ensure navbar nav items display inline - OVERRIDE ALL OTHER RULES */
+body.capabilities .navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+body.capabilities .navbar-nav .nav-item {
+  display: flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  max-width: none !important;
+  flex-shrink: 0 !important;
+}
+
+body.capabilities .navbar-nav .nav-link {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  width: auto !important;
+  max-width: none !important;
+  flex-shrink: 0 !important;
+  overflow: visible !important;
+}
+
 /* Capabilities page - split all bullet lists into 2 columns */
-body.capabilities ul {
+/* Exclude navbar and footer lists */
+body.capabilities ul:not(.navbar-nav):not(.navbar *):not(footer *):not(footer ul *) {
   columns: 2 !important;
   column-gap: 2rem !important;
   list-style-position: inside !important;
+}
+
+/* Ensure navbar lists are not affected */
+body.capabilities .navbar-nav,
+body.capabilities .navbar-nav ul,
+body.capabilities .dropdown-menu {
+  columns: 1 !important;
+  column-gap: 0 !important;
+  list-style-position: outside !important;
 }
 
 /* Mobile: single column for lists */
@@ -2431,6 +2512,77 @@ video {
 /* Capabilities Page - Lighter Paragraph Text */
 body.capabilities .lead {
   font-weight: 400 !important;
+}
+
+/* FINAL OVERRIDE: Ensure navbar on capabilities page matches other pages exactly */
+/* This must come after all other capabilities rules */
+body.capabilities nav.navbar,
+body.capabilities nav.navbar .navbar-collapse,
+body.capabilities nav.navbar .navbar-nav,
+body.capabilities nav.navbar .navbar-nav .nav-item,
+body.capabilities nav.navbar .navbar-nav .nav-link,
+body.capabilities nav.navbar .navbar-nav .nav-link a {
+  width: auto !important;
+  max-width: none !important;
+  min-width: auto !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+/* Ensure navbar container maintains proper layout */
+body.capabilities nav.navbar .container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+/* Ensure navbar brand (logo) is centered */
+body.capabilities nav.navbar .navbar-brand {
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Ensure contact button is on the far right */
+body.capabilities nav.navbar .d-flex {
+  margin-left: auto !important;
+  flex: 0 0 auto !important;
+  order: 3 !important;
+}
+
+body.capabilities nav.navbar .navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  order: 1 !important;
+}
+
+body.capabilities nav.navbar .navbar-nav .nav-item {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+body.capabilities nav.navbar .navbar-nav .nav-link {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  flex-shrink: 0 !important;
 }
 
 /* Footer Styles */
@@ -4693,6 +4845,7 @@ body.capabilities .hero-overlay {
 }
 
 .hero-subhead {
+  font-family: 'Dancing Script', cursive;
   font-size: clamp(1rem, 2.5vw, 1.25rem); /* Responsive scaling: 1rem mobile, 1.25rem desktop */
   color: var(--coreChampers);
   max-width: min(800px, 90vw); /* Responsive max-width */
@@ -4701,6 +4854,15 @@ body.capabilities .hero-overlay {
   line-height: 1.75;
   font-weight: 400;
   padding: 0 1rem; /* Prevent edge touching on mobile */
+}
+
+/* Center lead paragraph in hero section */
+.hero-content .lead,
+.hero-section .lead {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: min(800px, 90vw) !important;
 }
 
 .hero-cta {
@@ -5002,6 +5164,7 @@ body.capabilities .hero-overlay {
 }
 
 .hero-subhead {
+  font-family: 'Dancing Script', cursive;
   font-size: 1.25rem;
   color: var(--coreChampers);
   max-width: 800px;
