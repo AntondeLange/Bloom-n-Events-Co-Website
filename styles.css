@@ -119,6 +119,45 @@ section.section-hero > .container {
   --navbar-height: 65px;
 }
 
+/* ===== SKIP LINK FOR KEYBOARD NAVIGATION ===== */
+.skip-link {
+  position: fixed;
+  bottom: 200px; /* Positioned above chatbot (chatbot is at 120px) */
+  right: 20px;
+  background: var(--coreCharcoal);
+  color: var(--coreChampers);
+  padding: 10px 16px;
+  text-decoration: none;
+  z-index: 10001; /* Above chatbot */
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 2px solid var(--coreGold);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(10px);
+}
+
+.skip-link:focus {
+  opacity: 1;
+  pointer-events: auto;
+  outline: 3px solid var(--coreGold);
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
+/* Mobile adjustments for skip link */
+@media (max-width: 768px) {
+  .skip-link {
+    bottom: 180px; /* Adjust for mobile navbar height */
+    right: 15px;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+}
+
 body {
   background-color: var(--coreChampers);
   background-image: url(images/BloomnBackground.jpg);
@@ -378,9 +417,9 @@ body.policies .highlight {
 .navbar .dropdown-toggle:focus,
 .navbar .btn:focus,
 .navbar .btn-gold:focus {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
+  outline: 2px solid var(--coreGold) !important;
+  outline-offset: 2px !important;
+  border-radius: 2px !important;
 }
 
 .navbar-brand img {

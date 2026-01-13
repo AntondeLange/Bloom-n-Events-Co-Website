@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - Bloom'n Events Co</title>
-    <meta name="description" content="View our event portfolio: corporate events, creative workshops, displays, and more. See examples of Bloom'n Events Co's work across Perth and Western Australia.">
+    <title>Event Portfolio Gallery | Perth & WA Event Production | Bloom'n Events Co</title>
+    <meta name="description" content="View Bloom'n Events Co's event production portfolio. Corporate events, creative workshops, custom displays across Perth and Western Australia. In-house design, engineering, and fabrication.">
     
     <!-- Open Graph tags for social sharing -->
     <meta property="og:title" content="Gallery | Bloom'n Events Co">
@@ -24,8 +24,8 @@
     <meta name="webp-assets" content="true">
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com api.openai.com; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com www.google-analytics.com google-analytics.com api.openai.com cdn.jsdelivr.net; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
+    <!-- Note: X-Frame-Options should be set via HTTP headers, not meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
@@ -170,7 +170,10 @@
         </div>
     </nav>
 
-    <main>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <main id="main-content">
         <!-- Event gallery -->
         <section class="gallery-section section-main" aria-labelledby="event-gallery-heading">
         <div class="container">
