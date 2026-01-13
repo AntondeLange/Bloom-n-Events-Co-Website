@@ -666,12 +666,24 @@ body.contact .form-control:focus {
 }
 
 /* Card & Component Styles */
+/* ===== CONTENT-DRIVEN BASE CARD STYLES ===== */
+/* Mobile-first: cards expand based on content, no fixed heights */
 .card {
   background-color: var(--coreChampers);
   border: 2px solid var(--coreGold);
-  border-radius: 12px;
-  box-shadow: 0 4px 8px var(--coreCharcoal);
+  border-radius: var(--radius-lg, 0.75rem); /* Use token */
+  box-shadow: var(--shadow-md); /* Use token */
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  /* Remove any height constraints - let content determine size */
+  min-height: auto;
+}
+
+/* Override Bootstrap's h-100 utility for content-driven layouts */
+.card.h-100 {
+  height: auto !important; /* Content-driven height */
+  min-height: auto !important;
 }
 
 .card:hover {
@@ -694,13 +706,14 @@ body.contact .form-control:focus {
   background-color: rgba(191, 155, 48, 0.1) !important;
 }
 
-/* Inclusion Card */
+/* ===== CONTENT-DRIVEN INCLUSION CARDS ===== */
+/* Mobile-first: cards expand based on content */
 .inclusion-card {
   background-color: var(--coreChampers);
   border: 2px solid var(--coreGold);
   border-radius: 12px;
-  padding: 20px;
-  height: 100%;
+  padding: var(--space-5, 1.25rem); /* Use spacing token */
+  /* Remove height: 100% - let content determine height */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -708,6 +721,7 @@ body.contact .form-control:focus {
   text-align: center;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px var(--coreCharcoal);
+  min-height: auto; /* No minimum height constraint */
 }
 
 .inclusion-card:hover {
@@ -728,15 +742,18 @@ body.contact .form-control:focus {
   text-align: center;
 }
 
-/* Social Card */
+/* ===== CONTENT-DRIVEN CARDS ===== */
+/* Mobile-first: cards expand based on content, no fixed heights */
 .social-card {
   background-color: var(--coreChampers) !important;
   border: 2px solid var(--coreGold);
   border-radius: 12px;
   transition: all 0.3s ease;
-  height: 100%;
+  /* Remove height: 100% - let content determine height */
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 4px 8px var(--coreCharcoal) !important;
-  max-height: 750px; /* Limit overall card height */
+  /* Remove max-height constraint - content-driven sizing */
 }
 
 .social-card:hover {
@@ -752,7 +769,7 @@ body.contact .form-control:focus {
 
 .social-card p {
   color: var(--coreCharcoal);
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5, 1.25rem); /* Use spacing token */
   text-align: center !important;
 }
 
@@ -760,10 +777,13 @@ body.contact .form-control:focus {
   margin-top: auto;
 }
 
-/* Limit social card body height and allow internal scrolling if content exceeds */
+/* Content-driven card body - no height constraints */
 .social-card .card-body {
-  max-height: 750px;
-  overflow: auto;
+  /* Remove max-height - let content flow naturally */
+  overflow: visible; /* Allow content to flow naturally */
+  flex: 1; /* Allow body to grow with content */
+  display: flex;
+  flex-direction: column;
 }
 
 .social-card .bi {
@@ -792,19 +812,24 @@ body.contact .form-control:focus {
   overflow: hidden;
 }
 
-.service-card .card-img-top {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* Case Study Card Images */
+/* ===== CONTENT-DRIVEN CARD IMAGES ===== */
+/* Mobile-first: images scale naturally with aspect ratios */
+.service-card .card-img-top,
 .card .card-img-top {
   width: 100%;
-  height: 250px;
+  height: auto; /* Content-driven height based on aspect ratio */
+  aspect-ratio: 16 / 9; /* Maintain consistent aspect ratio */
   object-fit: cover;
   object-position: center;
+  display: block; /* Remove inline spacing */
+}
+
+/* Responsive aspect ratios for different contexts */
+@media (max-width: 576px) {
+  .service-card .card-img-top,
+  .card .card-img-top {
+    aspect-ratio: 4 / 3; /* Slightly taller on mobile for better visibility */
+  }
 }
 
 .service-card .card-body {
@@ -819,6 +844,117 @@ body.contact .form-control:focus {
 .card-body li {
   max-width: 100% !important;
   width: 100% !important;
+}
+
+/* ===== CAPABILITIES PAGE STYLING ===== */
+/* Match case study page styling */
+body.capabilities .section-main {
+  padding: var(--section-padding-y, 4rem) 0;
+}
+
+body.capabilities .section-main > .container > section {
+  margin-bottom: var(--space-10, 2.5rem);
+}
+
+body.capabilities .section-main > .container > section:last-child {
+  margin-bottom: 0;
+}
+
+/* Capabilities page - ensure all text uses full width */
+body.capabilities .section-main p,
+body.capabilities .section-secondary p,
+body.capabilities .section-hero p,
+body.capabilities .section-main .lead,
+body.capabilities .section-secondary .lead,
+body.capabilities .lead,
+body.capabilities .text-charcoal,
+body.capabilities p,
+body.capabilities .card-body p,
+body.capabilities .card-body .text-charcoal,
+body.capabilities .card-body .lead,
+body.capabilities .card-body h4,
+body.capabilities .card-body *,
+body.capabilities ul,
+body.capabilities li,
+body.capabilities .display-list,
+body.capabilities .display-list li,
+body.capabilities h2,
+body.capabilities h3,
+body.capabilities h4,
+body.capabilities h5,
+body.capabilities h6 {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Capabilities page - split all bullet lists into 2 columns */
+body.capabilities ul {
+  columns: 2 !important;
+  column-gap: 2rem !important;
+  list-style-position: inside !important;
+}
+
+/* Mobile: single column for lists */
+@media (max-width: 768px) {
+  body.capabilities ul {
+    columns: 1 !important;
+  }
+}
+
+/* Capabilities content cards - match case study styling */
+body.capabilities .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.capabilities .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Capabilities carousel - match case study carousel styling */
+body.capabilities .case-study-hero-carousel {
+  background-color: var(--coreChampers);
+  border: none !important;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px var(--coreCharcoal);
+  height: 1250px !important;
+}
+
+/* Capabilities carousel images - ensure they fill the carousel */
+body.capabilities .case-study-hero-carousel .carousel-inner,
+body.capabilities .case-study-hero-carousel .carousel-item {
+  width: 100%;
+  height: 1250px !important;
+}
+
+body.capabilities .case-study-hero-carousel .carousel-item img {
+  width: 100% !important;
+  height: 1250px !important;
+  min-width: 100% !important;
+  min-height: 1250px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Mobile: maintain height but allow responsive scaling */
+@media (max-width: 768px) {
+  body.capabilities .case-study-hero-carousel {
+    height: 1250px !important;
+  }
+  
+  body.capabilities .case-study-hero-carousel .carousel-inner,
+  body.capabilities .case-study-hero-carousel .carousel-item {
+    height: 1250px !important;
+  }
+  
+  body.capabilities .case-study-hero-carousel .carousel-item img {
+    height: 1250px !important;
+    min-height: 1250px !important;
+  }
 }
 
 /* CTA Card */
@@ -851,13 +987,15 @@ body.contact .form-control:focus {
 }
 
 /* Content Block */
+/* ===== CONTENT-DRIVEN CONTENT BLOCKS ===== */
+/* Mobile-first: use spacing tokens for consistent padding */
 .content-block {
   background-color: var(--coreChampers);
   border: 1px solid var(--coreGold);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px var(--coreCharcoal) var(--bg-opacity);
+  border-radius: var(--radius-lg, 0.75rem); /* Use token */
+  padding: var(--space-5, 1.25rem); /* Use spacing token */
+  margin-bottom: var(--space-5, 1.25rem); /* Use spacing token */
+  box-shadow: var(--shadow-sm); /* Use token */
 }
 
 /* ===== HEADING STYLES ===== */
@@ -870,7 +1008,7 @@ h1#socialMediaHeading,
 h1#socialMediaHeading.content-heading-large {
   color: var(--coreGold) !important;
   text-shadow: 0 4px 8px var(--coreCharcoal), 0 0 0 2px var(--coreCharcoal), 0 0 0 4px var(--coreCharcoal) !important;
-  margin-bottom: 20px !important;
+  margin-bottom: var(--space-5, 1.25rem) !important; /* Use spacing token */
 }
 
 /* All headings with heading-blush-bg */
@@ -1002,7 +1140,7 @@ h2.heading-blush-bg.pt-6 {
 
 .workshop-list {
   list-style: disc;
-  padding-left: 20px;
+  padding-left: var(--space-5, 1.25rem); /* Use spacing token */
   margin: 0;
 }
 
@@ -1647,6 +1785,70 @@ body.home .testimonial-item .testimonial-content {
   box-shadow: 0 4px 8px var(--coreCharcoal) !important;
 }
 
+/* ===== ABOUT PAGE WORKSHOP CAROUSEL ===== */
+/* Fixed size: 980px width x 450px height */
+.about-workshop-carousel {
+  width: 980px !important;
+  height: 450px !important;
+  max-width: 100%; /* Responsive on smaller screens */
+  margin: 0 auto; /* Center the carousel */
+  overflow: hidden; /* Ensure no overflow */
+  position: relative;
+}
+
+.about-workshop-carousel .carousel-inner {
+  width: 100% !important;
+  height: 450px !important;
+  overflow: hidden;
+}
+
+.about-workshop-carousel .carousel-item {
+  width: 100% !important;
+  height: 450px !important;
+  overflow: hidden;
+}
+
+.about-workshop-carousel .carousel-item img {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: var(--radius-lg, 0.75rem) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* Mobile: scale down proportionally */
+@media (max-width: 991px) {
+  .about-workshop-carousel {
+    width: 100% !important;
+    max-width: 980px;
+    height: auto !important;
+    aspect-ratio: 980 / 450; /* Maintain aspect ratio */
+  }
+  
+  .about-workshop-carousel .carousel-inner {
+    height: auto !important;
+    aspect-ratio: 980 / 450;
+  }
+  
+  .about-workshop-carousel .carousel-item {
+    height: auto !important;
+    aspect-ratio: 980 / 450;
+  }
+  
+  .about-workshop-carousel .carousel-item img {
+    height: auto !important;
+    aspect-ratio: 980 / 450;
+  }
+}
+
 /* Gallery carousel controls styling */
 .gallery-section .carousel-control-prev,
 .gallery-section .carousel-control-next {
@@ -1786,13 +1988,23 @@ body.home .testimonial-item .testimonial-content {
 .gallery-section h2 {
   color: var(--coreCharcoal);
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5, 1.25rem); /* Use spacing token */
 }
 
+/* ===== CONTENT-DRIVEN GALLERY GRID ===== */
+/* Mobile-first: responsive grid with token-based spacing */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  gap: var(--space-5, 1.25rem); /* Use spacing token */
+}
+
+/* Mobile: single column layout */
+@media (max-width: 576px) {
+  .gallery-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: var(--space-4, 1rem); /* Smaller gap on mobile */
+  }
 }
 
 .column {
@@ -1800,12 +2012,15 @@ body.home .testimonial-item .testimonial-content {
   flex-direction: column;
 }
 
+/* ===== CONTENT-DRIVEN GALLERY IMAGES ===== */
+/* Mobile-first: images use aspect ratios instead of fixed heights */
 .column img {
   width: 100%;
-  height: 200px;
+  height: auto; /* Content-driven height */
+  aspect-ratio: 4 / 3; /* Consistent aspect ratio */
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: var(--radius-md, 0.5rem); /* Use token */
+  margin-bottom: var(--space-2, 0.5rem); /* Use token */
   transition: transform 0.3s ease;
 }
 
@@ -1917,10 +2132,20 @@ body.home .testimonial-item .testimonial-content {
   margin-top: 0; /* Ensure consistent spacing between sections */
 }
 
+/* ===== CONTENT-DRIVEN SECTION HEIGHTS ===== */
+/* Mobile-first: sections expand based on content, no fixed heights */
 .section-hero {
   padding: var(--section-padding-y, 4rem) 0;
-  min-height: calc(50vh - 150px);
+  /* Remove fixed min-height - let content determine height */
   margin-bottom: 0;
+}
+
+/* Hero sections with images/videos can use viewport units for visual impact */
+/* But only when content requires it, not as a constraint */
+@media (min-width: 769px) {
+  .section-hero.has-hero-media {
+    min-height: 50vh; /* Only for hero sections with media, desktop only */
+  }
 }
 
 .section-secondary {
@@ -2662,9 +2887,11 @@ body:not(.home):not(.about):not(.team) .inclusion-card .display-type {
 /* Events Page Layout */
 /* Remove special padding rules for Events/Workshops/Displays - they should match About/Team styling */
 
-/* Team Page Styles */
+/* ===== TEAM PAGE STYLES ===== */
+/* Square aspect ratio (1:1) for all team and founder cards */
 .director-image-container {
-  height: 452px !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important; /* Square ratio */
   overflow: hidden !important;
   position: relative !important;
 }
@@ -2683,7 +2910,8 @@ body:not(.home):not(.about):not(.team) .inclusion-card .display-type {
 }
 
 .team-member-image {
-  height: 320px !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important; /* Square ratio */
   overflow: hidden !important;
   position: relative !important;
 }
@@ -2768,11 +2996,13 @@ body.team .cta-card .card-body p {
   margin-bottom: 1rem !important; /* Restore normal paragraph spacing in CTA */
 }
 
+/* Team member images maintain square ratio */
 body.team .team-member-image {
-  height: 140px !important;
+  aspect-ratio: 1 / 1 !important; /* Square ratio maintained */
+  width: 100% !important;
 }
 
-/* Ensure Images Fit with Reduced Height */
+/* Ensure Images Fit with Square Ratio */
 body.team .team-member-image img {
   width: 100% !important;
   height: 100% !important;
@@ -2813,19 +3043,19 @@ body.team .team-member-image img {
     overflow: hidden !important;
   }
   
-  /* Larger Image Size for Mobile Grid */
+  /* Square Image Size for Mobile Grid */
   body.team .row-cols-lg-6 .team-member-image {
-    height: 180px !important;
+    aspect-ratio: 1 / 1 !important; /* Square ratio maintained on mobile */
     width: 100% !important;
     max-width: 100% !important;
     border-radius: 8px 8px 0 0 !important;
     overflow: hidden !important;
   }
   
-  /* Force Images to Fit Container */
+  /* Force Images to Fit Container with Square Ratio */
   body.team .row-cols-lg-6 .team-member-image img {
     width: 100% !important;
-    height: 180px !important;
+    height: 100% !important;
     max-width: 100% !important;
     object-fit: cover !important;
     object-position: center !important;
@@ -2853,28 +3083,31 @@ body.team .team-member-image img {
   }
 }
 
-/* Team Section - Fixed Height Cards */
+/* Team Section - Cards maintain square image ratio */
+/* Cards will size based on content, but images are always square */
 #teamHeading ~ .row .team-card {
-  height: 400px !important;
+  /* Remove fixed height - let content determine card height */
+  /* Images maintain square ratio via aspect-ratio: 1 / 1 */
 }
 
-#teamHeading ~ .row .team-member-image {
-  height: 400px !important;
+/* Team and Collaborator sections - square image ratio */
+#teamHeading ~ .row .team-member-image,
+#collaboratorsHeading ~ .row .team-member-image {
+  aspect-ratio: 1 / 1 !important; /* Square ratio */
+  width: 100% !important;
 }
 
-#teamHeading ~ .row .team-member-image img {
+#teamHeading ~ .row .team-member-image img,
+#collaboratorsHeading ~ .row .team-member-image img {
   height: 100% !important;
   width: 100% !important;
   object-fit: cover !important;
 }
 
-/* Collaborators Section - Fixed Height Cards */
+/* Collaborators Section - Cards maintain square image ratio */
 #collaboratorsHeading ~ .row .team-card {
-  height: 400px !important;
-}
-
-#collaboratorsHeading ~ .row .team-member-image {
-  height: 400px !important;
+  /* Remove fixed height - let content determine card height */
+  /* Images maintain square ratio via aspect-ratio: 1 / 1 */
 }
 
 #collaboratorsHeading ~ .row .team-member-image img {
@@ -2946,17 +3179,29 @@ div.text-center.mt-5 {
   margin-top: 0 !important;
 }
 
-.spacer-sm { height: 10px; }
-.spacer-md { height: 20px; }
-.spacer-lg { height: 60px; }
+/* ===== SPACING UTILITIES ===== */
+/* Mobile-first: use spacing tokens for consistent rhythm */
+.spacer-sm { 
+  height: var(--space-2, 0.5rem); /* 8px */
+  display: block;
+}
+.spacer-md { 
+  height: var(--space-5, 1.25rem); /* 20px */
+  display: block;
+}
+.spacer-lg { 
+  height: var(--space-12, 3rem); /* 48px */
+  display: block;
+}
 
 .container-main {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* Use spacing tokens for consistent spacing */
 .social-spacing {
-  margin-top: 20px;
+  margin-top: var(--space-5, 1.25rem); /* Use token instead of fixed pixel */
 }
 
 /* Responsive Design */
@@ -3054,7 +3299,7 @@ div.text-center.mt-5 {
   /* Home Navbar Mobile Menu - Above navbar when expanded */
   #homeNavbar .navbar-collapse {
     margin-top: 0 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: var(--space-5, 1.25rem) !important; /* Use spacing token */
     border-top: none !important;
     border-bottom: 1px solid var(--coreGold) !important;
     top: auto !important;
@@ -3138,7 +3383,7 @@ div.text-center.mt-5 {
     left: 0 !important;
     right: 0 !important;
     z-index: 9999 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: var(--space-5, 1.25rem) !important; /* Use spacing token */
     border-radius: 8px 8px 0 0 !important;
     border: 2px solid var(--coreGold) !important;
     border-bottom: none !important;
@@ -3364,7 +3609,7 @@ div.text-center.mt-5 {
   left: 0 !important;
   right: 0 !important;
   z-index: 9999 !important;
-  margin-bottom: 20px !important;
+  margin-bottom: var(--space-5, 1.25rem) !important; /* Use spacing token */
   border-radius: 8px 8px 0 0 !important;
   border: 2px solid var(--coreGold) !important;
   border-bottom: none !important;
@@ -4415,8 +4660,13 @@ img.error {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(30, 30, 30, 0.5); /* Darkened by 10% (from 0.4 to 0.5) */
+  background: rgba(30, 30, 30, 0.5); /* Default overlay */
   z-index: 2;
+}
+
+/* Capabilities page - darker overlay (30% darker = 80% opacity) */
+body.capabilities .hero-overlay {
+  background: rgba(30, 30, 30, 0.8) !important; /* Darkened by 30% */
 }
 
 .hero-content {
@@ -4870,69 +5120,173 @@ img.error {
   overflow: visible; /* Allow arrows to be visible */
 }
 
+/* ===== CAROUSEL CONTAINER CONTRACT ===== */
 .success-stories-carousel-container {
-  overflow: hidden;
   width: 100%;
   max-width: 100%;
   position: relative;
   box-sizing: border-box;
+  /* Overflow contract: desktop hidden, mobile scrollable */
+  overflow: hidden; /* Desktop: hide overflow for centering */
 }
 
+/* Mobile: allow horizontal scroll, no overflow masking */
+@media (max-width: 768px) {
+  .success-stories-carousel-container {
+    overflow-x: auto; /* Allow horizontal scroll on mobile */
+    overflow-y: visible; /* Allow vertical expansion */
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+    /* NO overflow masking - let content flow naturally */
+  }
+}
+
+/* ===== CAROUSEL TRACK CONTRACT ===== */
+/* Desktop: transform-based positioning for centering (OK) */
 .success-stories-carousel-track {
   display: flex;
-  transition: transform 0.5s ease;
   gap: 30px;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   box-sizing: border-box;
+  /* Transform transition only on desktop */
+  transition: transform 0.5s ease;
 }
 
+/* Mobile: NO transform-based positioning - use scroll-snap or natural flow */
+@media (max-width: 768px) {
+  .success-stories-carousel-track {
+    /* Remove transform transition on mobile */
+    transition: none;
+    /* Use scroll-snap for smooth navigation */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    /* Allow horizontal scroll on mobile */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .success-stories-carousel-card {
+    /* Snap points for mobile scrolling */
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+/* ===== CAROUSEL CARD STATE CONTRACTS ===== */
+/* 
+ * BEHAVIOR CONTRACT:
+ * 
+ * INACTIVE STATE:
+ * - Visual de-emphasis: opacity 0.5, scale 0.95 (visual only, no layout impact)
+ * - Layout: Constrained height (matches active card height or fixed max)
+ * - Positioning: Natural document flow (no transform-based positioning)
+ * - Metadata: Overlay on hover only (absolute positioning)
+ * 
+ * ACTIVE STATE:
+ * - Visual emphasis: opacity 1, scale 1 (visual only)
+ * - Layout: Content-driven height (can grow vertically)
+ * - Positioning: Natural document flow
+ * - Metadata: In document flow (relative positioning)
+ * 
+ * MOBILE:
+ * - NO transform-based positioning (use scroll-snap or natural flow)
+ * - All cards full width
+ * - All metadata in document flow
+ */
+
+/* Base card container - layout only, no visual styling */
 .success-stories-carousel-card {
   flex: 0 0 calc(33.333% - 20px);
   min-width: 0;
-  opacity: 0.5;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  cursor: pointer;
-  transform: scale(0.95);
+  /* Layout positioning only - no visual transforms */
+  align-self: stretch; /* Match tallest card in row */
 }
 
+/* Mobile: full width cards, no transform-based positioning */
+@media (max-width: 768px) {
+  .success-stories-carousel-card {
+    flex: 0 0 100%; /* Full width on mobile */
+    align-self: auto; /* Reset alignment on mobile */
+  }
+}
+
+/* ===== VISUAL EMPHASIS (SEPARATE FROM LAYOUT) ===== */
+/* Inactive: visual de-emphasis only - NO layout impact */
+.success-stories-carousel-card:not(.active) {
+  opacity: 0.5;
+  /* Use scale on a pseudo-element or inner element, not the card itself */
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+/* Visual scale effect - applied to inner element to avoid layout impact */
+.success-stories-carousel-card:not(.active) .card {
+  transform: scale(0.95);
+  transition: transform 0.5s ease, box-shadow 0.4s ease;
+}
+
+/* Active: visual emphasis only - NO layout impact */
 .success-stories-carousel-card.active {
   opacity: 1;
-  transform: scale(1);
   cursor: default;
-  z-index: 2;
-}
-
-.success-stories-carousel-card .card {
-  width: 100%;
-  margin: 0;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: auto; /* Allow card to grow based on content */
-}
-
-/* Active card: allow vertical expansion - override h-100 class */
-.success-stories-carousel-card.active .card.h-100 {
-  height: auto !important; /* Override h-100 class to allow content-driven height */
-  min-height: auto !important;
-  max-height: none !important;
-}
-
-/* Portfolio card hover states - subtle and premium */
-.success-stories-carousel-card:not(.active):hover .card {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.5s ease;
+  /* NO z-index - use natural stacking order */
 }
 
 .success-stories-carousel-card.active .card {
+  transform: scale(1);
+  transition: transform 0.5s ease, box-shadow 0.4s ease;
+}
+
+/* ===== CARD LAYOUT CONTRACT ===== */
+/* Base card layout - same for all states */
+.success-stories-carousel-card .card {
+  width: 100%;
+  margin: 0;
+  /* NO overflow: hidden - allow content to flow naturally */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Height controlled by state contract below */
+}
+
+/* ===== HEIGHT CONTRACT ===== */
+/* Inactive: constrained height (match active or fixed max) */
+.success-stories-carousel-card:not(.active) .card {
+  height: auto; /* Allow natural height but will be constrained by flex */
+  max-height: 500px; /* Constrain inactive cards */
+  overflow: hidden; /* Clip content that exceeds max-height */
+}
+
+/* Active: content-driven height (can grow) */
+.success-stories-carousel-card.active .card {
+  height: auto !important; /* Content-driven height */
+  min-height: auto !important;
+  max-height: none !important; /* No constraint - can grow */
+  overflow: visible; /* Allow content to flow naturally */
+}
+
+/* Override Bootstrap h-100 utility */
+.success-stories-carousel-card .card.h-100 {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+/* ===== HOVER EFFECTS CONTRACT ===== */
+/* Hover effects: visual only, NO layout impact */
+/* Use translateY on a pseudo-element or separate layer to avoid layout shift */
+.success-stories-carousel-card:not(.active):hover .card {
+  /* Visual lift effect - applied to card which already has scale transform */
+  /* Combined with scale(0.95) base, this creates subtle lift without layout impact */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  /* NO translateY - would affect layout, use box-shadow for depth instead */
+}
+
+/* Visual emphasis for active card - separate from layout */
+.success-stories-carousel-card.active .card {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  height: auto !important; /* Allow vertical expansion */
-  min-height: auto;
-  max-height: none;
+  /* Height contract handled above */
 }
 
 /* Ensure card-body in active cards has proper spacing and layout */
@@ -4959,48 +5313,49 @@ img.error {
   transform: scale(1.02);
 }
 
-/* Portfolio card metadata - inactive cards: overlay behavior */
-.portfolio-card-metadata {
+/* ===== METADATA POSITIONING CONTRACT ===== */
+/* Inactive cards: overlay metadata (absolute positioning, hidden by default) */
+.success-stories-carousel-card:not(.active) .portfolio-card-metadata {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   background: linear-gradient(to top, rgba(30, 30, 30, 0.95) 0%, rgba(30, 30, 30, 0.7) 70%, transparent 100%);
   padding: 1rem 1.25rem 1.25rem;
-  transform: translateY(100%);
+  transform: translateY(100%); /* Hidden by default */
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  z-index: 1;
+  /* NO z-index - use natural stacking */
 }
 
 .success-stories-carousel-card .card {
   position: relative;
 }
 
-/* Inactive cards: overlay metadata on hover */
+/* Inactive cards: reveal metadata on hover (visual only, no layout impact) */
 .success-stories-carousel-card:not(.active):hover .portfolio-card-metadata {
-  transform: translateY(0);
+  transform: translateY(0); /* Reveal overlay */
 }
 
-/* Active card: metadata in document flow (no absolute positioning) */
+/* Active card: metadata in document flow (relative positioning) */
 .success-stories-carousel-card.active .portfolio-card-metadata {
-  position: relative !important; /* Move to document flow */
+  position: relative !important; /* Document flow */
   bottom: auto !important;
   left: auto !important;
   right: auto !important;
-  transform: none !important; /* Remove transform */
-  background: rgba(30, 30, 30, 0.95) !important; /* Solid background for better readability */
+  transform: none !important; /* No transform */
+  background: rgba(30, 30, 30, 0.95) !important; /* Solid background */
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 1rem 1.25rem !important;
   pointer-events: auto !important; /* Allow interaction */
-  z-index: auto !important;
-  order: 3; /* Ensure metadata comes after card-body using flexbox order */
-  flex-shrink: 0; /* Prevent metadata from shrinking */
+  /* NO z-index - natural stacking */
+  order: 3; /* Flexbox order: after card-body */
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 /* Reorder elements in active card using flexbox: image → card-body → metadata */
@@ -5049,22 +5404,30 @@ img.error {
   flex-shrink: 0;
 }
 
-/* Mobile: always show metadata in document flow */
+/* ===== MOBILE CONTRACT ===== */
+/* Mobile: NO transform-based positioning, all metadata in document flow */
 @media (max-width: 768px) {
-  .portfolio-card-metadata {
-    position: relative !important; /* Move to document flow on mobile */
+  /* All cards: metadata always in document flow on mobile */
+  .success-stories-carousel-card .portfolio-card-metadata {
+    position: relative !important; /* Document flow */
     bottom: auto !important;
     left: auto !important;
     right: auto !important;
-    transform: none !important; /* Remove transform */
-    background: rgba(30, 30, 30, 0.95) !important; /* Solid background for better readability */
+    transform: none !important; /* NO transform */
+    background: rgba(30, 30, 30, 0.95) !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     padding: 1rem 1.25rem !important;
-    pointer-events: auto !important; /* Allow interaction */
-    z-index: auto !important;
-    order: 3; /* Ensure metadata comes after card-body */
-    flex-shrink: 0; /* Prevent metadata from shrinking */
+    pointer-events: auto !important;
+    /* NO z-index */
+    order: 3; /* After card-body */
+    flex-shrink: 0;
+  }
+  
+  /* Mobile: all cards can grow (no height constraints) */
+  .success-stories-carousel-card .card {
+    max-height: none !important; /* Remove inactive constraint on mobile */
+    overflow: visible !important; /* Allow natural flow */
   }
   
   /* Reorder elements on mobile: image → card-body → metadata */
@@ -5341,17 +5704,18 @@ img.error {
   }
 }
 
-/* Ensure hero carousels fill properly */
+/* ===== CONTENT-DRIVEN HERO CAROUSELS ===== */
+/* Mobile-first: use aspect ratios instead of fixed heights */
 .case-study-hero-carousel .carousel-inner,
 .case-study-hero-carousel .carousel-item {
-  height: 600px;
+  /* Remove fixed height - use aspect ratio for responsive sizing */
+  aspect-ratio: 16 / 9; /* Standard widescreen ratio */
+  width: 100%;
 }
 
 .case-study-hero-carousel .carousel-item img {
   width: 100% !important;
-  height: 600px !important;
-  min-height: 600px !important;
-  max-height: 600px !important;
+  height: 100% !important; /* Fill container, not fixed pixel value */
   object-fit: cover !important;
   object-position: center !important;
   display: block !important;
@@ -5359,16 +5723,11 @@ img.error {
   padding: 0 !important;
 }
 
+/* Mobile: slightly taller aspect ratio for better visibility */
 @media (max-width: 768px) {
   .case-study-hero-carousel .carousel-inner,
   .case-study-hero-carousel .carousel-item {
-    height: 500px;
-  }
-  
-  .case-study-hero-carousel .carousel-item img {
-    height: 500px !important;
-    min-height: 500px !important;
-    max-height: 500px !important;
+    aspect-ratio: 4 / 3; /* Taller on mobile */
   }
 }
 

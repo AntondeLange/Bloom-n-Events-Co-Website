@@ -1893,27 +1893,28 @@ If you don't know something specific, suggest they contact the company directly 
                 setTimeout(updateTransform, 100);
             }
             
-            // Update transform to center the active card
+            // Update positioning - separate contract for mobile vs desktop
             function updateTransform() {
                 if (cards.length === 0) return;
                 
                 const isMobile = window.innerWidth <= 768;
                 
-                if (isMobile && cards.length > 0) {
-                    // Mobile: position cards so active card is fully visible
-                    // On mobile, cards are 100% width of container, gap is 0 (cards touch)
-                    const cardWidth = cards[0].offsetWidth;
-                    // Calculate offset to position active card at the start of visible area
-                    // No gap on mobile since cards are 100% width
-                    // Ensure offset doesn't exceed bounds
-                    const maxOffset = 0; // First card should be at 0
-                    const minOffset = -(totalCards - 1) * cardWidth; // Last card offset
-                    let offset = -currentIndex * cardWidth;
-                    // Clamp offset to valid range
-                    offset = Math.max(minOffset, Math.min(maxOffset, offset));
-                    track.style.transform = `translateX(${offset}px)`;
+                if (isMobile) {
+                    // MOBILE CONTRACT: NO transform-based positioning
+                    // Use scrollIntoView for natural flow navigation
+                    const activeCard = cards[currentIndex];
+                    if (activeCard) {
+                        // Scroll active card into view using native scroll behavior
+                        activeCard.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'start'
+                        });
+                    }
+                    // Remove any transform - let natural flow handle positioning
+                    track.style.transform = 'none';
                 } else {
-                    // Desktop: center the active card in the container
+                    // DESKTOP CONTRACT: Transform-based centering is OK
                     const containerWidth = container.offsetWidth;
                     const cardWidth = cards[0].offsetWidth;
                     const offset = (containerWidth / 2) - (cardWidth / 2) - (currentIndex * (cardWidth + gap));
@@ -1972,8 +1973,12 @@ If you don't know something specific, suggest they contact the company directly 
                         cards.forEach((card, index) => {
                             card.classList.toggle('active', index === 0);
                         });
-                        // Reset transform to 0 on mobile
-                        track.style.transform = 'translateX(0)';
+                        // Mobile: remove transform, use natural flow
+                        track.style.transform = 'none';
+                        // Scroll first card into view
+                        if (cards[0]) {
+                            cards[0].scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' });
+                        }
                     } else if (!isMobileNow && currentIndex === 0) {
                         // If switching to desktop, move to celebration card
                         currentIndex = 3;
@@ -2000,8 +2005,12 @@ If you don't know something specific, suggest they contact the company directly 
                         cards.forEach((card, index) => {
                             card.classList.toggle('active', index === 0);
                         });
-                        // Reset transform to 0 on mobile to ensure first card is visible
-                        track.style.transform = 'translateX(0)';
+                        // Mobile: remove transform, use natural flow
+                        track.style.transform = 'none';
+                        // Scroll first card into view
+                        if (cards[0]) {
+                            cards[0].scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' });
+                        }
                     }
                     // Small delay to ensure layout is settled before calculating transforms
                     setTimeout(() => {

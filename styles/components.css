@@ -125,7 +125,8 @@
   box-shadow: var(--shadow-md);
 }
 
-/* ===== Cards ===== */
+/* ===== CONTENT-DRIVEN CARDS ===== */
+/* Mobile-first: cards expand based on content, no fixed heights */
 .card {
   display: flex;
   flex-direction: column;
@@ -134,7 +135,8 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: var(--transition-all);
-  height: 100%;
+  /* Remove height: 100% - let content determine height */
+  min-height: auto; /* No minimum height constraint */
 }
 
 .card:hover {
