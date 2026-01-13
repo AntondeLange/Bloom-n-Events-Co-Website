@@ -42,6 +42,12 @@
     <link rel="manifest" href="manifest.json">
     <meta name="webp-assets" content="true">
     
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com api.openai.com; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
     <!-- Performance Optimization: Resource Hints -->
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -311,11 +317,11 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-10 text-center">
-                            <h1 class="hero-headline hero-animate-fade-in">Transform Your Vision Into Unforgettable Experiences</h1>
-                            <p class="hero-subhead hero-animate-fade-in hero-animate-delay-1">Professional event planning, creative workshops, and custom displays across Perth and Western Australia. We bring engineering, artistry, and innovation together to create moments that move people.</p>
+                            <h1 class="hero-headline hero-animate-fade-in">Transformation. Connection. Impact.</h1>
+                            <p class="hero-subhead hero-animate-fade-in hero-animate-delay-1">Full-service event production with engineering-grade reliability. From concept to completion, we manage every stage in-house—locally, collaboratively, and with precision. Give us a date, a budget, and time—we'll make it happen.</p>
                             <div class="hero-cta hero-animate-fade-in hero-animate-delay-2">
-                                <a href="contact.html" class="btn btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
-                                <a href="gallery.html" class="btn btn-outline-gold btn-lg mb-3">View Our Work</a>
+                                <a href="contact.html" class="btn btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+                                <a href="capabilities.html" class="btn btn-outline-gold btn-lg mb-3">Explore Our Capabilities</a>
                             </div>
                         </div>
                     </div>
@@ -374,7 +380,7 @@
                                     <i class="bi bi-tools" style="font-size: 3rem; color: var(--coreGold);"></i>
                                 </div>
                                 <h3 class="text-gold mb-3">Full In-House Production</h3>
-                                <p class="text-charcoal">From concept to completion, we manage every stage internally—engineering, design, fabrication, and installation.</p>
+                                <p class="text-charcoal">From concept to completion, we manage every stage internally—engineering, design, fabrication, and installation. No hand-offs. No fragmented suppliers. One accountable team.</p>
                             </div>
                         </div>
                     </div>
@@ -384,8 +390,8 @@
                                 <div class="why-us-icon mb-3">
                                     <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--coreGold);"></i>
                                 </div>
-                                <h3 class="text-gold mb-3">40+ Years Experience</h3>
-                                <p class="text-charcoal">Deep engineering and safety expertise from high-risk, high-compliance environments ensures peace of mind.</p>
+                                <h3 class="text-gold mb-3">Engineering-Grade Reliability</h3>
+                                <p class="text-charcoal">40+ years of combined expertise in high-risk, high-compliance environments. Engineering precision meets creative excellence for corporate, government, and large-scale events.</p>
                             </div>
                         </div>
                     </div>
@@ -403,6 +409,104 @@
                 </div>
                 <div class="text-center mt-5" style="margin-top: calc(3rem + 10px) !important;">
                     <a href="capabilities.html" class="btn btn-outline-gold">Learn More About Our Capabilities</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR PROCESS SECTION -->
+        <section class="section-secondary" aria-labelledby="processHeading">
+            <div class="container">
+                <h2 id="processHeading" class="text-gold heading-blush-bg content-heading-large text-center mb-5">How We Work</h2>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center process-card">
+                            <div class="card-body p-4">
+                                <div class="process-number mb-3" style="font-size: 3rem; font-weight: 700; color: var(--coreGold); line-height: 1;">01</div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">Discovery</h3>
+                                <p class="text-charcoal mb-0">We listen to your vision, objectives, and constraints. Date, budget, and time—we understand what matters most.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center process-card">
+                            <div class="card-body p-4">
+                                <div class="process-number mb-3" style="font-size: 3rem; font-weight: 700; color: var(--coreGold); line-height: 1;">02</div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">Design & Engineering</h3>
+                                <p class="text-charcoal mb-0">We design, engineer, and plan every detail in-house. From concept sketches to technical specifications—all under one roof.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center process-card">
+                            <div class="card-body p-4">
+                                <div class="process-number mb-3" style="font-size: 3rem; font-weight: 700; color: var(--coreGold); line-height: 1;">03</div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">Fabrication</h3>
+                                <p class="text-charcoal mb-0">We build, create, and prepare everything locally. Custom displays, signage, installations—crafted with precision and care.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center process-card">
+                            <div class="card-body p-4">
+                                <div class="process-number mb-3" style="font-size: 3rem; font-weight: 700; color: var(--coreGold); line-height: 1;">04</div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">Delivery</h3>
+                                <p class="text-charcoal mb-0">We install, execute, and manage your event from start to finish. One team. One accountable partner. Seamless execution.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRUST BADGES SECTION -->
+        <section class="section-main" aria-labelledby="trustHeading">
+            <div class="container">
+                <h2 id="trustHeading" class="text-gold heading-blush-bg content-heading-large text-center mb-5">Why Clients Trust Us</h2>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center trust-badge-card" style="border: 2px solid var(--coreGold);">
+                            <div class="card-body p-4">
+                                <div class="trust-icon mb-3">
+                                    <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--coreGold);"></i>
+                                </div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">Fully Insured</h3>
+                                <p class="text-charcoal mb-0">Comprehensive insurance coverage for peace of mind on every project.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center trust-badge-card" style="border: 2px solid var(--coreGold);">
+                            <div class="card-body p-4">
+                                <div class="trust-icon mb-3">
+                                    <i class="bi bi-award" style="font-size: 3rem; color: var(--coreGold);"></i>
+                                </div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">40+ Years Experience</h3>
+                                <p class="text-charcoal mb-0">Combined expertise from high-risk, high-compliance environments.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center trust-badge-card" style="border: 2px solid var(--coreGold);">
+                            <div class="card-body p-4">
+                                <div class="trust-icon mb-3">
+                                    <i class="bi bi-gear" style="font-size: 3rem; color: var(--coreGold);"></i>
+                                </div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">In-House Production</h3>
+                                <p class="text-charcoal mb-0">Everything designed, engineered, and built locally under one roof.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 shadow text-center trust-badge-card" style="border: 2px solid var(--coreGold);">
+                            <div class="card-body p-4">
+                                <div class="trust-icon mb-3">
+                                    <i class="bi bi-check-circle" style="font-size: 3rem; color: var(--coreGold);"></i>
+                                </div>
+                                <h3 class="text-gold mb-3" style="font-size: 1.25rem;">Engineering-Grade</h3>
+                                <p class="text-charcoal mb-0">Precision, reliability, and safety standards for corporate and government clients.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -609,13 +713,13 @@
         <!-- FINAL CTA SECTION -->
         <section class="section-main" aria-labelledby="ctaHeading">
             <div class="container">
-                <h2 id="ctaHeading" class="text-gold heading-blush-bg content-heading-large text-center mb-5">Ready to Create Your Next Unforgettable Event?</h2>
+                <h2 id="ctaHeading" class="text-gold heading-blush-bg content-heading-large text-center mb-5">Ready to Start Your Project?</h2>
                 <div class="card shadow cta-card">
                     <div class="card-body text-center p-5">
-                        <p class="lead text-charcoal mb-5">Let's discuss how we can bring your vision to life with our unique blend of engineering, artistry, and innovation.</p>
+                        <p class="lead text-charcoal mb-5">Give us a date, a budget, and time—we'll make it happen. One team. One accountable partner. Full-service event production with engineering-grade reliability.</p>
                         <div class="cta-buttons">
-                            <a href="contact.html" class="btn btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
-                            <a href="gallery.html" class="btn btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+                            <a href="contact.html" class="btn btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+                            <a href="capabilities.html" class="btn btn-outline-gold btn-lg mb-3">Explore Our Capabilities</a>
                         </div>
                         <p class="text-charcoal mt-4 mb-0">
                             <i class="bi bi-telephone-fill"></i> <a href="tel:1800826268" class="text-gold">1800 826 268</a> | 
@@ -628,6 +732,14 @@
 
 
     </main>
+
+    <!-- Sticky Mobile CTA -->
+    <div class="sticky-mobile-cta" id="stickyMobileCTA">
+        <div class="container">
+            <div class="sticky-mobile-cta-text">Ready to start your project?</div>
+            <a href="contact.html" class="btn btn-gold">Start Your Project</a>
+        </div>
+    </div>
 
         <!-- PRE-FOOTER CTA -->
         <section class="section-main" aria-labelledby="preFooterCtaHeading">

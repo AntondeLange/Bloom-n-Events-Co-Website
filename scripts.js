@@ -2171,4 +2171,114 @@ If you don't know something specific, suggest they contact the company directly 
             logger.debug('Animation system not available');
         });
     }
+
+    // ===== STICKY MOBILE CTA =====
+    const initStickyMobileCTA = () => {
+        const stickyCTA = document.getElementById('stickyMobileCTA');
+        if (!stickyCTA) return;
+
+        // Show sticky CTA after user scrolls past hero/first section
+        const showStickyCTA = () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const threshold = 400; // Show after scrolling 400px
+            
+            if (scrollY > threshold) {
+                stickyCTA.classList.add('show');
+            } else {
+                stickyCTA.classList.remove('show');
+            }
+        };
+
+        // Throttle scroll events for performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    showStickyCTA();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Initial check
+        showStickyCTA();
+    };
+
+    // ===== ANCHOR NAVIGATION =====
+    const initAnchorNavigation = () => {
+        const anchorNav = document.querySelector('.anchor-nav');
+        if (!anchorNav) return;
+
+        const links = anchorNav.querySelectorAll('.anchor-nav-link');
+        const sections = Array.from(links).map(link => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                return document.querySelector(href);
+            }
+            return null;
+        }).filter(Boolean);
+
+        if (sections.length === 0) return;
+
+        // Update active link on scroll
+        const updateActiveLink = () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const offset = 150; // Offset for sticky nav
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - offset;
+                if (scrollY >= sectionTop) {
+                    current = '#' + section.id;
+                }
+            });
+
+            links.forEach(link => {
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        };
+
+        // Smooth scroll for anchor links
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        const offset = 120; // Account for sticky nav
+                        const targetPosition = target.offsetTop - offset;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Throttle scroll events
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateActiveLink();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Initial update
+        updateActiveLink();
+    };
+
+    // Initialize sticky CTA and anchor navigation
+    initStickyMobileCTA();
+    initAnchorNavigation();
 });

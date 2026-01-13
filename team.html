@@ -22,6 +22,12 @@
     <meta name="twitter:image" content="https://www.bloomneventsco.com.au/images/logo-wht.png">
     <link rel="canonical" href="https://www.bloomneventsco.com.au/team.html">
     
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com api.openai.com; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
     <!-- Performance Optimization: Resource Hints -->
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -344,7 +350,7 @@
                     <div class="card-body text-center p-5">
                         <p class="lead text-charcoal mb-5">Let's discuss how we can bring your vision to life with our unique blend of engineering, artistry, and innovation.</p>
                         <div class="cta-buttons">
-                            <a href="contact.html" class="btn btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
+                            <a href="contact.html" class="btn btn-gold btn-lg me-3 mb-3">Start Your Project</a>
                             <a href="gallery.html" class="btn btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
                         </div>
                         <p class="text-charcoal mt-4 mb-0">
@@ -356,6 +362,14 @@
             </div>
         </section>
     </main>
+
+    <!-- Sticky Mobile CTA -->
+    <div class="sticky-mobile-cta" id="stickyMobileCTA">
+        <div class="container">
+            <div class="sticky-mobile-cta-text">Ready to start your project?</div>
+            <a href="contact.html" class="btn btn-gold">Start Your Project</a>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="py-3 bg-dark" aria-label="Footer">

@@ -27,11 +27,74 @@ html {
 }
 
 /* Allow carousel sections to break out on mobile */
+/* ===== RESPONSIVE HORIZONTAL PADDING FOR MAIN SECTIONS (DESKTOP ONLY) ===== */
+/* Desktop: 150px padding on each side, responsive scaling */
+/* Exclude hero sections and full-width carousels */
+.section-main > .container,
+.section-secondary > .container {
+  padding-left: clamp(1rem, 8vw, 150px);
+  padding-right: clamp(1rem, 8vw, 150px);
+}
+
+/* Vision and Mission section - apply horizontal padding */
+/* Only apply to section-hero that contains vision/mission (not main hero sections) */
+section.section-hero > .container {
+  padding-left: clamp(1rem, 8vw, 150px);
+  padding-right: clamp(1rem, 8vw, 150px);
+}
+
+/* Large desktop (1400px+): Full 150px padding */
+@media (min-width: 1400px) {
+  .section-main > .container,
+  .section-secondary > .container,
+  .section-hero > .container {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+}
+
+/* Medium desktop (1200px - 1399px): ~120px padding */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .section-main > .container,
+  .section-secondary > .container,
+  .section-hero > .container {
+    padding-left: clamp(80px, 10vw, 120px);
+    padding-right: clamp(80px, 10vw, 120px);
+  }
+}
+
+/* Small desktop/tablet (992px - 1199px): ~80px padding */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .section-main > .container,
+  .section-secondary > .container,
+  .section-hero > .container {
+    padding-left: clamp(40px, 8vw, 80px);
+    padding-right: clamp(40px, 8vw, 80px);
+  }
+}
+
+/* Tablet (768px - 991px): ~40px padding */
+@media (min-width: 768px) and (max-width: 991px) {
+  .section-main > .container,
+  .section-secondary > .container,
+  .section-hero > .container {
+    padding-left: clamp(20px, 5vw, 40px);
+    padding-right: clamp(20px, 5vw, 40px);
+  }
+}
+
 @media (max-width: 768px) {
   /* Allow overflow for sections that contain carousels */
   .section-main {
     overflow-x: visible !important;
     position: relative;
+  }
+  
+  /* Mobile: Standard container padding (no extra horizontal padding) */
+  .section-main > .container,
+  .section-secondary > .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   /* Ensure wrapper can break out */
@@ -4873,7 +4936,7 @@ body.capabilities .hero-overlay {
 
 .hero-subhead {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Responsive scaling: 1rem mobile, 1.25rem desktop */
+  font-size: clamp(1rem, 2.5vw, 25px); /* Responsive scaling: 1rem mobile, 25px desktop */
   color: var(--coreChampers);
   max-width: min(800px, 90vw); /* Responsive max-width */
   margin: 0 auto var(--space-10, 2.5rem);
@@ -5192,7 +5255,7 @@ body.capabilities .hero-overlay {
 
 .hero-subhead {
   font-family: 'Dancing Script', cursive;
-  font-size: 1.25rem;
+  font-size: 25px;
   color: var(--coreChampers);
   max-width: 800px;
   margin: 0 auto 2rem;
@@ -6234,4 +6297,281 @@ body.about .section-main:first-of-type {
     transform: none !important;
     transition: none !important;
   }
+}
+
+/* ===== OUR PROCESS SECTION ===== */
+.process-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.process-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(30, 30, 30, 0.15) !important;
+  border-color: var(--coreGold);
+}
+
+.process-number {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* ===== TRUST BADGES SECTION ===== */
+.trust-badge-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.trust-badge-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(30, 30, 30, 0.15) !important;
+}
+
+.trust-icon {
+  transition: transform 0.3s ease;
+}
+
+.trust-badge-card:hover .trust-icon {
+  transform: scale(1.1);
+}
+
+/* Enhanced visual hierarchy for process and trust sections */
+.process-card h3,
+.trust-badge-card h3 {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.process-card p,
+.trust-badge-card p {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Mobile responsiveness for process and trust sections */
+@media (max-width: 768px) {
+  .process-card,
+  .trust-badge-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .process-number {
+    font-size: 2.5rem !important;
+  }
+  
+  .trust-icon i {
+    font-size: 2.5rem !important;
+  }
+}
+
+/* ===== STICKY MOBILE CTA ===== */
+.sticky-mobile-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--coreCharcoal);
+  border-top: 2px solid var(--coreGold);
+  padding: 1rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  display: none; /* Hidden by default, shown on mobile */
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.sticky-mobile-cta.show {
+  transform: translateY(0);
+}
+
+.sticky-mobile-cta .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sticky-mobile-cta-text {
+  flex: 1;
+  color: var(--coreChampers);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.sticky-mobile-cta .btn {
+  min-width: 140px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Show sticky CTA on mobile only */
+@media (max-width: 768px) {
+  .sticky-mobile-cta {
+    display: block;
+  }
+  
+  /* Add padding to main to prevent content from being hidden behind sticky CTA */
+  main {
+    padding-bottom: 80px;
+  }
+}
+
+/* ===== ANCHOR NAVIGATION ===== */
+.anchor-nav {
+  position: sticky;
+  top: 70px; /* Below navbar */
+  z-index: 100;
+  background: var(--coreChampers);
+  border-bottom: 2px solid var(--coreGold);
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.anchor-nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+.anchor-nav-item {
+  margin: 0;
+}
+
+.anchor-nav-link {
+  color: var(--coreCharcoal);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.anchor-nav-link:hover,
+.anchor-nav-link:focus {
+  color: var(--coreGold);
+  background: rgba(191, 155, 48, 0.1);
+  text-decoration: none;
+}
+
+.anchor-nav-link.active {
+  color: var(--coreGold);
+  background: rgba(191, 155, 48, 0.15);
+  font-weight: 600;
+}
+
+/* Mobile: anchor nav becomes horizontal scroll */
+@media (max-width: 768px) {
+  .anchor-nav {
+    top: 60px;
+    padding: 0.75rem 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .anchor-nav::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .anchor-nav-list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 0 1rem;
+  }
+  
+  .anchor-nav-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* ===== IMPROVED MOBILE TAP TARGETS ===== */
+/* Ensure all interactive elements meet 44x44px minimum */
+@media (max-width: 768px) {
+  .btn,
+  .nav-link,
+  .dropdown-item,
+  .navbar-toggler,
+  .anchor-nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+  }
+  
+  .btn-sm {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+  }
+  
+  /* Increase spacing between clickable elements */
+  .card + .card,
+  .btn + .btn {
+    margin-top: 1rem;
+  }
+  
+  /* Improve touch targets for carousel controls */
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Better spacing for mobile cards */
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  /* Improve readability with better line spacing */
+  p, li {
+    line-height: 1.7;
+  }
+}
+
+/* ===== ENHANCED VISUAL HIERARCHY ===== */
+/* Clear section dividers */
+.section-main,
+.section-secondary {
+  position: relative;
+}
+
+.section-main + .section-secondary,
+.section-secondary + .section-main {
+  margin-top: 0;
+}
+
+/* Better visual separation for scanning */
+.content-heading-large {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--coreGold);
+  display: inline-block;
+  width: 100%;
+}
+
+/* Improved card spacing for scanning */
+.card {
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Better focus states for accessibility */
+a:focus,
+button:focus,
+.btn:focus {
+  outline: 3px solid var(--coreGold);
+  outline-offset: 2px;
 }
