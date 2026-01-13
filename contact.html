@@ -230,11 +230,18 @@
                                     <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" autocomplete="email" required>
                                 </div>
                                 
+                                <!-- Honeypot field for spam protection (hidden from users) -->
+                                <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                                    <label for="website">Website (leave blank)</label>
+                                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                                </div>
+                                
                                 <!-- FormSubmit configuration -->
-                                <input type="hidden" name="_captcha" value="false">
+                                <input type="hidden" name="_captcha" value="true">
                                 <input type="hidden" name="_subject" value="New Contact Form Submission from Bloom'n Events Co Website">
                                 <input type="hidden" name="_next" value="https://www.bloomneventsco.com.au/contact.html?success=true">
                                 <input type="hidden" name="_autoresponse" value="Thank you for contacting Bloom'n Events Co! We have received your message and will get back to you soon.">
+                                <input type="hidden" name="_template" value="table">
 
                                 <div class="mb-3">
                                     <label for="message" class="form-label">Your Message</label>
@@ -452,16 +459,36 @@
             updateMessageCounter();
         }
         
-        // Contact form submission handler - simple validation only
+        // Track form load time for spam detection
+        const formLoadTime = Date.now();
+        const MIN_FORM_TIME = 3000; // Minimum 3 seconds on page before submission
+        
+        // Contact form submission handler with enhanced spam protection
         contactForm.addEventListener('submit', function(event) {
             
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
+            const honeypot = document.getElementById('website').value.trim();
             
             // Clear previous alerts
             alertContainer.replaceChildren();
+            
+            // Honeypot check - if filled, it's a bot
+            if (honeypot) {
+                event.preventDefault();
+                showAlert('danger', 'Spam detected. If you are a human, please try again.');
+                return false;
+            }
+            
+            // Time-based spam protection - prevent instant submissions
+            const timeOnPage = Date.now() - formLoadTime;
+            if (timeOnPage < MIN_FORM_TIME) {
+                event.preventDefault();
+                showAlert('danger', 'Please take your time filling out the form. Spam protection requires a minimum time on page.');
+                return false;
+            }
             
             // Validate form data
             if (!firstName || !lastName || !email || !message) {
@@ -470,10 +497,27 @@
                 return false;
             }
             
+            // Enhanced email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                event.preventDefault();
+                showAlert('danger', 'Please enter a valid email address.');
+                document.getElementById('email').focus();
+                return false;
+            }
+            
             // Validate message character limit
             if (message.length > MESSAGE_MAX_LENGTH) {
-            event.preventDefault();
+                event.preventDefault();
                 showAlert('danger', `Message cannot exceed ${MESSAGE_MAX_LENGTH} characters. Please shorten your message.`);
+                messageInput.focus();
+                return false;
+            }
+            
+            // Validate message minimum length
+            if (message.length < 10) {
+                event.preventDefault();
+                showAlert('danger', 'Please provide a more detailed message (minimum 10 characters).');
                 messageInput.focus();
                 return false;
             }
