@@ -299,14 +299,44 @@
                             <h2 id="resultsHeading" class="text-gold heading-blush-bg content-heading-large mb-4">Results</h2>
                             <div class="card mb-4" style="background-color: var(--coreChampers); border: 2px solid var(--coreGold);">
                                 <div class="card-body text-center">
-                                    <div class="testimonial-item">
-                                        <img src="images/Testimonials/testimonial-2.png" 
-                                             alt="Centuria Capital logo" 
-                                             class="testimonial-img testimonial-img-rectangular mb-4" width="200" height="50" loading="lazy" decoding="async">
-                                        <h3 class="testimonial-name">Val Neal</h3>
-                                        <p class="testimonial-position mb-3">Customer Service Manager, One Forty St Georges</p>
-                                        <div class="testimonial-content p-4 rounded">
-                                            <p class="mb-0">"We couldn't have done it without you. Everyone loved the concept."</p>
+                                    <div id="testimonialCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active text-center">
+                                                <div class="testimonial-item">
+                                                    <img src="images/Testimonials/testimonial-2.png" 
+                                                         alt="Centuria Capital logo" 
+                                                         class="testimonial-img testimonial-img-rectangular mb-4" width="200" height="50" loading="lazy" decoding="async">
+                                                    <h3 class="testimonial-name">Val Neal</h3>
+                                                    <p class="testimonial-position mb-3">Property Manager, One Forty St Georges</p>
+                                                    <div class="testimonial-content p-4 rounded">
+                                                        <p class="mb-0">"We couldn't have done it without you. Everyone loved the concept."</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-item text-center">
+                                                <div class="testimonial-item">
+                                                    <img src="images/Testimonials/testimonial-2.png" 
+                                                         alt="Centuria Capital logo" 
+                                                         class="testimonial-img testimonial-img-rectangular mb-4" width="200" height="50" loading="lazy" decoding="async">
+                                                    <h3 class="testimonial-name">Caitlin Comiskey</h3>
+                                                    <p class="testimonial-position mb-3">Property Manager, One Forty St Georges</p>
+                                                    <div class="testimonial-content p-4 rounded">
+                                                        <p class="mb-0">"Working with Bloom'n Events throughout 2025 — from the 50th Anniversary Gala to the Connect 140 activation, and everything in between — it has been an absolute pleasure. Tamara and the team consistently deliver above and beyond, bringing creativity, professionalism, and seamless coordination to every project. From early planning and artwork preparation to executing flawless event styling, run sheets, and on‑the‑day management, their attention to detail is exceptional. Their ability to understand our vision, elevate it, and manage complex logistics with ease made every collaboration feel effortless. Bloom'n Events has played a huge part in delivering some of our building's most memorable moments. We couldn't recommend them more highly and look forward to continuing our partnership in 2026."</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                        <div class="carousel-indicators position-static mt-4">
+                                            <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Testimonial 1"></button>
+                                            <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Testimonial 2"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -343,18 +373,18 @@
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card h-100 shadow service-card" style="background-color: var(--coreChampers);">
                                         <div class="card-body text-center">
-                                            <h3 class="text-gold mb-3">Custom Displays</h3>
-                                            <p class="text-charcoal">Stunning, bespoke installations and decorations that transform any space for events or businesses.</p>
-                                            <a href="displays.html" class="btn btn-gold btn-sm">View Custom Displays</a>
+                                            <h3 class="text-gold mb-3">Corporate Events</h3>
+                                            <p class="text-charcoal">Professional planning and execution for business events, conferences, and corporate celebrations.</p>
+                                            <a href="events.html" class="btn btn-gold btn-sm">Explore Corporate Events</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card h-100 shadow service-card" style="background-color: var(--coreChampers);">
                                         <div class="card-body text-center">
-                                            <h3 class="text-gold mb-3">Corporate Events</h3>
-                                            <p class="text-charcoal">Professional planning and execution for business events, conferences, and corporate celebrations.</p>
-                                            <a href="events.html" class="btn btn-gold btn-sm">Explore Corporate Events</a>
+                                            <h3 class="text-gold mb-3">Custom Displays</h3>
+                                            <p class="text-charcoal">Stunning, bespoke installations and decorations that transform any space for events or businesses.</p>
+                                            <a href="displays.html" class="btn btn-gold btn-sm">View Custom Displays</a>
                                         </div>
                                     </div>
                                 </div>
@@ -385,6 +415,20 @@
                                     <div class="success-stories-carousel-card" data-index="0">
                                         <div class="card h-100 shadow">
                                             <img src="images/Centuria Connect140/Connect140 (10).JPG" class="card-img-top" alt="Centuria Connect140 Networking Event" loading="lazy" decoding="async" width="1600" height="900">
+                                            <div class="portfolio-card-metadata">
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-building"></i>
+                                                    <span>Centuria Capital</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <span>Perth CBD</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-calendar-event"></i>
+                                                    <span>Corporate Networking</span>
+                                                </div>
+                                            </div>
                                             <div class="card-body text-center">
                                                 <h3 class="card-title text-gold mb-3">Corporate Networking Event Delivers Meaningful Connections</h3>
                                                 <p class="card-text text-charcoal">How we created an engaging atmosphere for Centuria Capital that naturally facilitated meaningful conversations among Perth business professionals.</p>
@@ -395,6 +439,20 @@
                                     <div class="success-stories-carousel-card" data-index="1">
                                         <div class="card h-100 shadow">
                                             <img src="images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE.jpg" class="card-img-top" alt="Hawaiian Forrestfield Food Festival" loading="lazy" decoding="async" width="1600" height="900">
+                                            <div class="portfolio-card-metadata">
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-building"></i>
+                                                    <span>Hawaiian Shopping Centres</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <span>Forrestfield</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-calendar-event"></i>
+                                                    <span>Food Festival</span>
+                                                </div>
+                                            </div>
                                             <div class="card-body text-center">
                                                 <h3 class="card-title text-gold mb-3">Food Festival Celebrates Tenant Opening & Drives Engagement</h3>
                                                 <p class="card-text text-charcoal">One-day event for Hawaiian Shopping Centres that celebrated a key tenant opening while showcasing food diversity and driving community engagement.</p>
@@ -405,6 +463,20 @@
                                     <div class="success-stories-carousel-card" data-index="2">
                                         <div class="card h-100 shadow">
                                             <img src="images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE.jpg" class="card-img-top" alt="Hawaiian Neighbourhood Nibbles School Holiday Programme" loading="lazy" decoding="async" width="1600" height="900">
+                                            <div class="portfolio-card-metadata">
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-building"></i>
+                                                    <span>Hawaiian Shopping Centres</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <span>Multiple Locations</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-calendar-event"></i>
+                                                    <span>School Holiday Programme</span>
+                                                </div>
+                                            </div>
                                             <div class="card-body text-center">
                                                 <h3 class="card-title text-gold mb-3">School Holiday Programme Drives Traffic Across 5 Centres in 5 Days</h3>
                                                 <p class="card-text text-charcoal">Food-based July school holiday activity across seven Hawaiian shopping centres that drove traffic uplifts and encouraged family dwell time.</p>
@@ -415,6 +487,20 @@
                                     <div class="success-stories-carousel-card" data-index="3">
                                         <div class="card h-100 shadow">
                                             <img src="images/Centuria 50th Birthday/efea378d-9bd1-4906-9237-db1ed574869c.jpg" class="card-img-top" alt="140 St Georges Terrace 50th Birthday Celebration" loading="lazy" decoding="async" width="1600" height="900">
+                                            <div class="portfolio-card-metadata">
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-building"></i>
+                                                    <span>Centuria Capital</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <span>140 St Georges Terrace</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-calendar-event"></i>
+                                                    <span>50th Anniversary</span>
+                                                </div>
+                                            </div>
                                             <div class="card-body text-center">
                                                 <h3 class="card-title text-gold mb-3">Landmark Anniversary Event Honours Legacy and Signals Future</h3>
                                                 <p class="card-text text-charcoal">Bespoke 50th Birthday Celebration for 140 St Georges Terrace that honoured the building's legacy while presenting it as contemporary and future-focused.</p>
@@ -425,6 +511,20 @@
                                     <div class="success-stories-carousel-card" data-index="4">
                                         <div class="card h-100 shadow">
                                             <img src="images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg" class="card-img-top" alt="Breast Cancer Awareness Day & Spring Activation" loading="lazy" decoding="async" width="1600" height="900">
+                                            <div class="portfolio-card-metadata">
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-building"></i>
+                                                    <span>Centuria Capital</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <span>140 St Georges Terrace</span>
+                                                </div>
+                                                <div class="portfolio-card-metadata-item">
+                                                    <i class="bi bi-calendar-event"></i>
+                                                    <span>Purpose-Led Installation</span>
+                                                </div>
+                                            </div>
                                             <div class="card-body text-center">
                                                 <h3 class="card-title text-gold mb-3">Purpose-Led Installation Creates Meaningful Connection</h3>
                                                 <p class="card-text text-charcoal">Two-phase evolving installation honouring Breast Cancer Awareness Day while transitioning into a vibrant Spring activation at 140 St Georges Terrace.</p>

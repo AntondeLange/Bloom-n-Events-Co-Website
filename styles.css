@@ -1475,7 +1475,7 @@ ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carous
   height: 800px;
 }
 
-.carousel .carousel-item img {
+.carousel .carousel-item img:not(.testimonial-img-rectangular) {
   height: 800px;
   object-fit: cover;
   object-position: center;
@@ -1975,6 +1975,17 @@ button[type="button"].carousel-control-next {
   padding: 5px !important;
   box-sizing: border-box !important;
   aspect-ratio: 4 / 1 !important;
+}
+
+/* Ensure carousel testimonial images are properly sized */
+.carousel .testimonial-item .testimonial-img-rectangular,
+.carousel-item .testimonial-item .testimonial-img-rectangular {
+  width: 200px !important;
+  max-width: 200px !important;
+  min-width: 200px !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
 }
 
 .testimonial-item .testimonial-name {
@@ -6177,12 +6188,33 @@ body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item {
   height: 1250px !important;
 }
 
-body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item img {
+body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item img:not(.testimonial-img-rectangular) {
   height: 1250px !important;
   min-height: 1250px !important;
   max-height: 1250px !important;
   object-fit: cover !important;
   object-position: center !important;
+}
+
+/* Override carousel image heights for testimonial logos - must be after all carousel rules */
+.carousel .carousel-item img.testimonial-img-rectangular,
+.carousel-item img.testimonial-img-rectangular,
+.carousel img.testimonial-img-rectangular,
+.testimonial-img-rectangular {
+  width: 200px !important;
+  max-width: 200px !important;
+  min-width: 200px !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border: 3px solid var(--coreGold) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 8px var(--coreCharcoal) !important;
+  padding: 5px !important;
+  box-sizing: border-box !important;
+  aspect-ratio: 4 / 1 !important;
 }
 
 body.case-study .carousel-item:not(.active) img {
