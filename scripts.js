@@ -551,17 +551,25 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(img => !skipClasses.has(Array.from(img.classList)[0]))
             .filter(img => !img.closest('.fullscreen-modal'))
             .filter(img => !img.closest('.sk-instagram-feed'));
-        // Helper: silent existence check via fetch (no console 404 noise)
+        // Helper: silent existence check using Image object (avoids console 404 noise)
         const checkWebPExists = async (url) => {
             if (!url) return false;
-            try {
-                const res = await fetch(url, { cache: 'no-store' });
-                if (!res.ok) return false;
-                const ct = res.headers.get('content-type') || '';
-                return ct.startsWith('image/webp');
-            } catch {
-                return false;
-            }
+            return new Promise((resolve) => {
+                const img = new Image();
+                // Set a timeout to avoid hanging
+                const timeout = setTimeout(() => {
+                    resolve(false);
+                }, 2000);
+                img.onload = () => {
+                    clearTimeout(timeout);
+                    resolve(true);
+                };
+                img.onerror = () => {
+                    clearTimeout(timeout);
+                    resolve(false);
+                };
+                img.src = url;
+            });
         };
         // Global gate: if a representative .webp doesn't exist, skip all injections (avoid 404 spam locally)
         const computeTestUrl = (imgEl) => {

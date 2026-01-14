@@ -44,14 +44,26 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets: cache-first
+  // External CDN resources: bypass service worker entirely (no caching, no opaque response issues)
+  const isExternalCDN = url.hostname.includes('cdn.jsdelivr.net') || 
+                        url.hostname.includes('fonts.googleapis.com') || 
+                        url.hostname.includes('fonts.gstatic.com') ||
+                        url.hostname.includes('googletagmanager.com') ||
+                        url.hostname.includes('google-analytics.com');
+  if (isExternalCDN) {
+    event.respondWith(fetch(req));
+    return;
+  }
+
+  // Static assets: cache-first (only for same-origin resources)
   if (['style', 'script', 'image', 'font'].includes(req.destination)) {
     event.respondWith((async () => {
       const cached = await caches.match(req);
       if (cached) return cached;
       const res = await fetch(req);
       try {
-        if (res && (res.ok || res.type === 'opaque')) {
+        // Only cache same-origin resources with successful responses
+        if (res && res.ok && res.type !== 'opaque') {
           const cache = await caches.open(RUNTIME_CACHE);
           await cache.put(req, res.clone());
         }
@@ -63,12 +75,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Fallback: network-first with cache fallback
+  // Fallback: network-first with cache fallback (only for same-origin resources)
   event.respondWith((async () => {
     try {
       const res = await fetch(req);
       try {
-        if (res && (res.ok || res.type === 'opaque')) {
+        // Only cache same-origin resources with successful responses
+        if (res && res.ok && res.type !== 'opaque') {
           const cache = await caches.open(RUNTIME_CACHE);
           await cache.put(req, res.clone());
         }
