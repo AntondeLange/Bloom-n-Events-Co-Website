@@ -551,7 +551,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(img => !skipClasses.has(Array.from(img.classList)[0]))
             .filter(img => !img.closest('.fullscreen-modal'))
             .filter(img => !img.closest('.sk-instagram-feed'));
-        // Helper: silent existence check using Image object (avoids console 404 noise)
+        // Helper: check if WebP version exists using Image object
+        // Note: Browsers will log 404 errors to console for missing files - this is expected behavior
+        // We minimize checks by only testing one representative image first
         const checkWebPExists = async (url) => {
             if (!url) return false;
             return new Promise((resolve) => {
@@ -568,10 +570,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     clearTimeout(timeout);
                     resolve(false);
                 };
-                img.src = url;
+                try {
+                    img.src = url;
+                } catch (e) {
+                    clearTimeout(timeout);
+                    resolve(false);
+                }
             });
         };
-        // Global gate: if a representative .webp doesn't exist, skip all injections (avoid 404 spam locally)
+        // Global gate: if a representative .webp doesn't exist, skip all injections (avoid 404 spam)
         const computeTestUrl = (imgEl) => {
             const hasSrc = !!imgEl.getAttribute('src');
             const hasSrcset = !!imgEl.getAttribute('srcset');
@@ -592,8 +599,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 representativeUrl = computeTestUrl(img);
                 if (representativeUrl) break;
             }
+            // Only check representative URL - if it doesn't exist, skip all WebP enhancements
+            // This minimizes console 404 errors to just one check
             const canInject = isSupported && representativeUrl && await checkWebPExists(representativeUrl);
-            if (!canInject) return;
+            if (!canInject) {
+                // WebP files don't exist, skip all enhancements to avoid 404 spam
+                return;
+            }
             // Proceed with per-image cautious injection (with per-image fetch probe)
             candidates.forEach(async img => {
                     if (img.closest('picture')) return;
