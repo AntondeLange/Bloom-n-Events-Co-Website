@@ -65,7 +65,7 @@ const ANIMATION_CONFIG = {
     large: 0.2
   },
   scrollOffset: {
-    start: 'top 85%',
+    start: 'top 100%', // Trigger when element enters viewport (top of element at bottom of viewport)
     end: 'bottom 20%'
   }
 };

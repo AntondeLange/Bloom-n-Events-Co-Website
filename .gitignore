@@ -31,7 +31,14 @@ node_modules/
 
 # Backend environment variables
 backend/.env
+backend/.env.local
+backend/.env.*.local
 backend/node_modules/
+
+# Frontend environment files (if added in future)
+.env
+.env.local
+.env.*.local
 
 # Large PDF files (exceed GitHub 100MB limit)
 FINAL Centuria 140sgt 50th Birthday.pdf

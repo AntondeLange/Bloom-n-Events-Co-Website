@@ -14,8 +14,8 @@
  */
 
 // Import utilities
-import { CONFIG, getBackendUrl, getApiUrl } from './scripts/config.js';
-import { logger } from './scripts/logger.js';
+import { CONFIG, getBackendUrl, getApiUrl } from './config.js';
+import { logger } from './logger.js';
 
 // Performance optimization: Use requestIdleCallback for non-critical tasks
 const runWhenIdle = (callback) => {
@@ -92,6 +92,58 @@ function initHeroParallax() {
     window.addEventListener('scroll', handleScroll, { passive: true });
 }
 
+// Prevent browser scroll restoration on page load
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+// Ensure page starts at top - set immediately before any other scripts run
+(function() {
+    'use strict';
+    // Set scroll position to top immediately
+    if (typeof window !== 'undefined') {
+        window.scrollTo(0, 0);
+        if (document.documentElement) {
+            document.documentElement.scrollTop = 0;
+        }
+        if (document.body) {
+            document.body.scrollTop = 0;
+        }
+    }
+})();
+
+// Monitor and correct any unwanted scrolling during page load
+let scrollCheckCount = 0;
+const maxScrollChecks = 20; // Check for 2 seconds (20 * 100ms)
+
+const checkAndCorrectScroll = () => {
+    if (scrollCheckCount >= maxScrollChecks) {
+        return; // Stop checking after max attempts
+    }
+    
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+    
+    // If page has scrolled without user interaction, reset to top
+    if (currentScroll > 10) {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        if (document.body) {
+            document.body.scrollTop = 0;
+        }
+    }
+    
+    scrollCheckCount++;
+    
+    if (scrollCheckCount < maxScrollChecks) {
+        setTimeout(checkAndCorrectScroll, 100);
+    }
+};
+
+// Start checking after a brief delay to let initial scripts run
+setTimeout(() => {
+    checkAndCorrectScroll();
+}, 50);
+
 // Single DOMContentLoaded event listener for all functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize hero parallax
@@ -99,8 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== PARTIALS INJECTION (Navbar/Footer) =====
     const loadPartials = async () => {
         const isHome = document.body.classList.contains('home');
-        const navbarPartial = isHome ? 'partials/navbar-home.html' : 'partials/navbar-default.html';
-        const footerPartial = 'partials/footer.html';
+        const navbarPartial = isHome ? 'assets/partials/navbar-home.html' : 'assets/partials/navbar-default.html';
+        const footerPartial = 'assets/partials/footer.html';
         try {
             const [navHtml, footerHtml] = await Promise.all([
                 fetch(navbarPartial, { cache: 'no-cache' }).then(r => r.ok ? r.text() : ''),
@@ -108,7 +160,20 @@ document.addEventListener('DOMContentLoaded', function() {
             ]);
             if (navHtml) {
                 const existingNav = document.querySelector('nav.navbar');
-                if (existingNav) existingNav.outerHTML = navHtml;
+                if (existingNav) {
+                    existingNav.outerHTML = navHtml;
+                    // Immediately ensure navbar is at bottom after injection
+                    const newNav = document.getElementById('homeNavbar');
+                    if (newNav && isHome) {
+                        newNav.classList.remove('fixed-top');
+                        newNav.classList.add('fixed-bottom');
+                        newNav.style.position = 'fixed';
+                        newNav.style.bottom = '0';
+                        newNav.style.top = 'auto';
+                        newNav.style.left = '0';
+                        newNav.style.right = '0';
+                    }
+                }
             }
             if (footerHtml) {
                 // Remove all existing footers first to prevent duplicates
@@ -139,8 +204,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         // Set active nav link based on current page (after partials are loaded)
         setActiveNavLink();
-        // Re-initialize dropdowns after injection; navbar init is deferred to window 'load'
+        // Re-initialize dropdowns after injection
         if (typeof window.setupDropdowns === 'function') window.setupDropdowns();
+        // Initialize home navbar immediately after partials load (not waiting for window load)
+        if (isHome && typeof window.setupHomeNavbar === 'function') {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+                window.setupHomeNavbar();
+            }, 0);
+        }
     };
     
     // Function to set active nav link based on current page URL
@@ -210,36 +282,45 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
         initializeNavbar();
-        const handleScroll = throttle(function() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Set initial state immediately based on scroll position
+        const setNavbarPosition = (scrollTop) => {
             if (scrollTop <= 100) {
-                if (!navbar.classList.contains('fixed-bottom')) {
-                    navbar.classList.remove('fixed-top');
-                    navbar.classList.add('fixed-bottom');
-                    body.classList.remove('navbar-top');
-                    if (portfolioDropdown) {
-                        portfolioDropdown.classList.remove('dropdown');
-                        portfolioDropdown.classList.add('dropup');
-                    }
+                // At top - navbar at bottom
+                navbar.classList.remove('fixed-top');
+                navbar.classList.add('fixed-bottom');
+                body.classList.remove('navbar-top');
+                if (portfolioDropdown) {
+                    portfolioDropdown.classList.remove('dropdown');
+                    portfolioDropdown.classList.add('dropup');
                 }
             } else {
-                if (!navbar.classList.contains('fixed-top')) {
-                    navbar.classList.remove('fixed-bottom');
-                    navbar.classList.add('fixed-top');
-                    body.classList.add('navbar-top');
-                    if (portfolioDropdown) {
-                        portfolioDropdown.classList.remove('dropup');
-                        portfolioDropdown.classList.add('dropdown');
-                    }
+                // Scrolled down - navbar at top
+                navbar.classList.remove('fixed-bottom');
+                navbar.classList.add('fixed-top');
+                body.classList.add('navbar-top');
+                if (portfolioDropdown) {
+                    portfolioDropdown.classList.remove('dropup');
+                    portfolioDropdown.classList.add('dropdown');
                 }
             }
+        };
+        
+        const handleScroll = throttle(function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            setNavbarPosition(scrollTop);
             lastScrollTop = scrollTop;
         }, 16);
+        
         window.addEventListener('scroll', handleScroll, { passive: true });
-        // Run once to set initial state after load/injection
-        handleScroll();
+        
+        // Set initial position immediately - don't wait for scroll event
+        const initialScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        setNavbarPosition(initialScrollTop);
 
         // Robust fallback using IntersectionObserver on a top sentinel
+        // Only activate after first scroll to prevent immediate firing on page load
+        let ioActive = false;
         if ('IntersectionObserver' in window) {
             let sentinel = document.getElementById('navbar-sentinel');
             if (!sentinel) {
@@ -253,29 +334,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 sentinel.style.pointerEvents = 'none';
                 document.body.prepend(sentinel);
             }
+            
             const io = new IntersectionObserver((entries) => {
+                if (!ioActive) return; // Don't fire until after first scroll
                 const entry = entries[0];
-                if (entry && entry.isIntersecting) {
-                    // near top
-                    navbar.classList.remove('fixed-top');
-                    navbar.classList.add('fixed-bottom');
-                    body.classList.remove('navbar-top');
-                    if (portfolioDropdown) {
-                        portfolioDropdown.classList.remove('dropdown');
-                        portfolioDropdown.classList.add('dropup');
+                const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                // Only use IntersectionObserver if scroll handler hasn't already set position correctly
+                if (entry && entry.isIntersecting && currentScrollTop <= 100) {
+                    // near top - ensure bottom
+                    if (!navbar.classList.contains('fixed-bottom')) {
+                        navbar.classList.remove('fixed-top');
+                        navbar.classList.add('fixed-bottom');
+                        body.classList.remove('navbar-top');
+                        if (portfolioDropdown) {
+                            portfolioDropdown.classList.remove('dropdown');
+                            portfolioDropdown.classList.add('dropup');
+                        }
                     }
-                } else {
-                    // scrolled away from top
-                    navbar.classList.remove('fixed-bottom');
-                    navbar.classList.add('fixed-top');
-                    body.classList.add('navbar-top');
-                    if (portfolioDropdown) {
-                        portfolioDropdown.classList.remove('dropup');
-                        portfolioDropdown.classList.add('dropdown');
+                } else if (entry && !entry.isIntersecting && currentScrollTop > 100) {
+                    // scrolled away from top - ensure top
+                    if (!navbar.classList.contains('fixed-top')) {
+                        navbar.classList.remove('fixed-bottom');
+                        navbar.classList.add('fixed-top');
+                        body.classList.add('navbar-top');
+                        if (portfolioDropdown) {
+                            portfolioDropdown.classList.remove('dropup');
+                            portfolioDropdown.classList.add('dropdown');
+                        }
                     }
                 }
             }, { rootMargin: '-100px 0px 0px 0px', threshold: 0 });
-            io.observe(sentinel);
+            
+            // Activate IntersectionObserver only after first scroll
+            const activateIO = () => {
+                ioActive = true;
+                io.observe(sentinel);
+                window.removeEventListener('scroll', activateIO);
+            };
+            window.addEventListener('scroll', activateIO, { once: true, passive: true });
         }
         const mobileMenu = navbar.querySelector('.navbar-collapse');
         if (mobileMenu) {
@@ -283,14 +379,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     window.setupHomeNavbar = setupHomeNavbar;
-    if (document.body.classList.contains('home')) {
-        // Ensure init after partials and after window load to avoid early runs
-        if (document.readyState === 'complete') {
-            setupHomeNavbar();
-        } else {
-            window.addEventListener('load', () => setTimeout(setupHomeNavbar, 0), { once: true });
-        }
-    }
+    // Note: Home navbar is now initialized immediately after partials load (see loadPartials function)
+    // This prevents the navbar from appearing at top before moving to bottom
     
     // ===== FORM VALIDATION =====
     // Note: Enhanced form validation is handled later in the script
@@ -393,6 +483,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+        // Detect mobile for larger trigger distance
+        const isMobile = window.innerWidth <= 768;
+        const triggerDistance = isMobile ? '600px' : '400px'; // Much larger on mobile
+        
         // Main section reveals - major content blocks
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -402,16 +496,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, { 
-            rootMargin: '0px 0px -10% 0px', // Trigger when 10% from bottom of viewport
-            threshold: 0.1 
+            rootMargin: `${triggerDistance} 0px 0px 0px`, // Trigger much earlier on mobile
+            threshold: 0.01 
         });
         
         // Apply to major sections
-        document.querySelectorAll('.section-main, .section-hero, .section-secondary, .cta-card, .workshop-section, .event-section, .display-section')
-            .forEach(section => {
-                section.classList.add('scroll-reveal');
+        const sections = document.querySelectorAll('.section-main, .section-hero, .section-secondary, .cta-card, .workshop-section, .event-section, .display-section');
+        sections.forEach(section => {
+            // Exclude acknowledgement section from scroll reveal - it should be visible immediately
+            if (section.querySelector('.acknowledgement-text') || section.id === 'preFooterCtaHeading' || section.getAttribute('aria-labelledby') === 'preFooterCtaHeading') {
+                // Make acknowledgement section visible immediately, no scroll reveal
+                section.classList.add('revealed');
+                return; // Skip scroll reveal for this section
+            }
+            
+            section.classList.add('scroll-reveal');
+            
+            // On mobile, check if section is already in viewport and reveal immediately
+            if (isMobile) {
+                const rect = section.getBoundingClientRect();
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                // If section is within 600px of viewport, reveal it immediately
+                if (rect.top < viewportHeight + 600 && rect.bottom > -600) {
+                    section.classList.add('revealed');
+                } else {
+                    sectionObserver.observe(section);
+                }
+            } else {
                 sectionObserver.observe(section);
-            });
+            }
+        });
         
         // Staggered child elements - cards, grid items, etc.
         const staggerObserver = new IntersectionObserver((entries) => {
@@ -422,8 +536,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, { 
-            rootMargin: '0px 0px -5% 0px', // Slightly earlier trigger for child elements
-            threshold: 0.05 
+            rootMargin: `${triggerDistance} 0px 0px 0px`, // Trigger much earlier on mobile
+            threshold: 0.01 
         });
         
         // Apply to card groups and grid containers
@@ -442,8 +556,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, { 
-            rootMargin: '0px 0px -10% 0px',
-            threshold: 0.1 
+            rootMargin: `${triggerDistance} 0px 0px 0px`, // Trigger much earlier on mobile
+            threshold: 0.01 
         });
         
         // Apply to standalone cards and items
@@ -771,8 +885,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const OPENAI_API_URL = getApiUrl();
     const USE_OPENAI = true; // Backend proxy is ready
     
-    // Debug: Log API URL (remove in production)
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    // Debug: Log API URL (development only)
+    if (typeof window !== 'undefined' && 
+        (window.location.hostname === 'localhost' || 
+         window.location.hostname === '127.0.0.1' ||
+         window.location.protocol === 'file:')) {
         logger.debug('Backend API URL:', OPENAI_API_URL);
     }
     
@@ -897,9 +1014,17 @@ If you don't know something specific, suggest they contact the company directly 
                             return;
                         }
                     } catch (error) {
-                        logger.warn('OpenAI API error, falling back to rule-based responses:', error);
-                        logger.debug('API URL attempted:', OPENAI_API_URL);
-                        logger.debug('Error details:', error.message);
+                        // Only log detailed debug info in development
+                        const isDevelopment = typeof window !== 'undefined' && 
+                            (window.location.hostname === 'localhost' || 
+                             window.location.hostname === '127.0.0.1' ||
+                             window.location.protocol === 'file:');
+                        
+                        if (isDevelopment) {
+                            logger.debug('API URL attempted:', OPENAI_API_URL);
+                            logger.debug('Error details:', error.message);
+                        }
+                        logger.warn('OpenAI API error, falling back to rule-based responses');
                         // Fall through to rule-based response
                     }
                 }
@@ -2038,10 +2163,8 @@ If you don't know something specific, suggest they contact the company directly 
                         });
                         // Mobile: remove transform, use natural flow
                         track.style.transform = 'none';
-                        // Scroll first card into view
-                        if (cards[0]) {
-                            cards[0].scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' });
-                        }
+                        // Don't scroll into view - preserve user's scroll position
+                        // The carousel will be in the correct position without forcing scroll
                     } else if (!isMobileNow && currentIndex === 0) {
                         // If switching to desktop, move to celebration card
                         currentIndex = 3;
@@ -2070,10 +2193,8 @@ If you don't know something specific, suggest they contact the company directly 
                         });
                         // Mobile: remove transform, use natural flow
                         track.style.transform = 'none';
-                        // Scroll first card into view
-                        if (cards[0]) {
-                            cards[0].scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'start' });
-                        }
+                        // Don't scroll into view - preserve user's scroll position
+                        // The carousel will be in the correct position without forcing scroll
                     }
                     // Small delay to ensure layout is settled before calculating transforms
                     setTimeout(() => {
@@ -2182,7 +2303,7 @@ If you don't know something specific, suggest they contact the company directly 
         }, 100);
     } else {
         // Fallback: import animations module if available
-        import('./scripts/animations.js').then((module) => {
+        import('./animations.js').then((module) => {
             if (module && module.initAnimations) {
                 module.initAnimations();
             }

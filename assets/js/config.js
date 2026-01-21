@@ -62,34 +62,53 @@ export const CONFIG = {
   },
 };
 
-// Get backend URL based on environment
+/**
+ * Detect if we're in a development environment
+ * @returns {boolean} True if in development
+ */
+function isDevelopmentEnvironment() {
+  if (typeof window === 'undefined') return false;
+  
+  const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
+  
+  return hostname === 'localhost' || 
+         hostname === '127.0.0.1' || 
+         hostname === '' ||
+         protocol === 'file:' ||
+         hostname.includes('.local') ||
+         hostname.includes('.dev');
+}
+
+/**
+ * Get backend URL based on environment with improved detection
+ * @returns {string} Backend URL
+ */
 export function getBackendUrl() {
-  if (typeof window !== 'undefined') {
-    const hostname = window.location.hostname;
-    
-    // Development: use localhost backend if accessing from localhost (any port)
-    const isLocalhost = hostname === 'localhost' || 
-                       hostname === '127.0.0.1' || 
-                       hostname === '' ||
-                       window.location.protocol === 'file:';
-    
-    if (isLocalhost) {
-      // Always use localhost:3000 for development
-      return CONFIG.BACKEND.DEV_URL;
-    }
-    
-    // Production: use production backend URL
-    // If PROD_URL is not set, show a helpful error
-    if (!CONFIG.BACKEND.PROD_URL || 
-        CONFIG.BACKEND.PROD_URL.trim() === '' || 
-        CONFIG.BACKEND.PROD_URL.includes('YOUR-BACKEND-URL')) {
-      // Fallback to relative path (won't work on GitHub Pages, but prevents errors)
-      return '';
-    }
-    
-    return CONFIG.BACKEND.PROD_URL;
+  if (typeof window === 'undefined') {
+    return CONFIG.BACKEND.DEV_URL;
   }
-  return CONFIG.BACKEND.DEV_URL;
+  
+  // Development: use localhost backend
+  if (isDevelopmentEnvironment()) {
+    return CONFIG.BACKEND.DEV_URL;
+  }
+  
+  // Production: use production backend URL
+  // Validate that PROD_URL is properly configured
+  if (!CONFIG.BACKEND.PROD_URL || 
+      CONFIG.BACKEND.PROD_URL.trim() === '' || 
+      CONFIG.BACKEND.PROD_URL.includes('YOUR-BACKEND-URL') ||
+      CONFIG.BACKEND.PROD_URL.includes('localhost')) {
+    // Log warning in development, fail silently in production
+    if (isDevelopmentEnvironment()) {
+      console.warn('⚠️ Backend PROD_URL not configured. Chatbot may not work in production.');
+    }
+    // Return empty string to prevent CORS errors
+    return '';
+  }
+  
+  return CONFIG.BACKEND.PROD_URL;
 }
 
 // Get full API URL for chat

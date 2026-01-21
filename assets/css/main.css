@@ -9,8 +9,8 @@
  */
 
 /* Import design tokens and motion system */
-@import url('styles/tokens.css');
-@import url('styles/motion.css');
+@import url('tokens.css');
+@import url('motion.css');
 
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
 * {
@@ -160,7 +160,7 @@ section.section-hero > .container {
 
 body {
   background-color: var(--coreChampers);
-  background-image: url(images/BloomnBackground.jpg);
+  background-image: url(../images/BloomnBackground.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -428,6 +428,27 @@ body.policies .highlight {
   transition: height 0.3s ease;
   padding: 0;
   margin: 0;
+}
+
+/* Ensure home navbar always starts at bottom, preventing flash to top */
+#homeNavbar {
+  position: fixed !important;
+  bottom: 0 !important;
+  top: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+#homeNavbar.fixed-top {
+  position: fixed !important;
+  top: 0 !important;
+  bottom: auto !important;
+}
+
+#homeNavbar.fixed-bottom {
+  position: fixed !important;
+  bottom: 0 !important;
+  top: auto !important;
 }
 
 #homeNavbar .navbar-brand img {
@@ -1317,6 +1338,28 @@ h2.heading-blush-bg {
   margin-right: auto !important;
 }
 
+/* Ensure acknowledgement section is always visible (no scroll reveal delay) */
+section[aria-labelledby="preFooterCtaHeading"],
+section:has(.acknowledgement-text) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+section[aria-labelledby="preFooterCtaHeading"].scroll-reveal,
+section:has(.acknowledgement-text).scroll-reveal {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Also target by ID for extra specificity */
+#preFooterCtaHeading,
+section[aria-labelledby="preFooterCtaHeading"] p,
+.acknowledgement-text {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
 .heading-blush-bg.pt-6,
 h1.heading-blush-bg.pt-6,
 h2.heading-blush-bg.pt-6 {
@@ -1551,7 +1594,7 @@ ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carous
   #neighbourhoodNibblesHeroCarousel,
   #centuria50thHeroCarousel,
   #breastCancerHeroCarousel {
-    height: 500px;
+    height: 500px !important;
   }
   
   #connect140Carousel .carousel-inner,
@@ -1574,7 +1617,7 @@ ul:not(.navbar-nav):not(.navbar *):not(footer *):not(.dropdown-menu):not(.carous
   #centuria50thHeroCarousel .carousel-item,
   #breastCancerHeroCarousel .carousel-inner,
   #breastCancerHeroCarousel .carousel-item {
-    height: 500px;
+    height: 500px !important;
   }
   
   #connect140Carousel .carousel-item img,
@@ -1784,6 +1827,13 @@ button[type="button"].carousel-control-next {
 .carousel-indicators button {
   background-color: var(--coreGold);
   border: 2px solid var(--coreCharcoal);
+  width: 20px !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+  min-width: 20px !important;
+  min-height: 10px !important;
+  max-width: 20px !important;
+  max-height: 10px !important;
 }
 
 .carousel-indicators .active {
@@ -1825,6 +1875,13 @@ button[type="button"].carousel-control-next {
 .page-carousel .carousel-indicators button {
   background-color: var(--coreGold);
   border: 2px solid var(--coreCharcoal);
+  width: 20px !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+  min-width: 20px !important;
+  min-height: 10px !important;
+  max-width: 20px !important;
+  max-height: 10px !important;
 }
 
 .page-carousel .carousel-indicators .active {
@@ -2245,6 +2302,13 @@ button[type="button"].carousel-control-next {
 .gallery-section .carousel-indicators button {
   background-color: var(--coreGold) !important;
   border: 2px solid var(--coreCharcoal) !important;
+  width: 20px !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+  min-width: 20px !important;
+  min-height: 10px !important;
+  max-width: 20px !important;
+  max-height: 10px !important;
 }
 
 .gallery-section .carousel-indicators .active {
@@ -5051,6 +5115,19 @@ body.capabilities .hero-overlay {
   margin-right: auto;
   word-wrap: break-word;
   hyphens: auto;
+  text-align: center;
+}
+
+/* Mobile: ensure hero heading is centered and reduce font size */
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 58px !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block;
+    width: 100%;
+  }
 }
 
 .hero-subhead {
@@ -5364,6 +5441,17 @@ body.capabilities .hero-overlay {
 }
 
 .hero-headline {
+  font-family: 'Dancing Script', cursive;
+  font-size: 70px;
+  font-weight: 700;
+  color: var(--coreGold);
+  text-shadow: 0 2px 4px rgba(30, 30, 30, 0.5);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+/* Hero heading - alternative class name used on some pages */
+.hero-heading {
   font-family: 'Dancing Script', cursive;
   font-size: 70px;
   font-weight: 700;
@@ -6196,6 +6284,24 @@ body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item img:not(
   object-position: center !important;
 }
 
+/* Mobile: reduce case study carousel height to 500px */
+@media (max-width: 768px) {
+  body.case-study .carousel:not(.case-study-hero-carousel) {
+    height: 500px !important;
+  }
+
+  body.case-study .carousel:not(.case-study-hero-carousel) .carousel-inner,
+  body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item {
+    height: 500px !important;
+  }
+
+  body.case-study .carousel:not(.case-study-hero-carousel) .carousel-item img:not(.testimonial-img-rectangular) {
+    height: 500px !important;
+    min-height: 500px !important;
+    max-height: 500px !important;
+  }
+}
+
 /* Override carousel image heights for testimonial logos - must be after all carousel rules */
 .carousel .carousel-item img.testimonial-img-rectangular,
 .carousel-item img.testimonial-img-rectangular,
@@ -6394,9 +6500,17 @@ body.about .section-main:first-of-type {
 .scroll-reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
+}
+
+/* Mobile: faster transitions for scroll reveals */
+@media (max-width: 768px) {
+  .scroll-reveal {
+    transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 /* Revealed state - triggered by IntersectionObserver */
@@ -6409,21 +6523,21 @@ body.about .section-main:first-of-type {
 .scroll-reveal-stagger > * {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 }
 
-.scroll-reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0.05s; }
-.scroll-reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.1s; }
-.scroll-reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.15s; }
-.scroll-reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.2s; }
-.scroll-reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.25s; }
-.scroll-reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.3s; }
-.scroll-reveal-stagger.revealed > *:nth-child(7) { transition-delay: 0.35s; }
-.scroll-reveal-stagger.revealed > *:nth-child(8) { transition-delay: 0.4s; }
-.scroll-reveal-stagger.revealed > *:nth-child(9) { transition-delay: 0.45s; }
-.scroll-reveal-stagger.revealed > *:nth-child(10) { transition-delay: 0.5s; }
+.scroll-reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0s; }
+.scroll-reveal-stagger.revealed > *:nth-child(2) { transition-delay: 0.03s; }
+.scroll-reveal-stagger.revealed > *:nth-child(3) { transition-delay: 0.06s; }
+.scroll-reveal-stagger.revealed > *:nth-child(4) { transition-delay: 0.09s; }
+.scroll-reveal-stagger.revealed > *:nth-child(5) { transition-delay: 0.12s; }
+.scroll-reveal-stagger.revealed > *:nth-child(6) { transition-delay: 0.15s; }
+.scroll-reveal-stagger.revealed > *:nth-child(7) { transition-delay: 0.18s; }
+.scroll-reveal-stagger.revealed > *:nth-child(8) { transition-delay: 0.21s; }
+.scroll-reveal-stagger.revealed > *:nth-child(9) { transition-delay: 0.24s; }
+.scroll-reveal-stagger.revealed > *:nth-child(10) { transition-delay: 0.27s; }
 
 .scroll-reveal-stagger.revealed > * {
   opacity: 1;

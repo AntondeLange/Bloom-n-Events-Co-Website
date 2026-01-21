@@ -1,15 +1,19 @@
-const CACHE_VERSION = 'v6'; // Updated to force cache refresh after chatbot styling changes
+// Cache version - update this when you want to invalidate all caches
+// Format: vYYYYMMDD (e.g., v20250115)
+// Update this date when deploying significant changes
+// For automated deployments, consider using a build script to inject the deployment date
+const CACHE_VERSION = 'v20250115'; // Update this date on each deployment
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
 // Use relative paths so it works under subdirectory hosting (e.g., GitHub Pages)
 const STATIC_ASSETS = [
   'index.html',
-  'styles.css',
-  'scripts.js',
-  'images/logo-wht.png',
-  'images/logo-blk.png',
-  'images/logo-blk-long.png'
+  'assets/css/main.css',
+  'assets/js/main.js',
+  'assets/images/logo-wht.png',
+  'assets/images/logo-blk.png',
+  'assets/images/logo-blk-long.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -39,7 +43,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Config files: always go to network (no caching) - important for backend URL updates
-  if (url.pathname.includes('config.js') || url.pathname.includes('logger.js')) {
+  if (url.pathname.includes('assets/js/config.js') || url.pathname.includes('assets/js/logger.js')) {
     event.respondWith(fetch(req));
     return;
   }
