@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://www.bloomneventsco.com.au/contact.html">
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com www.google-analytics.com google-analytics.com api.openai.com cdn.jsdelivr.net formsubmit.co; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com www.google-analytics.com google-analytics.com api.openai.com cdn.jsdelivr.net formsubmit.co; frame-src 'self' www.facebook.com widgets.sociablekit.com www.google.com maps.google.com *.googleapis.com;">
     <!-- Note: X-Frame-Options should be set via HTTP headers, not meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -197,6 +197,24 @@
     </nav>
 
     <main>
+        <!-- Hero Section -->
+        <section class="hero-section" aria-label="Hero">
+            <div class="hero-background">
+                <img src="assets/images/Brookton.JPG" class="hero-image" alt="Brookton, WA - Home of Bloom'n Events Co" loading="eager" decoding="async" width="1600" height="900">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 text-center">
+                            <h1 class="hero-headline">We Look Forward to Working with You</h1>
+                            <p class="hero-subhead">Give us a date, a budget, and time—we'll make it happen. One team. One accountable partner. Full-service event production with engineering-grade reliability.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Details -->
         <section class="section-main" aria-labelledby="contactHeading">
             <div class="container-fluid">
@@ -205,9 +223,6 @@
                         <div class="col-md-6 first-col d-flex flex-column">
                             <div class="heading-blush-bg text-center">
                                 <h1 id="contactHeading" class="display-4 content-heading-large">Contact Us</h1>
-                            </div>
-                            <div class="p-4 pb-3">
-                                <p class="lead text-charcoal text-center mb-0"><strong>Give us a date, a budget, and time—we'll make it happen.</strong> One team. One accountable partner. Full-service event production with engineering-grade reliability.</p>
                             </div>
                             <form class="p-4 pt-6" id="contactForm" method="POST" action="https://formsubmit.co/enquiries@bloomneventsco.com.au">
                                 <div class="mb-3">
@@ -340,7 +355,9 @@
                 
                 <!-- Logo in Center -->
                 <div class="col-3 text-center footer-column order-md-2">
-                    <img src="assets/images/logo-blk.png" alt="Bloom'n Events Co Logo" class="img-fluid footer-logo mb-3" loading="lazy" decoding="async">
+                    <a href="index.html" aria-label="Home">
+                        <img src="assets/images/logo-blk.png" alt="Bloom'n Events Co Logo" class="img-fluid footer-logo mb-3" loading="lazy" decoding="async">
+                    </a>
                     <p class="text-gold fw-light small mb-0">
                         Copyright &copy; <span id="current-year"></span> Bloom'n Events Co Pty Ltd. All rights reserved.
                     </p>

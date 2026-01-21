@@ -2178,6 +2178,28 @@ button[type="button"].carousel-control-next {
   }
 }
 
+/* Mobile: set fixed height to 500px */
+@media (max-width: 768px) {
+  .about-workshop-carousel {
+    height: 500px !important;
+  }
+  
+  .about-workshop-carousel .carousel-inner {
+    height: 500px !important;
+  }
+  
+  .about-workshop-carousel .carousel-item {
+    height: 500px !important;
+  }
+  
+  .about-workshop-carousel .carousel-item img {
+    height: 500px !important;
+    min-height: 500px !important;
+    max-height: 500px !important;
+    object-fit: cover !important;
+  }
+}
+
 /* Gallery carousel controls styling */
 .gallery-section .carousel-control-prev,
 .gallery-section .carousel-control-next {
@@ -4000,6 +4022,42 @@ div.text-center.mt-5 {
 .gallery-section .carousel-item img {
   max-height: 1250px !important;
   height: 1250px !important;
+}
+
+/* Mobile: reduce gallery carousel height to 500px */
+@media (max-width: 768px) {
+  .gallery-section .carousel,
+  .gallery-section #eventCarousel,
+  .gallery-section #workshopCarousel,
+  .gallery-section #displaysCarousel {
+    height: 500px !important;
+    max-height: 500px !important;
+  }
+  
+  .gallery-section .carousel-inner,
+  .gallery-section #eventCarousel .carousel-inner,
+  .gallery-section #workshopCarousel .carousel-inner,
+  .gallery-section #displaysCarousel .carousel-inner {
+    height: 500px !important;
+    max-height: 500px !important;
+  }
+  
+  .gallery-section .carousel-item,
+  .gallery-section #eventCarousel .carousel-item,
+  .gallery-section #workshopCarousel .carousel-item,
+  .gallery-section #displaysCarousel .carousel-item {
+    height: 500px !important;
+    max-height: 500px !important;
+  }
+  
+  .gallery-section .carousel-item img,
+  .gallery-section #eventCarousel .carousel-item img,
+  .gallery-section #workshopCarousel .carousel-item img,
+  .gallery-section #displaysCarousel .carousel-item img {
+    height: 500px !important;
+    min-height: 500px !important;
+    max-height: 500px !important;
+  }
 }
 
 /* Gallery Page Carousel Navigation Arrows - Remove Background and Border */

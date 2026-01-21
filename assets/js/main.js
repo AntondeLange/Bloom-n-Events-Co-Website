@@ -115,26 +115,58 @@ if ('scrollRestoration' in history) {
 // Monitor and correct any unwanted scrolling during page load
 let scrollCheckCount = 0;
 const maxScrollChecks = 20; // Check for 2 seconds (20 * 100ms)
+let userHasInteracted = false; // Track if user has interacted with the page
+const pageLoadStartTime = Date.now();
+const PAGE_LOAD_PERIOD = 3000; // Consider first 3 seconds as page load period
+
+// Track user interaction - only count actual user gestures, not scroll events
+// (scroll events can be triggered by page layout shifts, not just user action)
+const trackUserInteraction = () => {
+    // Only count as user interaction if it's an actual gesture, not during initial page load
+    const timeSinceLoad = Date.now() - pageLoadStartTime;
+    if (timeSinceLoad > 500) { // Wait 500ms before counting gestures as user interaction
+        userHasInteracted = true;
+        // Remove listeners once user has interacted
+        window.removeEventListener('touchstart', trackUserInteraction, { passive: true });
+        window.removeEventListener('mousedown', trackUserInteraction, { passive: true });
+        window.removeEventListener('wheel', trackUserInteraction, { passive: true });
+    }
+};
+
+// Add listeners to detect actual user gestures (not scroll events)
+// Don't listen to scroll events as they can be triggered by page layout shifts
+window.addEventListener('touchstart', trackUserInteraction, { passive: true });
+window.addEventListener('mousedown', trackUserInteraction, { passive: true });
+window.addEventListener('wheel', trackUserInteraction, { passive: true });
 
 const checkAndCorrectScroll = () => {
     if (scrollCheckCount >= maxScrollChecks) {
         return; // Stop checking after max attempts
     }
     
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+    // Only reset scroll if user hasn't interacted yet AND we're still in the page load period
+    const timeSinceLoad = Date.now() - pageLoadStartTime;
+    const isInLoadPeriod = timeSinceLoad < PAGE_LOAD_PERIOD;
     
-    // If page has scrolled without user interaction, reset to top
-    if (currentScroll > 10) {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        if (document.body) {
-            document.body.scrollTop = 0;
+    if (!userHasInteracted && isInLoadPeriod) {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+        
+        // If page has scrolled without user interaction, reset to top
+        if (currentScroll > 10) {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            if (document.body) {
+                document.body.scrollTop = 0;
+            }
         }
+    } else if (userHasInteracted) {
+        // User has interacted, stop checking immediately
+        return;
     }
     
     scrollCheckCount++;
     
-    if (scrollCheckCount < maxScrollChecks) {
+    if (scrollCheckCount < maxScrollChecks && !userHasInteracted && isInLoadPeriod) {
         setTimeout(checkAndCorrectScroll, 100);
     }
 };
