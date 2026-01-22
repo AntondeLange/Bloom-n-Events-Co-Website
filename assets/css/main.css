@@ -4567,6 +4567,25 @@ footer .nav-link:focus {
       font-family: "bootstrap-icons" !important; /* Ensure font is applied */
     }
     
+    /* Ensure collapsed state chevron ::before pseudo-element has correct color */
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-chevron::before {
+      color: #1E1E1E !important; /* Charcoal - direct color */
+      font-family: "bootstrap-icons" !important;
+    }
+    
+    /* Ensure collapsed state chevron with bi-chevron-down class has correct color */
+    footer .footer-accordion-column:not(.expanded) .bi-chevron-down,
+    footer .footer-accordion-column:not(.expanded) i.bi-chevron-down {
+      color: #1E1E1E !important; /* Charcoal - direct color */
+      font-family: "bootstrap-icons" !important;
+    }
+    
+    footer .footer-accordion-column:not(.expanded) .bi-chevron-down::before,
+    footer .footer-accordion-column:not(.expanded) i.bi-chevron-down::before {
+      color: #1E1E1E !important; /* Charcoal - direct color */
+      font-family: "bootstrap-icons" !important;
+    }
+    
     footer .footer-accordion-column.expanded .footer-accordion-button:hover,
     footer .footer-accordion-column.expanded .footer-accordion-button:focus {
       background: var(--coreCharcoal) !important;
@@ -4603,7 +4622,7 @@ footer .nav-link:focus {
     footer .footer-accordion-chevron {
       transition: transform 0.3s ease, color 0.3s ease !important;
       font-size: 16px !important; /* Slightly larger for better visibility */
-      color: #1E1E1E !important; /* Charcoal - direct color */
+      color: #1E1E1E !important; /* Charcoal - direct color - default for collapsed state */
       margin-left: 10px !important;
       display: inline-block !important;
       visibility: visible !important;
@@ -4613,11 +4632,50 @@ footer .nav-link:focus {
       z-index: 2 !important;
     }
     
+    /* Explicitly override any black color that might be applied to chevron icons in collapsed state */
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .bi,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .footer-accordion-chevron,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down.footer-accordion-chevron {
+      color: #1E1E1E !important; /* Charcoal - for collapsed state only */
+      font-family: "bootstrap-icons" !important;
+    }
+    
+    /* Ensure collapsed state chevron ::before pseudo-element has correct color and font */
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi::before,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .bi::before,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .footer-accordion-chevron::before,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down::before,
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down.footer-accordion-chevron::before {
+      color: #1E1E1E !important; /* Charcoal - for collapsed state only */
+      font-family: "bootstrap-icons" !important;
+    }
+    
     /* Chevron color matches button text */
     footer .footer-accordion-column.expanded .footer-accordion-chevron {
       transform: rotate(180deg) !important;
       color: #BF9B30 !important; /* Gold - direct color */
       font-family: "bootstrap-icons" !important; /* Ensure font is applied */
+    }
+    
+    /* Ensure expanded state chevron ::before pseudo-element has correct color */
+    footer .footer-accordion-column.expanded .footer-accordion-chevron::before {
+      color: #BF9B30 !important; /* Gold - direct color */
+      font-family: "bootstrap-icons" !important;
+    }
+    
+    /* Ensure expanded state chevron with bi-chevron-down class has correct color */
+    footer .footer-accordion-column.expanded .bi-chevron-down,
+    footer .footer-accordion-column.expanded i.bi-chevron-down {
+      color: #BF9B30 !important; /* Gold - direct color */
+      font-family: "bootstrap-icons" !important;
+    }
+    
+    footer .footer-accordion-column.expanded .bi-chevron-down::before,
+    footer .footer-accordion-column.expanded i.bi-chevron-down::before {
+      color: #BF9B30 !important; /* Gold - direct color */
+      font-family: "bootstrap-icons" !important;
     }
     
     /* Force Bootstrap Icons font to load - explicit @font-face as fallback */
