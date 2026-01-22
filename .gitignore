@@ -29,6 +29,13 @@ CLEANUP_CHECKLIST.md
 # Node modules (if any)
 node_modules/
 
+# Build output
+dist/
+.vite/
+
+# Optimized images (generated, can be regenerated)
+assets/images/optimized/
+
 # Backend environment variables
 backend/.env
 backend/.env.local

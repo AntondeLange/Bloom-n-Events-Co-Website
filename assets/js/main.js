@@ -2454,4 +2454,87 @@ If you don't know something specific, suggest they contact the company directly 
     // Initialize sticky CTA and anchor navigation
     initStickyMobileCTA();
     initAnchorNavigation();
+    
+    // ===== FOOTER ACCORDION (MOBILE) =====
+    (function initFooterAccordion() {
+        const accordionButtons = document.querySelectorAll('.footer-accordion-button');
+        
+        if (accordionButtons.length === 0) return;
+        
+        // Function to handle desktop/mobile toggle
+        function handleFooterAccordionVisibility() {
+            const isMobile = window.innerWidth <= 768;
+            
+            accordionButtons.forEach(button => {
+                if (isMobile) {
+                    // Show buttons on mobile
+                    button.style.display = 'flex';
+                    button.style.visibility = 'visible';
+                } else {
+                    // Hide buttons on desktop
+                    button.style.display = 'none';
+                    button.style.visibility = 'hidden';
+                    button.style.height = '0';
+                    button.style.width = '0';
+                    button.style.padding = '0';
+                    button.style.margin = '0';
+                    button.style.opacity = '0';
+                    button.style.pointerEvents = 'none';
+                }
+            });
+            
+            // Also hide/show chevrons
+            const chevrons = document.querySelectorAll('.footer-accordion-chevron');
+            chevrons.forEach(chevron => {
+                if (isMobile) {
+                    chevron.style.display = 'inline-block';
+                } else {
+                    chevron.style.display = 'none';
+                }
+            });
+        }
+        
+        // Initial check
+        handleFooterAccordionVisibility();
+        
+        // Update on resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(handleFooterAccordionVisibility, 100);
+        });
+        
+        // Only add click handlers on mobile
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Only work on mobile
+                if (window.innerWidth > 768) {
+                    return;
+                }
+                
+                const column = this.closest('.footer-accordion-column');
+                const isExpanded = column.classList.contains('expanded');
+                
+                // Close all other accordions (optional - remove if you want multiple open)
+                document.querySelectorAll('.footer-accordion-column').forEach(col => {
+                    if (col !== column) {
+                        col.classList.remove('expanded');
+                        const btn = col.querySelector('.footer-accordion-button');
+                        if (btn) {
+                            btn.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+                
+                // Toggle current accordion
+                if (isExpanded) {
+                    column.classList.remove('expanded');
+                    this.setAttribute('aria-expanded', 'false');
+                } else {
+                    column.classList.add('expanded');
+                    this.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+    })();
 });

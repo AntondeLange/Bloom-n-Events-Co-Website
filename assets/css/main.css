@@ -2876,13 +2876,33 @@ footer {
   color: var(--coreChampers) !important;
   padding: 40px 0 20px !important;
   width: 100% !important;
+  max-width: 100% !important;
   margin: 0 !important;
-  min-height: fit-content !important;
+  min-height: 500px !important;
   height: auto !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  box-sizing: border-box !important;
 }
 
 footer.bg-dark {
   background-color: var(--coreCharcoal) !important;
+  min-height: 500px !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+footer.py-3 {
+  min-height: 500px !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+footer.py-3.bg-dark {
+  min-height: 500px !important;
+  height: auto !important;
+  max-height: none !important;
 }
 
 footer * {
@@ -2905,7 +2925,7 @@ footer h5 {
   font-weight: 600 !important;
   margin-bottom: 15px !important;
   text-align: center !important;
-  font-size: 28px !important;
+  font-size: 25px !important;
 }
 
 footer .btn {
@@ -2982,7 +3002,7 @@ footer .nav .nav-item {
 
 footer .nav-link {
   padding: 5px 0 !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   line-height: 1.4 !important;
 }
 
@@ -2997,10 +3017,12 @@ footer .social-links a {
 }
 
 .footer-logo {
-  max-width: 100% !important;
-  height: auto !important;
-  width: auto !important;
-  max-height: 300px !important;
+  width: 400px !important;
+  height: 400px !important;
+  max-width: 400px !important;
+  max-height: 400px !important;
+  min-width: 400px !important;
+  min-height: 400px !important;
   object-fit: contain !important;
   display: block !important;
   margin: 0 auto !important;
@@ -3010,16 +3032,20 @@ footer .social-links a {
 /* Extra large screens */
 @media (min-width: 1400px) {
   .footer-logo {
-    max-height: 350px !important;
-    max-width: 95% !important;
+    width: 400px !important;
+    height: 400px !important;
+    max-width: 400px !important;
+    max-height: 400px !important;
   }
 }
 
 /* Large screens */
 @media (max-width: 1399px) and (min-width: 1201px) {
   .footer-logo {
-    max-height: 300px !important;
-    max-width: 95% !important;
+    width: 400px !important;
+    height: 400px !important;
+    max-width: 400px !important;
+    max-height: 400px !important;
   }
 }
 
@@ -3032,10 +3058,14 @@ footer .social-links a {
     min-height: 200px !important;
   }
   
-  footer .col-6,
-  footer .col-3 {
+  /* Override Bootstrap defaults for footer columns */
+  footer .row > .col-1,
+  footer .row > .col-3 {
     flex: 0 0 auto !important;
     width: auto !important;
+  }
+  
+  footer .row > .col-3.footer-column {
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -3075,15 +3105,29 @@ footer .nav-link:hover {
 
 /* Footer Layout */
 footer .container {
-  max-width: none !important;
+  max-width: 100% !important;
   width: 100% !important;
   padding: 0 30px !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  margin: 0 auto !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
 }
 
 footer .row {
   width: 100% !important;
+  max-width: 100% !important;
   margin: 0 !important;
   justify-content: space-between !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
 }
 
 footer .col-6,
@@ -3096,16 +3140,42 @@ footer .col-3.text-center {
   width: auto !important;
 }
 
-footer .nav {
+/* Ensure all footer columns are visible on desktop */
+@media (min-width: 769px) {
+  footer .row > .col-3.footer-column {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Footer navigation - left aligned for link columns */
+footer .row .col-9 .row .col-4.footer-accordion-column .nav {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  align-items: flex-start !important;
+}
+
+footer .row .col-9 .row .col-4.footer-accordion-column .nav-item {
+  text-align: left !important;
+}
+
+footer .row .col-9 .row .col-4.footer-accordion-column .nav-link {
+  text-align: left !important;
+  display: block !important;
+}
+
+/* Keep center alignment for logo and contact columns */
+footer .col-3.footer-column .nav {
   justify-content: center !important;
   text-align: center !important;
 }
 
-footer .nav-item {
+footer .col-3.footer-column .nav-item {
   text-align: center !important;
 }
 
-footer .nav-link {
+footer .col-3.footer-column .nav-link {
   text-align: center !important;
   display: block !important;
 }
@@ -3124,6 +3194,9 @@ footer .fw-light.small.mb-0 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
 }
 
 /* Desktop: Add 65px spacing on either side of footer content to bring it closer to logo */
@@ -3563,29 +3636,82 @@ body.team .team-member-image img {
   object-fit: cover !important;
 }
 
-/* Desktop footer column widths: 3/8 (links), 2/8 (logo), 3/8 (CTA) */
+/* Desktop footer: Original 3-column layout with fixed widths */
 @media (min-width: 769px) {
-  footer .footer-col-links {
-    flex: 0 0 37.5% !important;
-    max-width: 37.5% !important;
+  /* Footer container - set max width to 2138px, but respect viewport width */
+  footer .container {
+    max-width: min(2138px, 100%) !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 30px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
-  footer .footer-col-logo {
-    flex: 0 0 25% !important;
-    max-width: 25% !important;
+  
+  /* Footer row - space between columns */
+  footer .row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
-  footer .footer-col-cta {
-    flex: 0 0 37.5% !important;
-    max-width: 37.5% !important;
+  
+  /* Left column: 3 navigation columns (711px total = 237px × 3) */
+  footer .row > .col-9.footer-column {
+    flex: 0 0 711px !important;
+    min-width: 711px !important;
+    max-width: 711px !important;
+    width: 711px !important;
+    padding: 0 !important;
   }
+  
+  /* Each of the 3 navigation columns: 237px each */
+  footer .row .col-9 .row .col-4.footer-accordion-column {
+    flex: 0 0 237px !important;
+    min-width: 237px !important;
+    max-width: 237px !important;
+    width: 237px !important;
+    padding: 0 10px !important;
+  }
+  
+  /* Center column: Logo (712px) */
+  footer .row > .col-3.text-center.footer-column {
+    flex: 0 0 712px !important;
+    min-width: 712px !important;
+    max-width: 712px !important;
+    width: 712px !important;
+    padding: 0 15px !important;
+  }
+  
+  /* Right column: Contact/Social (712px) */
+  footer .row > .col-3.footer-column.order-md-3,
+  footer .row > .col-3.footer-column:last-child {
+    flex: 0 0 712px !important;
+    min-width: 712px !important;
+    max-width: 712px !important;
+    width: 712px !important;
+    padding: 0 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
 }
 
-/* Ensure logo fits within its 2/8 column on desktop */
+/* Footer logo size on desktop */
 @media (min-width: 769px) {
-  footer .footer-col-logo .footer-logo {
-    width: 100% !important;
-    max-width: 220px !important;
-    height: auto !important;
-    max-height: 220px !important;
+  footer .footer-col-logo .footer-logo,
+  footer .footer-column .footer-logo {
+    width: 400px !important;
+    height: 400px !important;
+    max-width: 400px !important;
+    max-height: 400px !important;
+    min-width: 400px !important;
+    min-height: 400px !important;
   }
 }
 
@@ -4289,61 +4415,187 @@ footer .nav-link:focus {
     min-height: auto !important;
   }
   
-  /* First Row - 3 Columns of Links */
-  footer .row .col-6 {
-    order: 1 !important;
-    width: 100% !important;
-    flex: none !important;
-    margin-bottom: 15px !important;
-  }
-  
-  /* Links row: 3 columns on mobile, placed above logo */
-  footer .row .col-6 .row {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    gap: 8px 8px !important;
-    margin: 0 !important;
-    width: 100% !important;
-  }
-  
-  footer .row .col-6 .row .col-4 {
-    flex: 0 0 calc(33.333% - 8px) !important;
-    max-width: calc(33.333% - 8px) !important;
-    min-width: calc(33.333% - 8px) !important;
-    padding: 0 5px !important;
-    text-align: center !important;
-  }
-
-  footer .row .col-6 .row .col-4 .nav {
-    align-items: center !important;
-  }
-  footer .row .col-6 .row .col-4 .nav .nav-link {
-    font-size: 14px !important;
-    line-height: 1.3 !important;
-    padding: 4px 0 !important;
-  }
-  
-  footer .row .col-6 .row .col-4 h5 {
-    font-size: 16px !important;
-    margin-bottom: 8px !important;
-    text-align: center !important;
-  }
-  
-  footer .row .col-6 .row .col-4 .nav {
+  /* Footer accordion columns on mobile */
+  footer .row .col-9 .row {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
-    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
+    width: 100% !important;
   }
   
-  footer .row .col-6 .row .col-4 .nav-link {
-    font-size: 14px !important;
-    padding: 2px 0 !important;
-    text-align: center !important;
+  footer .row > .col-9,
+  footer .row > .col-3 {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 15px !important;
   }
+    
+    footer .footer-accordion-column {
+      width: 100% !important;
+      padding: 0 !important;
+      margin-bottom: 0 !important;
+      border-bottom: 1px solid rgba(191, 155, 48, 0.2) !important;
+    }
+    
+    footer .footer-accordion-column:last-child {
+      border-bottom: none !important;
+    }
+    /* Footer accordion button (h5 title) */
+    footer .footer-accordion-button {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 14px 0 !important;
+      background: none !important;
+      border: none !important;
+      color: var(--coreGold) !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      text-align: left !important;
+      cursor: pointer !important;
+      transition: color 0.3s ease !important;
+      margin: 0 !important;
+    }
+    
+    footer .footer-accordion-button:hover,
+    footer .footer-accordion-button:focus {
+      color: var(--coreChampers) !important;
+      outline: none !important;
+    }
+    
+    /* Chevron icon */
+    footer .footer-accordion-chevron {
+      transition: transform 0.3s ease !important;
+      font-size: 12px !important;
+      color: var(--coreGold) !important;
+      margin-left: 10px !important;
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-chevron {
+      transform: rotate(180deg) !important;
+    }
+    
+    /* Footer accordion content (ul list) */
+    footer .footer-accordion-content {
+      max-height: 0 !important;
+      overflow: hidden !important;
+      transition: max-height 0.3s ease, padding 0.3s ease !important;
+      padding: 0 !important;
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-content {
+      max-height: 500px !important;
+      padding: 8px 0 14px 0 !important;
+    }
+    
+    footer .footer-accordion-content .nav {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 6px !important;
+      margin: 0 !important;
+    }
+    
+    footer .footer-accordion-content .nav-link {
+      font-size: 14px !important;
+      line-height: 1.4 !important;
+      padding: 4px 0 !important;
+      text-align: left !important;
+      color: var(--coreChampers) !important;
+    }
+    
+    footer .footer-accordion-content .nav-link:hover {
+      color: var(--coreGold) !important;
+    }
+    
+    footer .footer-accordion-column h5 {
+      display: none !important;
+    }
+  }
+  
+  /* Desktop: Keep original layout - hide accordion buttons, show h5 */
+  @media screen and (min-width: 769px) {
+    /* Hide all accordion functionality on desktop - use multiple selectors for maximum specificity */
+    footer .footer-accordion-column .footer-accordion-button,
+    footer .footer-accordion-column button.footer-accordion-button,
+    footer button.footer-accordion-button,
+    footer .footer-accordion-button,
+    footer .footer-accordion-button span,
+    footer .footer-accordion-chevron,
+    footer i.footer-accordion-chevron {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      width: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      overflow: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      left: -9999px !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+    }
+    
+    /* Reset accordion content to normal display */
+    footer .footer-accordion-content {
+      max-height: none !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      display: block !important;
+      height: auto !important;
+    }
+    
+    /* Reset accordion column styles */
+    footer .footer-accordion-column {
+      border-bottom: none !important;
+      padding: 0 10px !important;
+      margin-bottom: 0 !important;
+    }
+    
+    
+    /* Show h5 headings on desktop */
+    footer .footer-accordion-column h5 {
+      display: block !important;
+      font-size: 25px !important;
+      margin-bottom: 12px !important;
+      text-align: left !important;
+      color: var(--coreGold) !important;
+      font-weight: 600 !important;
+    }
+    
+    /* Navigation columns - left align links */
+    footer .row .col-9 .row .col-4.footer-accordion-column {
+      text-align: left !important;
+    }
+    
+    footer .row .col-9 .row .col-4.footer-accordion-column .nav {
+      align-items: flex-start !important;
+      text-align: left !important;
+    }
+    
+    footer .row .col-9 .row .col-4.footer-accordion-column .nav-link {
+      text-align: left !important;
+    }
+    
+    /* Navigation columns text alignment */
+    footer .row > .col-1.footer-accordion-column .nav {
+      align-items: flex-start !important;
+      display: flex !important;
+    }
+    
+    footer .row > .col-1.footer-accordion-column .nav-link {
+      text-align: left !important;
+    }
+  }
+  
+  
   
   /* Second Row - Logo Center */
   footer .row .col-3.text-center {
@@ -4361,6 +4613,8 @@ footer .nav-link:focus {
   }
   
   .footer-logo {
+    width: 200px !important;
+    height: 200px !important;
     max-width: 200px !important;
     max-height: 200px !important;
     margin: 0 auto !important;
@@ -4375,7 +4629,7 @@ footer .nav-link:focus {
   }
   
   footer .row .col-3:last-child h5 {
-    font-size: 18px !important;
+    font-size: 25px !important;
     margin-bottom: 10px !important;
   }
   
