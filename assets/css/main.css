@@ -22,8 +22,19 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Ensure vertical scrolling is always enabled */
   width: 100%;
   max-width: 100vw;
+  /* Ensure touch scrolling works properly on mobile */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y; /* Allow vertical panning (scrolling) on touch devices */
+}
+
+/* Disable smooth scrolling on mobile to prevent scroll interference */
+@media (max-width: 991px) {
+  html {
+    scroll-behavior: auto; /* Use native scrolling on mobile for better performance */
+  }
 }
 
 /* Allow carousel sections to break out on mobile */
@@ -173,9 +184,13 @@ body {
   transition: padding var(--transition-base);
   min-height: 100vh;
   overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Ensure vertical scrolling is always enabled */
   width: 100%;
   max-width: 100vw;
   position: relative;
+  /* Ensure touch scrolling works properly on mobile */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y; /* Allow vertical panning (scrolling) on touch devices */
 }
 
 /* ===== BODY LAYOUT STATES ===== */
@@ -3377,6 +3392,9 @@ body:not(.home):not(.about):not(.team) main img:not(.navbar-logo):not(.footer-lo
   display: block !important;
   margin: 0 auto !important;
   text-align: center !important;
+  border: 2px solid var(--coreGold) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px var(--coreCharcoal) !important;
 }
 
 body:not(.home):not(.about):not(.team) .event-image {
@@ -3730,6 +3748,15 @@ body.displays .display-image {
 body.displays .display-image:hover {
   transform: translateY(-5px) !important;
   box-shadow: 0 8px 16px var(--coreCharcoal) !important;
+}
+
+/* Gold borders for all images on events, workshops, and displays pages */
+body.events main img:not(.navbar-logo):not(.footer-logo):not(.hero-image):not(.hero-video),
+body.workshops main img:not(.navbar-logo):not(.footer-logo):not(.hero-image):not(.hero-video),
+body.displays main img:not(.navbar-logo):not(.footer-logo):not(.hero-image):not(.hero-video) {
+  border: 2px solid var(--coreGold) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 8px var(--coreCharcoal) !important;
 }
 
 body.displays .display-list {
@@ -4449,47 +4476,222 @@ footer .nav-link:focus {
       display: flex !important;
       justify-content: space-between !important;
       align-items: center !important;
-      padding: 14px 0 !important;
-      background: none !important;
-      border: none !important;
-      color: var(--coreGold) !important;
-      font-size: 16px !important;
+      padding: 14px 16px !important;
+      background: #BF9B30 !important; /* Gold - direct color */
+      border: 2px solid #BF9B30 !important;
+      border-radius: 8px !important;
+      color: #1E1E1E !important; /* Charcoal - direct color */
+      font-family: 'Dancing Script', cursive !important; /* Dancing Script font */
+      font-size: 18px !important;
       font-weight: 600 !important;
       text-align: left !important;
       cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      margin: 0 0 8px 0 !important;
+      position: relative !important;
+      z-index: 10 !important; /* Higher z-index to ensure it's clickable */
+      pointer-events: auto !important; /* Ensure clicks work */
+      -webkit-tap-highlight-color: rgba(191, 155, 48, 0.3) !important; /* Mobile tap feedback */
+    }
+    
+    /* Ensure Bootstrap Icons in accordion buttons use correct font */
+    footer .footer-accordion-button .bi,
+    footer .footer-accordion-button i.bi,
+    footer .footer-accordion-button .footer-accordion-chevron {
+      font-family: "bootstrap-icons" !important;
+      font-style: normal !important;
+      font-weight: normal !important;
+      font-variant: normal !important;
+      text-transform: none !important;
+      line-height: 1 !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+    }
+    
+    /* Button text/span color - ensure it's visible with direct color */
+    footer .footer-accordion-button span {
+      color: #1E1E1E !important; /* Charcoal - direct color */
       transition: color 0.3s ease !important;
-      margin: 0 !important;
+      display: inline-block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      font-family: 'Dancing Script', cursive !important; /* Dancing Script font */
+      font-size: 18px !important;
+      font-weight: 600 !important;
+      line-height: 1.4 !important;
+      flex: 1 !important;
+      text-align: left !important;
+      position: relative !important;
+      z-index: 2 !important;
+      background: transparent !important;
     }
     
     footer .footer-accordion-button:hover,
     footer .footer-accordion-button:focus {
-      color: var(--coreChampers) !important;
-      outline: none !important;
+      background: var(--coreGold) !important;
+      color: var(--coreCharcoal) !important;
+      outline: 2px solid var(--coreChampers) !important;
+      outline-offset: 2px !important;
     }
     
-    /* Chevron icon */
-    footer .footer-accordion-chevron {
-      transition: transform 0.3s ease !important;
-      font-size: 12px !important;
+    footer .footer-accordion-button:hover span,
+    footer .footer-accordion-button:focus span {
+      color: var(--coreCharcoal) !important;
+    }
+    
+    /* Inverted state when expanded - only apply when expanded class is present */
+    footer .footer-accordion-column.expanded .footer-accordion-button {
+      background: #1E1E1E !important; /* Charcoal - direct color */
+      border-color: #BF9B30 !important; /* Gold - direct color */
+      color: #BF9B30 !important; /* Gold - direct color */
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-button span {
+      color: #BF9B30 !important; /* Gold - direct color */
+    }
+    
+    /* Default state - gold background with charcoal text (when NOT expanded) */
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button {
+      background: #BF9B30 !important; /* Gold - direct color */
+      border-color: #BF9B30 !important; /* Gold - direct color */
+      color: #1E1E1E !important; /* Charcoal - direct color */
+    }
+    
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-button span {
+      color: #1E1E1E !important; /* Charcoal - direct color */
+    }
+    
+    footer .footer-accordion-column:not(.expanded) .footer-accordion-chevron {
+      color: #1E1E1E !important; /* Charcoal - direct color */
+      transform: rotate(0deg) !important;
+      font-family: "bootstrap-icons" !important; /* Ensure font is applied */
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-button:hover,
+    footer .footer-accordion-column.expanded .footer-accordion-button:focus {
+      background: var(--coreCharcoal) !important;
       color: var(--coreGold) !important;
-      margin-left: 10px !important;
+      outline: 2px solid var(--coreGold) !important;
+      outline-offset: 2px !important;
     }
     
+    footer .footer-accordion-column.expanded .footer-accordion-button:hover span,
+    footer .footer-accordion-column.expanded .footer-accordion-button:focus span {
+      color: var(--coreGold) !important;
+    }
+    
+    /* Ensure all Bootstrap Icons in footer use the correct font */
+    footer .bi,
+    footer i.bi,
+    footer .footer-accordion-chevron,
+    footer i.bi-chevron-down {
+      font-family: "bootstrap-icons" !important;
+      font-style: normal !important;
+      font-weight: normal !important;
+      font-variant: normal !important;
+      text-transform: none !important;
+      line-height: 1 !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      speak: none !important;
+      text-rendering: optimizeLegibility !important;
+      -webkit-font-feature-settings: normal !important;
+      font-feature-settings: normal !important;
+    }
+    
+    /* Chevron icon - ensure it's visible and uses Bootstrap Icons font */
+    footer .footer-accordion-chevron {
+      transition: transform 0.3s ease, color 0.3s ease !important;
+      font-size: 16px !important; /* Slightly larger for better visibility */
+      color: #1E1E1E !important; /* Charcoal - direct color */
+      margin-left: 10px !important;
+      display: inline-block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+      z-index: 2 !important;
+    }
+    
+    /* Chevron color matches button text */
     footer .footer-accordion-column.expanded .footer-accordion-chevron {
       transform: rotate(180deg) !important;
+      color: #BF9B30 !important; /* Gold - direct color */
+      font-family: "bootstrap-icons" !important; /* Ensure font is applied */
+    }
+    
+    /* Force Bootstrap Icons font to load - explicit @font-face as fallback */
+    @font-face {
+      font-family: 'bootstrap-icons';
+      src: url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/fonts/bootstrap-icons.woff2') format('woff2'),
+           url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/fonts/bootstrap-icons.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    
+    /* Ensure all Bootstrap Icons use the correct font */
+    footer .bi,
+    footer i.bi,
+    footer .bi-chevron-down,
+    footer .footer-accordion-chevron {
+      font-family: "bootstrap-icons" !important;
+      font-weight: normal !important;
+      font-style: normal !important;
+      speak: none !important;
+      text-rendering: auto !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+    }
+    
+    /* Ensure ::before pseudo-element inherits font */
+    footer .bi::before,
+    footer i.bi::before,
+    footer .bi-chevron-down::before,
+    footer .footer-accordion-chevron::before {
+      font-family: "bootstrap-icons" !important;
+      font-weight: normal !important;
+      font-style: normal !important;
     }
     
     /* Footer accordion content (ul list) */
     footer .footer-accordion-content {
       max-height: 0 !important;
       overflow: hidden !important;
-      transition: max-height 0.3s ease, padding 0.3s ease !important;
+      transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease !important;
       padding: 0 !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
     }
     
     footer .footer-accordion-column.expanded .footer-accordion-content {
       max-height: 500px !important;
       padding: 8px 0 14px 0 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    
+    /* Ensure nav and nav items are visible when expanded */
+    footer .footer-accordion-column.expanded .footer-accordion-content .nav {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-content .nav-item {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-content .nav-link {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      color: #F2E8DA !important; /* Champers color */
     }
     
     footer .footer-accordion-content .nav {
@@ -5416,7 +5618,7 @@ body.capabilities .hero-overlay {
 /* ===== HERO SECTION - RESPONSIVE TYPOGRAPHY & LAYOUT ===== */
 .hero-headline {
   font-family: 'Dancing Script', cursive;
-  font-size: 70px;
+  font-size: clamp(42px, 8vw, 70px); /* Responsive: 42px mobile, 70px desktop, scales with viewport */
   font-weight: 700;
   color: var(--coreGold);
   text-shadow: 0 2px 4px rgba(30, 30, 30, 0.5);
@@ -5425,20 +5627,26 @@ body.capabilities .hero-overlay {
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  word-wrap: break-word;
-  hyphens: auto;
+  white-space: normal; /* Allow line breaks from <br> tags */
+  word-wrap: normal; /* Prevent breaking within words */
+  overflow-wrap: normal; /* Prevent breaking within words */
+  hyphens: none; /* Disable automatic hyphenation */
   text-align: center;
 }
 
-/* Mobile: ensure hero heading is centered and reduce font size */
+/* Mobile: ensure hero heading is centered and properly sized */
 @media (max-width: 768px) {
   .hero-headline {
-    font-size: 58px !important;
+    font-size: clamp(36px, 10vw, 58px) !important; /* Responsive scaling on mobile */
     text-align: center !important;
     margin-left: auto !important;
     margin-right: auto !important;
     display: block;
     width: 100%;
+    white-space: normal !important; /* Allow line breaks */
+    word-wrap: normal !important; /* Prevent word breaking */
+    overflow-wrap: normal !important; /* Prevent word breaking */
+    hyphens: none !important; /* Disable hyphenation */
   }
 }
 
@@ -5452,15 +5660,22 @@ body.capabilities .hero-overlay {
   line-height: 1.75;
   font-weight: 400;
   padding: 0 1rem; /* Prevent edge touching on mobile */
+  text-align: center !important; /* Center the text */
 }
 
-/* Center lead paragraph in hero section */
+/* Center all paragraphs in hero section */
+.hero-content p,
+.hero-section p,
 .hero-content .lead,
 .hero-section .lead {
-  font-family: 'Montserrat', sans-serif;
   text-align: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
+}
+
+.hero-content .lead,
+.hero-section .lead {
+  font-family: 'Montserrat', sans-serif;
   max-width: min(800px, 90vw) !important;
 }
 
@@ -5765,12 +5980,36 @@ body.capabilities .hero-overlay {
 /* Hero heading - alternative class name used on some pages */
 .hero-heading {
   font-family: 'Dancing Script', cursive;
-  font-size: 70px;
+  font-size: clamp(42px, 8vw, 70px); /* Responsive: 42px mobile, 70px desktop, scales with viewport */
   font-weight: 700;
   color: var(--coreGold);
   text-shadow: 0 2px 4px rgba(30, 30, 30, 0.5);
   margin-bottom: 1rem;
   line-height: 1.2;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: normal; /* Allow line breaks from <br> tags */
+  word-wrap: normal; /* Prevent breaking within words */
+  overflow-wrap: normal; /* Prevent breaking within words */
+  hyphens: none; /* Disable automatic hyphenation */
+  text-align: center;
+}
+
+/* Mobile: ensure hero heading is centered and properly sized */
+@media (max-width: 768px) {
+  .hero-heading {
+    font-size: clamp(36px, 10vw, 58px) !important; /* Responsive scaling on mobile */
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block;
+    width: 100%;
+    white-space: normal !important; /* Allow line breaks */
+    word-wrap: normal !important; /* Prevent word breaking */
+    overflow-wrap: normal !important; /* Prevent word breaking */
+    hyphens: none !important; /* Disable hyphenation */
+  }
 }
 
 .hero-subhead {
@@ -5781,6 +6020,7 @@ body.capabilities .hero-overlay {
   margin: 0 auto 2rem;
   text-shadow: 0 1px 2px rgba(30, 30, 30, 0.5);
   line-height: 1.6;
+  text-align: center !important; /* Center the text */
 }
 
 /* Proof Section */

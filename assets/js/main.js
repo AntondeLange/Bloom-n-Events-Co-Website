@@ -97,6 +97,12 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 
+// Clear any hash from URL that might cause unwanted scrolling
+if (window.location.hash) {
+    // Remove hash without scrolling
+    history.replaceState(null, null, ' ');
+}
+
 // Ensure page starts at top - set immediately before any other scripts run
 (function() {
     'use strict';
@@ -112,20 +118,20 @@ if ('scrollRestoration' in history) {
     }
 })();
 
-// Monitor and correct any unwanted scrolling during page load
-let scrollCheckCount = 0;
-const maxScrollChecks = 20; // Check for 2 seconds (20 * 100ms)
-let userHasInteracted = false; // Track if user has interacted with the page
-const pageLoadStartTime = Date.now();
-const PAGE_LOAD_PERIOD = 3000; // Consider first 3 seconds as page load period
+// Mobile-specific scroll lock during initial page load
+const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window);
+let userHasInteracted = false;
+let scrollLockActive = true;
+const SCROLL_LOCK_DURATION = 1500; // Lock scroll for 1.5 seconds on mobile
+const pageLoadTime = Date.now();
 
-// Track user interaction - only count actual user gestures, not scroll events
-// (scroll events can be triggered by page layout shifts, not just user action)
+// Track user interaction - but be more careful on mobile
 const trackUserInteraction = () => {
-    // Only count as user interaction if it's an actual gesture, not during initial page load
-    const timeSinceLoad = Date.now() - pageLoadStartTime;
-    if (timeSinceLoad > 500) { // Wait 500ms before counting gestures as user interaction
+    const timeSinceLoad = Date.now() - pageLoadTime;
+    // Only count as interaction after a brief delay to avoid false positives
+    if (timeSinceLoad > 200) {
         userHasInteracted = true;
+        scrollLockActive = false;
         // Remove listeners once user has interacted
         window.removeEventListener('touchstart', trackUserInteraction, { passive: true });
         window.removeEventListener('mousedown', trackUserInteraction, { passive: true });
@@ -133,51 +139,67 @@ const trackUserInteraction = () => {
     }
 };
 
-// Add listeners to detect actual user gestures (not scroll events)
-// Don't listen to scroll events as they can be triggered by page layout shifts
+// Add listeners to detect actual user gestures
 window.addEventListener('touchstart', trackUserInteraction, { passive: true });
 window.addEventListener('mousedown', trackUserInteraction, { passive: true });
 window.addEventListener('wheel', trackUserInteraction, { passive: true });
 
-const checkAndCorrectScroll = () => {
-    if (scrollCheckCount >= maxScrollChecks) {
-        return; // Stop checking after max attempts
-    }
-    
-    // Only reset scroll if user hasn't interacted yet AND we're still in the page load period
-    const timeSinceLoad = Date.now() - pageLoadStartTime;
-    const isInLoadPeriod = timeSinceLoad < PAGE_LOAD_PERIOD;
-    
-    if (!userHasInteracted && isInLoadPeriod) {
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
-        
-        // If page has scrolled without user interaction, reset to top
-        if (currentScroll > 10) {
-            window.scrollTo(0, 0);
-            document.documentElement.scrollTop = 0;
-            if (document.body) {
-                document.body.scrollTop = 0;
-            }
-        }
-    } else if (userHasInteracted) {
-        // User has interacted, stop checking immediately
+// Aggressive scroll reset on mobile during initial load
+const resetScrollToTop = () => {
+    if (!scrollLockActive || userHasInteracted) {
         return;
     }
     
-    scrollCheckCount++;
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     
-    if (scrollCheckCount < maxScrollChecks && !userHasInteracted && isInLoadPeriod) {
-        setTimeout(checkAndCorrectScroll, 100);
+    if (currentScroll > 5) {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
     }
 };
 
-// Start checking after a brief delay to let initial scripts run
-setTimeout(() => {
-    checkAndCorrectScroll();
-}, 50);
+// On mobile, aggressively reset scroll during initial load period
+if (isMobile) {
+    // Reset immediately
+    resetScrollToTop();
+    
+    // Reset multiple times during the lock period
+    const scrollResetInterval = setInterval(() => {
+        if (!scrollLockActive || userHasInteracted) {
+            clearInterval(scrollResetInterval);
+            return;
+        }
+        resetScrollToTop();
+    }, 50); // Check every 50ms
+    
+    // Disable scroll lock after duration
+    setTimeout(() => {
+        scrollLockActive = false;
+        clearInterval(scrollResetInterval);
+    }, SCROLL_LOCK_DURATION);
+    
+    // Also reset on window load
+    window.addEventListener('load', () => {
+        if (!userHasInteracted) {
+            requestAnimationFrame(() => {
+                resetScrollToTop();
+            });
+        }
+    }, { once: true });
+}
 
 // Single DOMContentLoaded event listener for all functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // On mobile, ensure page is at top after DOM is ready
+    if (isMobile && !userHasInteracted) {
+        requestAnimationFrame(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        });
+    }
+    
     // Initialize hero parallax
     initHeroParallax();
     // ===== PARTIALS INJECTION (Navbar/Footer) =====
@@ -205,6 +227,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         newNav.style.left = '0';
                         newNav.style.right = '0';
                     }
+                    
+                    // On mobile, reset scroll after navbar injection to prevent unwanted scrolling
+                    if (isMobile && !userHasInteracted) {
+                        requestAnimationFrame(() => {
+                            window.scrollTo(0, 0);
+                            document.documentElement.scrollTop = 0;
+                            document.body.scrollTop = 0;
+                        });
+                    }
                 }
             }
             if (footerHtml) {
@@ -220,12 +251,43 @@ document.addEventListener('DOMContentLoaded', function() {
                     const footer = tempDiv.firstElementChild;
                     if (footer) {
                         insertionPoint.parentNode.insertBefore(footer, insertionPoint);
+                        // On mobile, reset scroll after footer injection
+                        if (isMobile && !userHasInteracted) {
+                            requestAnimationFrame(() => {
+                                window.scrollTo(0, 0);
+                                document.documentElement.scrollTop = 0;
+                                document.body.scrollTop = 0;
+                            });
+                        }
+                        // Initialize footer accordion AFTER footer is injected
+                        console.log('Footer injected, initializing accordion...');
+                        setTimeout(() => {
+                            console.log('Calling initFooterAccordion...');
+                            initFooterAccordion();
+                        }, 100);
                     }
                 } else {
                     // Fallback: append to body
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = footerHtml;
                     const footer = tempDiv.firstElementChild;
+                    if (footer) {
+                        document.body.appendChild(footer);
+                        // On mobile, reset scroll after footer injection
+                        if (isMobile && !userHasInteracted) {
+                            requestAnimationFrame(() => {
+                                window.scrollTo(0, 0);
+                                document.documentElement.scrollTop = 0;
+                                document.body.scrollTop = 0;
+                            });
+                        }
+                        // Initialize footer accordion AFTER footer is injected
+                        console.log('Footer injected (fallback), initializing accordion...');
+                        setTimeout(() => {
+                            console.log('Calling initFooterAccordion (fallback)...');
+                            initFooterAccordion();
+                        }, 100);
+                    }
                     if (footer) {
                         document.body.appendChild(footer);
                     }
@@ -2456,10 +2518,16 @@ If you don't know something specific, suggest they contact the company directly 
     initAnchorNavigation();
     
     // ===== FOOTER ACCORDION (MOBILE) =====
-    (function initFooterAccordion() {
+    // Note: This will be called after footer is loaded via loadPartials
+    function initFooterAccordion() {
         const accordionButtons = document.querySelectorAll('.footer-accordion-button');
         
-        if (accordionButtons.length === 0) return;
+        console.log('Footer Accordion Init - Found buttons:', accordionButtons.length);
+        
+        if (accordionButtons.length === 0) {
+            console.warn('Footer Accordion: No buttons found!');
+            return;
+        }
         
         // Function to handle desktop/mobile toggle
         function handleFooterAccordionVisibility() {
@@ -2467,9 +2535,42 @@ If you don't know something specific, suggest they contact the company directly 
             
             accordionButtons.forEach(button => {
                 if (isMobile) {
-                    // Show buttons on mobile
+                    // Show buttons on mobile - ensure they're visible
                     button.style.display = 'flex';
                     button.style.visibility = 'visible';
+                    button.style.opacity = '1';
+                    button.style.height = 'auto';
+                    button.style.width = '100%';
+                    button.style.padding = '14px 16px';
+                    button.style.margin = '0 0 8px 0';
+                    button.style.pointerEvents = 'auto';
+                    // Ensure text is visible with direct colors
+                    const span = button.querySelector('span');
+                    if (span) {
+                        span.style.display = 'inline-block';
+                        span.style.visibility = 'visible';
+                        span.style.opacity = '1';
+                        span.style.color = '#1E1E1E'; // Direct charcoal color
+                        span.style.background = 'transparent';
+                        span.style.fontFamily = "'Dancing Script', cursive";
+                        span.style.fontSize = '18px';
+                    }
+                    const chevron = button.querySelector('.footer-accordion-chevron');
+                    if (chevron) {
+                        chevron.style.display = 'inline-block';
+                        chevron.style.visibility = 'visible';
+                        chevron.style.opacity = '1';
+                        chevron.style.color = '#1E1E1E'; // Direct charcoal color
+                        chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
+                        chevron.style.fontSize = '16px';
+                        chevron.style.fontStyle = 'normal';
+                        chevron.style.fontWeight = 'normal';
+                        chevron.style.lineHeight = '1';
+                        // Ensure the icon content is set (Bootstrap Icons use ::before)
+                        if (!chevron.hasAttribute('data-icon-set')) {
+                            chevron.setAttribute('data-icon-set', 'true');
+                        }
+                    }
                 } else {
                     // Hide buttons on desktop
                     button.style.display = 'none';
@@ -2504,18 +2605,34 @@ If you don't know something specific, suggest they contact the company directly 
             resizeTimeout = setTimeout(handleFooterAccordionVisibility, 100);
         });
         
-        // Only add click handlers on mobile
-        accordionButtons.forEach(button => {
-            button.addEventListener('click', function() {
+        // Add click handlers for accordion functionality
+        accordionButtons.forEach((button, index) => {
+            console.log(`Footer Accordion: Adding click handler to button ${index}`);
+            button.addEventListener('click', function(e) {
+                console.log('Footer Accordion: Button clicked!', this);
+                // Prevent event bubbling and default behavior
+                e.preventDefault();
+                e.stopPropagation();
+                
                 // Only work on mobile
-                if (window.innerWidth > 768) {
+                const isMobile = window.innerWidth <= 768;
+                console.log('Footer Accordion: Is mobile?', isMobile, 'Window width:', window.innerWidth);
+                if (!isMobile) {
+                    console.log('Footer Accordion: Not mobile, returning');
                     return;
                 }
                 
                 const column = this.closest('.footer-accordion-column');
-                const isExpanded = column.classList.contains('expanded');
+                if (!column) {
+                    console.warn('Footer accordion: Could not find parent column');
+                    return;
+                }
                 
-                // Close all other accordions (optional - remove if you want multiple open)
+                console.log('Footer Accordion: Found column', column);
+                const isExpanded = column.classList.contains('expanded');
+                console.log('Footer Accordion: Is expanded?', isExpanded);
+                
+                // Close all other accordions
                 document.querySelectorAll('.footer-accordion-column').forEach(col => {
                     if (col !== column) {
                         col.classList.remove('expanded');
@@ -2523,18 +2640,190 @@ If you don't know something specific, suggest they contact the company directly 
                         if (btn) {
                             btn.setAttribute('aria-expanded', 'false');
                         }
+                        const content = col.querySelector('.footer-accordion-content');
+                        if (content) {
+                            content.style.maxHeight = '0';
+                            content.style.opacity = '0';
+                            content.style.visibility = 'hidden';
+                            content.style.padding = '0';
+                        }
+                        // Reset button colors and ensure text is visible (btn already declared above)
+                        if (btn) {
+                            btn.style.setProperty('background', '#BF9B30', 'important');
+                            btn.style.setProperty('border-color', '#BF9B30', 'important');
+                            btn.style.setProperty('color', '#1E1E1E', 'important');
+                            btn.style.opacity = '1';
+                            btn.style.visibility = 'visible';
+                            const span = btn.querySelector('span');
+                            if (span) {
+                                span.style.setProperty('color', '#1E1E1E', 'important');
+                                span.style.opacity = '1';
+                                span.style.visibility = 'visible';
+                                span.style.display = 'inline-block';
+                                span.style.fontFamily = "'Dancing Script', cursive";
+                                span.style.fontSize = '18px';
+                            }
+                            const chevron = btn.querySelector('.footer-accordion-chevron');
+                            if (chevron) {
+                                chevron.style.setProperty('color', '#1E1E1E', 'important');
+                                chevron.style.transform = 'rotate(0deg)';
+                                chevron.style.opacity = '1';
+                                chevron.style.visibility = 'visible';
+                                chevron.style.display = 'inline-block';
+                                chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
+                                chevron.style.fontSize = '16px';
+                                chevron.style.fontStyle = 'normal';
+                                chevron.style.fontWeight = 'normal';
+                                chevron.style.lineHeight = '1';
+                                // Ensure the icon content is set (Bootstrap Icons use ::before)
+                                if (!chevron.hasAttribute('data-icon-set')) {
+                                    chevron.setAttribute('data-icon-set', 'true');
+                                }
+                            }
+                        }
                     }
                 });
                 
                 // Toggle current accordion
+                const content = column.querySelector('.footer-accordion-content');
                 if (isExpanded) {
+                    console.log('Footer Accordion: Closing accordion, resetting to gold background');
+                    // Remove expanded class FIRST to prevent CSS from overriding
                     column.classList.remove('expanded');
                     this.setAttribute('aria-expanded', 'false');
+                    if (content) {
+                        content.style.maxHeight = '0';
+                        content.style.opacity = '0';
+                        content.style.visibility = 'hidden';
+                        content.style.padding = '0';
+                        content.style.display = 'none';
+                    }
+                    // Reset button to collapsed state - ensure text is visible
+                    // Force reset all styles to collapsed state with !important equivalent
+                    this.style.setProperty('background', '#BF9B30', 'important');
+                    this.style.setProperty('border-color', '#BF9B30', 'important');
+                    this.style.setProperty('color', '#1E1E1E', 'important');
+                    this.style.opacity = '1';
+                    this.style.visibility = 'visible';
+                    console.log('Footer Accordion: Resetting button to collapsed - setting background to gold, text to charcoal');
+                    const span = this.querySelector('span');
+                    if (span) {
+                        span.style.setProperty('color', '#1E1E1E', 'important');
+                        span.style.opacity = '1';
+                        span.style.visibility = 'visible';
+                        span.style.display = 'inline-block';
+                        span.style.background = 'transparent';
+                        span.style.fontFamily = "'Dancing Script', cursive";
+                        span.style.fontSize = '18px';
+                    }
+                    const chevron = this.querySelector('.footer-accordion-chevron');
+                    if (chevron) {
+                        chevron.style.setProperty('color', '#1E1E1E', 'important');
+                        chevron.style.transform = 'rotate(0deg)';
+                        chevron.style.opacity = '1';
+                        chevron.style.visibility = 'visible';
+                        chevron.style.display = 'inline-block';
+                        chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
+                        chevron.style.fontSize = '16px';
+                        chevron.style.fontStyle = 'normal';
+                        chevron.style.fontWeight = 'normal';
+                        chevron.style.lineHeight = '1';
+                        // Ensure the icon content is set (Bootstrap Icons use ::before)
+                        if (!chevron.hasAttribute('data-icon-set')) {
+                            chevron.setAttribute('data-icon-set', 'true');
+                        }
+                    }
+                    // Force a reflow to ensure styles are applied
+                    void this.offsetHeight;
                 } else {
                     column.classList.add('expanded');
                     this.setAttribute('aria-expanded', 'true');
+                    if (content) {
+                        // Force show content with explicit styles
+                        content.style.maxHeight = '500px';
+                        content.style.opacity = '1';
+                        content.style.visibility = 'visible';
+                        content.style.display = 'block';
+                        content.style.padding = '8px 0 14px 0';
+                        content.style.overflow = 'visible';
+                        content.style.height = 'auto';
+                        // Ensure nav container is visible
+                        const nav = content.querySelector('.nav');
+                        if (nav) {
+                            nav.style.display = 'flex';
+                            nav.style.visibility = 'visible';
+                            nav.style.opacity = '1';
+                        }
+                        // Ensure nav links are visible
+                        const navLinks = content.querySelectorAll('.nav-link');
+                        navLinks.forEach(link => {
+                            link.style.display = 'block';
+                            link.style.visibility = 'visible';
+                            link.style.opacity = '1';
+                            link.style.color = '#F2E8DA'; // Champers color for links
+                            link.style.background = 'transparent';
+                        });
+                        // Ensure nav items are visible
+                        const navItems = content.querySelectorAll('.nav-item');
+                        navItems.forEach(item => {
+                            item.style.display = 'block';
+                            item.style.visibility = 'visible';
+                            item.style.opacity = '1';
+                        });
+                    }
+                    // Update button colors for expanded state - ensure text is visible
+                    this.style.setProperty('background', '#1E1E1E', 'important');
+                    this.style.setProperty('border-color', '#BF9B30', 'important');
+                    this.style.setProperty('color', '#BF9B30', 'important');
+                    this.style.opacity = '1';
+                    this.style.visibility = 'visible';
+                    const span = this.querySelector('span');
+                    if (span) {
+                        span.style.setProperty('color', '#BF9B30', 'important');
+                        span.style.opacity = '1';
+                        span.style.visibility = 'visible';
+                        span.style.display = 'inline-block';
+                        span.style.background = 'transparent';
+                        span.style.fontFamily = "'Dancing Script', cursive";
+                        span.style.fontSize = '18px';
+                    }
+                    const chevron = this.querySelector('.footer-accordion-chevron');
+                    if (chevron) {
+                        chevron.style.setProperty('color', '#BF9B30', 'important');
+                        chevron.style.transform = 'rotate(180deg)';
+                        chevron.style.opacity = '1';
+                        chevron.style.visibility = 'visible';
+                        chevron.style.display = 'inline-block';
+                        chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
+                        chevron.style.fontSize = '16px';
+                        chevron.style.fontStyle = 'normal';
+                        chevron.style.fontWeight = 'normal';
+                        chevron.style.lineHeight = '1';
+                        // Ensure the icon content is set (Bootstrap Icons use ::before)
+                        if (!chevron.hasAttribute('data-icon-set')) {
+                            chevron.setAttribute('data-icon-set', 'true');
+                        }
+                    }
                 }
             });
         });
-    })();
+    }
+    
+    // Also try to initialize immediately in case footer already exists
+    console.log('Document ready state:', document.readyState);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        console.log('Trying immediate accordion init...');
+        setTimeout(() => {
+            console.log('Calling initFooterAccordion (immediate)...');
+            initFooterAccordion();
+        }, 500);
+    }
+    
+    // Also try on window load as final fallback
+    window.addEventListener('load', () => {
+        console.log('Window loaded, trying accordion init...');
+        setTimeout(() => {
+            initFooterAccordion();
+        }, 1000);
+    });
 });

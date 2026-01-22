@@ -46,6 +46,10 @@ const getGSAP = async () => {
 // Motion preferences
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isLowPowerDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+// Disable ScrollTrigger on mobile/tablet to prevent scroll interference
+const isMobileOrTablet = window.matchMedia('(max-width: 991px)').matches || 
+                         ('ontouchstart' in window) || 
+                         (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
 
 // Animation configuration
 const ANIMATION_CONFIG = {
@@ -120,9 +124,10 @@ export async function initPageLoadAnimations() {
 /**
  * Initialize scroll-triggered reveals
  * Reveals elements as they enter viewport with fade + slide
+ * Disabled on mobile/tablet to prevent scroll interference
  */
 export async function initScrollReveals() {
-  if (prefersReducedMotion || isLowPowerDevice) return;
+  if (prefersReducedMotion || isLowPowerDevice || isMobileOrTablet) return;
   
   const gsapLib = await getGSAP();
   if (!gsapLib || !gsapLib.gsap || !gsapLib.ScrollTrigger) return;
@@ -253,16 +258,19 @@ export async function initAnimations() {
     ]);
   }
 
-  // Refresh ScrollTrigger on window resize
-  const gsapLib = await getGSAP();
-  if (gsapLib && gsapLib.ScrollTrigger) {
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        gsapLib.ScrollTrigger.refresh();
-      }, 250);
-    });
+  // Refresh ScrollTrigger on window resize (desktop only)
+  // Skip on mobile/tablet to prevent scroll interference
+  if (!isMobileOrTablet) {
+    const gsapLib = await getGSAP();
+    if (gsapLib && gsapLib.ScrollTrigger) {
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          gsapLib.ScrollTrigger.refresh();
+        }, 250);
+      });
+    }
   }
 }
 
