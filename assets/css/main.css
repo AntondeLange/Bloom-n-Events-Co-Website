@@ -4567,25 +4567,6 @@ footer .nav-link:focus {
       font-family: "bootstrap-icons" !important; /* Ensure font is applied */
     }
     
-    /* Ensure collapsed state chevron ::before pseudo-element has correct color */
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-chevron::before {
-      color: #1E1E1E !important; /* Charcoal - direct color */
-      font-family: "bootstrap-icons" !important;
-    }
-    
-    /* Ensure collapsed state chevron with bi-chevron-down class has correct color */
-    footer .footer-accordion-column:not(.expanded) .bi-chevron-down,
-    footer .footer-accordion-column:not(.expanded) i.bi-chevron-down {
-      color: #1E1E1E !important; /* Charcoal - direct color */
-      font-family: "bootstrap-icons" !important;
-    }
-    
-    footer .footer-accordion-column:not(.expanded) .bi-chevron-down::before,
-    footer .footer-accordion-column:not(.expanded) i.bi-chevron-down::before {
-      color: #1E1E1E !important; /* Charcoal - direct color */
-      font-family: "bootstrap-icons" !important;
-    }
-    
     footer .footer-accordion-column.expanded .footer-accordion-button:hover,
     footer .footer-accordion-column.expanded .footer-accordion-button:focus {
       background: var(--coreCharcoal) !important;
@@ -4622,7 +4603,7 @@ footer .nav-link:focus {
     footer .footer-accordion-chevron {
       transition: transform 0.3s ease, color 0.3s ease !important;
       font-size: 16px !important; /* Slightly larger for better visibility */
-      color: #1E1E1E !important; /* Charcoal - direct color - default for collapsed state */
+      color: #1E1E1E !important; /* Charcoal - direct color */
       margin-left: 10px !important;
       display: inline-block !important;
       visibility: visible !important;
@@ -4632,26 +4613,6 @@ footer .nav-link:focus {
       z-index: 2 !important;
     }
     
-    /* Explicitly override any black color that might be applied to chevron icons in collapsed state */
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .bi,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .footer-accordion-chevron,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down.footer-accordion-chevron {
-      color: #1E1E1E !important; /* Charcoal - for collapsed state only */
-      font-family: "bootstrap-icons" !important;
-    }
-    
-    /* Ensure collapsed state chevron ::before pseudo-element has correct color and font */
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi::before,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .bi::before,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button .footer-accordion-chevron::before,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down::before,
-    footer .footer-accordion-column:not(.expanded) .footer-accordion-button i.bi-chevron-down.footer-accordion-chevron::before {
-      color: #1E1E1E !important; /* Charcoal - for collapsed state only */
-      font-family: "bootstrap-icons" !important;
-    }
-    
     /* Chevron color matches button text */
     footer .footer-accordion-column.expanded .footer-accordion-chevron {
       transform: rotate(180deg) !important;
@@ -4659,57 +4620,48 @@ footer .nav-link:focus {
       font-family: "bootstrap-icons" !important; /* Ensure font is applied */
     }
     
-    /* Ensure expanded state chevron ::before pseudo-element has correct color */
-    footer .footer-accordion-column.expanded .footer-accordion-chevron::before {
-      color: #BF9B30 !important; /* Gold - direct color */
+    /* CRITICAL: Ensure Bootstrap Icons ::before pseudo-element is set for chevron */
+    /* Bootstrap Icons chevron-down uses Unicode \f282 */
+    footer .bi-chevron-down::before,
+    footer .footer-accordion-chevron.bi-chevron-down::before,
+    footer i.bi-chevron-down::before,
+    footer i.bi.bi-chevron-down::before {
+      content: "\f282" !important; /* Bootstrap Icons chevron-down Unicode */
       font-family: "bootstrap-icons" !important;
-    }
-    
-    /* Ensure expanded state chevron with bi-chevron-down class has correct color */
-    footer .footer-accordion-column.expanded .bi-chevron-down,
-    footer .footer-accordion-column.expanded i.bi-chevron-down {
-      color: #BF9B30 !important; /* Gold - direct color */
-      font-family: "bootstrap-icons" !important;
-    }
-    
-    footer .footer-accordion-column.expanded .bi-chevron-down::before,
-    footer .footer-accordion-column.expanded i.bi-chevron-down::before {
-      color: #BF9B30 !important; /* Gold - direct color */
-      font-family: "bootstrap-icons" !important;
-    }
-    
-    /* Force Bootstrap Icons font to load - explicit @font-face as fallback */
-    @font-face {
-      font-family: 'bootstrap-icons';
-      src: url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/fonts/bootstrap-icons.woff2') format('woff2'),
-           url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/fonts/bootstrap-icons.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-    
-    /* Ensure all Bootstrap Icons use the correct font */
-    footer .bi,
-    footer i.bi,
-    footer .bi-chevron-down,
-    footer .footer-accordion-chevron {
-      font-family: "bootstrap-icons" !important;
-      font-weight: normal !important;
+      display: inline-block !important;
       font-style: normal !important;
+      font-weight: normal !important;
+      font-variant: normal !important;
+      text-transform: none !important;
+      line-height: 1 !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      speak: none !important;
+      text-rendering: optimizeLegibility !important;
+    }
+    
+    /* Ensure the icon element itself has the correct properties */
+    footer i.bi-chevron-down,
+    footer .bi-chevron-down,
+    footer i.bi.bi-chevron-down {
+      font-family: "bootstrap-icons" !important;
+      font-style: normal !important;
+      font-weight: normal !important;
       speak: none !important;
       text-rendering: auto !important;
       -webkit-font-smoothing: antialiased !important;
       -moz-osx-font-smoothing: grayscale !important;
+      display: inline-block !important;
+      line-height: 1 !important;
     }
     
-    /* Ensure ::before pseudo-element inherits font */
-    footer .bi::before,
-    footer i.bi::before,
-    footer .bi-chevron-down::before,
-    footer .footer-accordion-chevron::before {
+    /* Force icon visibility - override any conflicting styles */
+    footer .footer-accordion-button i.bi,
+    footer .footer-accordion-button .bi,
+    footer .footer-accordion-button .footer-accordion-chevron {
       font-family: "bootstrap-icons" !important;
-      font-weight: normal !important;
       font-style: normal !important;
+      font-weight: normal !important;
     }
     
     /* Footer accordion content (ul list) */
