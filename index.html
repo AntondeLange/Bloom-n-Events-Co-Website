@@ -89,6 +89,12 @@
     <link rel="preload" href="assets/images/logo-wht.png" as="image" fetchpriority="high">
     <link rel="preload" href="assets/images/logo-blk-long.png" as="image" fetchpriority="high">
     
+    <!-- Preload hero video poster for faster initial display -->
+    <link rel="preload" href="assets/images/logo-wht.png" as="image" fetchpriority="high">
+    
+    <!-- Prefetch hero video for faster playback start -->
+    <link rel="prefetch" href="assets/images/bloomn-hero.mp4" as="video">
+    
     <!-- Structured Data for SEO -->
     
     <!-- Google Analytics Initialization -->
@@ -185,7 +191,7 @@
         <!-- HERO SECTION -->
         <section class="hero-section" aria-label="Hero">
             <div class="hero-background">
-                <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/images/logo-wht.png" width="1920" height="1080" aria-label="Bloom'n Events Co event production showcase video">
+                <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/images/logo-wht.png" width="1920" height="1080" aria-label="Bloom'n Events Co event production showcase video">
                     <source src="assets/images/bloomn-hero.mp4" type="video/mp4">
                 </video>
                 <div class="hero-overlay"></div>
@@ -213,7 +219,7 @@
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 shadow service-card">
-                            <img src="assets/images/Home/Corporate Events Hero Image.jpg" class="card-img-top" alt="Corporate event planning and production services in Perth and Western Australia" loading="lazy" decoding="async" width="1600" height="900">
+                            <img src="assets/images/Home/Corporate Events Hero Image.jpg" class="card-img-top" alt="Corporate event planning and production services in Perth and Western Australia" loading="lazy" decoding="async" width="1600" height="900" fetchpriority="high">
                             <div class="card-body text-center">
                                 <h3 class="text-gold mb-3">Corporate Events</h3>
                                 <p class="text-charcoal">One team handles everything—from strategy to execution. No juggling multiple vendors. No coordination headaches.</p>

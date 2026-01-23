@@ -51,6 +51,13 @@
 # Compression
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+    # Compress images (if supported)
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Enable Brotli compression if available (better than gzip)
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
 </IfModule>
 
 # Browser Caching

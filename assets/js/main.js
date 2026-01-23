@@ -222,8 +222,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize hero parallax
     initHeroParallax();
     
-    // ===== HERO VIDEO AUTOPLAY HANDLING =====
-    // Ensure hero video plays on homepage
+    // ===== HERO VIDEO OPTIMIZED LOADING =====
+    // Progressive video loading: start with metadata, load full video when visible
     (function initHeroVideo() {
         const heroVideo = document.querySelector('body.home .hero-video');
         if (!heroVideo) return;
@@ -235,23 +235,53 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Ensure video loads and plays
-        heroVideo.preload = 'auto';
+        // Check for data saver mode
+        const saveData = navigator.connection && navigator.connection.saveData;
+        if (saveData) {
+            heroVideo.preload = 'none';
+            return;
+        }
         
-        // Handle autoplay - some browsers require user interaction
-        const playPromise = heroVideo.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // Autoplay was prevented, try to play when user interacts
-                console.log('Video autoplay prevented, will play on interaction');
-                const playOnInteraction = () => {
-                    heroVideo.play().catch(() => {});
-                    document.removeEventListener('click', playOnInteraction);
-                    document.removeEventListener('scroll', playOnInteraction);
-                };
-                document.addEventListener('click', playOnInteraction, { once: true });
-                document.addEventListener('scroll', playOnInteraction, { once: true });
-            });
+        // Progressive loading: start with metadata, upgrade to auto when visible
+        heroVideo.preload = 'metadata';
+        
+        // Use IntersectionObserver to load full video when hero section is visible
+        if ('IntersectionObserver' in window) {
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio > 0) {
+                        // Hero section is visible, upgrade to full preload
+                        heroVideo.preload = 'auto';
+                        heroVideo.load(); // Force reload with new preload setting
+                        
+                        // Try to play
+                        const playPromise = heroVideo.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                // Autoplay prevented, play on interaction
+                                const playOnInteraction = () => {
+                                    heroVideo.play().catch(() => {});
+                                    document.removeEventListener('click', playOnInteraction, { once: true });
+                                    document.removeEventListener('scroll', playOnInteraction, { once: true });
+                                };
+                                document.addEventListener('click', playOnInteraction, { once: true });
+                                document.addEventListener('scroll', playOnInteraction, { once: true });
+                            });
+                        }
+                        
+                        videoObserver.disconnect();
+                    }
+                });
+            }, { rootMargin: '50px', threshold: 0.1 });
+            
+            const heroSection = document.querySelector('body.home .hero-section');
+            if (heroSection) {
+                videoObserver.observe(heroSection);
+            }
+        } else {
+            // Fallback: load immediately if no IntersectionObserver
+            heroVideo.preload = 'auto';
+            heroVideo.play().catch(() => {});
         }
         
         // Pause video when page is hidden (tab switch)
@@ -671,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newImg.src = sourceToLoad || img.currentSrc || img.src;
             });
         }, {
-            rootMargin: '200px 0px',
+            rootMargin: '300px 0px', // Start loading images earlier (300px before they enter viewport)
             threshold: 0.01
         });
         
