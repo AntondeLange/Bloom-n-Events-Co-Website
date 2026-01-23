@@ -1,0 +1,91 @@
+/**
+ * Footer Accordion Enhancement
+ * 
+ * Enhances Bootstrap collapse functionality for footer accordions.
+ * Uses CSS classes instead of inline styles to comply with CSP.
+ */
+
+(function() {
+    'use strict';
+    
+    function initFooterAccordion() {
+        const accordionButtons = document.querySelectorAll('.footer-accordion-button[data-bs-toggle="collapse"]');
+        
+        if (accordionButtons.length === 0) {
+            return; // No accordion buttons found
+        }
+        
+        // Handle Bootstrap collapse events to update chevron rotation and classes
+        accordionButtons.forEach(button => {
+            const targetId = button.getAttribute('data-bs-target');
+            if (!targetId) return;
+            
+            const target = document.querySelector(targetId);
+            if (!target) return;
+            
+            // Listen for Bootstrap collapse events
+            target.addEventListener('show.bs.collapse', function() {
+                button.setAttribute('aria-expanded', 'true');
+                const chevron = button.querySelector('.footer-accordion-chevron');
+                if (chevron) {
+                    chevron.classList.add('rotated');
+                }
+                // Add expanded class to column for styling
+                const column = button.closest('.footer-accordion-column');
+                if (column) {
+                    column.classList.add('expanded');
+                }
+            });
+            
+            target.addEventListener('hide.bs.collapse', function() {
+                button.setAttribute('aria-expanded', 'false');
+                const chevron = button.querySelector('.footer-accordion-chevron');
+                if (chevron) {
+                    chevron.classList.remove('rotated');
+                }
+                // Remove expanded class
+                const column = button.closest('.footer-accordion-column');
+                if (column) {
+                    column.classList.remove('expanded');
+                }
+            });
+        });
+        
+        // Handle mobile/desktop visibility using CSS classes
+        function handleFooterAccordionVisibility() {
+            const isMobile = window.innerWidth <= 768;
+            const footer = document.querySelector('footer');
+            if (!footer) return;
+            
+            if (isMobile) {
+                footer.classList.add('mobile-view');
+                footer.classList.remove('desktop-view');
+            } else {
+                footer.classList.add('desktop-view');
+                footer.classList.remove('mobile-view');
+            }
+        }
+        
+        // Initial check
+        handleFooterAccordionVisibility();
+        
+        // Update on resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(handleFooterAccordionVisibility, 100);
+        });
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFooterAccordion);
+    } else {
+        // DOM already loaded
+        initFooterAccordion();
+    }
+    
+    // Also initialize after footer is loaded (if using partials)
+    // This will be called from main.js after footer injection
+    window.initFooterAccordion = initFooterAccordion;
+})();

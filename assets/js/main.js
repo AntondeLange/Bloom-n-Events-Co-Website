@@ -351,11 +351,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         }
                         // Initialize footer accordion AFTER footer is injected
-                        console.log('Footer injected, initializing accordion...');
-                        setTimeout(() => {
-                            console.log('Calling initFooterAccordion...');
-                            initFooterAccordion();
-                        }, 100);
+                        if (typeof window.initFooterAccordion === 'function') {
+                            setTimeout(() => {
+                                window.initFooterAccordion();
+                            }, 100);
+                        }
                     }
                 } else {
                     // Fallback: append to body
@@ -373,11 +373,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         }
                         // Initialize footer accordion AFTER footer is injected
-                        console.log('Footer injected (fallback), initializing accordion...');
-                        setTimeout(() => {
-                            console.log('Calling initFooterAccordion (fallback)...');
-                            initFooterAccordion();
-                        }, 100);
+                        if (typeof window.initFooterAccordion === 'function') {
+                            setTimeout(() => {
+                                window.initFooterAccordion();
+                            }, 100);
+                        }
                     }
                     if (footer) {
                         document.body.appendChild(footer);
@@ -2019,8 +2019,8 @@ If you don't know something specific, suggest they contact the company directly 
     // Preload critical resources
     const preloadCriticalResources = () => {
         const criticalImages = [
-            'images/logo-wht.png',
-            'images/logo-blk-long.png'
+            'assets/images/logo-wht.png',
+            'assets/images/logo-blk-long.png'
         ];
         
         criticalImages.forEach(src => {
@@ -3127,11 +3127,14 @@ If you don't know something specific, suggest they contact the company directly 
     
     // Also try to initialize immediately in case footer already exists
     console.log('Document ready state:', document.readyState);
+    // Use window.initFooterAccordion from footer-accordion.js if available
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         console.log('Trying immediate accordion init...');
         setTimeout(() => {
-            console.log('Calling initFooterAccordion (immediate)...');
-            initFooterAccordion();
+            console.log('Calling window.initFooterAccordion (immediate)...');
+            if (typeof window.initFooterAccordion === 'function') {
+                window.initFooterAccordion();
+            }
         }, 500);
     }
     
@@ -3139,7 +3142,9 @@ If you don't know something specific, suggest they contact the company directly 
     window.addEventListener('load', () => {
         console.log('Window loaded, trying accordion init...');
         setTimeout(() => {
-            initFooterAccordion();
+            if (typeof window.initFooterAccordion === 'function') {
+                window.initFooterAccordion();
+            }
         }, 1000);
     });
 });

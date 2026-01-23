@@ -626,6 +626,7 @@ body.policies .highlight {
   border: 2px solid var(--coreCharcoal);
   padding: 4px 8px;
   background-color: var(--coreGold);
+  border-radius: 8px;
   display: none !important; /* Hidden on desktop by default */
 }
 
@@ -1302,9 +1303,7 @@ body.capabilities .dropdown-menu,
 body.capabilities .dropdown-menu *,
 body.capabilities .dropdown-item,
 body.capabilities .navbar-brand,
-body.capabilities .navbar-brand *,
-body.capabilities .navbar-toggler,
-body.capabilities .navbar-toggler * {
+body.capabilities .navbar-brand * {
   max-width: none !important;
   width: auto !important;
   white-space: nowrap !important;
@@ -1315,32 +1314,50 @@ body.capabilities .navbar-toggler * {
   overflow: visible !important;
 }
 
+/* Navbar toggler rules - only apply on desktop, mobile rules will override */
+@media (min-width: 992px) {
+  body.capabilities .navbar-toggler,
+  body.capabilities .navbar-toggler * {
+    max-width: none !important;
+    width: auto !important;
+    white-space: nowrap !important;
+    font-family: var(--font-body, 'Montserrat'), sans-serif !important;
+    font-weight: 500 !important;
+    word-break: normal !important;
+    word-wrap: normal !important;
+    overflow: visible !important;
+  }
+}
+
 /* Ensure navbar nav items display inline - OVERRIDE ALL OTHER RULES */
-body.capabilities .navbar-nav {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  width: auto !important;
-  max-width: none !important;
-}
+/* Desktop only - mobile uses Bootstrap's default collapse */
+@media (min-width: 992px) {
+  body.capabilities .navbar-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: auto !important;
+    max-width: none !important;
+  }
 
-body.capabilities .navbar-nav .nav-item {
-  display: flex !important;
-  align-items: center !important;
-  white-space: nowrap !important;
-  width: auto !important;
-  max-width: none !important;
-  flex-shrink: 0 !important;
-}
+  body.capabilities .navbar-nav .nav-item {
+    display: flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    max-width: none !important;
+    flex-shrink: 0 !important;
+  }
 
-body.capabilities .navbar-nav .nav-link {
-  display: inline-block !important;
-  white-space: nowrap !important;
-  word-break: keep-all !important;
-  width: auto !important;
-  max-width: none !important;
-  flex-shrink: 0 !important;
-  overflow: visible !important;
+  body.capabilities .navbar-nav .nav-link {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    width: auto !important;
+    max-width: none !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+  }
 }
 
 /* Capabilities page - split all bullet lists into 2 columns */
@@ -3620,73 +3637,129 @@ body.capabilities .lead {
 
 /* FINAL OVERRIDE: Ensure navbar on capabilities page matches other pages exactly */
 /* This must come after all other capabilities rules */
-body.capabilities nav.navbar,
-body.capabilities nav.navbar .navbar-collapse,
-body.capabilities nav.navbar .navbar-nav,
-body.capabilities nav.navbar .navbar-nav .nav-item,
-body.capabilities nav.navbar .navbar-nav .nav-link,
-body.capabilities nav.navbar .navbar-nav .nav-link a {
-  width: auto !important;
-  max-width: none !important;
-  min-width: auto !important;
-  white-space: nowrap !important;
-  word-break: normal !important;
-  word-wrap: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  flex-shrink: 0 !important;
+/* Desktop only - mobile will use Bootstrap's default collapse behavior */
+@media (min-width: 992px) {
+  body.capabilities nav.navbar,
+  body.capabilities nav.navbar .navbar-collapse,
+  body.capabilities nav.navbar .navbar-nav,
+  body.capabilities nav.navbar .navbar-nav .nav-item,
+  body.capabilities nav.navbar .navbar-nav .nav-link,
+  body.capabilities nav.navbar .navbar-nav .nav-link a {
+    width: auto !important;
+    max-width: none !important;
+    min-width: auto !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    word-wrap: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Ensure navbar container maintains proper layout */
+  body.capabilities nav.navbar .container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  /* Ensure navbar brand (logo) is centered */
+  body.capabilities nav.navbar .navbar-brand {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    order: 2 !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure contact button is on the far right */
+  body.capabilities nav.navbar .d-flex {
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+    order: 3 !important;
+    display: flex !important;
+    visibility: visible !important;
+  }
+
+  body.capabilities nav.navbar .navbar-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    order: 1 !important;
+  }
+  
+  /* Ensure navbar toggler is hidden on desktop */
+  body.capabilities nav.navbar .navbar-toggler {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  body.capabilities nav.navbar .navbar-nav .nav-item {
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  body.capabilities nav.navbar .navbar-nav .nav-link {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    flex-shrink: 0 !important;
+  }
 }
 
-/* Ensure navbar container maintains proper layout */
-body.capabilities nav.navbar .container {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 100% !important;
-  position: relative !important;
-}
+/* NOTE: Capabilities mobile navbar rules have been moved to line 4900+ (inside general mobile media query) */
+/* This ensures they come AFTER general rules and properly override them */
 
-/* Ensure navbar brand (logo) is centered */
-body.capabilities nav.navbar .navbar-brand {
-  position: absolute !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Ensure contact button is on the far right */
-body.capabilities nav.navbar .d-flex {
-  margin-left: auto !important;
-  flex: 0 0 auto !important;
-  order: 3 !important;
-}
-
-body.capabilities nav.navbar .navbar-nav {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: center !important;
-  order: 1 !important;
-}
-
-body.capabilities nav.navbar .navbar-nav .nav-item {
-  display: flex !important;
-  align-items: center !important;
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-}
-
-body.capabilities nav.navbar .navbar-nav .nav-link {
-  display: inline-block !important;
-  white-space: nowrap !important;
-  word-break: keep-all !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  flex-shrink: 0 !important;
+/* Extra Small Devices - match other pages */
+@media (max-width: 575.98px) {
+  body.capabilities nav.navbar .navbar-brand img {
+    height: 35px !important;
+    max-width: 140px !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-contact-btn {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+    min-height: 36px !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-toggler,
+  body.capabilities .navbar .navbar-toggler,
+  body.capabilities .navbar-toggler {
+    padding: 4px 8px !important;
+    border-radius: 8px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-toggler:hover,
+  body.capabilities .navbar .navbar-toggler:hover,
+  body.capabilities .navbar-toggler:hover {
+    background-color: color-mix(in srgb, var(--coreGold) 10%, transparent) !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-toggler:focus,
+  body.capabilities .navbar .navbar-toggler:focus,
+  body.capabilities .navbar-toggler:focus {
+    background-color: color-mix(in srgb, var(--coreGold) 10%, transparent) !important;
+    border: 2px solid var(--coreGold) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--coreGold) 25%, transparent) !important;
+  }
 }
 
 /* Footer Styles */
@@ -4661,6 +4734,7 @@ div.text-center.mt-5 {
     border: 2px solid var(--coreCharcoal);
     padding: 6px 10px;
     background-color: var(--coreGold);
+    border-radius: 8px;
     display: block !important;
     visibility: visible !important;
     min-width: 44px;
@@ -4700,6 +4774,141 @@ div.text-center.mt-5 {
     border: 2px solid var(--coreGold);
     box-sizing: border-box;
   }
+  
+  /* ===== CAPABILITIES PAGE MOBILE NAVBAR OVERRIDES ===== */
+  /* These rules MUST come after general mobile rules to ensure proper override */
+  /* Reset all desktop-specific navbar rules on mobile */
+  body.capabilities nav.navbar .container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 15px !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+  
+  /* Allow Bootstrap's collapse to work properly on mobile */
+  body.capabilities nav.navbar .navbar-collapse {
+    display: none !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-collapse.show,
+  body.capabilities nav.navbar .navbar-collapse.collapsing {
+    display: block !important;
+    width: 100% !important;
+    flex-basis: 100% !important;
+    flex-grow: 1 !important;
+    align-items: center !important;
+  }
+  
+  /* Ensure navbar-nav displays as column on mobile when collapsed menu is open */
+  body.capabilities nav.navbar .navbar-collapse.show .navbar-nav,
+  body.capabilities nav.navbar .navbar-collapse.collapsing .navbar-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+    padding-left: 0 !important;
+  }
+  
+  /* Mobile Menu Button - Far Left (order: 1) - MAXIMUM SPECIFICITY to override all rules */
+  body.capabilities nav.navbar .navbar-toggler,
+  body.capabilities .navbar .navbar-toggler,
+  body.capabilities .navbar-toggler,
+  body.capabilities nav.navbar button.navbar-toggler,
+  body.capabilities .navbar button.navbar-toggler,
+  body.capabilities button.navbar-toggler,
+  body.capabilities nav.navbar button[data-bs-toggle="collapse"].navbar-toggler {
+    order: 1 !important;
+    margin-right: auto !important;
+    border: 2px solid var(--coreCharcoal) !important;
+    padding: 6px 10px !important;
+    background-color: var(--coreGold) !important;
+    border-radius: 8px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-toggler:hover,
+  body.capabilities .navbar .navbar-toggler:hover,
+  body.capabilities .navbar-toggler:hover,
+  body.capabilities nav.navbar button.navbar-toggler:hover,
+  body.capabilities .navbar button.navbar-toggler:hover,
+  body.capabilities button.navbar-toggler:hover {
+    background-color: color-mix(in srgb, var(--coreGold) 10%, transparent) !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-toggler:focus,
+  body.capabilities .navbar .navbar-toggler:focus,
+  body.capabilities .navbar-toggler:focus,
+  body.capabilities nav.navbar button.navbar-toggler:focus,
+  body.capabilities .navbar button.navbar-toggler:focus,
+  body.capabilities button.navbar-toggler:focus {
+    background-color: color-mix(in srgb, var(--coreGold) 10%, transparent) !important;
+    border: 2px solid var(--coreGold) !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--coreGold) 25%, transparent) !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-toggler-icon,
+  body.capabilities .navbar .navbar-toggler-icon,
+  body.capabilities .navbar-toggler-icon,
+  body.capabilities nav.navbar .navbar-toggler .navbar-toggler-icon,
+  body.capabilities .navbar .navbar-toggler .navbar-toggler-icon,
+  body.capabilities .navbar-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23333' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Logo - Center (order: 2, absolute positioned) */
+  body.capabilities nav.navbar .navbar-brand {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    order: 2 !important;
+    margin: 0 !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  body.capabilities nav.navbar .navbar-brand img {
+    height: 40px !important;
+    width: auto !important;
+    max-width: 160px !important;
+  }
+  
+  /* Contact Button - Far Right (order: 3) */
+  body.capabilities nav.navbar .d-flex {
+    order: 3 !important;
+    margin-left: auto !important;
+    display: flex !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  
+  body.capabilities nav.navbar .btn-gold,
+  body.capabilities nav.navbar .navbar-contact-btn {
+    padding: 6px 16px !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    min-height: 44px !important;
+    line-height: 26px !important;
+    border: 2px solid var(--coreGold) !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* Extra Small Devices (phones, <576px) */
@@ -4717,6 +4926,7 @@ div.text-center.mt-5 {
   
   .navbar-toggler {
     padding: 4px 8px;
+    border-radius: 8px;
     min-width: 44px;
     min-height: 44px;
   }
@@ -5033,6 +5243,7 @@ div.text-center.mt-5 {
   
   .navbar-toggler {
     padding: 4px 8px;
+    border-radius: 8px;
   }
   
   .navbar-nav .nav-link {
@@ -5530,6 +5741,19 @@ footer .nav-link:focus {
       font-family: "bootstrap-icons" !important; /* Ensure font is applied */
     }
     
+    /* Chevron rotation using class (CSP-compliant) */
+    footer .footer-accordion-chevron {
+      transition: transform 0.3s ease !important;
+    }
+    
+    footer .footer-accordion-chevron.rotated {
+      transform: rotate(180deg) !important;
+    }
+    
+    footer .footer-accordion-column.expanded .footer-accordion-chevron {
+      transform: rotate(180deg) !important;
+    }
+    
     footer .footer-accordion-column.expanded .footer-accordion-button:hover,
     footer .footer-accordion-column.expanded .footer-accordion-button:focus {
       background: var(--coreCharcoal) !important;
@@ -5695,13 +5919,13 @@ footer .nav-link:focus {
   /* Desktop: Keep original layout - hide accordion buttons, show h5 */
   @media screen and (min-width: 769px) {
     /* Hide all accordion functionality on desktop - use multiple selectors for maximum specificity */
-    footer .footer-accordion-column .footer-accordion-button,
-    footer .footer-accordion-column button.footer-accordion-button,
-    footer button.footer-accordion-button,
-    footer .footer-accordion-button,
-    footer .footer-accordion-button span,
-    footer .footer-accordion-chevron,
-    footer i.footer-accordion-chevron {
+    footer.desktop-view .footer-accordion-column .footer-accordion-button,
+    footer.desktop-view .footer-accordion-column button.footer-accordion-button,
+    footer.desktop-view button.footer-accordion-button,
+    footer.desktop-view .footer-accordion-button,
+    footer.desktop-view .footer-accordion-button span,
+    footer.desktop-view .footer-accordion-chevron,
+    footer.desktop-view i.footer-accordion-chevron {
       display: none !important;
       visibility: hidden !important;
       height: 0 !important;
@@ -5716,6 +5940,14 @@ footer .nav-link:focus {
       left: -9999px !important;
       clip: rect(0, 0, 0, 0) !important;
       white-space: nowrap !important;
+    }
+    
+    /* Show buttons on mobile */
+    footer.mobile-view .footer-accordion-button {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
     }
     
     /* Reset accordion content to normal display */
@@ -8206,6 +8438,32 @@ body.about .section-main:first-of-type {
 .process-number {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: -0.02em;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--coreGold);
+  line-height: 1;
+}
+
+.process-card h3 {
+  font-size: 1.25rem;
+}
+
+.why-us-icon i,
+.trust-icon i {
+  font-size: 3rem;
+  color: var(--coreGold);
+}
+
+.trust-badge-card {
+  border: 2px solid var(--coreGold);
+}
+
+.mt-5-extra {
+  margin-top: calc(3rem + 10px) !important;
+}
+
+.chatbot-typing {
+  display: none;
 }
 
 /* ===== TRUST BADGES SECTION ===== */
@@ -8641,4 +8899,17 @@ button:focus,
   .cookie-consent-banner.show {
     animation: none;
   }
+}
+
+/* Capabilities page card styles - replace inline styles */
+.capability-card {
+  background-color: var(--coreChampers);
+  border: 2px solid var(--coreGold);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.capability-card-italic {
+  font-size: 0.95rem;
+  font-style: italic;
 }
