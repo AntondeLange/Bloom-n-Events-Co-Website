@@ -7020,6 +7020,10 @@ body.capabilities .hero-overlay {
   color: var(--coreChampers);
   max-width: 800px;
   padding: 0 1rem; /* Prevent edge touching */
+  margin: 0 auto 2rem;
+  text-shadow: 0 1px 2px rgba(30, 30, 30, 0.5);
+  line-height: 1.6;
+  text-align: center !important; /* Center the text */
 }
 
 /* Enhanced mobile scaling for hero subhead */
@@ -7034,11 +7038,6 @@ body.capabilities .hero-overlay {
   .hero-subhead {
     font-size: clamp(18px, 3.5vw, 22px);
   }
-}
-  margin: 0 auto 2rem;
-  text-shadow: 0 1px 2px rgba(30, 30, 30, 0.5);
-  line-height: 1.6;
-  text-align: center !important; /* Center the text */
 }
 
 /* Proof Section */
