@@ -42,18 +42,16 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat:wght@400;600&display=swap"></noscript>
 
     <!-- Critical CSS with optimized loading -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <noscript><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous"></noscript>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
-    <!-- Preload critical custom CSS -->
-    <link rel="preload" href="assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="assets/css/main.css"></noscript>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
 
     <!-- Non-critical CSS with deferred loading -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk" crossorigin="anonymous">
 
     <!-- Optimized favicon -->
-    <link rel="icon" href="assets/images/logo-wht.png" type="image/png">
+    <link rel="icon" href="assets/images/butterfly-icon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/images/logo-wht.png" as="image">
     
     <!-- Google tag (gtag.js) -->
@@ -256,22 +254,37 @@
             </div>
         </section>
 
+        <!-- Anchor Navigation -->
+        <nav class="anchor-nav" aria-label="Page navigation">
+            <div class="container">
+                <ul class="anchor-nav-list">
+                    <li class="anchor-nav-item"><a href="#whatWeDoHeading" class="anchor-nav-link">What We Do</a></li>
+                    <li class="anchor-nav-item"><a href="#howItWorksHeading" class="anchor-nav-link">How It Works</a></li>
+                    <li class="anchor-nav-item"><a href="#whatYouGetHeading" class="anchor-nav-link">What You Get</a></li>
+                    <li class="anchor-nav-item"><a href="#faqsHeading" class="anchor-nav-link">FAQs</a></li>
+                    <li class="anchor-nav-item"><a href="#case-studies" class="anchor-nav-link">Case Studies</a></li>
+                </ul>
+            </div>
+        </nav>
+
         <!-- What We Do Section -->
         <section class="section-main" aria-labelledby="whatWeDoHeading">
             <div class="container">
                 <h2 id="whatWeDoHeading" class="text-gold heading-blush-bg content-heading-large text-center mb-5">What We Do</h2>
                 <div class="row g-3 justify-content-center mb-5">
                     <div class="col-12">
-                        <div style="background-color: var(--coreChampers); border: 2px solid var(--coreGold); border-radius: 12px; padding: 16px 20px;">
-                            <p class="lead text-charcoal mb-3" style="text-align: left; max-width: 100% !important; width: 100% !important;">
-                                <b>Bloom'n Events Co.</b> delivers hands-on workshop experiences that spark curiosity and connection. From single-day activations to full school holiday programmes across Perth and Western Australia—nature art, sustainability, food crafts, and creative learning.
-                            </p>
-                            <p class="text-charcoal mb-3" style="text-align: left; max-width: 100% !important; width: 100% !important;">
-                                Designed and delivered in-house. No external facilitators to brief. Customised to your event, season, or theme. We've delivered workshops for <a href="case-study-hawaiian-neighbourhood-nibbles.html" class="text-gold">Hawaiian Shopping Centres</a> and other leading Perth businesses—driving traffic and engagement.
-                            </p>
-                            <p class="text-charcoal mb-0" style="text-align: left; max-width: 100% !important; width: 100% !important;">
-                                Suitable for kids, adults, seniors, and team-building. We provide all materials and facilitation. One team. Consistent quality. No coordination headaches.
-                            </p>
+                        <div class="card h-100 shadow" style="background-color: var(--coreChampers); border: 2px solid var(--coreGold); border-radius: 12px; padding: 24px 28px;">
+                            <div class="card-body">
+                                <p class="lead text-charcoal mb-3" style="text-align: left; max-width: 100% !important; width: 100% !important;">
+                                    <b>Bloom'n Events Co.</b> delivers hands-on workshop experiences that spark curiosity and connection. From single-day activations to full school holiday programmes across Perth and Western Australia—nature art, sustainability, food crafts, and creative learning.
+                                </p>
+                                <p class="text-charcoal mb-3" style="text-align: left; max-width: 100% !important; width: 100% !important;">
+                                    Designed and delivered in-house. No external facilitators to brief. Customised to your event, season, or theme. We've delivered workshops for <a href="case-study-hawaiian-neighbourhood-nibbles.html" class="text-gold">Hawaiian Shopping Centres</a> and other leading Perth businesses—driving traffic and engagement.
+                                </p>
+                                <p class="text-charcoal mb-0" style="text-align: left; max-width: 100% !important; width: 100% !important;">
+                                    Suitable for kids, adults, seniors, and team-building. We provide all materials and facilitation. One team. Consistent quality. No coordination headaches.
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12">

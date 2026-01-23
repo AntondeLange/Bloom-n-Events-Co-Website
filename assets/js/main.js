@@ -55,40 +55,34 @@ const throttle = (func, limit) => {
 
 // ===== HERO PARALLAX - RESTRAINED MOTION =====
 // Subtle parallax effect for hero background (only on homepage)
+// Disabled on mobile and low-powered devices for performance
 function initHeroParallax() {
-    // Check if user prefers reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return; // Skip parallax if user prefers reduced motion
-    }
-    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const isMobile = window.innerWidth < 769;
+    const isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) ||
+        (navigator.deviceMemory && navigator.deviceMemory <= 2);
+    if (isMobile || isLowPower) return;
+
     const heroSection = document.querySelector('body.home .hero-section');
     const heroBackground = document.querySelector('body.home .hero-background');
-    
     if (!heroSection || !heroBackground) return;
-    
-    // Throttled scroll handler for performance
+
     let ticking = false;
     const handleScroll = () => {
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 const scrolled = window.pageYOffset;
                 const heroHeight = heroSection.offsetHeight;
-                
-                // Only apply parallax when hero is in view
                 if (scrolled < heroHeight) {
-                    // Subtle parallax - background moves slower than scroll
-                    const parallaxSpeed = 0.3; // Restrained movement
+                    const parallaxSpeed = 0.3;
                     const yPos = -(scrolled * parallaxSpeed);
                     heroBackground.style.transform = `translate3d(0, ${yPos}px, 0)`;
                 }
-                
                 ticking = false;
             });
             ticking = true;
         }
     };
-    
-    // Use passive listener for better performance
     window.addEventListener('scroll', handleScroll, { passive: true });
 }
 
@@ -189,10 +183,35 @@ if (isMobile) {
     }, { once: true });
 }
 
+// ===== IMMEDIATE DROPDOWN CLOSE (runs before DOMContentLoaded) =====
+// Close any dropdowns that might be open from HTML or Bootstrap auto-init
+(function closeDropdownsImmediately() {
+    const closeAll = () => {
+        document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+            m.classList.remove('show');
+            m.style.display = 'none';
+        });
+        document.querySelectorAll('.dropdown.show, .dropup.show').forEach(d => {
+            d.classList.remove('show');
+        });
+        document.querySelectorAll('.dropdown-toggle[aria-expanded="true"]').forEach(t => {
+            t.setAttribute('aria-expanded', 'false');
+        });
+    };
+    
+    // Run immediately if DOM is already loaded
+    if (document.readyState !== 'loading') {
+        closeAll();
+    }
+    
+    // Also run on DOMContentLoaded (before other scripts)
+    document.addEventListener('DOMContentLoaded', closeAll, { once: true, capture: true });
+})();
+
 // Single DOMContentLoaded event listener for all functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // On mobile, ensure page is at top after DOM is ready
-    if (isMobile && !userHasInteracted) {
+    // Ensure page starts at top on all devices (especially important for capabilities page)
+    if (!userHasInteracted) {
         requestAnimationFrame(() => {
             window.scrollTo(0, 0);
             document.documentElement.scrollTop = 0;
@@ -228,8 +247,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         newNav.style.right = '0';
                     }
                     
-                    // On mobile, reset scroll after navbar injection to prevent unwanted scrolling
-                    if (isMobile && !userHasInteracted) {
+                    // Reset scroll after navbar injection to prevent unwanted scrolling (all devices)
+                    if (!userHasInteracted) {
                         requestAnimationFrame(() => {
                             window.scrollTo(0, 0);
                             document.documentElement.scrollTop = 0;
@@ -305,6 +324,25 @@ document.addEventListener('DOMContentLoaded', function() {
             // Small delay to ensure DOM is ready
             setTimeout(() => {
                 window.setupHomeNavbar();
+                // After navbar setup, ensure dropdown is closed
+                setTimeout(() => {
+                    const navbar = document.getElementById('homeNavbar');
+                    if (navbar) {
+                        const dropdown = navbar.querySelector('.dropdown, .dropup');
+                        if (dropdown) {
+                            const menu = dropdown.querySelector('.dropdown-menu');
+                            const toggle = dropdown.querySelector('.dropdown-toggle');
+                            if (menu) {
+                                menu.classList.remove('show');
+                                menu.style.display = 'none';
+                            }
+                            dropdown.classList.remove('show');
+                            if (toggle) {
+                                toggle.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                    }
+                }, 50);
             }, 0);
         }
     };
@@ -469,7 +507,67 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         const mobileMenu = navbar.querySelector('.navbar-collapse');
         if (mobileMenu) {
+            // Ensure mobile menu is collapsed on load
+            mobileMenu.classList.remove('show');
             mobileMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+        }
+        
+        // Ensure dropdown menu is closed on navbar initialization
+        const forceCloseDropdown = () => {
+            if (portfolioDropdown) {
+                const dropdownMenu = portfolioDropdown.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownMenu.style.display = 'none';
+                }
+                portfolioDropdown.classList.remove('show');
+                const dropdownToggle = portfolioDropdown.querySelector('.dropdown-toggle');
+                if (dropdownToggle) {
+                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
+        };
+        
+        // Close immediately
+        forceCloseDropdown();
+        
+        // Use MutationObserver to watch for any attempts to show the dropdown
+        if (portfolioDropdown && 'MutationObserver' in window) {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        const menu = portfolioDropdown.querySelector('.dropdown-menu');
+                        if (menu && menu.classList.contains('show')) {
+                            // If menu got .show class without user interaction, close it
+                            const toggle = portfolioDropdown.querySelector('.dropdown-toggle');
+                            if (toggle && toggle.getAttribute('aria-expanded') === 'false') {
+                                forceCloseDropdown();
+                            }
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(portfolioDropdown, {
+                attributes: true,
+                attributeFilter: ['class'],
+                subtree: true
+            });
+            
+            // Also observe the menu directly
+            const menu = portfolioDropdown.querySelector('.dropdown-menu');
+            if (menu) {
+                observer.observe(menu, {
+                    attributes: true,
+                    attributeFilter: ['class', 'style']
+                });
+            }
+        }
+        
+        // Also ensure navbar toggle button state is correct
+        const navbarToggler = navbar.querySelector('.navbar-toggler');
+        if (navbarToggler) {
+            navbarToggler.setAttribute('aria-expanded', 'false');
         }
     }
     window.setupHomeNavbar = setupHomeNavbar;
@@ -708,19 +806,84 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== BOOTSTRAP DROPDOWN INITIALIZATION + FALLBACK =====
     (function initDropdowns() {
+        // First, ensure all dropdowns are closed on page load
+        const closeAllDropdowns = () => {
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                m.classList.remove('show');
+                m.style.display = 'none';
+            });
+            document.querySelectorAll('.dropdown-menu:not(.show)').forEach(m => {
+                m.style.display = 'none';
+            });
+            document.querySelectorAll('.dropdown.show, .dropup.show').forEach(d => {
+                d.classList.remove('show');
+            });
+            document.querySelectorAll('.dropdown-toggle[aria-expanded="true"]').forEach(t => {
+                t.setAttribute('aria-expanded', 'false');
+            });
+        };
+        
+        // Close all dropdowns immediately on page load
+        closeAllDropdowns();
+        
         const toggles = document.querySelectorAll('.navbar .dropdown-toggle');
         if (toggles.length === 0) return;
+        
         if (window.bootstrap && bootstrap.Dropdown) {
             toggles.forEach(t => {
-                try { new bootstrap.Dropdown(t); } catch {}
+                try {
+                    // Get the menu element first
+                    const parent = t.closest('.dropdown, .dropup');
+                    const menu = parent ? parent.querySelector('.dropdown-menu') : null;
+                    
+                    // Explicitly close before initialization
+                    if (menu) {
+                        menu.classList.remove('show');
+                        menu.style.display = 'none';
+                    }
+                    if (parent) {
+                        parent.classList.remove('show');
+                    }
+                    t.setAttribute('aria-expanded', 'false');
+                    
+                    // Initialize Bootstrap dropdown with autoClose enabled
+                    const dropdown = new bootstrap.Dropdown(t, {
+                        autoClose: true
+                    });
+                    
+                    // Ensure it stays closed after initialization
+                    setTimeout(() => {
+                        if (menu) {
+                            menu.classList.remove('show');
+                            menu.style.display = 'none';
+                        }
+                        if (parent) {
+                            parent.classList.remove('show');
+                        }
+                        t.setAttribute('aria-expanded', 'false');
+                    }, 0);
+                } catch (e) {
+                    console.warn('Dropdown initialization error:', e);
+                }
             });
         } else {
             // Fallback: minimal manual toggle
             const closeAll = () => {
                 document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
                 document.querySelectorAll('.dropdown.show, .dropup.show').forEach(d => d.classList.remove('show'));
+                document.querySelectorAll('.dropdown-toggle[aria-expanded="true"]').forEach(t => {
+                    t.setAttribute('aria-expanded', 'false');
+                });
             };
             toggles.forEach(t => {
+                // Ensure initial state is closed
+                t.setAttribute('aria-expanded', 'false');
+                const parent = t.closest('.dropdown, .dropup');
+                const menu = parent && parent.querySelector('.dropdown-menu');
+                if (menu) {
+                    menu.classList.remove('show');
+                }
+                
                 t.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -738,8 +901,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             });
-            document.addEventListener('click', closeAll);
+            document.addEventListener('click', (e) => {
+                // Don't close if clicking inside dropdown
+                if (!e.target.closest('.dropdown, .dropup')) {
+                    closeAll();
+                }
+            });
         }
+        
+        // Also close all dropdowns after a short delay to catch any late initialization
+        setTimeout(closeAllDropdowns, 100);
     })();
 
     // ===== AUTO-INJECT WEBP SOURCES VIA <picture> =====
@@ -2486,10 +2657,19 @@ If you don't know something specific, suggest they contact the company directly 
                     const target = document.querySelector(href);
                     if (target) {
                         e.preventDefault();
-                        const offset = 120; // Account for sticky nav
-                        const targetPosition = target.offsetTop - offset;
+                        // Get navbar height dynamically or use fixed offset
+                        const navbar = document.querySelector('.navbar.fixed-top, .navbar');
+                        const navbarHeight = navbar ? navbar.offsetHeight : 100;
+                        const anchorNav = document.querySelector('.anchor-nav');
+                        const anchorNavHeight = anchorNav ? anchorNav.offsetHeight : 0;
+                        // Total offset: navbar + anchor nav + some padding
+                        const offset = navbarHeight + anchorNavHeight + 20;
+                        
+                        // Get the target's position relative to the document
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        
                         window.scrollTo({
-                            top: targetPosition,
+                            top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
                             behavior: 'smooth'
                         });
                     }
@@ -2515,8 +2695,66 @@ If you don't know something specific, suggest they contact the company directly 
 
     // Initialize sticky CTA and anchor navigation
     initStickyMobileCTA();
-    initAnchorNavigation();
     
+    // Initialize anchor navigation after a short delay to ensure DOM is ready
+    setTimeout(() => {
+        initAnchorNavigation();
+    }, 100);
+    
+    // Initialize mobile menu accessibility enhancements
+    initMobileMenuAccessibility();
+
+    // Ensure page starts at top on window load (especially for capabilities page)
+    window.addEventListener('load', function() {
+        if (!userHasInteracted) {
+            // Clear any hash that might cause scrolling
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+            // Force scroll to top
+            requestAnimationFrame(() => {
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            });
+        }
+    }, { once: true });
+    
+    // ===== MOBILE MENU ACCESSIBILITY ENHANCEMENTS =====
+    function initMobileMenuAccessibility() {
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-item');
+        
+        if (!navbarToggler || !navbarCollapse) return;
+        
+        // Close menu on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navbarCollapse.classList.contains('show')) {
+                navbarToggler.click();
+                navbarToggler.focus();
+            }
+        });
+        
+        // Trap focus within mobile menu when open
+        navLinks.forEach(link => {
+            link.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && window.innerWidth < 992) {
+                    const linksArray = Array.from(navLinks);
+                    const currentIndex = linksArray.indexOf(link);
+                    
+                    if (e.shiftKey && currentIndex === 0) {
+                        e.preventDefault();
+                        linksArray[linksArray.length - 1].focus();
+                    } else if (!e.shiftKey && currentIndex === linksArray.length - 1) {
+                        e.preventDefault();
+                        linksArray[0].focus();
+                    }
+                }
+            });
+        });
+    }
+
     // ===== FOOTER ACCORDION (MOBILE) =====
     // Note: This will be called after footer is loaded via loadPartials
     function initFooterAccordion() {

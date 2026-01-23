@@ -140,6 +140,32 @@
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --breakpoint-xxl: 1400px;
+  
+  /* ===== Responsive Design Tokens ===== */
+  /* Responsive Spacing Scale */
+  --space-xs-responsive: clamp(0.25rem, 1vw, 0.5rem);
+  --space-sm-responsive: clamp(0.5rem, 2vw, 1rem);
+  --space-md-responsive: clamp(1rem, 3vw, 1.5rem);
+  --space-lg-responsive: clamp(1.5rem, 4vw, 2.5rem);
+  --space-xl-responsive: clamp(2rem, 5vw, 4rem);
+  --space-xxl-responsive: clamp(3rem, 8vw, 6rem);
+  
+  /* Responsive Typography Scale */
+  --font-size-xs-responsive: clamp(0.75rem, 1.5vw, 0.875rem);
+  --font-size-sm-responsive: clamp(0.875rem, 2vw, 1rem);
+  --font-size-base-responsive: clamp(1rem, 2.5vw, 1.125rem);
+  --font-size-lg-responsive: clamp(1.125rem, 3vw, 1.25rem);
+  --font-size-xl-responsive: clamp(1.25rem, 3.5vw, 1.5rem);
+  --font-size-2xl-responsive: clamp(1.5rem, 4vw, 2rem);
+  --font-size-3xl-responsive: clamp(2rem, 5vw, 2.5rem);
+  --font-size-4xl-responsive: clamp(2.5rem, 6vw, 3.5rem);
+  
+  /* Container Max Widths */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
 }
 
 /* Dark mode support (future-ready) */
