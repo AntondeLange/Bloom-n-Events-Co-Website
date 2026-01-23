@@ -42,7 +42,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com www.google-analytics.com google-analytics.com api.openai.com cdn.jsdelivr.net; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' cdn.jsdelivr.net www.googletagmanager.com; style-src 'self' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' cdn.jsdelivr.net fonts.gstatic.com fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' www.googletagmanager.com www.google-analytics.com google-analytics.com api.openai.com cdn.jsdelivr.net formsubmit.co; frame-src 'self' www.facebook.com widgets.sociablekit.com;">
     <!-- Note: X-Frame-Options should be set via HTTP headers, not meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -70,20 +70,8 @@
     <link rel="preload" href="assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="assets/css/main.css"></noscript>
     
-    <!-- Inline critical CSS for above-the-fold content -->
-    <style>
-        /* Critical above-the-fold styles */
-        body{margin:0;padding:0;font-family:Montserrat,sans-serif}
-        .navbar{min-height:60px}
-        .hero-section{position:relative;width:100%;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-        .hero-background{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
-        .hero-video{width:100%;height:100%;object-fit:cover}
-        .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(30,30,30,0.4);z-index:2}
-        .hero-content{position:relative;z-index:3;width:100%}
-        .hero-headline{font-family:'Dancing Script',cursive;font-size:clamp(42px, 8vw, 70px);font-weight:700;color:#BF9B30;text-shadow:0 2px 4px rgba(30,30,30,0.5);margin-bottom:1rem;white-space:normal;word-wrap:normal;overflow-wrap:normal;hyphens:none}
-        .hero-subhead{font-size:1.25rem;color:#F2E8DA;max-width:800px;margin:0 auto 2rem;text-shadow:0 1px 2px rgba(30,30,30,0.5)}
-        @media (max-width:768px){.hero-headline{font-size:clamp(36px, 10vw, 58px);white-space:normal;word-wrap:normal;overflow-wrap:normal;hyphens:none}.hero-subhead{font-size:1.1rem}}
-    </style>
+    <!-- Critical CSS for above-the-fold content -->
+    <link rel="stylesheet" href="assets/css/critical.css">
     
     <!-- Bootstrap Icons - Load immediately for footer accordion icons -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -99,271 +87,12 @@
     <link rel="preload" href="assets/images/logo-blk-long.png" as="image" fetchpriority="high">
     
     <!-- Structured Data for SEO -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "@id": "https://www.bloomneventsco.com.au/#organization",
-        "name": "Bloom'n Events Co Pty Ltd",
-        "url": "https://www.bloomneventsco.com.au/",
-        "logo": "https://www.bloomneventsco.com.au/assets/images/logo-wht.png",
-        "image": "https://www.bloomneventsco.com.au/assets/images/logo-wht.png",
-        "description": "Professional event planning and custom displays in Brookton, WA. Corporate events, creative workshops, and bespoke installations across Perth and Western Australia.",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Brookton",
-            "addressRegion": "WA",
-            "postalCode": "6306",
-            "addressCountry": "AU"
-        },
-        "telephone": "1800826268",
-        "email": "enquiries@bloomneventsco.com.au",
-        "priceRange": "$$",
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "09:00",
-                "closes": "17:00"
-            }
-        ],
-        "areaServed": {
-            "@type": "State",
-            "name": "Western Australia"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": -32.3667,
-            "longitude": 116.9833
-        },
-        "sameAs": [
-            "https://www.facebook.com/bloomneventsco/",
-            "https://www.instagram.com/bloomneventsco/",
-            "https://www.linkedin.com/company/bloom-n-events-co/"
-        ],
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Event Production Services",
-            "itemListElement": [
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Corporate Event Planning",
-                        "description": "Full-service corporate event planning in Perth and Western Australia. Networking events, conferences, product launches with in-house design, engineering, and fabrication.",
-                        "provider": {
-                            "@type": "LocalBusiness",
-                            "name": "Bloom'n Events Co Pty Ltd"
-                        },
-                        "areaServed": {
-                            "@type": "State",
-                            "name": "Western Australia"
-                        },
-                        "url": "https://www.bloomneventsco.com.au/events.html"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Creative Workshops",
-                        "description": "Creative workshops for kids and adults in Perth and Western Australia. School holiday programmes, team building, community events with in-house design and delivery.",
-                        "provider": {
-                            "@type": "LocalBusiness",
-                            "name": "Bloom'n Events Co Pty Ltd"
-                        },
-                        "areaServed": {
-                            "@type": "State",
-                            "name": "Western Australia"
-                        },
-                        "url": "https://www.bloomneventsco.com.au/workshops.html"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Custom Displays and Installations",
-                        "description": "Custom displays and installations in Perth and Western Australia. Seasonal decorations, event displays, permanent installations with in-house design, engineering, and fabrication.",
-                        "provider": {
-                            "@type": "LocalBusiness",
-                            "name": "Bloom'n Events Co Pty Ltd"
-                        },
-                        "areaServed": {
-                            "@type": "State",
-                            "name": "Western Australia"
-                        },
-                        "url": "https://www.bloomneventsco.com.au/displays.html"
-                    }
-                }
-            ]
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5",
-            "reviewCount": "3"
-        },
-        "review": [
-            {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "Sophie Brinklow"
-                },
-                "reviewBody": "Tamara and Anton were given the brief to provide a one-day event at Hawaiian's Forrestfield that celebrated the opening of a key tenant, but also highlighted the diversity of our food offering at the Centre. We wanted to create a fun and engaging family friendly activation that encouraged dwell and participation. Every aspect of the event was managed with professionalism and attention to detail, ensuring a seamless experience for both our retailers and the community. We highly recommend Bloom n Co for their creativity, organisation, and commitment to delivering outstanding results.",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "5"
-                },
-                "datePublished": "2024-01-01"
-            },
-            {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "Val Neal"
-                },
-                "reviewBody": "We couldn't have done it without you. Everyone loved the concept.",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "5"
-                },
-                "datePublished": "2024-01-01"
-            },
-            {
-                "@type": "Review",
-                "author": {
-                    "@type": "Person",
-                    "name": "Sarah Moore"
-                },
-                "reviewBody": "Hawaiian engaged Bloom'n Events Co to run a food-based July school holiday activity across seven of our suburban neighbourhood assets. The activity was not only unique but beautifully presented, with every detail considered. Commercially, the activities drove traffic uplifts and encouraged dwell amongst our most valuable market segment – families. We would not hesitate to engage the Bloom'n team again.",
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "5"
-                },
-                "datePublished": "2024-01-01"
-            }
-        ]
-    }
-    </script>
     
-    <!-- Google tag (gtag.js) with optimized deferred loading and cookie consent -->
-    <script>
-      // Initialize dataLayer
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      // Set default consent to denied (will be updated when user accepts)
-      gtag('consent', 'default', {
-        'analytics_storage': 'denied',
-        'ad_storage': 'denied'
-      });
-      
-      // Check for existing consent
-      function checkCookieConsent() {
-        const consent = localStorage.getItem('cookieConsent');
-        if (consent === 'accepted') {
-          gtag('consent', 'update', {
-            'analytics_storage': 'granted'
-          });
-          loadAnalytics();
-        } else {
-          // Still load gtag.js but with consent denied
-          loadAnalytics();
-        }
-      }
-      
-      // Load gtag.js script
-      function loadAnalytics() {
-        if (document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
-          return; // Already loaded
-        }
-        
-        if ('requestIdleCallback' in window) {
-          requestIdleCallback(function() {
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
-            document.head.appendChild(script);
-            script.onload = function() {
-              const consent = localStorage.getItem('cookieConsent');
-              gtag('config', 'G-T5DJCCT19V', {
-                'send_page_view': consent === 'accepted'
-              });
-            };
-          });
-        } else {
-          window.addEventListener('load', function() {
-            setTimeout(function() {
-              const script = document.createElement('script');
-              script.async = true;
-              script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
-              document.head.appendChild(script);
-              script.onload = function() {
-                const consent = localStorage.getItem('cookieConsent');
-                gtag('config', 'G-T5DJCCT19V', {
-                  'send_page_view': consent === 'accepted'
-                });
-              };
-            }, 1000);
-          });
-        }
-      }
-      
-      // Initialize on page load
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', checkCookieConsent);
-      } else {
-        checkCookieConsent();
-      }
-    </script>
+    <!-- Google Analytics Initialization -->
+    <script src="assets/js/analytics-init.js" defer></script>
     
-    <!-- Performance Monitoring - Deferred -->
-    <script>
-      // Defer performance monitoring until after page load
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() {
-          if ('PerformanceObserver' in window) {
-            const observer = new PerformanceObserver((list) => {
-              for (const entry of list.getEntries()) {
-                if (entry.entryType === 'largest-contentful-paint') {
-                  if (typeof gtag === 'function') {
-                    gtag('event', 'lcp', {
-                      event_category: 'Web Vitals',
-                      value: Math.round(entry.startTime),
-                      non_interaction: true
-                    });
-                  }
-                }
-              }
-            });
-            observer.observe({type: 'largest-contentful-paint', buffered: true});
-          }
-        });
-      } else {
-        window.addEventListener('load', function() {
-          setTimeout(function() {
-      if ('PerformanceObserver' in window) {
-        const observer = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.entryType === 'largest-contentful-paint') {
-              if (typeof gtag === 'function') {
-                gtag('event', 'lcp', {
-                  event_category: 'Web Vitals',
-                  value: Math.round(entry.startTime),
-                  non_interaction: true
-                });
-              }
-            }
-          }
-        });
-        observer.observe({type: 'largest-contentful-paint', buffered: true});
-            }
-          }, 1000);
-        });
-      }
-    </script>
+    <!-- Performance Monitoring -->
+    <script src="assets/js/performance-monitoring.js" type="module" defer></script>
 </head>
 
 <body class="home">
@@ -1017,45 +746,15 @@
     <!-- Optimized JavaScript Loading -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="assets/js/main.js" type="module" defer></script>
+    <script src="assets/js/copyright-year.js" defer></script>
+    <script src="assets/js/video-optimization.js" type="module" defer></script>
+    <script src="assets/js/cookie-consent.js" defer></script>
     
     <!-- Auto-update copyright year -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const yearElement = document.getElementById('current-year');
-        if (yearElement) {
-          yearElement.textContent = new Date().getFullYear();
-        }
-      });
-    </script>
+    <script src="assets/js/copyright-year.js" defer></script>
     
     <!-- Video loading optimization -->
-    <script>
-      // Optimize hero video loading - only load when hero section is visible
-      document.addEventListener('DOMContentLoaded', function() {
-        const heroVideo = document.querySelector('.hero-video');
-        if (!heroVideo) return;
-        
-        // Only preload video when hero section is visible
-        const heroSection = document.querySelector('.hero-section');
-        if (heroSection) {
-          const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-              if (entry.isIntersecting) {
-                // Hero section is visible, set video to preload metadata
-                heroVideo.preload = 'metadata';
-                // Start loading video source
-                if (heroVideo.readyState === 0) {
-                  heroVideo.load();
-                }
-                observer.disconnect();
-              }
-            });
-          }, { rootMargin: '50px' });
-          
-          observer.observe(heroSection);
-        }
-      });
-    </script>
+    <script src="assets/js/video-optimization.js" type="module" defer></script>
 
     <!-- Cookie Consent Banner -->
     <div id="cookieConsentBanner" class="cookie-consent-banner" role="dialog" aria-labelledby="cookieConsentHeading" aria-live="polite">
@@ -1069,92 +768,11 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Cookie Consent Management
-        (function() {
-            const COOKIE_CONSENT_KEY = 'cookieConsent';
-            const COOKIE_EXPIRY_DAYS = 365;
-            
-            const banner = document.getElementById('cookieConsentBanner');
-            const acceptBtn = document.getElementById('cookieAcceptBtn');
-            const declineBtn = document.getElementById('cookieDeclineBtn');
-            
-            if (!banner || !acceptBtn || !declineBtn) return;
-            
-            // Check if consent has been given
-            function getCookieConsent() {
-                const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-                return consent === 'accepted' || consent === 'declined' ? consent : null;
-            }
-            
-            // Save consent preference
-            function setCookieConsent(accepted) {
-                localStorage.setItem(COOKIE_CONSENT_KEY, accepted ? 'accepted' : 'declined');
-                const expiryDate = new Date();
-                expiryDate.setTime(expiryDate.getTime() + (COOKIE_EXPIRY_DAYS * 24 * 60 * 60 * 1000));
-                document.cookie = `${COOKIE_CONSENT_KEY}=${accepted ? 'accepted' : 'declined'}; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
-            }
-            
-            // Show banner if no consent given
-            function showBanner() {
-                const consent = getCookieConsent();
-                if (!consent) {
-                    banner.classList.add('show');
-                } else if (consent === 'accepted') {
-                    // Enable Google Analytics if consent was given
-                    enableAnalytics();
-                }
-            }
-            
-            // Hide banner
-            function hideBanner() {
-                banner.classList.remove('show');
-            }
-            
-            // Enable Google Analytics
-            function enableAnalytics() {
-                if (typeof gtag !== 'undefined') {
-                    gtag('consent', 'update', {
-                        'analytics_storage': 'granted'
-                    });
-                    // Send page view now that consent is granted
-                    gtag('config', 'G-T5DJCCT19V', {
-                        'send_page_view': true
-                    });
-                }
-            }
-            
-            // Disable Google Analytics
-            function disableAnalytics() {
-                if (typeof gtag !== 'undefined') {
-                    gtag('consent', 'update', {
-                        'analytics_storage': 'denied'
-                    });
-                }
-            }
-            
-            // Handle accept
-            acceptBtn.addEventListener('click', function() {
-                setCookieConsent(true);
-                enableAnalytics();
-                hideBanner();
-            });
-            
-            // Handle decline
-            declineBtn.addEventListener('click', function() {
-                setCookieConsent(false);
-                disableAnalytics();
-                hideBanner();
-            });
-            
-            // Initialize on page load
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', showBanner);
-            } else {
-                showBanner();
-            }
-        })();
+    
+    <!-- Structured Data Injection -->
+    <script type="module">
+        import { homepageStructuredData, injectStructuredData } from './assets/js/structured-data.js';
+        injectStructuredData(homepageStructuredData);
     </script>
 </body>
 </html>

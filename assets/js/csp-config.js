@@ -9,13 +9,11 @@ export const CSP_DIRECTIVES = {
   defaultSrc: ["'self'"],
   scriptSrc: [
     "'self'",
-    "'unsafe-inline'", // TODO: Remove after moving inline scripts to external files
     "cdn.jsdelivr.net",
     "www.googletagmanager.com"
   ],
   styleSrc: [
     "'self'",
-    "'unsafe-inline'", // TODO: Remove after extracting inline styles
     "cdn.jsdelivr.net",
     "fonts.googleapis.com"
   ],

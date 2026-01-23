@@ -1,7 +1,6 @@
 /**
  * PostCSS Configuration
- * 
- * Processes CSS with autoprefixer and cssnano for production builds
+ * Processes CSS with autoprefixer and cssnano
  */
 
 export default {
@@ -10,10 +9,9 @@ export default {
     cssnano: {
       preset: ['default', {
         discardComments: {
-          removeAll: true,
-        },
-        normalizeWhitespace: true,
-      }],
-    },
-  },
+          removeAll: true
+        }
+      }]
+    }
+  }
 };

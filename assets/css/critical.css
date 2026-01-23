@@ -1,24 +1,20 @@
 /**
  * Critical Above-the-Fold CSS
- * Minimal styles needed for initial render
- * This file should be inlined in <head> for performance
- * 
- * Keep this file minimal - only essential above-the-fold styles
+ * Inline critical styles for faster initial render
+ * Extracted from inline <style> tags for better maintainability
  */
 
-/* Reset and base */
+/* Critical above-the-fold styles */
 body {
   margin: 0;
   padding: 0;
   font-family: Montserrat, sans-serif;
 }
 
-/* Navbar - must be visible immediately */
 .navbar {
   min-height: 60px;
 }
 
-/* Hero section - above the fold */
 .hero-section {
   position: relative;
   width: 100%;
@@ -63,11 +59,15 @@ body {
 
 .hero-headline {
   font-family: 'Dancing Script', cursive;
-  font-size: 70px;
+  font-size: clamp(42px, 8vw, 70px);
   font-weight: 700;
   color: #BF9B30;
   text-shadow: 0 2px 4px rgba(30, 30, 30, 0.5);
   margin-bottom: 1rem;
+  white-space: normal;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 .hero-subhead {
@@ -78,12 +78,15 @@ body {
   text-shadow: 0 1px 2px rgba(30, 30, 30, 0.5);
 }
 
-/* Mobile responsive */
 @media (max-width: 768px) {
-  .hero-headline,
-  .hero-heading {
-    font-size: 58px;
+  .hero-headline {
+    font-size: clamp(36px, 10vw, 58px);
+    white-space: normal;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    hyphens: none;
   }
+  
   .hero-subhead {
     font-size: 1.1rem;
   }

@@ -8,7 +8,7 @@
  */
 
 import sharp from 'sharp';
-import { readdir, stat, mkdir } from 'fs/promises';
+import { readdir, stat as statFile, mkdir } from 'fs/promises';
 import { join, dirname, extname, basename } from 'path';
 import { existsSync } from 'fs';
 
@@ -118,13 +118,13 @@ async function processDirectory(dir, baseDir = IMAGE_DIR) {
   
   for (const entry of entries) {
     const fullPath = join(dir, entry);
-    const stat = await stat(fullPath);
+    const fileStat = await statFile(fullPath);
     
-    if (stat.isDirectory()) {
+    if (fileStat.isDirectory()) {
       // Skip optimized directory
       if (entry === 'optimized') continue;
       await processDirectory(fullPath, baseDir);
-    } else if (stat.isFile() && isImageFile(entry)) {
+    } else if (fileStat.isFile() && isImageFile(entry)) {
       const relativePath = fullPath.replace(baseDir + '/', '');
       const outputDir = join(OUTPUT_DIR, dirname(relativePath));
       
