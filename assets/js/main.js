@@ -221,6 +221,48 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize hero parallax
     initHeroParallax();
+    
+    // ===== HERO VIDEO AUTOPLAY HANDLING =====
+    // Ensure hero video plays on homepage
+    (function initHeroVideo() {
+        const heroVideo = document.querySelector('body.home .hero-video');
+        if (!heroVideo) return;
+        
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            heroVideo.pause();
+            return;
+        }
+        
+        // Ensure video loads and plays
+        heroVideo.preload = 'auto';
+        
+        // Handle autoplay - some browsers require user interaction
+        const playPromise = heroVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                // Autoplay was prevented, try to play when user interacts
+                console.log('Video autoplay prevented, will play on interaction');
+                const playOnInteraction = () => {
+                    heroVideo.play().catch(() => {});
+                    document.removeEventListener('click', playOnInteraction);
+                    document.removeEventListener('scroll', playOnInteraction);
+                };
+                document.addEventListener('click', playOnInteraction, { once: true });
+                document.addEventListener('scroll', playOnInteraction, { once: true });
+            });
+        }
+        
+        // Pause video when page is hidden (tab switch)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                heroVideo.pause();
+            } else {
+                heroVideo.play().catch(() => {});
+            }
+        });
+    })();
     // ===== PARTIALS INJECTION (Navbar/Footer) =====
     const loadPartials = async () => {
         const isHome = document.body.classList.contains('home');
@@ -404,14 +446,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 portfolioDropdown.classList.remove('dropdown');
                 portfolioDropdown.classList.add('dropup');
             }
-            // Clear any inline positional styles once CSS is fully loaded so Bootstrap classes take over
-            if (document.readyState === 'complete') {
-                navbar.style.position = '';
-                navbar.style.top = '';
-                navbar.style.bottom = '';
-                navbar.style.left = '';
-                navbar.style.right = '';
-            }
+            // Clear any inline positional styles immediately so Bootstrap classes take over
+            navbar.style.position = '';
+            navbar.style.top = '';
+            navbar.style.bottom = '';
+            navbar.style.left = '';
+            navbar.style.right = '';
         };
         initializeNavbar();
         
@@ -422,6 +462,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 navbar.classList.remove('fixed-top');
                 navbar.classList.add('fixed-bottom');
                 body.classList.remove('navbar-top');
+                // Clear any inline styles that might override
+                navbar.style.position = '';
+                navbar.style.top = '';
+                navbar.style.bottom = '';
                 if (portfolioDropdown) {
                     portfolioDropdown.classList.remove('dropdown');
                     portfolioDropdown.classList.add('dropup');
@@ -431,6 +475,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 navbar.classList.remove('fixed-bottom');
                 navbar.classList.add('fixed-top');
                 body.classList.add('navbar-top');
+                // Clear any inline styles that might override
+                navbar.style.position = '';
+                navbar.style.top = '';
+                navbar.style.bottom = '';
                 if (portfolioDropdown) {
                     portfolioDropdown.classList.remove('dropup');
                     portfolioDropdown.classList.add('dropdown');

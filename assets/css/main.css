@@ -517,11 +517,12 @@ body.policies .highlight {
 
 /* Ensure home navbar always starts at bottom, preventing flash to top */
 #homeNavbar {
-  position: fixed !important;
-  bottom: 0 !important;
-  top: auto !important;
-  left: 0 !important;
-  right: 0 !important;
+  position: fixed;
+  bottom: 0;
+  top: auto;
+  left: 0;
+  right: 0;
+  transition: top 0.3s ease, bottom 0.3s ease;
 }
 
 #homeNavbar.fixed-top {
@@ -3773,12 +3774,15 @@ footer img {
 }
 
 .footer-logo {
-  width: 300px !important;
-  height: 300px !important;
+  width: clamp(200px, 25vw, 300px) !important;
+  height: clamp(200px, 25vw, 300px) !important;
   margin: 0 !important;
   padding: 0 !important;
   max-width: 300px !important;
-  min-width: 300px !important;
+  min-width: 200px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 footer .social-links a {
@@ -3838,14 +3842,16 @@ footer .social-links a {
 }
 
 .footer-logo {
-  width: 400px !important;
-  height: 400px !important;
+  width: clamp(200px, 30vw, 400px) !important;
+  height: clamp(200px, 30vw, 400px) !important;
   max-width: 400px !important;
   max-height: 400px !important;
-  min-width: 400px !important;
-  min-height: 400px !important;
+  min-width: 200px !important;
+  min-height: 200px !important;
   object-fit: contain !important;
   display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   margin: 0 auto !important;
   transition: all 0.3s ease !important;
 }
@@ -5367,6 +5373,54 @@ footer .nav-link:focus {
     max-width: 100% !important;
     min-width: 0 !important;
     margin-bottom: 15px !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Center the logo column on mobile */
+  footer .row > .col-3.text-center.footer-column {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Ensure footer logo is visible and centered on mobile */
+  footer .footer-logo {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: clamp(150px, 40vw, 250px) !important;
+    height: clamp(150px, 40vw, 250px) !important;
+    max-width: 250px !important;
+    max-height: 250px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Center the logo link wrapper */
+  footer .col-3.text-center.footer-column > a {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+  
+  /* Center all content in footer logo column on mobile */
+  footer .col-3.text-center.footer-column > * {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  /* Ensure footer logo column content is centered */
+  footer .col-3.text-center.footer-column p {
+    text-align: center !important;
+    width: 100% !important;
   }
     
     footer .footer-accordion-column {
@@ -5725,20 +5779,33 @@ footer .nav-link:focus {
     flex: none !important;
     text-align: center !important;
     margin-bottom: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   /* Move CTA + social below logo on mobile */
   footer .row .col-3.footer-column.text-center:last-child {
     order: 3 !important;
     width: 100% !important;
     flex: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   
   .footer-logo {
-    width: 200px !important;
-    height: 200px !important;
-    max-width: 200px !important;
-    max-height: 200px !important;
+    width: clamp(150px, 40vw, 250px) !important;
+    height: clamp(150px, 40vw, 250px) !important;
+    max-width: 250px !important;
+    max-height: 250px !important;
     margin: 0 auto !important;
+    display: block !important;
   }
   
   /* Third Row - Call to Action & Social */

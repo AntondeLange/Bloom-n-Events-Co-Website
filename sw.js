@@ -2,7 +2,7 @@
 // Format: vYYYYMMDD (e.g., v20250115)
 // Update this date when deploying significant changes
 // For automated deployments, consider using a build script to inject the deployment date
-const CACHE_VERSION = 'v20250115'; // Update this date on each deployment
+const CACHE_VERSION = 'v20250115'; // Update this date on each deployment to clear cache
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
@@ -24,9 +24,30 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys.filter((k) => ![STATIC_CACHE, RUNTIME_CACHE].includes(k)).map((k) => caches.delete(k))
-    )).then(() => self.clients.claim())
+    caches.keys().then((keys) => {
+      // Delete all old caches that don't match current version
+      const deletePromises = keys
+        .filter((k) => ![STATIC_CACHE, RUNTIME_CACHE].includes(k))
+        .map((k) => caches.delete(k));
+      
+      // Also delete caches with old version numbers
+      const versionMismatch = keys.filter((k) => {
+        const hasVersion = k.includes('v');
+        if (!hasVersion) return true; // Delete caches without version
+        const cacheVersion = k.match(/v(\d{8})/);
+        return cacheVersion && cacheVersion[1] !== CACHE_VERSION.replace('v', '');
+      });
+      versionMismatch.forEach((k) => deletePromises.push(caches.delete(k)));
+      
+      return Promise.all(deletePromises);
+    }).then(() => {
+      // Force all clients to reload to get fresh content
+      return self.clients.matchAll().then((clients) => {
+        clients.forEach((client) => {
+          client.postMessage({ type: 'CACHE_CLEARED', version: CACHE_VERSION });
+        });
+      });
+    }).then(() => self.clients.claim())
   );
 });
 

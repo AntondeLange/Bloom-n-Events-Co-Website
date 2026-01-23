@@ -39,6 +39,13 @@
     
     # Permissions Policy (formerly Feature-Policy)
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Cache Control for HTML - Always fetch fresh HTML
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
 </IfModule>
 
 # Compression
