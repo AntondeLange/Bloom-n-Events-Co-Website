@@ -3972,10 +3972,10 @@ footer .social-links a {
   }
   
   footer .row > .col-3.text-center.footer-column {
-    flex: 0 0 800px !important;
-    width: 800px !important;
-    min-width: 800px !important;
-    max-width: 800px !important;
+    flex: 0 0 650px !important;
+    width: 650px !important;
+    min-width: 650px !important;
+    max-width: 650px !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -4621,12 +4621,12 @@ body.team .team-member-image img {
     padding: 0 10px !important;
   }
   
-  /* Center column: Logo - 800px width */
+  /* Center column: Logo - 650px width */
   footer .row > .col-3.text-center.footer-column {
-    flex: 0 0 800px !important;
-    width: 800px !important;
-    min-width: 800px !important;
-    max-width: 800px !important;
+    flex: 0 0 650px !important;
+    width: 650px !important;
+    min-width: 650px !important;
+    max-width: 650px !important;
     padding: 0 15px !important;
     display: block !important;
     visibility: visible !important;
