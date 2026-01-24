@@ -3960,13 +3960,22 @@ footer .social-links a {
     gap: 20px !important;
   }
   
-  /* Override Bootstrap defaults for footer columns - use flex basis percentages */
-  footer .row > .col-1,
-  footer .row > .col-3.text-center.footer-column {
+  /* Override Bootstrap defaults for footer columns - logo column is 800px */
+  footer .row > .col-1 {
     flex: 0 0 30% !important;
     min-width: 200px !important;
     max-width: 30% !important;
     width: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  footer .row > .col-3.text-center.footer-column {
+    flex: 0 0 800px !important;
+    width: 800px !important;
+    min-width: 800px !important;
+    max-width: 800px !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -4571,7 +4580,7 @@ body.team .team-member-image img {
 @media (min-width: 769px) {
   /* Footer container - responsive max width */
   footer .container {
-    max-width: 1200px !important;
+    max-width: 1800px !important;
     width: 100% !important;
     margin: 0 auto !important;
     padding: 0 30px !important;
@@ -4612,11 +4621,12 @@ body.team .team-member-image img {
     padding: 0 10px !important;
   }
   
-  /* Center column: Logo - visible and centered */
+  /* Center column: Logo - 800px width */
   footer .row > .col-3.text-center.footer-column {
-    flex: 0 0 30% !important;
-    min-width: 200px !important;
-    max-width: 30% !important;
+    flex: 0 0 800px !important;
+    width: 800px !important;
+    min-width: 800px !important;
+    max-width: 800px !important;
     padding: 0 15px !important;
     display: block !important;
     visibility: visible !important;
