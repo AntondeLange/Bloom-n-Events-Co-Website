@@ -2998,6 +2998,8 @@ If you don't know something specific, suggest they contact the company directly 
                     this.classList.add('footer-accordion-button-expanded');
                     this.classList.remove('footer-accordion-button-collapsed');
                     // Styles handled by .footer-accordion-button-expanded CSS class
+                    const chevron = this.querySelector('.footer-accordion-chevron');
+                    if (chevron) {
                         // Ensure the icon content is set (Bootstrap Icons use ::before)
                         if (!chevron.hasAttribute('data-icon-set')) {
                             chevron.setAttribute('data-icon-set', 'true');
