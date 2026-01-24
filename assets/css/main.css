@@ -4068,12 +4068,17 @@ footer .row {
   max-height: none !important;
 }
 
-footer .col-6,
-footer .col-3 {
+footer .col-6 {
   flex: 0 0 auto !important;
 }
 
-footer .col-3.text-center {
+/* Footer col-3 rules are now handled by specific selectors in media queries above */
+/* This prevents conflicts with the 600px width rules */
+footer .col-3:not(.footer-column) {
+  flex: 0 0 auto !important;
+}
+
+footer .col-3.text-center:not(.footer-column) {
   flex: 0 0 auto !important;
   width: auto !important;
 }
