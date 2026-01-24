@@ -8704,31 +8704,20 @@ body.about .section-main:first-of-type {
 }
 
 /* Position anchor nav at bottom of hero section, then sticky when scrolling */
-body:not(.home) main {
-  position: relative; /* Create positioning context for anchor nav */
-}
-
 body:not(.home) .hero-section {
   position: relative;
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
 
-/* Anchor nav: Position absolutely at bottom of hero initially, then sticky when scrolling */
+/* Anchor nav: Use negative margin to position at bottom of hero, then sticky when scrolling */
 body:not(.home) .hero-section + .anchor-nav {
-  position: absolute;
-  top: calc(var(--navbar-height, 65px) + 100vh - 60px); /* Position at bottom of hero (navbar + 100vh - anchor nav height) */
-  left: 0;
-  right: 0;
+  position: sticky;
+  top: var(--navbar-height, 65px); /* Stick below navbar when scrolling */
+  /* Calculate negative margin: hero is 100vh, navbar is var(--navbar-height), anchor nav height is ~60px */
+  /* Pull up by: 100vh - anchor nav height to position at hero bottom */
+  margin-top: calc(-100vh + 60px) !important;
   z-index: 100;
-}
-
-/* When scrolling past hero, anchor nav becomes sticky */
-@media (min-width: 769px) {
-  body:not(.home) .hero-section + .anchor-nav {
-    position: sticky;
-    top: var(--navbar-height, 65px); /* Stick below navbar when hero scrolls past */
-  }
 }
 
 /* On home page, ensure hero section and anchor-nav connect with no gap */
