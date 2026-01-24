@@ -262,9 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // Autoplay prevented, play on interaction
                                 const playOnInteraction = () => {
                                     heroVideo.play().catch(() => {});
-                                    // removeEventListener doesn't support options - only event type and listener reference
-                                    document.removeEventListener('click', playOnInteraction);
-                                    document.removeEventListener('scroll', playOnInteraction);
+                                    // No need to removeEventListener - { once: true } automatically removes listeners after first trigger
                                 };
                                 document.addEventListener('click', playOnInteraction, { once: true });
                                 document.addEventListener('scroll', playOnInteraction, { once: true });
