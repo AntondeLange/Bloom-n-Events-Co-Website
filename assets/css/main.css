@@ -254,16 +254,16 @@ body.contact main {
   padding-top: 0 !important;
 }
 
-/* Pages with anchor nav need extra padding */
-body:not(.home) main:has(.anchor-nav) {
-  padding-top: calc(var(--navbar-height) + 60px); /* navbar height + anchor nav height */
-}
-
 /* Hero sections should start at the top, accounting for navbar */
 /* Remove main padding for pages with hero sections */
 body:not(.home) main:has(.hero-section),
 body:not(.home) main:has(.contact-hero-section) {
   padding-top: 0;
+}
+
+/* Pages with anchor nav but no hero need extra padding */
+body:not(.home) main:has(.anchor-nav):not(:has(.hero-section)):not(:has(.contact-hero-section)) {
+  padding-top: calc(var(--navbar-height) + 60px); /* navbar height + anchor nav height */
 }
 
 /* Hero sections on non-home pages need to account for fixed navbar */
@@ -8710,13 +8710,11 @@ body:not(.home) .hero-section {
   padding-bottom: 0 !important;
 }
 
-/* Anchor nav: Use negative margin to position at bottom of hero, then sticky when scrolling */
+/* Anchor nav: Position naturally after hero, then sticky when scrolling */
 body:not(.home) .hero-section + .anchor-nav {
   position: sticky;
   top: var(--navbar-height, 65px); /* Stick below navbar when scrolling */
-  /* Calculate negative margin: hero is 100vh, navbar is var(--navbar-height), anchor nav height is ~60px */
-  /* Pull up by: 100vh - anchor nav height to position at hero bottom */
-  margin-top: calc(-100vh + 60px) !important;
+  margin-top: 0 !important; /* No negative margin - let it sit naturally after hero */
   z-index: 100;
 }
 
