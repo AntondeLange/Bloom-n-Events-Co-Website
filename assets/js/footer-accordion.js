@@ -78,31 +78,42 @@
     }
     
     // Export function for main.js to call after footer injection
-    // Do NOT auto-initialize here - main.js will call this after loadPartials() completes
-    // This ensures the footer exists in the DOM before accordion initialization
+    // main.js handles initialization for pages with partials (home page, etc.)
+    // This auto-initialization is only for pages that don't use partials and have footer in HTML
     window.initFooterAccordion = initFooterAccordion;
     
-    // Only auto-initialize if footer already exists (for pages that don't use partials)
-    // Check after a short delay to allow main.js to inject footer first
+    // Guard to prevent double initialization
+    let isInitialized = false;
+    const originalInit = initFooterAccordion;
+    window.initFooterAccordion = function() {
+        if (isInitialized) {
+            return; // Already initialized, skip
+        }
+        isInitialized = true;
+        originalInit();
+    };
+    
+    // Only auto-initialize if footer already exists in HTML (for pages that don't use partials)
+    // Check after a delay to allow main.js to inject footer first on pages with partials
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
-            // Wait for main.js to potentially inject footer
+            // Wait longer to ensure main.js has had a chance to inject footer on pages with partials
             setTimeout(function() {
                 const footer = document.querySelector('footer');
-                if (footer && footer.querySelector('.footer-accordion-button')) {
-                    // Footer exists and has accordion buttons - safe to initialize
-                    initFooterAccordion();
+                if (footer && footer.querySelector('.footer-accordion-button') && !isInitialized) {
+                    // Footer exists in HTML (not injected by main.js) and not yet initialized
+                    window.initFooterAccordion();
                 }
-            }, 500);
+            }, 1000); // Increased delay to ensure main.js initialization completes first
         });
     } else {
-        // DOM already loaded - wait a bit for main.js to inject footer
+        // DOM already loaded - wait longer to ensure main.js initialization completes
         setTimeout(function() {
             const footer = document.querySelector('footer');
-            if (footer && footer.querySelector('.footer-accordion-button')) {
-                // Footer exists and has accordion buttons - safe to initialize
-                initFooterAccordion();
+            if (footer && footer.querySelector('.footer-accordion-button') && !isInitialized) {
+                // Footer exists in HTML (not injected by main.js) and not yet initialized
+                window.initFooterAccordion();
             }
-        }, 500);
+        }, 1000); // Increased delay to ensure main.js initialization completes first
     }
 })();
