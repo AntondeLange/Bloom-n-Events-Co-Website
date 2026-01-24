@@ -269,6 +269,7 @@ body:not(.home) main:has(.contact-hero-section) {
 /* Hero sections on non-home pages need to account for fixed navbar */
 body:not(.home) .hero-section {
   margin-top: var(--navbar-height);
+  position: relative; /* Ensure anchor nav can position relative to hero */
 }
 
 /* Contact hero section should start at top with navbar offset */
@@ -8641,8 +8642,8 @@ body.about .section-main:first-of-type {
 
 /* ===== ANCHOR NAVIGATION ===== */
 .anchor-nav {
-  position: fixed;
-  top: var(--navbar-height, 65px); /* Directly below navbar using variable */
+  position: sticky;
+  top: var(--navbar-height, 65px); /* Stick below navbar when scrolling */
   left: 0;
   right: 0;
   z-index: 100;
@@ -8656,15 +8657,28 @@ body.about .section-main:first-of-type {
   visibility: visible !important;
 }
 
-/* Remove spacing between hero section and anchor nav - applies to all pages */
-.hero-section + .anchor-nav {
-  margin-top: 0 !important;
-}
-
-/* Ensure hero section has no bottom spacing - override any duplicate definitions */
+/* Position anchor nav at bottom of hero section, then sticky when scrolling */
 .hero-section {
+  position: relative;
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
+}
+
+/* Anchor nav positioned at bottom of hero section initially */
+.hero-section + .anchor-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-top: 0 !important;
+  z-index: 100;
+}
+
+/* When hero scrolls past, anchor nav becomes sticky */
+body:not(.home) .hero-section + .anchor-nav {
+  position: sticky;
+  top: var(--navbar-height, 65px);
+  bottom: auto;
 }
 
 /* On home page, ensure hero section and anchor-nav connect with no gap */
