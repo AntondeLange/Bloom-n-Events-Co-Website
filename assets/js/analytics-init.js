@@ -42,13 +42,14 @@
         const script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
-        document.head.appendChild(script);
-        script.onload = function() {
+        // Use addEventListener instead of onload for CSP compliance
+        script.addEventListener('load', function() {
           const consent = localStorage.getItem('cookieConsent');
           gtag('config', 'G-T5DJCCT19V', {
             'send_page_view': consent === 'accepted'
           });
-        };
+        });
+        document.head.appendChild(script);
       });
     } else {
       window.addEventListener('load', function() {
@@ -56,13 +57,14 @@
           const script = document.createElement('script');
           script.async = true;
           script.src = 'https://www.googletagmanager.com/gtag/js?id=G-T5DJCCT19V';
-          document.head.appendChild(script);
-          script.onload = function() {
+          // Use addEventListener instead of onload for CSP compliance
+          script.addEventListener('load', function() {
             const consent = localStorage.getItem('cookieConsent');
             gtag('config', 'G-T5DJCCT19V', {
               'send_page_view': consent === 'accepted'
             });
-          };
+          });
+          document.head.appendChild(script);
         }, 1000);
       });
     }
