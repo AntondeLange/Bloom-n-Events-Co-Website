@@ -76,7 +76,8 @@ function initHeroParallax() {
                 if (scrolled < heroHeight) {
                     const parallaxSpeed = 0.3;
                     const yPos = -(scrolled * parallaxSpeed);
-                    heroBackground.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                    // Use CSS custom property instead of inline style for CSP compliance
+                    heroBackground.style.setProperty('--parallax-y', `${yPos}px`);
                 }
                 ticking = false;
             });
@@ -189,7 +190,7 @@ if (isMobile) {
     const closeAll = () => {
         document.querySelectorAll('.dropdown-menu.show').forEach(m => {
             m.classList.remove('show');
-            m.style.display = 'none';
+            m.classList.add('d-none');
         });
         document.querySelectorAll('.dropdown.show, .dropup.show').forEach(d => {
             d.classList.remove('show');
@@ -312,11 +313,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (newNav && isHome) {
                         newNav.classList.remove('fixed-top');
                         newNav.classList.add('fixed-bottom');
-                        newNav.style.position = 'fixed';
-                        newNav.style.bottom = '0';
-                        newNav.style.top = 'auto';
-                        newNav.style.left = '0';
-                        newNav.style.right = '0';
                     }
                     
                     // Reset scroll after navbar injection to prevent unwanted scrolling (all devices)
@@ -406,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             const toggle = dropdown.querySelector('.dropdown-toggle');
                             if (menu) {
                                 menu.classList.remove('show');
-                                menu.style.display = 'none';
+                                menu.classList.add('d-none');
                             }
                             dropdown.classList.remove('show');
                             if (toggle) {
@@ -536,12 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!sentinel) {
                 sentinel = document.createElement('div');
                 sentinel.id = 'navbar-sentinel';
-                sentinel.style.position = 'absolute';
-                sentinel.style.top = '0';
-                sentinel.style.left = '0';
-                sentinel.style.width = '1px';
-                sentinel.style.height = '1px';
-                sentinel.style.pointerEvents = 'none';
+                sentinel.classList.add('intersection-sentinel');
                 document.body.prepend(sentinel);
             }
             
@@ -596,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dropdownMenu = portfolioDropdown.querySelector('.dropdown-menu');
                 if (dropdownMenu) {
                     dropdownMenu.classList.remove('show');
-                    dropdownMenu.style.display = 'none';
+                    dropdownMenu.classList.add('d-none');
                 }
                 portfolioDropdown.classList.remove('show');
                 const dropdownToggle = portfolioDropdown.querySelector('.dropdown-toggle');
@@ -720,7 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const src = iframe.getAttribute('data-src');
                         iframe.src = src;
                         iframe.removeAttribute('data-src');
-                        iframe.style.display = 'block';
+                        iframe.classList.add('iframe-loaded');
                         target.remove();
                     }
                     observer.unobserve(target);
@@ -733,7 +724,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     iframe.src = src;
                     iframe.removeAttribute('data-src');
                     if (iframe.style && iframe.style.display === 'none') {
-                        iframe.style.display = 'block';
+                        iframe.classList.add('iframe-loaded');
                     }
                     const prev = iframe.previousElementSibling;
                     if (prev && prev.classList && prev.classList.contains('map-placeholder')) {
@@ -888,10 +879,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const closeAllDropdowns = () => {
             document.querySelectorAll('.dropdown-menu.show').forEach(m => {
                 m.classList.remove('show');
-                m.style.display = 'none';
+                m.classList.add('d-none');
             });
             document.querySelectorAll('.dropdown-menu:not(.show)').forEach(m => {
-                m.style.display = 'none';
+                m.classList.add('d-none');
             });
             document.querySelectorAll('.dropdown.show, .dropup.show').forEach(d => {
                 d.classList.remove('show');
@@ -917,7 +908,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Explicitly close before initialization
                     if (menu) {
                         menu.classList.remove('show');
-                        menu.style.display = 'none';
+                        menu.classList.add('d-none');
                     }
                     if (parent) {
                         parent.classList.remove('show');
@@ -933,7 +924,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => {
                         if (menu) {
                             menu.classList.remove('show');
-                            menu.style.display = 'none';
+                            menu.classList.add('d-none');
                         }
                         if (parent) {
                             parent.classList.remove('show');
@@ -1162,8 +1153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalId = `fullscreen-${Date.now()}-${index}`;
         const wrapper = document.createElement('a');
         wrapper.href = `#${modalId}`;
-        wrapper.style.display = 'block';
-        wrapper.style.textDecoration = 'none';
+        wrapper.classList.add('social-wrapper-block');
         img.parentNode.insertBefore(wrapper, img);
         wrapper.appendChild(img);
         const modal = document.createElement('div');
@@ -1268,7 +1258,8 @@ If you don't know something specific, suggest they contact the company directly 
         runWhenIdle(() => {
             setTimeout(() => {
                 if (!hasInteracted) {
-                    chatbotNotification.style.display = 'flex';
+                    chatbotNotification.classList.add('chatbot-notification-visible');
+                    chatbotNotification.classList.remove('chatbot-notification-hidden');
                     
                     // Track chatbot notification display
                     if (typeof gtag !== 'undefined') {
@@ -1288,7 +1279,7 @@ If you don't know something specific, suggest they contact the company directly 
             if (isOpen) {
                 chatbotContainer.classList.add('show');
                 chatbotInput.focus();
-                chatbotNotification.style.display = 'none';
+                chatbotNotification.classList.add('chatbot-notification-hidden');
                 hasInteracted = true;
                 chatbotToggle.setAttribute('aria-expanded', 'true');
                 lastFocusedBeforeOpen = document.activeElement;
@@ -1592,7 +1583,7 @@ If you don't know something specific, suggest they contact the company directly 
                     if (reply.action) {
                         button.dataset.action = reply.action;
                     }
-                    button.style.cursor = 'pointer';
+                    button.classList.add('cursor-pointer');
                     
                     // Add click event directly to each button as backup
                     button.addEventListener('click', (e) => {
@@ -1649,13 +1640,14 @@ If you don't know something specific, suggest they contact the company directly 
         
         // Show typing indicator
         function showTyping() {
-            chatbotTyping.style.display = 'flex';
+            chatbotTyping.classList.add('chatbot-typing-visible');
+            chatbotTyping.classList.remove('chatbot-typing-hidden');
             chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
         }
         
         // Hide typing indicator
         function hideTyping() {
-            chatbotTyping.style.display = 'none';
+            chatbotTyping.classList.add('chatbot-typing-hidden');
         }
         
         // Get bot response based on user input
@@ -2182,7 +2174,7 @@ If you don't know something specific, suggest they contact the company directly 
         btn.type = 'button';
         btn.className = 'back-to-top';
         btn.setAttribute('aria-label', 'Back to top');
-        btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:1000;display:none;border:none;border-radius:999px;padding:10px 12px;background:var(--coreGold);color:#000;box-shadow:0 2px 8px rgba(0,0,0,.2);cursor:pointer;';
+        btn.classList.add('scroll-to-top-btn', 'scroll-to-top-hidden');
         
         // Create arrow icon safely
         const arrowIcon = document.createElement('i');
@@ -2191,7 +2183,13 @@ If you don't know something specific, suggest they contact the company directly 
         document.body.appendChild(btn);
         const onScroll = throttle(() => {
             const y = window.pageYOffset || document.documentElement.scrollTop;
-            btn.style.display = y > 400 ? 'block' : 'none';
+            if (y > 400) {
+                btn.classList.add('scroll-to-top-visible');
+                btn.classList.remove('scroll-to-top-hidden');
+            } else {
+                btn.classList.add('scroll-to-top-hidden');
+                btn.classList.remove('scroll-to-top-visible');
+            }
         }, 100);
         window.addEventListener('scroll', onScroll, { passive: true });
         btn.addEventListener('click', () => {
@@ -2351,10 +2349,9 @@ If you don't know something specific, suggest they contact the company directly 
                     } else {
                         // If base image also fails, show placeholder
                         logger.warn('Gallery image failed to load:', originalSrc);
-                        this.style.display = 'none';
+                        this.classList.add('d-none');
                         const placeholder = document.createElement('div');
                         placeholder.className = 'image-error-placeholder';
-                        placeholder.style.cssText = 'width: 100%; height: 800px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;';
                         placeholder.textContent = 'Image unavailable';
                         this.parentElement.appendChild(placeholder);
                     }
@@ -2861,42 +2858,14 @@ If you don't know something specific, suggest they contact the company directly 
                     button.style.margin = '0 0 8px 0';
                     button.style.pointerEvents = 'auto';
                     // Ensure text is visible with direct colors
-                    const span = button.querySelector('span');
-                    if (span) {
-                        span.style.display = 'inline-block';
-                        span.style.visibility = 'visible';
-                        span.style.opacity = '1';
-                        span.style.color = '#1E1E1E'; // Direct charcoal color
-                        span.style.background = 'transparent';
-                        span.style.fontFamily = "'Dancing Script', cursive";
-                        span.style.fontSize = '18px';
-                    }
+                    // Styles are handled by .footer-accordion-button-visible CSS class
                     const chevron = button.querySelector('.footer-accordion-chevron');
-                    if (chevron) {
-                        chevron.style.display = 'inline-block';
-                        chevron.style.visibility = 'visible';
-                        chevron.style.opacity = '1';
-                        chevron.style.color = '#1E1E1E'; // Direct charcoal color
-                        chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
-                        chevron.style.fontSize = '16px';
-                        chevron.style.fontStyle = 'normal';
-                        chevron.style.fontWeight = 'normal';
-                        chevron.style.lineHeight = '1';
-                        // Ensure the icon content is set (Bootstrap Icons use ::before)
-                        if (!chevron.hasAttribute('data-icon-set')) {
-                            chevron.setAttribute('data-icon-set', 'true');
-                        }
+                    if (chevron && !chevron.hasAttribute('data-icon-set')) {
+                        chevron.setAttribute('data-icon-set', 'true');
                     }
                 } else {
                     // Hide buttons on desktop
-                    button.style.display = 'none';
-                    button.style.visibility = 'hidden';
-                    button.style.height = '0';
-                    button.style.width = '0';
-                    button.style.padding = '0';
-                    button.style.margin = '0';
-                    button.style.opacity = '0';
-                    button.style.pointerEvents = 'none';
+                    button.classList.add('footer-accordion-button-hidden');
                 }
             });
             
@@ -2904,9 +2873,11 @@ If you don't know something specific, suggest they contact the company directly 
             const chevrons = document.querySelectorAll('.footer-accordion-chevron');
             chevrons.forEach(chevron => {
                 if (isMobile) {
-                    chevron.style.display = 'inline-block';
+                    chevron.classList.remove('footer-accordion-chevron-hidden');
+                    chevron.classList.add('d-inline-block');
                 } else {
-                    chevron.style.display = 'none';
+                    chevron.classList.add('footer-accordion-chevron-hidden');
+                    chevron.classList.remove('d-inline-block');
                 }
             });
         }
@@ -2958,40 +2929,16 @@ If you don't know something specific, suggest they contact the company directly 
                         }
                         const content = col.querySelector('.footer-accordion-content');
                         if (content) {
-                            content.style.maxHeight = '0';
-                            content.style.opacity = '0';
-                            content.style.visibility = 'hidden';
-                            content.style.padding = '0';
+                            content.classList.add('footer-accordion-content-collapsed');
                         }
                         // Reset button colors and ensure text is visible (btn already declared above)
                         if (btn) {
-                            btn.style.setProperty('background', '#BF9B30', 'important');
-                            btn.style.setProperty('border-color', '#BF9B30', 'important');
-                            btn.style.setProperty('color', '#1E1E1E', 'important');
-                            btn.style.opacity = '1';
+                            btn.classList.add('footer-accordion-button-collapsed');
                             btn.style.visibility = 'visible';
-                            const span = btn.querySelector('span');
-                            if (span) {
-                                span.style.setProperty('color', '#1E1E1E', 'important');
-                                span.style.opacity = '1';
-                                span.style.visibility = 'visible';
-                                span.style.display = 'inline-block';
-                                span.style.fontFamily = "'Dancing Script', cursive";
-                                span.style.fontSize = '18px';
-                            }
+                            // Styles are handled by .footer-accordion-button-collapsed CSS class
                             const chevron = btn.querySelector('.footer-accordion-chevron');
                             if (chevron) {
-                                chevron.style.setProperty('color', '#1E1E1E', 'important');
-                                chevron.style.transform = 'rotate(0deg)';
-                                chevron.style.opacity = '1';
-                                chevron.style.visibility = 'visible';
-                                chevron.style.display = 'inline-block';
-                                chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
-                                chevron.style.fontSize = '16px';
-                                chevron.style.fontStyle = 'normal';
-                                chevron.style.fontWeight = 'normal';
-                                chevron.style.lineHeight = '1';
-                                // Ensure the icon content is set (Bootstrap Icons use ::before)
+                                chevron.classList.add('footer-accordion-chevron-reset');
                                 if (!chevron.hasAttribute('data-icon-set')) {
                                     chevron.setAttribute('data-icon-set', 'true');
                                 }
@@ -3008,43 +2955,18 @@ If you don't know something specific, suggest they contact the company directly 
                     column.classList.remove('expanded');
                     this.setAttribute('aria-expanded', 'false');
                     if (content) {
-                        content.style.maxHeight = '0';
-                        content.style.opacity = '0';
-                        content.style.visibility = 'hidden';
-                        content.style.padding = '0';
-                        content.style.display = 'none';
+                        content.classList.add('footer-accordion-content-collapsed');
                     }
                     // Reset button to collapsed state - ensure text is visible
-                    // Force reset all styles to collapsed state with !important equivalent
-                    this.style.setProperty('background', '#BF9B30', 'important');
-                    this.style.setProperty('border-color', '#BF9B30', 'important');
-                    this.style.setProperty('color', '#1E1E1E', 'important');
-                    this.style.opacity = '1';
-                    this.style.visibility = 'visible';
+                    // Use CSS classes instead of inline styles for CSP compliance
+                    this.classList.add('footer-accordion-button-collapsed');
                     console.log('Footer Accordion: Resetting button to collapsed - setting background to gold, text to charcoal');
-                    const span = this.querySelector('span');
-                    if (span) {
-                        span.style.setProperty('color', '#1E1E1E', 'important');
-                        span.style.opacity = '1';
-                        span.style.visibility = 'visible';
-                        span.style.display = 'inline-block';
-                        span.style.background = 'transparent';
                         span.style.fontFamily = "'Dancing Script', cursive";
                         span.style.fontSize = '18px';
                     }
                     const chevron = this.querySelector('.footer-accordion-chevron');
                     if (chevron) {
-                        chevron.style.setProperty('color', '#1E1E1E', 'important');
-                        chevron.style.transform = 'rotate(0deg)';
-                        chevron.style.opacity = '1';
-                        chevron.style.visibility = 'visible';
-                        chevron.style.display = 'inline-block';
-                        chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
-                        chevron.style.fontSize = '16px';
-                        chevron.style.fontStyle = 'normal';
-                        chevron.style.fontWeight = 'normal';
-                        chevron.style.lineHeight = '1';
-                        // Ensure the icon content is set (Bootstrap Icons use ::before)
+                        chevron.classList.add('footer-accordion-chevron-reset');
                         if (!chevron.hasAttribute('data-icon-set')) {
                             chevron.setAttribute('data-icon-set', 'true');
                         }
@@ -3056,65 +2978,29 @@ If you don't know something specific, suggest they contact the company directly 
                     this.setAttribute('aria-expanded', 'true');
                     if (content) {
                         // Force show content with explicit styles
-                        content.style.maxHeight = '500px';
-                        content.style.opacity = '1';
-                        content.style.visibility = 'visible';
-                        content.style.display = 'block';
-                        content.style.padding = '8px 0 14px 0';
-                        content.style.overflow = 'visible';
-                        content.style.height = 'auto';
+                        content.classList.add('footer-accordion-content-expanded');
+                        content.classList.remove('footer-accordion-content-collapsed');
                         // Ensure nav container is visible
                         const nav = content.querySelector('.nav');
                         if (nav) {
-                            nav.style.display = 'flex';
-                            nav.style.visibility = 'visible';
-                            nav.style.opacity = '1';
+                            nav.classList.add('footer-accordion-nav-visible');
                         }
                         // Ensure nav links are visible
                         const navLinks = content.querySelectorAll('.nav-link');
                         navLinks.forEach(link => {
-                            link.style.display = 'block';
-                            link.style.visibility = 'visible';
-                            link.style.opacity = '1';
-                            link.style.color = '#F2E8DA'; // Champers color for links
-                            link.style.background = 'transparent';
+                            link.classList.add('footer-accordion-nav-link-visible');
+                            // Styles handled by .footer-accordion-nav-link-visible CSS class
                         });
                         // Ensure nav items are visible
                         const navItems = content.querySelectorAll('.nav-item');
                         navItems.forEach(item => {
-                            item.style.display = 'block';
-                            item.style.visibility = 'visible';
-                            item.style.opacity = '1';
+                            item.classList.add('footer-accordion-nav-item-visible');
                         });
                     }
-                    // Update button colors for expanded state - ensure text is visible
-                    this.style.setProperty('background', '#1E1E1E', 'important');
-                    this.style.setProperty('border-color', '#BF9B30', 'important');
-                    this.style.setProperty('color', '#BF9B30', 'important');
-                    this.style.opacity = '1';
-                    this.style.visibility = 'visible';
-                    const span = this.querySelector('span');
-                    if (span) {
-                        span.style.setProperty('color', '#BF9B30', 'important');
-                        span.style.opacity = '1';
-                        span.style.visibility = 'visible';
-                        span.style.display = 'inline-block';
-                        span.style.background = 'transparent';
-                        span.style.fontFamily = "'Dancing Script', cursive";
-                        span.style.fontSize = '18px';
-                    }
-                    const chevron = this.querySelector('.footer-accordion-chevron');
-                    if (chevron) {
-                        chevron.style.setProperty('color', '#BF9B30', 'important');
-                        chevron.style.transform = 'rotate(180deg)';
-                        chevron.style.opacity = '1';
-                        chevron.style.visibility = 'visible';
-                        chevron.style.display = 'inline-block';
-                        chevron.style.setProperty('font-family', '"bootstrap-icons"', 'important');
-                        chevron.style.fontSize = '16px';
-                        chevron.style.fontStyle = 'normal';
-                        chevron.style.fontWeight = 'normal';
-                        chevron.style.lineHeight = '1';
+                    // Update button colors for expanded state - use CSS class
+                    this.classList.add('footer-accordion-button-expanded');
+                    this.classList.remove('footer-accordion-button-collapsed');
+                    // Styles handled by .footer-accordion-button-expanded CSS class
                         // Ensure the icon content is set (Bootstrap Icons use ::before)
                         if (!chevron.hasAttribute('data-icon-set')) {
                             chevron.setAttribute('data-icon-set', 'true');
