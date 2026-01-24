@@ -8462,10 +8462,6 @@ body.about .section-main:first-of-type {
   margin-top: calc(3rem + 10px) !important;
 }
 
-.chatbot-typing {
-  display: none;
-}
-
 /* ===== TRUST BADGES SECTION ===== */
 .trust-badge-card {
   transition: transform var(--transition-base), box-shadow var(--transition-base);

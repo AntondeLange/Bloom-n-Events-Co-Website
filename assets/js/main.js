@@ -262,8 +262,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // Autoplay prevented, play on interaction
                                 const playOnInteraction = () => {
                                     heroVideo.play().catch(() => {});
-                                    document.removeEventListener('click', playOnInteraction, { once: true });
-                                    document.removeEventListener('scroll', playOnInteraction, { once: true });
+                                    // removeEventListener doesn't support options - only event type and listener reference
+                                    document.removeEventListener('click', playOnInteraction);
+                                    document.removeEventListener('scroll', playOnInteraction);
                                 };
                                 document.addEventListener('click', playOnInteraction, { once: true });
                                 document.addEventListener('scroll', playOnInteraction, { once: true });
@@ -2845,6 +2846,18 @@ If you don't know something specific, suggest they contact the company directly 
         // Function to handle desktop/mobile toggle
         function handleFooterAccordionVisibility() {
             const isMobile = window.innerWidth <= 768;
+            const footer = document.querySelector('footer');
+            
+            // Add CSS classes to footer for responsive styling
+            if (footer) {
+                if (isMobile) {
+                    footer.classList.add('mobile-view');
+                    footer.classList.remove('desktop-view');
+                } else {
+                    footer.classList.add('desktop-view');
+                    footer.classList.remove('mobile-view');
+                }
+            }
             
             accordionButtons.forEach(button => {
                 if (isMobile) {
