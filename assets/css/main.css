@@ -3879,11 +3879,13 @@ footer .row {
   justify-content: space-between !important;
   align-items: center !important;
   min-height: 180px !important;
+  gap: 20px !important;
 }
 
 footer .col-6,
 footer .col-3 {
-  flex: 0 0 auto !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
   width: auto !important;
   padding: 0 15px !important;
 }
@@ -3956,16 +3958,25 @@ footer .social-links a {
     justify-content: space-between !important;
     align-items: center !important;
     min-height: 200px !important;
+    gap: 20px !important;
   }
   
-  /* Override Bootstrap defaults for footer columns */
+  /* Override Bootstrap defaults for footer columns - responsive flex */
   footer .row > .col-1,
   footer .row > .col-3 {
-    flex: 0 0 auto !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
     width: auto !important;
   }
   
+  footer .row > .col-9.footer-column {
+    flex: 0 1 40% !important;
+    min-width: 0 !important;
+  }
+  
   footer .row > .col-3.footer-column {
+    flex: 0 1 30% !important;
+    min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -4005,7 +4016,7 @@ footer .nav-link:hover {
 
 /* Footer Layout */
 footer .container {
-  max-width: 100% !important;
+  max-width: 1200px !important;
   width: 100% !important;
   padding: 0 30px !important;
   box-sizing: border-box !important;
@@ -4033,10 +4044,12 @@ footer .row {
 footer .col-6,
 footer .col-3 {
   min-width: 0 !important;
+  flex: 0 1 auto !important;
 }
 
 footer .col-3.text-center {
-  flex: 0 0 auto !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
   width: auto !important;
 }
 
@@ -4541,9 +4554,9 @@ body.team .team-member-image img {
 
 /* Desktop footer: Original 3-column layout with fixed widths */
 @media (min-width: 769px) {
-  /* Footer container - set max width to 2138px, but respect viewport width */
+  /* Footer container - responsive max width */
   footer .container {
-    max-width: min(2138px, 100%) !important;
+    max-width: 1200px !important;
     width: 100% !important;
     margin: 0 auto !important;
     padding: 0 30px !important;
@@ -4562,42 +4575,43 @@ body.team .team-member-image img {
     margin: 0 auto !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
+    gap: 20px !important;
   }
   
-  /* Left column: 3 navigation columns (711px total = 237px × 3) */
+  /* Left column: 3 navigation columns - use flex basis instead of fixed width */
   footer .row > .col-9.footer-column {
-    flex: 0 0 711px !important;
-    min-width: 711px !important;
-    max-width: 711px !important;
-    width: 711px !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
     padding: 0 !important;
   }
   
-  /* Each of the 3 navigation columns: 237px each */
+  /* Each of the 3 navigation columns - responsive */
   footer .row .col-9 .row .col-4.footer-accordion-column {
-    flex: 0 0 237px !important;
-    min-width: 237px !important;
-    max-width: 237px !important;
-    width: 237px !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
     padding: 0 10px !important;
   }
   
-  /* Center column: Logo (712px) */
+  /* Center column: Logo - responsive */
   footer .row > .col-3.text-center.footer-column {
-    flex: 0 0 712px !important;
-    min-width: 712px !important;
-    max-width: 712px !important;
-    width: 712px !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
     padding: 0 15px !important;
   }
   
-  /* Right column: Contact/Social (712px) */
+  /* Right column: Contact/Social - responsive */
   footer .row > .col-3.footer-column.order-md-3,
   footer .row > .col-3.footer-column:last-child {
-    flex: 0 0 712px !important;
-    min-width: 712px !important;
-    max-width: 712px !important;
-    width: 712px !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
     padding: 0 15px !important;
     display: flex !important;
     flex-direction: column !important;
