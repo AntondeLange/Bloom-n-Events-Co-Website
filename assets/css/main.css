@@ -3884,8 +3884,7 @@ footer .row {
 
 footer .col-6,
 footer .col-3 {
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
+  flex: 0 0 auto !important;
   width: auto !important;
   padding: 0 15px !important;
 }
@@ -3961,22 +3960,25 @@ footer .social-links a {
     gap: 20px !important;
   }
   
-  /* Override Bootstrap defaults for footer columns - responsive flex */
+  /* Override Bootstrap defaults for footer columns - use flex basis percentages */
   footer .row > .col-1,
   footer .row > .col-3 {
-    flex: 0 1 auto !important;
-    min-width: 0 !important;
+    flex: 0 0 30% !important;
+    min-width: 200px !important;
+    max-width: 30% !important;
     width: auto !important;
   }
   
   footer .row > .col-9.footer-column {
-    flex: 0 1 40% !important;
-    min-width: 0 !important;
+    flex: 0 0 40% !important;
+    min-width: 300px !important;
+    max-width: 40% !important;
   }
   
   footer .row > .col-3.footer-column {
-    flex: 0 1 30% !important;
-    min-width: 0 !important;
+    flex: 0 0 30% !important;
+    min-width: 200px !important;
+    max-width: 30% !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -4043,13 +4045,11 @@ footer .row {
 
 footer .col-6,
 footer .col-3 {
-  min-width: 0 !important;
-  flex: 0 1 auto !important;
+  flex: 0 0 auto !important;
 }
 
 footer .col-3.text-center {
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
+  flex: 0 0 auto !important;
   width: auto !important;
 }
 
@@ -4578,40 +4578,36 @@ body.team .team-member-image img {
     gap: 20px !important;
   }
   
-  /* Left column: 3 navigation columns - use flex basis instead of fixed width */
+  /* Left column: 3 navigation columns - use percentage flex basis */
   footer .row > .col-9.footer-column {
-    flex: 0 1 auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    width: auto !important;
+    flex: 0 0 40% !important;
+    min-width: 300px !important;
+    max-width: 40% !important;
     padding: 0 !important;
   }
   
-  /* Each of the 3 navigation columns - responsive */
+  /* Each of the 3 navigation columns - equal distribution */
   footer .row .col-9 .row .col-4.footer-accordion-column {
-    flex: 0 1 auto !important;
+    flex: 0 0 33.333% !important;
     min-width: 0 !important;
-    max-width: none !important;
-    width: auto !important;
+    max-width: 33.333% !important;
     padding: 0 10px !important;
   }
   
-  /* Center column: Logo - responsive */
+  /* Center column: Logo - fixed percentage */
   footer .row > .col-3.text-center.footer-column {
-    flex: 0 1 auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    width: auto !important;
+    flex: 0 0 30% !important;
+    min-width: 200px !important;
+    max-width: 30% !important;
     padding: 0 15px !important;
   }
   
-  /* Right column: Contact/Social - responsive */
+  /* Right column: Contact/Social - fixed percentage */
   footer .row > .col-3.footer-column.order-md-3,
   footer .row > .col-3.footer-column:last-child {
-    flex: 0 1 auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    width: auto !important;
+    flex: 0 0 30% !important;
+    min-width: 200px !important;
+    max-width: 30% !important;
     padding: 0 15px !important;
     display: flex !important;
     flex-direction: column !important;
