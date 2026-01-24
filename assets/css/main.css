@@ -4354,6 +4354,52 @@ body:not(.home):not(.about):not(.team) .inclusion-card .display-type {
 /* Events Page Layout */
 /* Remove special padding rules for Events/Workshops/Displays - they should match About/Team styling */
 
+/* Events page image grid - 5 columns on large screens */
+body.events .row.g-2 .col-lg {
+  flex: 0 0 20% !important;
+  max-width: 20% !important;
+}
+
+@media (max-width: 991.98px) {
+  body.events .row.g-2 .col-lg {
+    flex: 0 0 auto !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Events page card styles */
+body.events .card.shadow {
+  background-color: var(--coreChampers) !important;
+}
+
+body.events .card.shadow.service-card {
+  background-color: var(--coreChampers) !important;
+}
+
+body.events .card.shadow.why-us-card {
+  background-color: var(--coreChampers) !important;
+}
+
+/* Events page text content card */
+body.events .card.shadow .card-body p {
+  text-align: left !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Events page card with border */
+body.events .card.shadow:first-of-type {
+  border: 2px solid var(--coreGold) !important;
+  border-radius: 12px !important;
+  padding: 24px 28px !important;
+}
+
+/* Events page icon styling */
+body.events .why-us-card i.bi {
+  font-size: 3rem !important;
+  color: var(--coreGold) !important;
+}
+
 /* ===== TEAM PAGE STYLES ===== */
 /* Square aspect ratio (1:1) for all team and founder cards */
 .director-image-container {
