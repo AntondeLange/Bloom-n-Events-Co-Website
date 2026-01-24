@@ -2961,9 +2961,6 @@ If you don't know something specific, suggest they contact the company directly 
                     // Use CSS classes instead of inline styles for CSP compliance
                     this.classList.add('footer-accordion-button-collapsed');
                     console.log('Footer Accordion: Resetting button to collapsed - setting background to gold, text to charcoal');
-                        span.style.fontFamily = "'Dancing Script', cursive";
-                        span.style.fontSize = '18px';
-                    }
                     const chevron = this.querySelector('.footer-accordion-chevron');
                     if (chevron) {
                         chevron.classList.add('footer-accordion-chevron-reset');
