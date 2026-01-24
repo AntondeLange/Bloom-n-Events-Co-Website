@@ -7,9 +7,11 @@ export const CONFIG = {
   // API Configuration
   BACKEND: {
     DEV_URL: 'http://localhost:3000',
-    // Production backend deployed on Railway
-    PROD_URL: 'https://bloom-n-events-co-website-production.up.railway.app',
+    // Production: Vercel serverless functions (same domain as frontend)
+    // In production, API endpoints are on the same domain: /api/chat, /api/contact
+    PROD_URL: '', // Empty = use same domain (relative paths)
     CHAT_ENDPOINT: '/api/chat', // Full endpoint path
+    CONTACT_ENDPOINT: '/api/contact', // Contact form endpoint
     TIMEOUT: 30000, // 30 seconds
   },
   
