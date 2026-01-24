@@ -6039,14 +6039,14 @@ footer .nav-link:focus {
   
   /* Desktop: Keep original layout - hide accordion buttons, show h5 */
   @media screen and (min-width: 769px) {
-    /* Hide all accordion functionality on desktop - use multiple selectors for maximum specificity */
-    footer.desktop-view .footer-accordion-column .footer-accordion-button,
-    footer.desktop-view .footer-accordion-column button.footer-accordion-button,
-    footer.desktop-view button.footer-accordion-button,
-    footer.desktop-view .footer-accordion-button,
-    footer.desktop-view .footer-accordion-button span,
-    footer.desktop-view .footer-accordion-chevron,
-    footer.desktop-view i.footer-accordion-chevron {
+    /* Hide all accordion functionality on desktop - hide by default, show only on mobile */
+    footer .footer-accordion-column .footer-accordion-button,
+    footer .footer-accordion-column button.footer-accordion-button,
+    footer button.footer-accordion-button,
+    footer .footer-accordion-button,
+    footer .footer-accordion-button span,
+    footer .footer-accordion-chevron,
+    footer i.footer-accordion-chevron {
       display: none !important;
       visibility: hidden !important;
       height: 0 !important;
