@@ -3982,9 +3982,10 @@ footer .social-links a {
   }
   
   footer .row > .col-9.footer-column {
-    flex: 0 0 40% !important;
-    min-width: 300px !important;
-    max-width: 40% !important;
+    flex: 0 0 600px !important;
+    width: 600px !important;
+    min-width: 600px !important;
+    max-width: 600px !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -4602,11 +4603,12 @@ body.team .team-member-image img {
     gap: 20px !important;
   }
   
-  /* Left column: 3 navigation columns - push to far left */
+  /* Left column: 3 navigation columns - 600px width */
   footer .row > .col-9.footer-column {
-    flex: 0 0 40% !important;
-    min-width: 300px !important;
-    max-width: 40% !important;
+    flex: 0 0 600px !important;
+    width: 600px !important;
+    min-width: 600px !important;
+    max-width: 600px !important;
     padding: 0 !important;
     display: block !important;
     visibility: visible !important;
