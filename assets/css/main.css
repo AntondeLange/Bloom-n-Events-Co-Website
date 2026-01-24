@@ -3999,6 +3999,12 @@ footer .social-links a {
     align-items: center !important;
   }
   
+  /* Override: Right column social links should be right-aligned */
+  footer .row > .col-3.footer-column.order-md-3 .social-links,
+  footer .row > .col-3.footer-column:last-child .social-links {
+    justify-content: flex-end !important;
+  }
+  
   /* Center the footer logo */
   .footer-logo {
     display: block !important;
@@ -4575,15 +4581,16 @@ body.team .team-member-image img {
     margin: 0 auto !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
-    gap: 20px !important;
+    gap: 0 !important;
   }
   
-  /* Left column: 3 navigation columns - use percentage flex basis */
+  /* Left column: 3 navigation columns - push to far left */
   footer .row > .col-9.footer-column {
-    flex: 0 0 40% !important;
+    flex: 0 0 auto !important;
     min-width: 300px !important;
-    max-width: 40% !important;
+    max-width: none !important;
     padding: 0 !important;
+    margin-right: auto !important;
   }
   
   /* Each of the 3 navigation columns - equal distribution */
@@ -4594,23 +4601,41 @@ body.team .team-member-image img {
     padding: 0 10px !important;
   }
   
-  /* Center column: Logo - fixed percentage */
+  /* Center column: Logo - auto width, centered */
   footer .row > .col-3.text-center.footer-column {
-    flex: 0 0 30% !important;
+    flex: 0 0 auto !important;
     min-width: 200px !important;
-    max-width: 30% !important;
-    padding: 0 15px !important;
+    max-width: none !important;
+    padding: 0 30px !important;
+    margin: 0 auto !important;
   }
   
-  /* Right column: Contact/Social - fixed percentage */
+  /* Right column: Contact/Social - push to far right */
   footer .row > .col-3.footer-column.order-md-3,
   footer .row > .col-3.footer-column:last-child {
-    flex: 0 0 30% !important;
+    flex: 0 0 auto !important;
     min-width: 200px !important;
-    max-width: 30% !important;
-    padding: 0 15px !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin-left: auto !important;
     display: flex !important;
     flex-direction: column !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+  }
+  
+  /* Right align text content in right column */
+  footer .row > .col-3.footer-column.order-md-3 h5,
+  footer .row > .col-3.footer-column:last-child h5,
+  footer .row > .col-3.footer-column.order-md-3 p,
+  footer .row > .col-3.footer-column:last-child p {
+    text-align: right !important;
+  }
+  
+  /* Right align social links */
+  footer .row > .col-3.footer-column.order-md-3 .social-links,
+  footer .row > .col-3.footer-column:last-child .social-links {
+    justify-content: flex-end !important;
   }
   
 }
