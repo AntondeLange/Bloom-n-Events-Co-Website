@@ -467,20 +467,16 @@ nav.top-0 .portfolio-chevron {
   position: relative;
   width: 100%;
   min-height: 100svh;
+  height: 100svh;
+  max-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible !important;
-  overflow-x: visible !important;
-  overflow-y: visible !important;
+  overflow: hidden !important; /* contain background media to hero bounds */
   /* CRITICAL: Don't create a new stacking context that breaks sticky positioning */
   isolation: auto !important;
   contain: none !important;
   transform: none !important;
-  /* CRITICAL: Don't constrain height - allow natural flow for sticky positioning */
-  height: auto !important;
-  max-height: none !important;
-  min-height: 100svh; /* Keep min-height for visual effect */
 }
 
 /* Homepage hero: ensure no gap at top */
