@@ -1198,6 +1198,11 @@ p.acknowledgement-text,
   min-height: fit-content !important;
   max-height: none !important;
 }
+.testimonials .carousel-inner,
+#testimonialCarousel .carousel-inner {
+  display: block;
+  width: 100%;
+}
 .testimonials .carousel,
 #testimonialCarousel {
   background-color: var(--color-champers);
@@ -1216,6 +1221,7 @@ p.acknowledgement-text,
 .testimonials .carousel-item,
 #testimonialCarousel .carousel-item {
   position: relative;
+  width: 100%;
   display: none;
   opacity: 0;
   transition: opacity 0.35s ease-in-out;
