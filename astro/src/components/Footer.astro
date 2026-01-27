@@ -1,0 +1,198 @@
+---
+/**
+ * Site footer: 3-column layout matching original.
+ * Left: Bloom'n, Portfolio, Success Stories accordion links.
+ * Center: logo, Terms | Policies, copyright.
+ * Right: CTA, Get in Touch, social icons.
+ * Uses details/summary for mobile accordions.
+ */
+import { SITE, CONTACT } from "../lib/constants";
+
+const year = new Date().getFullYear();
+
+const bloomnLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
+  { href: "/team", label: "Our Team" },
+  { href: "/gallery", label: "Gallery" },
+];
+const portfolioLinks = [
+  { href: "/events", label: "Events" },
+  { href: "/workshops", label: "Workshops" },
+  { href: "/displays", label: "Displays" },
+  { href: "/capabilities", label: "Our Capabilities" },
+];
+const successLinks = [
+  { href: "/case-study-centuria-connect140", label: "Connect 140" },
+  { href: "/case-study-hawaiian-forrestfield", label: "A World of Flavours" },
+  { href: "/case-study-hawaiian-neighbourhood-nibbles", label: "Neighbourhood Nibbles" },
+  { href: "/case-study-centuria-50th-birthday", label: "50th Birthday" },
+  { href: "/case-study-centuria-breast-cancer", label: "Breast Cancer Awareness" },
+];
+
+const socialLinks = [
+  { href: "https://www.facebook.com/bloomneventsco/", label: "Facebook", icon: "bi-facebook" },
+  { href: "https://www.instagram.com/bloomneventsco/", label: "Instagram", icon: "bi-instagram" },
+  { href: "https://www.linkedin.com/company/bloom-n-events-co/", label: "LinkedIn", icon: "bi-linkedin" },
+  { href: "https://www.tiktok.com/@bloomneventsco", label: "TikTok", icon: "bi-tiktok" },
+];
+---
+
+<footer class="shrink-0 bg-charcoal py-8 text-white" role="contentinfo">
+  <!-- Footer scroll boundary sentinel (homepage only) -->
+  <div
+    data-footer-sentinel
+    class="relative -top-px h-px w-full pointer-events-none"
+    aria-hidden="true"
+  ></div>
+  <div class="mx-auto max-w-7xl px-4 py-4 md:px-6">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-6 md:items-center">
+      <!-- Left: link groups with accordion on mobile -->
+      <div class="md:col-span-5 order-1">
+        <div id="footer-accordion-container" class="grid grid-cols-1 gap-4 sm:grid-cols-3 md:flex md:gap-8">
+          <!-- Bloom'n Accordion -->
+          <div class="footer-accordion-column">
+            <h5 class="footer-heading-h3 mb-2 md:mb-3 hidden sm:block">Bloom'n</h5>
+            <button
+              class="footer-accordion-button accordion-button collapsed sm:hidden"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#footer-accordion-bloomn"
+              aria-expanded="false"
+              aria-controls="footer-accordion-bloomn"
+            >
+              <span>Bloom'n</span>
+            </button>
+            <div
+              class="footer-accordion-content accordion-collapse collapse"
+              id="footer-accordion-bloomn"
+              data-bs-parent="#footer-accordion-container"
+            >
+              <ul class="flex flex-col gap-0">
+                {bloomnLinks.map(({ href, label }) => (
+                  <li>
+                    <a href={href} class="block py-0.5 text-sm text-white/90 no-underline hover:text-white">{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <ul class="hidden sm:flex flex-col gap-0">
+              {bloomnLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="block py-0.5 text-sm text-white/90 no-underline hover:text-white">{label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <!-- Portfolio Accordion -->
+          <div class="footer-accordion-column">
+            <h5 class="footer-heading-h3 mb-2 md:mb-3 hidden sm:block">Portfolio</h5>
+            <button
+              class="footer-accordion-button accordion-button collapsed sm:hidden"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#footer-accordion-portfolio"
+              aria-expanded="false"
+              aria-controls="footer-accordion-portfolio"
+            >
+              <span>Portfolio</span>
+            </button>
+            <div
+              class="footer-accordion-content accordion-collapse collapse"
+              id="footer-accordion-portfolio"
+              data-bs-parent="#footer-accordion-container"
+            >
+              <ul class="flex flex-col gap-0">
+                {portfolioLinks.map(({ href, label }) => (
+                  <li>
+                    <a href={href} class="block py-0.5 text-sm text-white/90 no-underline hover:text-white">{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <ul class="hidden sm:flex flex-col gap-0">
+              {portfolioLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="block py-0.5 text-sm text-white/90 no-underline hover:text-white">{label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <!-- Success Stories Accordion -->
+          <div class="footer-accordion-column">
+            <h5 class="footer-heading-h3 mb-2 md:mb-3 hidden sm:block">Success Stories</h5>
+            <button
+              class="footer-accordion-button accordion-button collapsed sm:hidden"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#footer-accordion-success"
+              aria-expanded="false"
+              aria-controls="footer-accordion-success"
+            >
+              <span>Success Stories</span>
+            </button>
+            <div
+              class="footer-accordion-content accordion-collapse collapse"
+              id="footer-accordion-success"
+              data-bs-parent="#footer-accordion-container"
+            >
+              <ul class="flex flex-col gap-0">
+                {successLinks.map(({ href, label }) => (
+                  <li>
+                    <a href={href} class="block py-0.5 text-sm text-white/90 no-underline hover:text-white">{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <ul class="hidden sm:flex flex-col gap-0">
+              {successLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="block py-0.5 text-sm text-white/90 no-underline hover:text-white">{label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: logo, terms, copyright -->
+      <div class="flex flex-col items-center justify-center text-center md:col-span-2 order-2">
+        <a href="/" aria-label="Home">
+          <img
+            src="/assets/images/logo-blk.png"
+            alt={`${SITE.name} Logo`}
+            class="footer-logo mx-auto mb-3 max-w-[300px] h-auto"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <p class="mb-1 text-sm font-light text-gold whitespace-nowrap">
+          <a href="/tandcs" class="text-gold no-underline hover:underline">Terms & Conditions</a>
+          {" | "}
+          <a href="/policies" class="text-gold no-underline hover:underline">Company Policies</a>
+        </p>
+        <p class="text-sm font-light text-gold mb-0 md:whitespace-nowrap">Copyright © {year} {SITE.legalName}.<br class="md:hidden" /> All rights reserved.</p>
+      </div>
+
+      <!-- Right: CTA, social -->
+      <div class="flex flex-col items-center text-center md:col-span-5 md:items-center md:justify-center order-3">
+        <h3 class="footer-heading-h3 mb-1 mt-2 md:mt-0">Ready to Create Something Amazing?</h3>
+        <p class="mb-3 text-sm text-white/90">Let's discuss how we can make your next event unforgettable</p>
+        <a href="/contact" class="btn-gold-footer mb-4 inline-block rounded no-underline">Get in Touch</a>
+        <div class="flex flex-wrap justify-center gap-3">
+          {socialLinks.map(({ href, label, icon }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-[72px] w-[72px] items-center justify-center rounded-full text-gold no-underline hover:bg-gold/10 hover:text-gold"
+              aria-label={label}
+            >
+              <i class={`bi ${icon} text-2xl`} aria-hidden="true"></i>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

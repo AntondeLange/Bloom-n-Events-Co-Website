@@ -1,0 +1,256 @@
+---
+/**
+ * About: hero, anchor nav, Who we were, Where we are, Vision & Mission, Where we're headed, CTA.
+ * Matches about.html layout and copy. Carousels use AboutImageCarousel (React).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const workshopSlides = [
+  { src: "/assets/images/KidsWorkshops/kidsworkshops01.jpg", alt: "Kids workshop activities - creative learning" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops02.jpg", alt: "Kids workshop activities - hands-on learning" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops03.jpg", alt: "Kids workshop activities - nature-based learning" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops04.jpg", alt: "Kids workshop activities - sustainable crafts" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops05.jpg", alt: "Kids workshop activities - community engagement" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops06.jpg", alt: "Kids workshop activities - creative expression" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops07.jpg", alt: "Kids workshop activities - interactive learning" },
+  { src: "/assets/images/AdultWorkshops/adultworkshops (3).jpg", alt: "Adult workshop activities - creative expression" },
+  { src: "/assets/images/AdultWorkshops/adultworkshops (4).jpg", alt: "Adult workshop activities - hands-on learning" },
+  { src: "/assets/images/AdultWorkshops/adultworkshops (6).jpg", alt: "Adult workshop activities - nature-based crafts" },
+  { src: "/assets/images/AdultWorkshops/adultworkshops (9).jpg", alt: "Adult workshop activities - community engagement" },
+];
+
+const eventSlides = [
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg", alt: "Hawaiian Neighbourhood Nibbles event - community engagement" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (2).jpg", alt: "Hawaiian Neighbourhood Nibbles event - food and community" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (3).jpg", alt: "Hawaiian Neighbourhood Nibbles event - interactive activities" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (4).jpg", alt: "Hawaiian Neighbourhood Nibbles event - community gathering" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (5).jpg", alt: "Hawaiian Neighbourhood Nibbles event - event setup" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0021.jpg", alt: "Hawaiian World of Flavours event - food display" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0029.jpg", alt: "Hawaiian World of Flavours event - culinary experience" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg", alt: "Hawaiian World of Flavours event - food preparation" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0115.jpg", alt: "Hawaiian World of Flavours event - event showcase" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0118.jpg", alt: "Hawaiian World of Flavours event - community event" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0164.jpg", alt: "Hawaiian World of Flavours event - food presentation" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0173.jpg", alt: "Hawaiian World of Flavours event - event activities" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0332.jpg", alt: "Hawaiian World of Flavours event - community gathering" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0421.jpg", alt: "Hawaiian World of Flavours event - event showcase" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.0.jpg", alt: "Pheonix event October 2025 - event setup" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG", alt: "Pheonix event October 2025 - event activities" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25305.JPG", alt: "Pheonix event October 2025 - community engagement" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25340.JPG", alt: "Pheonix event October 2025 - event showcase" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25356.JPG", alt: "Pheonix event October 2025 - event activities" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25358.JPG", alt: "Pheonix event October 2025 - community gathering" },
+];
+
+const futureSlides = [
+  { src: "/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg", alt: "Centuria 50th Birthday celebration - event setup" },
+  { src: "/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg", alt: "Centuria 50th Birthday celebration - event activities" },
+  { src: "/assets/images/Centuria 50th Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c.jpg", alt: "Centuria 50th Birthday celebration - community gathering" },
+  { src: "/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg", alt: "Centuria 50th Birthday celebration - event showcase" },
+  { src: "/assets/images/Centuria 50th Birthday/064a7a51-766f-4fcf-b1df-f934851ef16c.jpg", alt: "Centuria 50th Birthday celebration - event display" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg", alt: "Centuria Breast Cancer awareness event - community support" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg", alt: "Centuria Breast Cancer awareness event - event setup" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (1).jpg", alt: "Centuria Connect140 event - event setup" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (2).jpg", alt: "Centuria Connect140 event - event activities" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (10).JPG", alt: "Centuria Connect140 event - community gathering" },
+  { src: "/assets/images/BloomnDisplays/Displays (2).png", alt: "Bloom'n Creative display - custom installation" },
+  { src: "/assets/images/BloomnDisplays/Displays (3).png", alt: "Bloom'n Creative display - immersive design" },
+  { src: "/assets/images/BloomnDisplays/Displays (4).png", alt: "Bloom'n Creative display - event installation" },
+  { src: "/assets/images/BloomnDisplays/Displays (5).png", alt: "Bloom'n Creative display - custom props" },
+  { src: "/assets/images/BloomnDisplays/Displays (6).png", alt: "Bloom'n Creative display - large-scale installation" },
+];
+
+const clientLogos = [
+  { src: "/assets/images/RidgeClientLogos/vicinity%20centres.jpeg", alt: "Vicinity Centres" },
+  { src: "/assets/images/RidgeClientLogos/JLL.png", alt: "JLL" },
+  { src: "/assets/images/RidgeClientLogos/perron-group.jpg", alt: "Perron Group" },
+  { src: "/assets/images/RidgeClientLogos/Belmont-Forum-768x768.png", alt: "Belmont Forum" },
+  { src: "/assets/images/RidgeClientLogos/stockland-logo.png", alt: "Stockland" },
+  { src: "/assets/images/RidgeClientLogos/City-of-Swan.png", alt: "City of Swan" },
+];
+---
+
+<BaseLayout
+  title="About Bloom'n Events Co | Event Production Team Perth & WA"
+  description="About Bloom'n Events Co - Perth and Western Australia's full-service event production company. 40+ years combined experience. In-house design, engineering, and fabrication. Based in Brookton, WA."
+  path="/about"
+>
+  <h1 class="visually-hidden">About Bloom'n Events Co</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg"
+        alt="About Bloom'n Events Co - Creating unforgettable experiences"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Crafting Moments That Move People
+        </h1>
+        <p class="hero-subhead">
+          A family-founded company driven by purpose and passion. We bring connection, joy, and beauty to every corner of Western Australia through inspired, sustainable event experiences.
+        </p>
+        <div class="hero-cta">
+          <a href="/contact" class="btn-gold">Get in Touch</a>
+          <a href="/gallery" class="btn-outline-gold">View Our Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#whoWeWere", label: "Who We Were" },
+      { href: "#whereWeAre", label: "Where We Are" },
+      { href: "#aboutHeroHeading", label: "Vision & Mission" },
+      { href: "#whereWeAreHeaded", label: "Where We're Headed" },
+    ]}
+  />
+
+  <!-- Who we were -->
+  <section class="section-main" aria-labelledby="whoWeWereHeading" id="whoWeWere">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whoWeWereHeading" class="heading-blush-bg text-center">
+        Who we were...
+      </h2>
+      <div class="workshop-section">
+        <div class="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div class="about-content flex flex-col">
+            <p class="lead text-charcoal">
+              Bloom'n Events Co. began in 2018 under the original name The Ridge Retreat & Health Gardens, delivering creative, nature-based workshops for children, teens, and adults.
+            </p>
+            <p class="text-charcoal mt-4">
+              We've worked across Perth, from Midland Gate's Fresh Food Precinct to seasonal activations at Belmont Forum, Stockland Baldivis and City of Swan's Avon Descent Festival. One highlight was the 12-day "Reuse, Repurpose, Recycle" programme, drawing families back with rotating sustainability activities. Post-COVID, we've re-emerged more focused and driven—ready to transform WA spaces through connection, creativity, and community.
+            </p>
+          </div>
+          <div class="flex items-stretch">
+            <AboutImageCarousel id="workshopCarousel" slides={workshopSlides} client:idle />
+          </div>
+        </div>
+      </div>
+      <div class="client-logos-section mt-4">
+        <div class="client-logos-container">
+          {clientLogos.map((logo) => (
+            <div class="client-logo">
+              <img src={logo.src} alt={logo.alt} class="client-logo-img" loading="lazy" decoding="async" width="130" height="130" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where we are -->
+  <section class="section-main" aria-labelledby="whereWeAreHeading" id="whereWeAre">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whereWeAreHeading" class="heading-blush-bg text-center">
+        Where we are...
+      </h2>
+      <div class="workshop-section">
+        <div class="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div class="order-2 lg:order-1 flex items-stretch">
+            <AboutImageCarousel id="eventCarousel" slides={eventSlides} client:idle />
+          </div>
+          <div class="order-1 lg:order-2 about-content flex flex-col">
+            <p class="lead text-charcoal">
+              Bloom'n Events Co. is a passionate and experienced team delivering engaging event activations across WA. Our work blends wild crafts, art, gardening, food, and sustainability into accessible experiences for people of all ages.
+            </p>
+            <p class="text-charcoal mt-4">
+              With over 40 years of combined experience in retail management, casual leasing, agribusiness, placemaking and local Government, we know how to bring energy and community to even the most underused spaces. We're proud collaborators, customising every event to reflect local needs and values.
+            </p>
+            <p class="mt-3 text-charcoal italic" style="font-size: 0.95rem;">
+              Local knowledge. Local partnerships. One team that understands your community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section-hero" aria-labelledby="aboutHeroHeading" id="aboutHeroHeading">
+    <div class="mx-auto max-w-[1232px] vision-mission-container">
+      <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; padding: 24px 28px;">
+          <div class="card-body text-center">
+            <h2 id="aboutHeroHeading" class="heading-blush-bg text-center">Vision</h2>
+            <p class="mb-0 text-charcoal" style="text-align: center; line-height: 1.75;">To bring connection, joy, and beauty to every corner of Western Australia — transforming moments into memories through inspired, sustainable event experiences.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; padding: 24px 28px;">
+          <div class="card-body text-center">
+            <h2 class="heading-blush-bg text-center">Mission</h2>
+            <p class="mb-0 text-charcoal" style="text-align: center; line-height: 1.75;">We're a family-founded company driven by purpose and passion. We craft immersive artistic activations and design unforgettable events that uplift, connect, and give back. By working with other local businesses, with the same creed and supporting regional communities, we prove that business success and compassion can grow side by side.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where we're headed -->
+  <section class="section-main" aria-labelledby="whereWeAreHeadedHeading" id="whereWeAreHeaded">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whereWeAreHeadedHeading" class="heading-blush-bg text-center">
+        Where we are headed...
+      </h2>
+      <div class="workshop-section">
+        <div class="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div class="about-content flex flex-col">
+            <p class="lead text-charcoal">
+              Bloom'n Creative Design Co. is the next chapter—Western Australia's boutique design studio for eye-catching displays and immersive installations.
+            </p>
+            <p class="text-charcoal mt-4">
+              Our work spans corporate launches, festivals, weddings, and retail displays. From our Wheatbelt studio, we design and construct large-scale, reusable sets and custom props—engineered for visual impact, sustainability, and transportability. We deliver installations that inspire joy and elevate spaces.
+            </p>
+          </div>
+          <div class="flex items-stretch">
+            <AboutImageCarousel id="futureCarousel" slides={futureSlides} client:idle />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section-main" aria-labelledby="aboutCtaHeading" id="aboutCta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="aboutCtaHeading" class="heading-blush-bg text-center">
+        Ready to Start Your Project?
+      </h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">
+            Give us a date, a budget, and time—we'll make it happen. One team. Local knowledge. Engineering-grade reliability.
+          </p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+            <a href="/gallery" class="btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true" />{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+            {" | "}
+            <i class="bi bi-envelope-fill" aria-hidden="true" />{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

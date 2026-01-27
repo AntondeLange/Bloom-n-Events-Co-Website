@@ -1,0 +1,180 @@
+---
+/**
+ * Company Policies: hero, policies content in cards, CTA.
+ * Matches policies.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { CONTACT } from "../lib/constants";
+---
+
+<style>
+  .policies-content ul li {
+    margin-left: 50px;
+  }
+  .policies-content .tandcs-link {
+    color: var(--color-gold);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .policies-content .tandcs-link:hover {
+    color: var(--color-charcoal);
+  }
+</style>
+
+<BaseLayout
+  title="Policies - Bloom'n Events Co"
+  description="Bloom'n Events Co company policies including privacy, data protection, and business practices. Our commitment to professional service and client confidentiality."
+  path="/policies"
+>
+  <h1 class="visually-hidden">Company Policies</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0173.jpg"
+        alt="Company Policies"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Bloom'n Policies
+        </h1>
+        <p class="hero-subhead">
+          Our commitment to professionalism, safety, and transparency
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Policies Content -->
+  <section class="section-main policies-content">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <article class="card shadow mb-6" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+        <div class="card-body">
+          <p class="text-charcoal mb-0">At <span class="highlight">Bloom'n Events Co</span>, we believe that transparency, trust, and professionalism are the foundation of every successful event. Our policies are designed not only to comply with Australian laws and industry standards, but also to ensure a seamless and respectful experience for all clients, vendors, and team members. These policies protect your interests as well as ours—creating clarity, setting expectations, and supporting the smooth delivery of every Bloom'n event.</p>
+        </div>
+      </article>
+      <div class="grid gap-6">
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Why Our Policies Matter</h2>
+            <p class="text-charcoal"><strong>Clarity & Communication:</strong> Clear guidelines prevent misunderstandings and keep everyone on the same page.</p>
+            <p class="text-charcoal"><strong>Consistency & Fairness:</strong> Policies ensure all clients are treated equitably, with consistent processes across the board.</p>
+            <p class="text-charcoal"><strong>Risk & Legal Compliance:</strong> <span class="highlight">Bloom'n Events Co</span> operates in full alignment with Australian Consumer Law and relevant industry regulations.</p>
+            <p class="text-charcoal"><strong>Professional Standards:</strong> Our policies reflect our commitment to quality, safety, sustainability, and ethical practices.</p>
+            <p class="text-charcoal mb-0"><strong>Client Trust:</strong> Transparent policies help build confidence and peace of mind.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Privacy Policy</h2>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> respects your privacy and is committed to protecting your personal information in accordance with the Australian Privacy Act 1988.</p>
+            <p class="text-charcoal">Your data will only be used for booking and communication purposes unless you opt in for marketing.</p>
+            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> will never sell or share your personal information with third parties without your consent, except as required by law.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Health & Safety Policy</h2>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> complies with all relevant Work Health and Safety (WHS) legislation including any client specific requirements.</p>
+            <ul class="text-charcoal mb-0">
+              <li>All events prioritize health and safety of all participants</li>
+              <li>Risk assessments and emergency procedures in place</li>
+              <li>All installations designed with public safety in mind</li>
+              <li>Team trained in risk assessment and event safety</li>
+              <li>We may refuse to proceed if conditions are unsafe</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Sustainability & Environmental Policy</h2>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> aims to reduce waste and promote eco-conscious events by:</p>
+            <ul class="text-charcoal mb-0">
+              <li>Using sustainable materials and suppliers</li>
+              <li>Using reusable or biodegradable décor and supplies</li>
+              <li>Encouraging recycling and composting at events</li>
+              <li>Partnering with like-minded, sustainable suppliers and clients</li>
+              <li>Promoting digital solutions to reduce paper waste</li>
+              <li>Minimizing single-use plastics where possible</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Code of Conduct</h2>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> expects all clients, vendors, and team members to treat each other with respect and professionalism.</p>
+            <p class="text-charcoal">Discrimination, harassment, or any form of abusive behaviour will not be tolerated.</p>
+            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> reserves the right to remove any individual from an event who violates this code of conduct.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Insurance Policy</h2>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> holds comprehensive public liability insurance to cover any potential damages or injuries that may occur during an event.</p>
+            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> only works with contractors and clients who hold equivalent insurance cover.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Vendor & Third-Party Policy</h2>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> only works with trusted, vetted suppliers and contractors.</p>
+            <p class="text-charcoal">If you are supplying your own vendors, it is your responsibility to ensure they hold relevant certificates of insurance, proof of compliance with health and safety regulations and all other licenses, certificates and registrations as applicable.</p>
+            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> reserves the right to terminate contracts with clients, vendors or contractors who do not meet our standards or policies.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Intellectual Property & Content Use Policy</h2>
+            <p class="text-charcoal">All content created by <span class="highlight">Bloom'n Events Co</span> (including photos, videos, and written materials) remains the intellectual property of <span class="highlight">Bloom'n Events Co</span>.</p>
+            <ul class="text-charcoal mb-0">
+              <li>Clients may use content for personal promotion, but must credit <span class="highlight">Bloom'n Events Co</span></li>
+              <li>Seek permission for any commercial use</li>
+              <li>Clients may not alter or remove any branding or logos without prior written consent</li>
+              <li>We retain rights to content for marketing and portfolio use unless otherwise agreed</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">Terms & Conditions</h2>
+            <p class="text-charcoal">For details on bookings, payments, cancellations, postponements, and client responsibilities, please refer to our <a href="/tandcs" class="tandcs-link">Terms & Conditions</a> page.</p>
+            <p class="text-charcoal">By engaging with <span class="highlight">Bloom'n Events Co</span>, you agree to comply with all our policies and procedures.</p>
+            <p class="text-charcoal mb-0">We recommend all clients review our Terms & Conditions carefully prior to confirming services.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-main" aria-labelledby="ctaHeading" id="cta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Questions About Our Policies?</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">If you have any questions about our policies or how they apply to your upcoming event, we're here to help. Contact us for clarification or to discuss your specific requirements.</p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Contact Us</a>
+            <a href="/tandcs" class="btn-outline-gold btn-lg mb-3">View Terms & Conditions</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+            {" | "}
+            <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

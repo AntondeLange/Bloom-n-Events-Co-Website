@@ -1,0 +1,194 @@
+---
+/**
+ * Terms & Conditions: hero, terms content in cards, CTA.
+ * Matches tandcs.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { CONTACT } from "../lib/constants";
+---
+
+<style>
+  .tandcs-content ul li {
+    margin-left: 50px;
+  }
+</style>
+
+<BaseLayout
+  title="Terms & Conditions | Bloom'n Events Co"
+  description="Terms and conditions for Bloom'n Events Co services. Important information about our event planning, workshop, and display services including booking and payment terms."
+  path="/tandcs"
+>
+  <h1 class="visually-hidden">Terms & Conditions</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0173.jpg"
+        alt="Terms & Conditions"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Terms & Conditions
+        </h1>
+        <p class="hero-subhead">
+          Our commitment to clear, fair business practices
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Terms & Conditions Content -->
+  <section class="section-main tandcs-content">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <div class="grid gap-6">
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">1. Contract Formation</h2>
+            <p class="text-charcoal">A contract is formed when <b>Bloom'n Events Co</b> accepts your order or begins providing services. These Terms and Conditions form part of that contract and apply to all goods and services provided.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">2. Payment Terms</h2>
+            <p class="text-charcoal">Unless otherwise agreed in writing:</p>
+            <ul class="text-charcoal mb-0">
+              <li>Payment is due within 30 days of the invoice date</li>
+              <li>Interest at 1.5% per month applies to overdue amounts</li>
+              <li>We reserve the right to suspend services for overdue accounts</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">3. Delivery and Risk</h2>
+            <ul class="text-charcoal mb-0">
+              <li>Delivery dates are estimates only and not guaranteed</li>
+              <li>Risk in goods passes to the Client upon delivery or collection</li>
+              <li>We will not be liable for delays beyond our reasonable control</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">4. Limitation of Liability</h2>
+            <p class="text-charcoal">Our liability is limited to:</p>
+            <ul class="text-charcoal mb-0">
+              <li>The replacement or repair of defective goods or services</li>
+              <li>The amount paid for the goods or services in question</li>
+              <li>We exclude liability for consequential or indirect loss</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">5. Default Events</h2>
+            <p class="text-charcoal">If a Default Event occurs, <b>Bloom'n Events Co</b> may:</p>
+            <ul class="text-charcoal mb-0">
+              <li>Reclaim any goods or materials as applicable; or</li>
+              <li>Demand immediate payment of all outstanding moneys and pursue recovery</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">6. Default Events Include</h2>
+            <ul class="text-charcoal mb-0">
+              <li>Insolvency or bankruptcy</li>
+              <li>Breach of any term of the Contract</li>
+              <li>Initiation of wind-up or voluntary administration</li>
+              <li>Dishonoured payments</li>
+              <li>Cessation of business</li>
+              <li>Any other event that <b>Bloom'n Events Co</b> reasonably considers to be a Default Event</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">7. Consequences of Default</h2>
+            <p class="text-charcoal">If a Default Event occurs:</p>
+            <ul class="text-charcoal mb-0">
+              <li>All outstanding amounts become immediately payable</li>
+              <li>Credit or service provision may be suspended or terminated</li>
+              <li><b>Bloom'n Events Co</b> may take possession of any goods or materials supplied</li>
+              <li>A flat fee of $2,000 may be charged to the Client's account to cover collection and legal recovery efforts</li>
+              <li>Legal costs incurred by <b>Bloom'n Events Co</b> in relation to the Default Event</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">8. Trust Obligations</h2>
+            <p class="text-charcoal">If the Client operates under a trust, they confirm:</p>
+            <ul class="text-charcoal mb-0">
+              <li>The trust is validly established and in good standing</li>
+              <li>The Client has the authority to enter into these terms on behalf of the trust</li>
+              <li>The trust's assets are available to meet any obligations under this agreement</li>
+              <li>These terms apply to the trust</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">9. Costs and Indemnity</h2>
+            <p class="text-charcoal">All costs incurred by <b>Bloom'n Events Co</b> in enforcing its rights—including legal or collection costs—will be payable by the Client. The Client also indemnifies <b>Bloom'n Events Co</b> against any misuse of account or credit by third parties with the Client's consent.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">10. General</h2>
+            <p class="text-charcoal">These Terms and Conditions apply to all transactions between the Client and <b>Bloom'n Events Co</b> and/or <b>Bloom'n Creative Design Co</b>. They supersede any previous agreements or understandings.</p>
+            <p class="text-charcoal">Failure to enforce any part of these terms does not waive <b>Bloom'n Events Co</b>'s rights.</p>
+            <ul class="text-charcoal mb-0">
+              <li>A certificate from <b>Bloom'n Events Co</b> confirming the amount owed will serve as proof unless the Client can show otherwise</li>
+              <li>These terms are governed by the laws of Western Australia</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
+          <div class="card-body">
+            <h2 class="text-gold mb-3">11. Other Terms</h2>
+            <ul class="text-charcoal mb-0">
+              <li>These terms prevail over other inconsistent agreements unless varied in writing</li>
+              <li>Any invalid clauses do not affect the rest of the agreement</li>
+              <li>A signed statement by <b>Bloom'n Events Co</b> regarding amounts owing is prima facie evidence</li>
+              <li>These terms are governed by the laws of Western Australia</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The Client agrees to submit to the jurisdiction of the courts of Western Australia.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-main" aria-labelledby="ctaHeading" id="cta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Questions About Our Terms & Conditions?</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">If you have any questions about our Terms & Conditions or how they apply to your event, we're here to help. Contact us for clarification or to discuss your specific requirements.</p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Contact Us</a>
+            <a href="/policies" class="btn-outline-gold btn-lg mb-3">View Our Policies</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+            {" | "}
+            <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

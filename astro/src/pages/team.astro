@@ -1,0 +1,210 @@
+---
+/**
+ * Team: hero, anchor nav, founders, team members, collaborators, CTA.
+ * Matches team.html layout and copy. All cards use champers background with gold border.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import { CONTACT } from "../lib/constants";
+---
+
+<BaseLayout
+  title="Our Team"
+  description="Meet the Bloom'n Events Co team. Led by founders Tamara & Anton de Lange. 40+ years combined experience in event production, engineering, and design. Serving Perth and Western Australia from Brookton, WA."
+  path="/team"
+>
+  <!-- HERO SECTION -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img src="/assets/images/KidsWorkshops/kidsworkshops05.jpg" class="hero-image" alt="Bloom'n Events Co Team - Creative and passionate professionals" loading="eager" decoding="async" width="1600" height="900">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="mx-auto max-w-5xl px-4 md:px-6">
+        <div class="text-center">
+          <h1 class="hero-headline hero-animate-fade-in">Meet Our Bloom'n Powerhouse Team</h1>
+          <p class="hero-subhead hero-animate-fade-in hero-animate-delay-1">A passionate, creative team bringing 40+ years of combined expertise in event planning, design, and community engagement. We're driven by purpose, fueled by innovation, and committed to creating moments that move people.</p>
+          <div class="hero-cta hero-animate-fade-in hero-animate-delay-2">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Work With Us</a>
+            <a href="#foundersHeading" class="btn-outline-gold btn-lg mb-3">Meet the Team</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor Navigation -->
+  <AnchorNav
+    links={[
+      { href: "#foundersHeading", label: "Founders" },
+      { href: "#teamHeading", label: "Our Team" },
+      { href: "#collaboratorsHeading", label: "Collaborators" },
+    ]}
+  />
+
+  <!-- Founders Section -->
+  <section class="section-main" aria-labelledby="foundersHeading" id="foundersHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="foundersHeading" class="heading-blush-bg text-center">
+        Bloom'n Powerhouse Founders
+      </h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        <!-- Founder 1 - Tamara -->
+        <article class="card team-card director-card shadow h-100">
+          <div class="director-image-container">
+            <img src="/assets/images/Team/Tamara.JPG" class="director-image" alt="Tamara de Lange - CEO & Founder" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title director-name">Tamara de Lange (nee Lilly)</h3>
+            <h4 class="card-text director-position">CEO & Founder</h4>
+            <p class="card-text text-charcoal">
+              Tamara is a seasoned professional with over 22 years of experience in retail and commercial property management, corporate agribusiness, events management, community development and Local Government. She has successfully managed Casual Leasing and Mall Media revenue across more than 20 shopping centres in five Australian states (2003-2018), generating multi-million dollar returns for stakeholders. Skilled in visual merchandising and placemaking, Tamara has a strong understanding of planning, designing, and managing spaces to enhance vitality and promote well-being. She also holds a Permaculture Design Certificate and has founded and led various community initiatives and organisations.
+            </p>
+          </div>
+        </article>
+
+        <!-- Founder 2 - Anton -->
+        <article class="card team-card director-card shadow h-100">
+          <div class="director-image-container">
+            <img src="/assets/images/Team/Anton.jpg" class="director-image" alt="Anton de Lange - COO & Co-Founder" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title director-name">Anton de Lange</h3>
+            <h4 class="card-text director-position">COO & Co-Founder</h4>
+            <p class="card-text text-charcoal">
+              Anton is a highly adaptable and dependable professional with a broad background spanning over three decades across technical maintenance, safety, and operations. Drawing on extensive experience from a distinguished career in the defence sector, he has held senior roles within the electrical engineering industry, excelling in sales leadership, production oversight, project management, and strategic marketing. His expertise includes managing key client relationships, leading large teams, and coordinating local and international production efforts. With a strong commitment to safety and operational excellence, he brings valuable insight and leadership to deliver successful outcomes for clients and stakeholders.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Members Section -->
+  <section class="section-secondary" aria-labelledby="teamHeading" id="teamHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="teamHeading" class="heading-blush-bg text-center">
+        Our Bloom'n Powerhouse Team
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Team Member 1 - Joh -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-1.jpeg" alt="Joh - Engineering, Design, Construction & Patron" loading="lazy" decoding="async" width="400" height="400">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Joh</h3>
+            <p class="card-text text-charcoal">Engineering, Design, Construction & Patron</p>
+          </div>
+        </article>
+
+        <!-- Team Member 2 - Kim -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-2.jpg" alt="Kim - Sign Writing, Artistic Support" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Kim</h3>
+            <p class="card-text text-charcoal">Sign Writing, Artistic Support</p>
+          </div>
+        </article>
+
+        <!-- Team Member 3 - Sarah -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-4.jpeg" alt="Sarah - R&D, Creative Support & Patron" loading="lazy" decoding="async" width="400" height="400">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Sarah</h3>
+            <p class="card-text text-charcoal">R&D, Creative Support & Patron</p>
+          </div>
+        </article>
+
+        <!-- Team Member 4 - Chelsea -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-3.jpg" alt="Chelsea - On-Site Event Support" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Chelsea</h3>
+            <p class="card-text text-charcoal">On-Site Event Support</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collaborators Section -->
+  <section class="section-secondary" aria-labelledby="collaboratorsHeading" id="collaboratorsHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="collaboratorsHeading" class="heading-blush-bg text-center">
+        Our Bloom'n Powerhouse Collaborators
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Collaborator 1 - Nino -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-6.jpg" alt="Nino - Music Maestro" loading="lazy" decoding="async" width="400" height="400">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Nino</h3>
+            <p class="card-text text-charcoal">Music Maestro</p>
+          </div>
+        </article>
+
+        <!-- Collaborator 2 - Sarah -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-7.jpg" alt="Sarah - Marketing Genius" loading="lazy" decoding="async" width="400" height="400">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Sarah</h3>
+            <p class="card-text text-charcoal">Marketing Genius</p>
+          </div>
+        </article>
+
+        <!-- Collaborator 3 - Bronwyn -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/team-member-8.jpeg" alt="Bronwyn - Child Whisperer" loading="lazy" decoding="async" width="400" height="400">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Bronwyn</h3>
+            <p class="card-text text-charcoal">Child Whisperer</p>
+          </div>
+        </article>
+
+        <!-- Collaborator 4 - Shimmer -->
+        <article class="card team-card shadow h-100">
+          <div class="team-member-image">
+            <img src="/assets/images/Team/Team-member-9.jpg" alt="Shimmer - The Band" loading="lazy" decoding="async" width="400" height="400">
+          </div>
+          <div class="card-body text-center">
+            <h3 class="card-title team-member-name">Shimmer</h3>
+            <p class="card-text text-charcoal">The Band</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA SECTION -->
+  <section class="section-main" aria-labelledby="teamCtaHeading" id="teamCta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="teamCtaHeading" class="heading-blush-bg text-center">Ready to Start Your Project?</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">Let's discuss how we can bring your vision to life with our unique blend of engineering, artistry, and innovation.</p>
+          <div class="cta-buttons">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+            <a href="/gallery" class="btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill"></i> <a href={`tel:${CONTACT.phone}`} class="text-gold">{CONTACT.phone}</a> | 
+            <i class="bi bi-envelope-fill"></i> <a href={`mailto:${CONTACT.email}`} class="text-gold">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

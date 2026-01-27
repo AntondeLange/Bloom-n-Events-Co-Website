@@ -32,8 +32,8 @@ jobs:
         with:
           urls: |
             https://www.bloomneventsco.com.au/
-            https://www.bloomneventsco.com.au/about.html
-            https://www.bloomneventsco.com.au/contact.html
+            https://www.bloomneventsco.com.au/about/
+            https://www.bloomneventsco.com.au/contact/
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: ./.lighthouserc.json || true

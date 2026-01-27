@@ -1,13 +1,13 @@
 /**
  * Contact Form Handler
- * 
  * Handles contact form submission, validation, and character counter.
  */
+
+import { getContactApiUrl } from './config.js';
 
 (function() {
     'use strict';
     
-    // Message character limit
     const MESSAGE_MAX_LENGTH = 200;
     const messageInput = document.getElementById('message');
     const messageCounter = document.getElementById('messageCounter');
@@ -83,6 +83,7 @@
         const company = document.getElementById('company').value.trim();
         const newsletter = document.getElementById('newsletter') ? document.getElementById('newsletter').checked : false;
         const message = document.getElementById('message').value.trim();
+        const website = document.getElementById('website') ? document.getElementById('website').value.trim() : '';
         
         // Clear previous alerts
         alertContainer.replaceChildren();
@@ -146,24 +147,17 @@
         loadingText.classList.remove('d-none');
         submitBtn.disabled = true;
         
-        // Determine backend URL
-        const isDevelopment = window.location.hostname === 'localhost' || 
-                              window.location.hostname === '127.0.0.1' ||
-                              window.location.protocol === 'file:';
-        const backendUrl = isDevelopment 
-            ? 'http://localhost:3000' 
-            : 'https://bloom-n-events-co-website-production.up.railway.app';
-        const apiUrl = `${backendUrl}/api/contact`;
+        const apiUrl = getContactApiUrl();
         
-        // Prepare form data
         const formData = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-            company: company,
-            newsletter: newsletter,
-            message: message
+            firstName,
+            lastName,
+            email,
+            phone,
+            company,
+            newsletter,
+            message,
+            website
         };
         
         // Submit to backend API

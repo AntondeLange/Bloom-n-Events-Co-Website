@@ -1,0 +1,318 @@
+---
+/**
+ * Case Study: Centuria Connect 140 - hero, anchor nav, Overview, Our Role, Concept Development, Branding, Tenant Boards, Interactive Elements, Enhancements, Visual Evidence, Outcome, Key Insight, Services, Testimonials, Related Services, Related Success Stories, CTA.
+ * Matches case-study-centuria-connect140.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const visualEvidenceSlides = [
+  { src: "/assets/images/Centuria Connect140/Connect140 (1).jpg", alt: "Connect 140 event setup with black, white, and gold palette in transformed networking arena" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (2).jpg", alt: "Refined networking arena with intentional spatial planning maximising flow and visibility" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (3).jpg", alt: "Black, white, and gold branded displays and refined styling creating sophisticated networking environment" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (4).JPG", alt: "Premium canapés, grazing stations, and curated beverages at Connect 140 networking event" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (5).jpg", alt: "Branded company profile displays prompting targeted introductions and meaningful business connections" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (6).JPG", alt: "Executives engaging in cross-industry conversations facilitated by intentional spatial design" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (7).JPG", alt: "Interactive networking spaces encouraging organic connection and relationship building" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (8).JPG", alt: "Structured interactive gameplay and branded conversation cards facilitating meaningful exchanges" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (9).JPG", alt: "Professional event styling and atmospheric transformation creating polished yet approachable experience" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (10).JPG", alt: "Executives engaging in meaningful B2B conversations facilitated by interactive activations and refined styling" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (11).JPG", alt: "Giant Connect Four activations as strategic centrepiece breaking down barriers and facilitating meaningful B2B connections" },
+];
+---
+
+<BaseLayout
+  title="Success Story: Connect 140 | B2B Tenant Networking Event | Bloom'n Events Co"
+  description="How Bloom'n Events Co delivered a curated B2B sundowner that transformed a building address into a connected commercial community at 140 St Georges Terrace."
+  path="/case-study-centuria-connect140"
+>
+  <h1 class="visually-hidden">Success Story: Connect 140</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Centuria Connect140/Connect140 (5).jpg"
+        alt="Connect 140: B2B Tenant Networking Event"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Connect 140
+        </h1>
+        <p class="hero-subhead">
+          B2B Tenant Networking Event Repositions 140 St Georges as Premier Business Hub.
+        </p>
+        <p class="hero-subhead">
+          How Bloom'n Events Co delivered a curated B2B sundowner that transformed a building address into a connected commercial community
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#overviewHeading", label: "Overview" },
+      { href: "#ourRoleHeading", label: "Our Role" },
+      { href: "#conceptHeading", label: "Concept" },
+      { href: "#brandingHeading", label: "Branding" },
+      { href: "#outcomeHeading", label: "Outcome" },
+      { href: "#testimonialsHeading", label: "Testimonials" },
+    ]}
+  />
+
+  <!-- Success Story Content -->
+  <section class="section-main">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <!-- Overview -->
+      <section class="mb-5" aria-labelledby="overviewHeading">
+        <h2 id="overviewHeading" class="heading-blush-bg mb-4">Overview</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-0">Bloom'n Events Co. was engaged by Centuria to <strong>conceptualise and design a first-of-its-kind B2B networking experience</strong> for tenants of 140 St Georges Terrace. The outcome was <strong>Connect 140</strong>—a purpose-built networking format that combined strategic placemaking, custom branding, and handcrafted interactive elements to transform a corporate foyer into an engaging business ecosystem.</p>
+            <p class="text-charcoal mt-3 mb-0">The event marked a significant step in repositioning 140SGT as <strong>a connected commercial community</strong>, not just a premium office address.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Role -->
+      <section class="mb-5" aria-labelledby="ourRoleHeading">
+        <h2 id="ourRoleHeading" class="heading-blush-bg mb-4">Our Role</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Bloom'n Events Co. led the project from <strong>initial concept through to design, fabrication, and delivery</strong>, providing a fully realised event framework that Centuria could scale for future activations.</p>
+            <p class="text-charcoal mb-2"><strong>Our scope included:</strong></p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event naming and concept development</li>
+              <li>Brand identity creation (Connect 140)</li>
+              <li>Graphic design and logo development</li>
+              <li>Design and production of tenant introduction displays</li>
+              <li>Design and hand fabrication of large-scale interactive assets</li>
+              <li>Spatial planning for engagement and flow</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Concept Development -->
+      <section class="mb-5" aria-labelledby="conceptHeading">
+        <h2 id="conceptHeading" class="heading-blush-bg mb-4">Concept Development: Connect 140</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">The <strong>Connect 140</strong> concept was developed in response to a clear challenge identified in the proposal: traditional corporate networking often lacks structure, purpose, and memorability.</p>
+            <p class="text-charcoal mb-3">Bloom'n Events Co. created a concept centred on <strong>connection, strategy, and interaction</strong>, using the metaphor of the classic Connect Four game to reflect how relationships are built—intentionally, strategically, and through engagement.</p>
+            <p class="text-charcoal mb-2">The name, visual language, and experience design were all developed to ensure the event felt:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Premium and executive-level</li>
+              <li>Approachable and human</li>
+              <li>Purposeful rather than performative</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Branding & Visual Identity -->
+      <section class="mb-5" aria-labelledby="brandingHeading">
+        <h2 id="brandingHeading" class="heading-blush-bg mb-4">Branding & Visual Identity</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">We designed the <strong>Connect 140 brand and logo suite</strong>, aligning closely with Centuria's existing corporate identity. The palette of black, white, and gold was selected to reflect confidence, longevity, and prestige while remaining adaptable for future events.</p>
+            <p class="text-charcoal mb-2">Brand assets were designed for longevity and included:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Primary and secondary Connect 140 logos</li>
+              <li>Typography and graphic language</li>
+              <li>Application across signage, boards, and interactive elements</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">This ensured brand consistency across the space and provided Centuria with a reusable identity for ongoing B2B engagement initiatives.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tenant Introduction Boards -->
+      <section class="mb-5" aria-labelledby="tenantBoardsHeading">
+        <h2 id="tenantBoardsHeading" class="heading-blush-bg mb-4">Tenant Introduction Boards</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">To support meaningful, targeted networking, Bloom'n Events Co. <strong>designed and produced custom company introduction boards</strong> for tenant businesses within 140SGT.</p>
+            <p class="text-charcoal mb-2">Each board was designed to:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Clearly display the company name and logo</li>
+              <li>Introduce the nature of the business and services</li>
+              <li>Highlight key executive representatives attending the event</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Placed strategically throughout the foyer, these boards acted as <strong>conversation catalysts</strong>, allowing guests to identify relevant connections before and during interactions—removing friction from introductions and elevating the overall networking quality.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Handcrafted Interactive Elements -->
+      <section class="mb-5" aria-labelledby="interactiveHeading">
+        <h2 id="interactiveHeading" class="heading-blush-bg mb-4">Handcrafted Interactive Elements</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">At the heart of Connect 140 were <strong>eight (8) custom-built Giant Connect Four games</strong>, each <strong>handmade by Bloom'n Events Co.</strong> to a substantial size of <strong>1850mm x 1650mm</strong>.</p>
+            <p class="text-charcoal mb-2">These were not off-the-shelf props. Each game was:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Designed specifically for the Connect 140 concept</li>
+              <li>Constructed to a premium, commercial-grade finish</li>
+              <li>Sized to function as both a game and a spatial anchor</li>
+              <li>Strategically placed to encourage movement, engagement, and group interaction</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The games became the event's defining feature—breaking down formal barriers, encouraging teamwork, and transforming introductions into shared experiences.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Proposed Enhancements -->
+      <section class="mb-5" aria-labelledby="enhancementsHeading">
+        <h2 id="enhancementsHeading" class="heading-blush-bg mb-4">Proposed Enhancements (Not Taken Up)</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">As part of the original proposal, Bloom'n Events Co. also designed a broader event framework that included optional enhancements, which were not ultimately taken up by the client but remain part of the scalable concept:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li><strong>Keynote speaker or MC</strong> to frame the event and spark industry-relevant discussion</li>
+              <li><strong>Live DJ and curated background music</strong> to elevate atmosphere and energy</li>
+              <li><strong>Full catering and beverage curation</strong>, including premium canapés, grazing stations, and drinks packages</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">These elements were intentionally designed as modular additions, allowing Centuria to scale the experience in future iterations without redesigning the core concept.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Evidence -->
+      <section class="mb-5" aria-labelledby="visualEvidenceHeading">
+        <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
+        <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
+          <AboutImageCarousel id="connect140Carousel" slides={visualEvidenceSlides} intervalMs={5000} client:idle />
+        </div>
+      </section>
+
+      <!-- Outcome -->
+      <section class="mb-5" aria-labelledby="outcomeHeading">
+        <h2 id="outcomeHeading" class="heading-blush-bg mb-4">Outcome</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Connect 140 was delivered as a <strong>highly successful, engagement-led networking event</strong>, praised for its originality, clarity of purpose, and professional execution.</p>
+            <p class="text-charcoal mb-2">The event:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Encouraged genuine cross-industry connections between tenants</li>
+              <li>Elevated the perception of 140SGT as a progressive business hub</li>
+              <li>Demonstrated the value of intentional experience design in B2B environments</li>
+              <li>Established a repeatable framework for future Centuria activations</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Most importantly, it showed that when <strong>concept, brand, and fabrication are integrated</strong>, networking stops being transactional—and starts becoming meaningful.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Insight -->
+      <section class="mb-5" aria-labelledby="keyInsightHeading">
+        <h2 id="keyInsightHeading" class="heading-blush-bg mb-4">Key Insight</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3"><strong>Strong business communities don't happen by chance. They are designed.</strong></p>
+            <p class="text-charcoal mb-0">Connect 140 stands as an example of how <strong>thoughtful concept development, bespoke branding, and handcrafted experiences</strong> can transform a standard corporate event into a strategic asset.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Delivered -->
+      <section class="mb-5" aria-labelledby="servicesHeading">
+        <h2 id="servicesHeading" class="heading-blush-bg mb-4">Services Delivered</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">All services offered from concept to execution, with service delivery in conjunction with the client to support existing client relationship and in-house capabilities:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event concept & naming</li>
+              <li>Brand & logo design</li>
+              <li>Graphic design & print production</li>
+              <li>Custom board design & fabrication</li>
+              <li>Handcrafted large-scale interactive installations</li>
+              <li>Spatial planning & placemaking</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="mb-5 testimonials" aria-labelledby="testimonialsHeading">
+        <h2 id="testimonialsHeading" class="heading-blush-bg mb-4">What Our Clients Say</h2>
+        <TestimonialsCarousel client:idle />
+      </section>
+
+      <!-- Related Services -->
+      <section class="mb-5" aria-labelledby="relatedServicesHeading">
+        <h2 id="relatedServicesHeading" class="heading-blush-bg text-center mb-4">Related Services</h2>
+        <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Corporate Events</h3>
+              <p class="text-charcoal">Professional planning and execution for business events, conferences, and product launches.</p>
+              <a href="/events" class="btn-gold btn-sm mt-3 inline-block">Explore Corporate Events</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Custom Displays</h3>
+              <p class="text-charcoal">Stunning, bespoke installations and decorations that transform any space for events or businesses.</p>
+              <a href="/displays" class="btn-gold btn-sm mt-3 inline-block">View Custom Displays</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Event Management</h3>
+              <p class="text-charcoal">Full-service event management from concept to completion, including design, styling, and coordination.</p>
+              <a href="/capabilities" class="btn-gold btn-sm mt-3 inline-block">View Capabilities</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Related Success Stories -->
+      <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
+        <div class="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
+          <SuccessStoriesCarousel client:idle />
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mb-5" aria-labelledby="ctaHeading">
+        <div class="mx-auto max-w-4xl px-4 md:px-6">
+          <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Ready to Create Your Next B2B Networking Experience?</h2>
+          <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center p-5">
+              <p class="lead text-charcoal mb-5">Whether you're planning a tenant networking event, corporate gathering, or business community activation, we bring the same strategic thinking, bespoke branding, and handcrafted experiences to every project.</p>
+              <div class="cta-buttons">
+                <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
+                <a href="/events" class="btn-outline-gold btn-lg mb-3">Explore Our Event Services</a>
+              </div>
+              <p class="text-charcoal mt-4 mb-0">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+                {" | "}
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+                <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

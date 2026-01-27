@@ -8,6 +8,16 @@ import nodemailer from 'nodemailer';
 import { z } from 'zod';
 import rateLimit from 'express-rate-limit';
 
+function escapeHtml(s) {
+  if (typeof s !== 'string') return '';
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 const router = express.Router();
 
 // Rate limiting for form submissions
@@ -70,7 +80,8 @@ router.post('/contact', formLimiter, async (req, res) => {
       },
     });
     
-    // Email content
+    const e = escapeHtml;
+    const msgHtml = e(formData.message).replace(/\n/g, '<br>');
     const mailOptions = {
       from: process.env.SMTP_FROM || `"Bloom'n Events Co Website" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL || 'enquiries@bloomneventsco.com.au',
@@ -78,15 +89,15 @@ router.post('/contact', formLimiter, async (req, res) => {
       subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
-        ${formData.company ? `<p><strong>Company:</strong> ${formData.company}</p>` : ''}
-        <p><strong>Email:</strong> ${formData.email}</p>
-        ${formData.phone ? `<p><strong>Phone:</strong> ${formData.phone}</p>` : ''}
+        <p><strong>Name:</strong> ${e(formData.firstName)} ${e(formData.lastName)}</p>
+        ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
+        <p><strong>Email:</strong> ${e(formData.email)}</p>
+        ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
         <p><strong>Message:</strong></p>
-        <p>${formData.message.replace(/\n/g, '<br>')}</p>
+        <p>${msgHtml}</p>
         <hr>
-        <p><small>Submitted from: ${req.headers.referer || 'Unknown'}</small></p>
-        <p><small>IP Address: ${req.ip}</small></p>
+        <p><small>Submitted from: ${e(req.headers.referer || 'Unknown')}</small></p>
+        <p><small>IP Address: ${e(req.ip)}</small></p>
       `,
       text: `
         New Contact Form Submission
@@ -103,13 +114,12 @@ router.post('/contact', formLimiter, async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions);
     
-    // Send auto-reply to user
     const autoReplyOptions = {
       from: process.env.SMTP_FROM || `"Bloom'n Events Co" <${process.env.SMTP_USER}>`,
       to: formData.email,
       subject: 'Thank you for contacting Bloom\'n Events Co',
       html: `
-        <p>Dear ${formData.firstName},</p>
+        <p>Dear ${e(formData.firstName)},</p>
         <p>Thank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.</p>
         <p>Best regards,<br>The Bloom'n Events Co Team</p>
       `,

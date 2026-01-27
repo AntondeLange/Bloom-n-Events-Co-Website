@@ -1,0 +1,27 @@
+---
+/**
+ * Hero Sticky Boundary Component
+ * 
+ * Contains ONLY hero content and sentinel - NO navbar.
+ * Navbar must be placed outside this component to avoid transform containment issues.
+ * 
+ * This component provides the scroll boundary detection via sentinel element.
+ * The navbar is managed separately and observes this sentinel.
+ */
+---
+
+<header
+  data-hero
+  class="relative min-h-[100svh] overflow-visible"
+  aria-label="Hero"
+>
+  <!-- Hero content slot -->
+  <slot name="hero" />
+
+  <!-- Hero scroll boundary sentinel -->
+  <div
+    data-hero-sentinel
+    class="absolute bottom-0 left-0 h-px w-full pointer-events-none"
+    aria-hidden="true"
+  ></div>
+</header>

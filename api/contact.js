@@ -8,6 +8,16 @@ import { getEnv } from './_utils/env.js';
 import { setCorsHeaders, handleCorsPreflight } from './_utils/cors.js';
 import { checkRateLimit } from './_utils/rateLimit.js';
 
+function escapeHtml(s) {
+  if (typeof s !== 'string') return '';
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // Validation schema
 function validateContactForm(body) {
   if (!body || typeof body !== 'object') {
@@ -59,7 +69,7 @@ function validateContactForm(body) {
     message: message.trim(),
     company: company?.trim() || '',
     phone: phone?.trim() || '',
-    website: website?.trim() || ''
+    website: (typeof website === 'string' ? website : '').trim()
   };
 }
 
@@ -140,7 +150,8 @@ export default async function handler(req, res) {
       },
     });
     
-    // Email content
+    const e = escapeHtml;
+    const msgHtml = e(formData.message).replace(/\n/g, '<br>');
     const mailOptions = {
       from: env.SMTP_FROM,
       to: env.ENQUIRIES_EMAIL,
@@ -148,15 +159,15 @@ export default async function handler(req, res) {
       subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
-        ${formData.company ? `<p><strong>Company:</strong> ${formData.company}</p>` : ''}
-        <p><strong>Email:</strong> ${formData.email}</p>
-        ${formData.phone ? `<p><strong>Phone:</strong> ${formData.phone}</p>` : ''}
+        <p><strong>Name:</strong> ${e(formData.firstName)} ${e(formData.lastName)}</p>
+        ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
+        <p><strong>Email:</strong> ${e(formData.email)}</p>
+        ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
         <p><strong>Message:</strong></p>
-        <p>${formData.message.replace(/\n/g, '<br>')}</p>
+        <p>${msgHtml}</p>
         <hr>
-        <p><small>Submitted from: ${req.headers.referer || 'Unknown'}</small></p>
-        <p><small>IP Address: ${req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || 'Unknown'}</small></p>
+        <p><small>Submitted from: ${e(req.headers.referer || 'Unknown')}</small></p>
+        <p><small>IP Address: ${e(req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || 'Unknown')}</small></p>
       `,
       text: `
         New Contact Form Submission
@@ -179,7 +190,7 @@ export default async function handler(req, res) {
       to: formData.email,
       subject: 'Thank you for contacting Bloom\'n Events Co',
       html: `
-        <p>Dear ${formData.firstName},</p>
+        <p>Dear ${e(formData.firstName)},</p>
         <p>Thank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.</p>
         <p>Best regards,<br>The Bloom'n Events Co Team</p>
       `,

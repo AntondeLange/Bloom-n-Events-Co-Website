@@ -1,0 +1,395 @@
+---
+/**
+ * Case Study: Centuria 50th Birthday - hero, anchor nav, Overview, Our Role, What We Produced, Hospitality, Ceremony, Hero Moment, Subcontractor, Additional Elements, Visual Evidence, Outcome, Capability Highlight, Services, Testimonials, Related Services, Related Success Stories, CTA.
+ * Matches case-study-centuria-50th-birthday.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const visualEvidenceSlides = [
+  { src: "/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg", alt: "Elegant 50th birthday celebration image 1" },
+  { src: "/assets/images/Centuria 50th Birthday/064a7a51-766f-4fcf-b1df-f934851ef16c.jpg", alt: "Elegant 50th birthday celebration image 3" },
+  { src: "/assets/images/Centuria 50th Birthday/1fd2ee64-1cbe-4d47-8087-c8d748149530.jpg", alt: "Elegant 50th birthday celebration image 5" },
+  { src: "/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg", alt: "Elegant 50th birthday celebration image 6" },
+  { src: "/assets/images/Centuria 50th Birthday/29d00126-b04a-4387-a735-9bfd8ffaaf12.jpg", alt: "Elegant 50th birthday celebration image 7" },
+  { src: "/assets/images/Centuria 50th Birthday/2c2cb266-3db9-4b1a-9883-d081e3984832.jpg", alt: "Elegant 50th birthday celebration image 8" },
+  { src: "/assets/images/Centuria 50th Birthday/347b5e84-b47b-4b04-a67f-24ff945c12e7.jpg", alt: "Elegant 50th birthday celebration image 10" },
+  { src: "/assets/images/Centuria 50th Birthday/35da0069-2ef9-4d96-acc8-d7a6adc7ecd2.jpg", alt: "Elegant 50th birthday celebration image 11" },
+  { src: "/assets/images/Centuria 50th Birthday/382682ba-7a46-4611-a0af-2ea07b3d13b4.jpg", alt: "Elegant 50th birthday celebration image 12" },
+  { src: "/assets/images/Centuria 50th Birthday/3ab577ef-a358-4cf7-839e-390a15d196a8.jpg", alt: "Elegant 50th birthday celebration image 13" },
+  { src: "/assets/images/Centuria 50th Birthday/4aa5d570-97e7-4011-adae-bab29bbeb0d4.jpg", alt: "Elegant 50th birthday celebration image 14" },
+  { src: "/assets/images/Centuria 50th Birthday/5199094c-5f8b-4a50-bc62-411b965b02ba.jpg", alt: "Elegant 50th birthday celebration image 15" },
+  { src: "/assets/images/Centuria 50th Birthday/585773ed-3583-4e5d-87ab-54cc2f21fa84.jpg", alt: "Elegant 50th birthday celebration image 16" },
+  { src: "/assets/images/Centuria 50th Birthday/5926d348-79d2-4171-af40-79e818578a9e.jpg", alt: "Elegant 50th birthday celebration image 17" },
+  { src: "/assets/images/Centuria 50th Birthday/5f315167-34bd-4f4a-9b17-d6b1377cc355.jpg", alt: "Elegant 50th birthday celebration image 18" },
+  { src: "/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg", alt: "Elegant 50th birthday celebration image 19" },
+  { src: "/assets/images/Centuria 50th Birthday/634eee94-e4ce-4c1b-8566-8a3529e0ffe3.jpg", alt: "Elegant 50th birthday celebration image 20" },
+  { src: "/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg", alt: "Elegant 50th birthday celebration image 21" },
+  { src: "/assets/images/Centuria 50th Birthday/7d62e36a-b114-4220-9dd1-c2c116973e66.jpg", alt: "Elegant 50th birthday celebration image 22" },
+  { src: "/assets/images/Centuria 50th Birthday/803956c1-9edf-4c6b-a8f4-c2957cd64773.jpg", alt: "Elegant 50th birthday celebration image 23" },
+  { src: "/assets/images/Centuria 50th Birthday/85f3764d-667a-4c4e-99ce-4d1c665e6628.jpg", alt: "Elegant 50th birthday celebration image 25" },
+  { src: "/assets/images/Centuria 50th Birthday/8ae8e18f-9d0e-4949-88a7-23d2e71404c8.jpg", alt: "Elegant 50th birthday celebration image 26" },
+  { src: "/assets/images/Centuria 50th Birthday/8e89bca1-2c96-4fb9-9968-418c85cabc00.jpg", alt: "Elegant 50th birthday celebration image 27" },
+  { src: "/assets/images/Centuria 50th Birthday/9fb32b83-9fb6-4502-ac37-10f22a2d5d60.jpg", alt: "Elegant 50th birthday celebration image 28" },
+  { src: "/assets/images/Centuria 50th Birthday/a13916c8-bf7d-420a-9dcf-a4bd0eed0626.jpg", alt: "Elegant 50th birthday celebration image 29" },
+  { src: "/assets/images/Centuria 50th Birthday/ab545699-5b13-459b-ae20-280d093b9bc9.jpg", alt: "Elegant 50th birthday celebration image 30" },
+  { src: "/assets/images/Centuria 50th Birthday/acd5fe6c-1546-44a4-9e21-87931f504ab9.jpg", alt: "Elegant 50th birthday celebration image 31" },
+  { src: "/assets/images/Centuria 50th Birthday/afe071b9-d488-4b6a-84fe-d2ac11a4ec62.jpg", alt: "Elegant 50th birthday celebration image 32" },
+  { src: "/assets/images/Centuria 50th Birthday/b04bf741-d389-430f-8dd2-49a245388042.jpg", alt: "Elegant 50th birthday celebration image 33" },
+  { src: "/assets/images/Centuria 50th Birthday/b31cb8c8-31d6-4933-b351-836ce7460ac3.jpg", alt: "Elegant 50th birthday celebration image 34" },
+  { src: "/assets/images/Centuria 50th Birthday/b464e847-82b0-44ac-9226-263afd38e148.jpg", alt: "Elegant 50th birthday celebration image 35" },
+  { src: "/assets/images/Centuria 50th Birthday/b8a5fcf1-88da-4df7-aa35-2b2e07700f8b.jpg", alt: "Elegant 50th birthday celebration image 36" },
+  { src: "/assets/images/Centuria 50th Birthday/b944179c-a938-4b98-a543-115866c37fdb.jpg", alt: "Elegant 50th birthday celebration image 37" },
+  { src: "/assets/images/Centuria 50th Birthday/c9c8f05d-c3b3-430a-8736-8caa7f0f79c2.jpg", alt: "Elegant 50th birthday celebration image 39" },
+  { src: "/assets/images/Centuria 50th Birthday/c9ef0a3d-901c-4662-b834-c1d7fce93ebf.jpg", alt: "Elegant 50th birthday celebration image 40" },
+  { src: "/assets/images/Centuria 50th Birthday/cee9ce01-4457-4259-a779-9a5a1ad1edba.jpg", alt: "Elegant 50th birthday celebration image 41" },
+  { src: "/assets/images/Centuria 50th Birthday/d2c8216e-ada9-4d96-be15-3dce70639b44.jpg", alt: "Elegant 50th birthday celebration image 42" },
+  { src: "/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg", alt: "Elegant 50th birthday celebration image 43" },
+  { src: "/assets/images/Centuria 50th Birthday/e49ab671-e1d2-482b-b2dc-a2ef941b1b0f.jpg", alt: "Elegant 50th birthday celebration image 45" },
+  { src: "/assets/images/Centuria 50th Birthday/e83c1a4e-17b0-4158-9708-a50fb215b76b.jpg", alt: "Elegant 50th birthday celebration image 46" },
+  { src: "/assets/images/Centuria 50th Birthday/edaf2add-81fc-485a-949d-b00bcb46076e.jpg", alt: "Elegant 50th birthday celebration image 47" },
+  { src: "/assets/images/Centuria 50th Birthday/efea378d-9bd1-4906-9237-db1ed574869c.jpg", alt: "Elegant 50th birthday celebration image 48" },
+  { src: "/assets/images/Centuria 50th Birthday/f089e35d-d443-4bdc-9e1b-25373cdf712f.jpg", alt: "Elegant 50th birthday celebration image 49" },
+  { src: "/assets/images/Centuria 50th Birthday/f94918eb-88e5-4480-98a9-3717670b5a04.jpg", alt: "Elegant 50th birthday celebration image 50" },
+  { src: "/assets/images/Centuria 50th Birthday/fb0aa0bc-f55d-4709-a1f2-02a8401203f4.jpg", alt: "Elegant 50th birthday celebration image 51" },
+];
+---
+
+<BaseLayout
+  title="Success Story: 140 St Georges Terrace — 50 Years | Landmark Anniversary Event | Bloom'n Events Co"
+  description="How Bloom'n Events Co designed and delivered a bespoke 50th Birthday Celebration for 140 St Georges Terrace, honouring the building's legacy while presenting it as contemporary and future-focused."
+  path="/case-study-centuria-50th-birthday"
+>
+  <h1 class="visually-hidden">Success Story: 140 St Georges Terrace — 50 Years</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg"
+        alt="Elegant 50th birthday celebration"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          140 St Georges Terrace — 50 Years
+        </h1>
+        <p class="hero-subhead">
+          Landmark Anniversary Event Honours Legacy and Signals Future.
+        </p>
+        <p class="hero-subhead">
+          How Bloom'n Events Co curated a bespoke 50th Birthday Celebration that transformed shared building spaces into an elegant celebration environment
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#overviewHeading", label: "Overview" },
+      { href: "#ourRoleHeading", label: "Our Role" },
+      { href: "#producedHeading", label: "What We Produced" },
+      { href: "#outcomeHeading", label: "Outcome" },
+      { href: "#testimonialsHeading", label: "Testimonials" },
+    ]}
+  />
+
+  <!-- Success Story Content -->
+  <section class="section-main">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <!-- Overview -->
+      <section class="mb-5" aria-labelledby="overviewHeading">
+        <h2 id="overviewHeading" class="heading-blush-bg mb-4">Overview</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">To celebrate the 50th anniversary of 140 St Georges Terrace, Centuria engaged Bloom'n Events Co. to conceive and deliver a <strong>multi-layered landmark celebration</strong>—one that honoured the building's past, activated the present, and confidently signalled its future.</p>
+            <p class="text-charcoal mb-0">This was not a single-night event, but a <strong>month-long placemaking and storytelling experience</strong>, culminating in a high-profile civic celebration within a live, operational commercial building.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Role -->
+      <section class="mb-5" aria-labelledby="ourRoleHeading">
+        <h2 id="ourRoleHeading" class="heading-blush-bg mb-4">Our Role</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Bloom'n Events Co. was appointed as <strong>lead creative producer</strong>, responsible for:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Creative direction and narrative development</li>
+              <li>Graphic design of all event assets, imagery, and displays</li>
+              <li>Custom fabrication and installation</li>
+              <li>Subcontractor and talent coordination</li>
+              <li>Speaker management, speechwriting, and protocol</li>
+              <li>End-to-end delivery and onsite execution</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Every touchpoint—from foyer installations to hospitality details—was intentionally designed, produced, and managed in-house or through curated specialist partners.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- What We Produced & Delivered -->
+      <section class="mb-5" aria-labelledby="producedHeading">
+        <h2 id="producedHeading" class="heading-blush-bg mb-4">What We Produced & Delivered</h2>
+        
+        <!-- Creative Concept & Narrative -->
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Creative Concept & Narrative</h3>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Developed a <em>"Building Through the Ages"</em> storytelling framework</li>
+              <li>Designed the event journey to build toward a future-facing reveal moment</li>
+              <li>Ensured all elements aligned with Centuria's brand, tone, and asset positioning</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Graphic Design & Visual Storytelling -->
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Graphic Design & Visual Storytelling</h3>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Designed <strong>all graphic assets</strong>, including historical displays, large-format decals, signage, and printed collateral</li>
+              <li>Created <strong>8-metre-tall pillar decals</strong> illustrating the building's evolution across five decades</li>
+              <li>Designed and installed a <strong>giant celebration decal</strong> marking the milestone</li>
+              <li>Produced wayfinding and interpretive displays integrated seamlessly into the foyer environment</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Historical Research & Content Development -->
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Historical Research & Content Development</h3>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Conducted detailed research into the building's role in Perth's commercial and civic history</li>
+              <li>Sourced archival imagery from photographers, media archives, and private collections</li>
+              <li>Managed image licensing, usage rights, and attribution</li>
+              <li>Designed and produced <strong>custom history boards</strong>, connecting tenants and visitors to the building's legacy and its place in the city</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Celebration Centrepiece & Placemaking -->
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Celebration Centrepiece & Placemaking</h3>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Designed and <strong>hand-crafted a large-scale celebration centrepiece</strong> installed weeks prior to the event</li>
+              <li>Featured oversized custom roses (400–800mm diameter) arranged around a <strong>bespoke illuminated "50"</strong>, hand-made at 900mm high in a vintage-inspired style</li>
+              <li>Served as the focal point of the foyer throughout the lead-up period, creating anticipation and sustained engagement</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">This installation, combined with the history displays and decals, transformed the foyer into a living exhibition for the duration of the celebration.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hospitality, Styling & Experience -->
+      <section class="mb-5" aria-labelledby="hospitalityHeading">
+        <h2 id="hospitalityHeading" class="heading-blush-bg mb-4">Hospitality, Styling & Experience</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Designed and <strong>hand-built custom bars</strong>, complete with bespoke event signage</li>
+              <li>Developed <strong>signature anniversary cocktails</strong> aligned to the celebration theme</li>
+              <li>Supplied <strong>custom event-themed cups</strong> for the resident café—available for the <em>entire month</em> of the anniversary, extending the experience into daily tenant life</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ceremony, Talent & Programming -->
+      <section class="mb-5" aria-labelledby="ceremonyHeading">
+        <h2 id="ceremonyHeading" class="heading-blush-bg mb-4">Ceremony, Talent & Programming</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Secured and coordinated a <strong>local radio personality and celebrity MC</strong></li>
+              <li>Arranged the attendance and keynote address of the <strong>Lord Mayor of Perth</strong></li>
+              <li>Engaged and managed a <strong>live band</strong>, providing atmosphere and energy throughout the celebration</li>
+              <li>Wrote speeches for all speakers, ensuring narrative consistency, tone alignment, and smooth program flow</li>
+              <li>Developed the full run sheet and managed live cueing and protocol</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hero Moment -->
+      <section class="mb-5" aria-labelledby="heroMomentHeading">
+        <h2 id="heroMomentHeading" class="heading-blush-bg mb-4">Hero Moment</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Commissioned a <strong>giant custom cake</strong>, crafted as a replica of the building</li>
+              <li>Timed the cake reveal to coincide with the <strong>official unveiling of the building's new name</strong>, delivering a highly memorable and symbolic moment</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subcontractor & Stakeholder Coordination -->
+      <section class="mb-5" aria-labelledby="subcontractorHeading">
+        <h2 id="subcontractorHeading" class="heading-blush-bg mb-4">Subcontractor & Stakeholder Coordination</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Managed all specialist subcontractors including fabrication, print, florals, AV, catering support, talent, and logistics</li>
+              <li>Coordinated bump-in, installation, live event delivery, and pack-down within a high-traffic CBD environment</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Additional Elements -->
+      <section class="mb-5" aria-labelledby="additionalHeading">
+        <h2 id="additionalHeading" class="heading-blush-bg mb-4">Additional Elements (Scoped, Not Taken Up)</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Media pack and press release development</li>
+              <li>Commemorative photo books documenting the building's history and celebration</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">These were designed as optional legacy extensions to the core celebration.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Evidence -->
+      <section class="mb-5" aria-labelledby="visualEvidenceHeading">
+        <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
+        <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
+          <AboutImageCarousel id="centuria50thCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:idle />
+        </div>
+      </section>
+
+      <!-- The Outcome -->
+      <section class="mb-5" aria-labelledby="outcomeHeading">
+        <h2 id="outcomeHeading" class="heading-blush-bg mb-4">The Outcome</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">The 50th Birthday Celebration delivered strong engagement, positive feedback, and lasting impact:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>The building's history was made tangible and accessible</li>
+              <li>Tenants and stakeholders experienced a renewed sense of pride and connection</li>
+              <li>The name change reveal landed with clarity and authority</li>
+              <li>Centuria's custodianship of the asset was visibly reinforced</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">140 St Georges Terrace was celebrated not just as a landmark—but as a living part of Perth's future.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Capability Highlight -->
+      <section class="mb-5" aria-labelledby="capabilityHeading">
+        <h2 id="capabilityHeading" class="heading-blush-bg mb-4">Capability Highlight</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-0">This project demonstrates Bloom'n Events Co.'s strength in delivering <strong>high-complexity, design-led corporate and civic celebrations</strong>, where storytelling, fabrication, protocol, and precision execution must operate seamlessly together.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Delivered -->
+      <section class="mb-5" aria-labelledby="servicesHeading">
+        <h2 id="servicesHeading" class="heading-blush-bg mb-4">Services Delivered</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">All services offered from concept to execution, with service delivery in conjunction with the client to support existing client relationship and in-house capabilities:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Creative direction</li>
+              <li>Graphic design</li>
+              <li>Historical research & licensing</li>
+              <li>Large-format print & decals</li>
+              <li>Custom fabrication</li>
+              <li>Floral installations</li>
+              <li>Hospitality & bar design</li>
+              <li>Talent & speaker management</li>
+              <li>Speechwriting</li>
+              <li>Subcontractor coordination</li>
+              <li>Event delivery</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="mb-5 testimonials" aria-labelledby="testimonialsHeading">
+        <h2 id="testimonialsHeading" class="heading-blush-bg mb-4">What Our Clients Say</h2>
+        <TestimonialsCarousel client:idle />
+      </section>
+
+      <!-- Related Services -->
+      <section class="mb-5" aria-labelledby="relatedServicesHeading">
+        <h2 id="relatedServicesHeading" class="heading-blush-bg text-center mb-4">Related Services</h2>
+        <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Corporate Events</h3>
+              <p class="text-charcoal">Professional planning and execution for business events, conferences, and corporate celebrations.</p>
+              <a href="/events" class="btn-gold btn-sm mt-3 inline-block">Explore Corporate Events</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Custom Displays</h3>
+              <p class="text-charcoal">Stunning, bespoke installations and decorations that transform any space for events or businesses.</p>
+              <a href="/displays" class="btn-gold btn-sm mt-3 inline-block">View Custom Displays</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Event Management</h3>
+              <p class="text-charcoal">Full-service event management from concept to completion, including design, styling, and coordination.</p>
+              <a href="/capabilities" class="btn-gold btn-sm mt-3 inline-block">View Capabilities</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Related Success Stories -->
+      <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
+        <div class="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
+          <SuccessStoriesCarousel client:idle />
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mb-5" aria-labelledby="ctaHeading">
+        <div class="mx-auto max-w-4xl px-4 md:px-6">
+          <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Ready to Create Your Next Corporate Celebration?</h2>
+          <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center p-5">
+              <p class="lead text-charcoal mb-5">Whether you're planning a milestone anniversary, corporate celebration, or landmark event, we bring the same attention to detail, refined styling, and strategic thinking to every project.</p>
+              <div class="cta-buttons">
+                <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
+                <a href="/events" class="btn-outline-gold btn-lg mb-3">Explore Our Event Services</a>
+              </div>
+              <p class="text-charcoal mt-4 mb-0">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+                {" | "}
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+                <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

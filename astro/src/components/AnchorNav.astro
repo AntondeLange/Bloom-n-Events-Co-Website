@@ -1,0 +1,30 @@
+---
+/**
+ * AnchorNav Component
+ * Reusable anchor navigation that sticks below the navbar on scroll
+ */
+interface Props {
+  /** Array of navigation links: { href: string, label: string } */
+  links: Array<{ href: string; label: string }>;
+}
+
+const { links } = Astro.props;
+---
+
+<div class="anchor-nav-wrapper" data-anchor-nav-wrapper>
+  <div class="anchor-nav-sentinel" data-anchor-nav-sentinel></div>
+  <div class="anchor-nav-placeholder" data-anchor-nav-placeholder></div>
+  <nav class="anchor-nav" data-anchor-nav aria-label="Page navigation">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <ul class="anchor-nav-list">
+        {links.map((link) => (
+          <li class="anchor-nav-item">
+            <a href={link.href} class="anchor-nav-link">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</div>

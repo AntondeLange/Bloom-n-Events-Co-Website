@@ -20,14 +20,16 @@ jobs:
           node-version: '20'
           cache: 'npm'
       
-      - name: Install dependencies
+      - name: Install dependencies (root)
         run: npm ci
       
-      - name: Run CSS linter
-        run: npm run lint-css || true
+      - name: Install dependencies (Astro)
+        working-directory: ./astro
+        run: npm ci
       
       - name: Check for build errors
-        run: npm run build || true
+        working-directory: ./astro
+        run: npm run build
 
   deploy:
     name: Deploy

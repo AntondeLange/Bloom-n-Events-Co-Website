@@ -116,8 +116,12 @@ export function getBackendUrl() {
 // Get full API URL for chat
 export function getApiUrl() {
   const baseUrl = getBackendUrl();
-  // If baseUrl is empty (production), use the endpoint directly
-  // Otherwise append endpoint to baseUrl
   return baseUrl ? `${baseUrl}${CONFIG.BACKEND.CHAT_ENDPOINT}` : CONFIG.BACKEND.CHAT_ENDPOINT;
+}
+
+// Get full API URL for contact form (same-origin /api/contact in production)
+export function getContactApiUrl() {
+  const baseUrl = getBackendUrl();
+  return baseUrl ? `${baseUrl}${CONFIG.BACKEND.CONTACT_ENDPOINT}` : CONFIG.BACKEND.CONTACT_ENDPOINT;
 }
 

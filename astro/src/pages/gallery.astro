@@ -1,0 +1,145 @@
+---
+/**
+ * Gallery: Event, Workshop, and Displays carousels, Success Stories, CTA.
+ * Matches gallery.html structure and content.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const eventSlides = [
+  { src: "/assets/images/Centuria Connect140/Connect140 (1).jpg", alt: "Centuria Connect140 Event Setup" },
+  { src: "/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg", alt: "Centuria 50th Birthday Celebration" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (2).jpg", alt: "Centuria Connect140 Stage View" },
+  { src: "/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg", alt: "Centuria 50th Birthday Event" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (3).jpg", alt: "Centuria Connect140 Arrangements" },
+  { src: "/assets/images/Centuria 50th Birthday/efea378d-9bd1-4906-9237-db1ed574869c.jpg", alt: "Centuria 50th Birthday Gala" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (4).JPG", alt: "Centuria Connect140 Guest Interaction" },
+  { src: "/assets/images/Centuria 50th Birthday/29d00126-b04a-4387-a735-9bfd8ffaaf12.jpg", alt: "Centuria 50th Birthday Celebration Details" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (5).jpg", alt: "Centuria Connect140 Dining Area" },
+  { src: "/assets/images/Centuria Connect140/Connect140 (10).JPG", alt: "Centuria Connect140 Networking" },
+];
+
+const workshopSlides = [
+  { src: "/assets/images/AdultWorkshops/adultworkshops (3).jpg", alt: "Adult Workshop Activity" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0021.jpg", alt: "Hawaiian World of Flavours Workshop" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops01.jpg", alt: "Kids Workshop Activity" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg", alt: "Neighbourhood Nibbles Workshop" },
+  { src: "/assets/images/AdultWorkshops/adultworkshops (4).jpg", alt: "Adult Creative Workshop" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0029.jpg", alt: "Workshop Participants Cooking" },
+  { src: "/assets/images/KidsWorkshops/kidsworkshops02.jpg", alt: "Kids Workshop Session" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG", alt: "Phoenix School Holiday Workshop" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (2).jpg", alt: "Children Creating Art" },
+  { src: "/assets/images/AdultWorkshops/adultworkshops (6).jpg", alt: "Adult Workshop Session" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg", alt: "Finished Hawaiian Dishes" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG", alt: "Phoenix Workshop Activity" },
+];
+
+const displaysSlides = [
+  { src: "/assets/images/BloomnDisplays/Displays (5).png", alt: "Custom Display Installation" },
+  { src: "/assets/images/BloomnDisplays/Displays (6).png", alt: "Creative Display Design" },
+  { src: "/assets/images/BloomnDisplays/Displays (10).png", alt: "Custom Display Installation" },
+  { src: "/assets/images/BloomnDisplays/Displays (11).png", alt: "Creative Display Design" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg", alt: "Seasonal Display Installation" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg", alt: "Event Display Setup" },
+  { src: "/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg", alt: "Elegant Display Installation" },
+  { src: "/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg", alt: "Elegant Display Installation" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG", alt: "Phoenix Display Installation" },
+  { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG", alt: "Phoenix Display Installation" },
+];
+---
+
+<BaseLayout
+  title="Event Portfolio Gallery | Perth & WA Event Production | Bloom'n Events Co"
+  description="View Bloom'n Events Co's event production portfolio. Corporate events, creative workshops, custom displays across Perth and Western Australia. In-house design, engineering, and fabrication."
+  path="/gallery"
+>
+  <!-- Event Gallery -->
+  <section class="gallery-section section-main" aria-labelledby="event-gallery-heading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="event-gallery-heading" class="heading-blush-bg mb-4 text-center">
+        Event Gallery
+      </h2>
+      <AboutImageCarousel
+        id="eventCarousel"
+        slides={eventSlides}
+        intervalMs={5000}
+        client:idle
+      />
+    </div>
+  </section>
+
+  <!-- Workshop Gallery -->
+  <section class="gallery-section section-main" aria-labelledby="workshop-gallery-heading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="workshop-gallery-heading" class="heading-blush-bg mb-4 text-center">
+        Workshop Gallery
+      </h2>
+      <AboutImageCarousel
+        id="workshopCarousel"
+        slides={workshopSlides}
+        intervalMs={5000}
+        client:idle
+      />
+    </div>
+  </section>
+
+  <!-- Displays Gallery -->
+  <section class="gallery-section section-main" aria-labelledby="displays-gallery-heading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="displays-gallery-heading" class="heading-blush-bg mb-4 text-center">
+        Displays Gallery
+      </h2>
+      <AboutImageCarousel
+        id="displaysCarousel"
+        slides={displaysSlides}
+        intervalMs={5000}
+        client:idle
+      />
+    </div>
+  </section>
+
+  <!-- Success Stories -->
+  <section class="section-main" aria-labelledby="case-studies-heading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="case-studies-heading" class="heading-blush-bg mb-5 text-center">
+        Success Stories
+      </h2>
+      <SuccessStoriesCarousel client:idle />
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section-main" aria-labelledby="cta-heading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="cta-heading" class="heading-blush-bg mb-5 text-center">
+        Ready to Start Your Project?
+      </h2>
+      <div class="card shadow cta-card">
+        <div class="card-body p-5 text-center">
+          <p class="lead text-charcoal mb-5">
+            Give us a date, a budget, and time—we'll make it happen. One team handles everything. No juggling multiple vendors.
+          </p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+            <a href="/about" class="btn-outline-gold btn-lg mb-3">Learn More About Us</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">
+              {CONTACT.phone}
+            </a>{" "}
+            | <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">
+              {CONTACT.email}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

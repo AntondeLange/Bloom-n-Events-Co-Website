@@ -1,0 +1,308 @@
+---
+/**
+ * Capabilities: hero, anchor nav, Introduction, One-Stop Partner, Fabrication, Engineering, Design, Digital, Signage, Media/Communications, Partnerships, Project Delivery, Gallery Carousel, CTA.
+ * Matches capabilities.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const capabilitiesSlides = [
+  { src: "/assets/images/capabilities/IMG_2783.JPG", alt: "Bloom'n Events Co capabilities" },
+  { src: "/assets/images/Centuria 50th Birthday/2c2cb266-3db9-4b1a-9883-d081e3984832.jpg", alt: "One-stop event partner" },
+  { src: "/assets/images/capabilities/7FCD8344-1546-4FB3-A6A3-B0F1B4B461EF.jpg", alt: "In-house fabrication" },
+  { src: "/assets/images/Centuria 50th Birthday/8ae8e18f-9d0e-4949-88a7-23d2e71404c8.jpg", alt: "Custom builds" },
+  { src: "/assets/images/Centuria 50th Birthday/347b5e84-b47b-4b04-a67f-24ff945c12e7.jpg", alt: "Engineering design and safety" },
+  { src: "/assets/images/Centuria 50th Birthday/8139aea6-bce9-485b-be8d-9122335cacfb.jpg", alt: "Marketing and graphic design" },
+  { src: "/assets/images/capabilities/b27999ca-e73c-46ed-9130-28d70d6d9ab5.jpg", alt: "Visual identity" },
+  { src: "/assets/images/Centuria 50th Birthday/803956c1-9edf-4c6b-a8f4-c2957cd64773.jpg", alt: "Signage and signwriting" },
+  { src: "/assets/images/Centuria 50th Birthday/ab545699-5b13-459b-ae20-280d093b9bc9.jpg", alt: "Digital and web development" },
+  { src: "/assets/images/Centuria 50th Birthday/d2c8216e-ada9-4d96-be15-3dce70639b44.jpg", alt: "Media packs and communications" },
+  { src: "/assets/images/capabilities/83f05b5b-3b43-4d7d-8fdf-9be7a852920b.jpg", alt: "Contact systems" },
+  { src: "/assets/images/Centuria 50th Birthday/e14d2e3c-1006-4cf5-9190-3d0210350522.jpg", alt: "Local partnerships and hospitality" },
+  { src: "/assets/images/Centuria 50th Birthday/85f3764d-667a-4c4e-99ce-4d1c665e6628.jpg", alt: "End-to-end project delivery" },
+];
+---
+
+<BaseLayout
+  title="Event Production Capabilities Perth & WA | Bloom'n Events Co"
+  description="Full-service event production capabilities in Perth & Western Australia. In-house engineering, design, fabrication, signage, and installation. Concept to completion. Based in Brookton, WA."
+  path="/capabilities"
+>
+  <h1 class="visually-hidden">Event Production Capabilities Perth & WA</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/capabilities/image001.jpeg"
+        alt="Bloom'n Events Co Capabilities - Concept. Craft. Code. Connection."
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Capabilities:<br>Concept. Craft. Code. Connection.
+        </h1>
+        <p class="hero-subhead">
+          <strong>We're not here to decorate—we're here to move people, build awareness, and create connection.</strong>
+        </p>
+        <div class="hero-cta">
+          <a href="#introduction" class="btn-gold">Explore Our Capabilities</a>
+          <a href="/contact" class="btn-outline-gold">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#introduction", label: "Introduction" },
+      { href: "#oneStopHeading", label: "One-Stop Partner" },
+      { href: "#fabricationHeading", label: "Fabrication" },
+      { href: "#engineeringHeading", label: "Engineering" },
+      { href: "#marketingHeading", label: "Design" },
+      { href: "#digitalHeading", label: "Digital" },
+      { href: "#signageHeading", label: "Signage" },
+      { href: "#mediaHeading", label: "Media & Communications" },
+      { href: "#partnershipsHeading", label: "Partnerships" },
+      { href: "#deliveryHeading", label: "Project Delivery" },
+      { href: "#galleryHeading", label: "Our Work" },
+    ]}
+  />
+
+  <!-- Capabilities Content -->
+  <section class="section-main" id="introduction">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <!-- Introduction -->
+      <section class="mb-5" aria-labelledby="introductionHeading">
+        <h2 id="introductionHeading" class="heading-blush-bg mb-4">Introduction</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <p class="text-charcoal mb-3">Bloom'n Events Co is a fully integrated creative production studio and event partner. We design, engineer, build, brand, and deliver experiences from the ground up—locally, collaboratively, and almost entirely in-house.</p>
+            <p class="text-charcoal mb-0"><strong>If you need it built, designed, coded, printed, engineered, signed, staged, or supplied—we do it.<br>If we can't, we know someone exceptional who can.<br>All you need to bring is a <span class="text-gold">date, a budget, and the ambition to make something meaningful</span>.</strong></p>
+            <p class="text-charcoal mt-3 mb-0" style="font-style: italic;">One team. One point of contact. No juggling multiple suppliers.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- One-Stop Event Partner -->
+      <section class="mb-5" aria-labelledby="oneStopHeading">
+        <h2 id="oneStopHeading" class="heading-blush-bg mb-4">A True One-Stop Event Partner</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <p class="text-charcoal mb-3">We remove friction by keeping everything under one roof. No hand-offs. No fragmented suppliers. No creative dilution. Just one accountable team carrying your project from first sketch to final guest exit.</p>
+            <p class="text-charcoal mb-0">Our capabilities span physical, digital, creative, and operational delivery—allowing us to produce cohesive, high-impact events with clarity, speed, and precision.</p>
+            <p class="text-charcoal mt-3 mb-0" style="font-style: italic;">You work with one team. They know your project inside and out.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- In-House Fabrication -->
+      <section class="mb-5" aria-labelledby="fabricationHeading">
+        <h2 id="fabricationHeading" class="heading-blush-bg mb-4">In-House Fabrication & Custom Builds</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Metal. Timber. Structure. Detail.</h3>
+            <p class="text-charcoal mb-3">Our workshop is where ideas become physical reality. We design and fabricate custom elements in-house, including:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Metal and timber structures</li>
+              <li>Custom furniture and scenic builds</li>
+              <li>Branded installations and experiential environments</li>
+              <li>Props, plinths, bars, stages, and bespoke assets</li>
+              <li>Structural and decorative elements engineered for real-world use</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Because fabrication sits alongside design and engineering, concepts remain intact from drawing board to install—no compromises, no surprises.</p>
+            <p class="text-charcoal mt-3 mb-0" style="font-style: italic;">Built locally. You see progress. Changes happen quickly.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Engineering Design & Safety -->
+      <section class="mb-5" aria-labelledby="engineeringHeading">
+        <h2 id="engineeringHeading" class="heading-blush-bg mb-4">Engineering Design & Safety</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Creative ambition, grounded in reality.</h3>
+            <p class="text-charcoal mb-3">Our team brings deep experience across engineering, construction, and high-risk environments. Every build and installation is approached with safety, compliance, and structural integrity at its core.</p>
+            <p class="text-charcoal mb-3">We provide:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Engineering design and documentation</li>
+              <li>Structural assessments and load considerations</li>
+              <li>Risk management and safe work methodologies</li>
+              <li>Compliance with relevant standards and regulations</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">This allows bold ideas to exist safely—and confidently—in the real world.</p>
+            <p class="text-charcoal mt-3 mb-0" style="font-style: italic;">Engineering and creative work together from day one. No last-minute compromises.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Marketing, Graphic Design & Visual Identity -->
+      <section class="mb-5" aria-labelledby="marketingHeading">
+        <h2 id="marketingHeading" class="heading-blush-bg mb-4">Marketing, Graphic Design & Visual Identity</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Clarity before decoration.</h3>
+            <p class="text-charcoal mb-3">We design the visual language that carries your message. From campaign thinking to execution, our creative team delivers:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event branding and visual identity</li>
+              <li>Marketing collateral and campaign assets</li>
+              <li>Environmental graphics and wayfinding</li>
+              <li>Print and digital artwork</li>
+              <li>Media packs and sponsor-ready materials</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Everything is designed to align—brand, message, environment, and audience experience working as one system.</p>
+            <p class="text-charcoal mt-3 mb-0" style="font-style: italic;">Design and engineering collaborate from the start. Creative vision meets technical reality.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Signage, Signwriting & Decals -->
+      <section class="mb-5" aria-labelledby="signageHeading">
+        <h2 id="signageHeading" class="heading-blush-bg mb-4">Signage, Signwriting & Decals</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Built to be seen. Built to last.</h3>
+            <p class="text-charcoal mb-3">Our signage capability ranges from precision print to handcrafted execution:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event signage systems</li>
+              <li>Hand-painted signwriting</li>
+              <li>Large-format prints and environmental graphics</li>
+              <li>Vehicle, wall, floor, and window decals</li>
+              <li>Directional, regulatory, and branded signage</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Whether bold or understated, every sign has a purpose—and a place in the wider story.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Digital & Web Development -->
+      <section class="mb-5" aria-labelledby="digitalHeading">
+        <h2 id="digitalHeading" class="heading-blush-bg mb-4">Digital & Web Development for Events</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Where physical experiences meet digital flow.</h3>
+            <p class="text-charcoal mb-3">We design and build event-specific digital platforms that support engagement before, during, and after the event:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event landing pages and microsites</li>
+              <li>Registration and RSVP systems</li>
+              <li>Information hubs and schedules</li>
+              <li>Sponsor and partner showcases</li>
+              <li>Custom digital experiences aligned to the event narrative</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Digital isn't an afterthought—it's part of the experience architecture.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Media Packs, Communications & Contact Systems -->
+      <section class="mb-5" aria-labelledby="mediaHeading">
+        <h2 id="mediaHeading" class="heading-blush-bg mb-4">Media Packs, Communications & Contact Systems</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Designed for reach, not just aesthetics.</h3>
+            <p class="text-charcoal mb-3">We create media-ready materials that make it easy for partners, sponsors, press, and stakeholders to engage:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Media and sponsor packs</li>
+              <li>Contact and enquiry systems</li>
+              <li>Branded information resources</li>
+              <li>Asset kits for external promotion</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Everything is built to communicate clearly, professionally, and consistently.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Local Partnerships & Hospitality -->
+      <section class="mb-5" aria-labelledby="partnershipsHeading">
+        <h2 id="partnershipsHeading" class="heading-blush-bg mb-4">Local Partnerships & Hospitality</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Community-driven. Quality-focused.</h3>
+            <p class="text-charcoal mb-3">We actively collaborate with trusted local businesses to deliver catering, drinks, cocktails, and specialist services. These partnerships allow us to scale seamlessly while keeping quality high and values aligned.</p>
+            <p class="text-charcoal mb-0"><strong>Local isn't a limitation—it's a strength.</strong></p>
+            <p class="text-charcoal mt-3 mb-0" style="font-style: italic;">We know who to call. You don't need to vet suppliers. We handle it.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- End-to-End Project Delivery -->
+      <section class="mb-5" aria-labelledby="deliveryHeading">
+        <h2 id="deliveryHeading" class="heading-blush-bg mb-4">End-to-End Project Delivery</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">From first conversation to final pack-down.</h3>
+            <p class="text-charcoal mb-3">Our scope includes:</p>
+            <ul class="text-charcoal mb-0 text-start pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Creative direction and storytelling</li>
+              <li>Engineering and safety management</li>
+              <li>Fabrication and production</li>
+              <li>Marketing, digital, and communications</li>
+              <li>Logistics, installation, and on-site delivery</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0"><strong>One team. One vision. One point of accountability.</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final Statement -->
+      <section class="mb-5" aria-labelledby="finalStatementHeading">
+        <div class="card" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <p class="lead text-charcoal mb-0"><strong>In short: We don't just show up with a van full of props. We show up with tools, talent, vision, and over 120 years of combined mastery. We're artists, engineers, storytellers, and builders—here to create moments your audience will never forget.</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Image Gallery Carousel -->
+      <section class="mb-5" aria-labelledby="galleryHeading">
+        <h2 id="galleryHeading" class="heading-blush-bg mb-4">Our Work in Action</h2>
+        <AboutImageCarousel id="capabilitiesCarousel" slides={capabilitiesSlides} intervalMs={5000} client:idle />
+      </section>
+    </div>
+  </section>
+
+  <!-- Related Success Stories -->
+  <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
+      <SuccessStoriesCarousel client:idle />
+    </div>
+  </section>
+
+  <!-- FINAL CTA SECTION -->
+  <section class="section-main" aria-labelledby="capabilitiesCtaHeading">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="capabilitiesCtaHeading" class="heading-blush-bg text-center mb-5">Ready to Start Your Project?</h2>
+      <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">Give us a date, a budget, and time—we'll make it happen. One team. One accountable partner. In-house delivery, local partnerships, engineering and creative working together.</p>
+          <div class="cta-buttons">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+            <a href="/gallery" class="btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+            {" | "}
+            <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

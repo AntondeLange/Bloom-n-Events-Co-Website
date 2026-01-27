@@ -1,0 +1,286 @@
+---
+/**
+ * Case Study: Hawaiian Forrestfield - A World of Flavours - hero, anchor nav, The Brief, Our Role, The Concept, Designing Experience, Activity Design, Entertainment, Visual Evidence, Outcome, Key Insight, Services, Testimonials, Related Services, Related Success Stories, CTA.
+ * Matches case-study-hawaiian-forrestfield.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const visualEvidenceSlides = [
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0173.jpg", alt: "A World of Flavours international alfresco village with Italian-inspired styling, umbrellas, bunting, and dining tables at The Junction" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0421.jpg", alt: "Kids craft workshops with mini chefs wearing personalised chef hats and aprons creating pizza, taco, or gelato crafts" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0021.jpg", alt: "Cultural performances and entertainment creating vibrant multicultural atmosphere at A World of Flavours event" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg", alt: "Roving entertainers in traditional European attire and live DJ set by DJ Neenz creating relaxed multicultural soundscape" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0029.jpg", alt: "Family engagement with hands-on food craft stations and European-style voucher redemption food cart linking experience to retailers" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0118.jpg", alt: "Immerse yet controlled space with energetic atmosphere, showcasing community placemaking that connects creativity, culture, and commerce" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0115.jpg", alt: "Continuous kids craft workshops with 300 children participating in 5 hours of engaging activities" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0164.jpg", alt: "Premium canapés, grazing stations, and curated beverages supporting family engagement and dwell time" },
+  { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0332.jpg", alt: "Vibrant community activation showcasing hands-on creativity, cultural performance, and sensory storytelling" },
+];
+---
+
+<BaseLayout
+  title="Success Story: A World of Flavours | Community Event & Retail Activation | Bloom'n Events Co"
+  description="How Bloom'n Events Co delivered a vibrant family-focused activation celebrating international food offerings, driving awareness to Taste of Italy and creating memorable community moments at Hawaiian Forrestfield."
+  path="/case-study-hawaiian-forrestfield"
+>
+  <h1 class="visually-hidden">Success Story: A World of Flavours</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg"
+        alt="A World of Flavours: Community Event & Retail Activation"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          A World of Flavours
+        </h1>
+        <p class="hero-subhead">
+          Community Event & Retail Activation Positions Forrestfield as Community-Driven Destination.
+        </p>
+        <p class="hero-subhead">
+          How Bloom'n Events Co delivered a vibrant family-focused activation celebrating international food offerings, driving awareness to Taste of Italy and creating memorable community moments
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#briefHeading", label: "The Brief" },
+      { href: "#ourRoleHeading", label: "Our Role" },
+      { href: "#conceptHeading", label: "The Concept" },
+      { href: "#outcomeHeading", label: "Outcome" },
+      { href: "#testimonialsHeading", label: "Testimonials" },
+    ]}
+  />
+
+  <!-- Success Story Content -->
+  <section class="section-main">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <!-- The Brief -->
+      <section class="mb-5" aria-labelledby="briefHeading">
+        <h2 id="briefHeading" class="heading-blush-bg mb-4">The Brief</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Hawaiian Group engaged Bloom'n Events Co. to <strong>conceptualise, design, build, and deliver</strong> a fully immersive community activation to support the launch of <em>Taste of Italy</em>, while simultaneously driving visibility and spend across Forrestfield's existing food retailers.</p>
+            <p class="text-charcoal mb-0">The brief extended beyond hosting an event. The goal was to <strong>transform an outdoor retail zone into a destination environment</strong>—one that felt transportive, experiential, and commercially aligned.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Role -->
+      <section class="mb-5" aria-labelledby="ourRoleHeading">
+        <h2 id="ourRoleHeading" class="heading-blush-bg mb-4">Our Role</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Bloom'n Events Co. delivered the project <strong>end-to-end</strong>, taking responsibility for:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event concept and creative direction</li>
+              <li>Design of all interactive activities</li>
+              <li>Custom styling and environmental build</li>
+              <li>Entertainment sourcing and coordination</li>
+              <li>Construction, bump-in, styling, and pack-down</li>
+              <li>Onsite management and delivery</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Everything guests saw, touched, heard, and experienced was <strong>designed and produced in-house</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Concept -->
+      <section class="mb-5" aria-labelledby="conceptHeading">
+        <h2 id="conceptHeading" class="heading-blush-bg mb-4">The Concept</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">We created <em>A World of Flavours</em>—an activation inspired by the energy of a <strong>European café square</strong>, where food, culture, and community intersect.</p>
+            <p class="text-charcoal mb-0">The environment was intentionally designed to feel <strong>informal yet immersive</strong>, encouraging families to slow down, stay longer, and engage with the food offering across the centre—anchored by the launch of <em>Taste of Italy</em>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Designing the Experience -->
+      <section class="mb-5" aria-labelledby="designHeading">
+        <h2 id="designHeading" class="heading-blush-bg mb-4">Designing the Experience</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">The space was transformed into an alfresco village using layered visual and sensory cues:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Long communal tables styled as Italian café dining settings</li>
+              <li>Red-and-white linen, European umbrellas, bunting, and props</li>
+              <li>A French-style food cart built as a central voucher redemption point</li>
+              <li>Styling elements including bicycles, baskets, bread, fruit, florals, and café furniture</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The result was a cohesive environment that felt <strong>intentional, warm, and transportive</strong>—not temporary or generic.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Activity Design -->
+      <section class="mb-5" aria-labelledby="activityHeading">
+        <h2 id="activityHeading" class="heading-blush-bg mb-4">Interactive Activity Design</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">We designed and delivered <strong>three bespoke children's activity stations</strong>, each linking directly back to the food precinct.</p>
+            <p class="text-charcoal mt-3 mb-3">Children sat at café-style tables, wearing <strong>mini chef hats and aprons</strong>, personalising their identity as "Junior Chefs" before creating their chosen food piece.</p>
+            <p class="text-charcoal mb-0">Completed creations were exchanged at the food cart for vouchers from participating retailers—<strong>turning play into purchase intent</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Entertainment & Atmosphere -->
+      <section class="mb-5" aria-labelledby="entertainmentHeading">
+        <h2 id="entertainmentHeading" class="heading-blush-bg mb-4">Entertainment & Atmosphere</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">To reinforce the international theme, we curated and coordinated a full entertainment program:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Live international DJ (DJ Neenz) delivering a continuous multicultural soundscape</li>
+              <li>Cultural performances including drumming, dance, and folk acts (Not Taken Up)</li>
+              <li>Roving entertainers in European-inspired attire interacting with guests</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">Entertainment was programmed to enhance the environment—never overpower it—ensuring flow, energy, and dwell time remained high throughout the day.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Evidence -->
+      <section class="mb-5" aria-labelledby="visualEvidenceHeading">
+        <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
+        <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
+          <AboutImageCarousel id="worldOfFlavoursCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:idle />
+        </div>
+      </section>
+
+      <!-- The Outcome -->
+      <section class="mb-5" aria-labelledby="outcomeHeading">
+        <h2 id="outcomeHeading" class="heading-blush-bg mb-4">The Outcome</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3"><em>A World of Flavours</em> delivered strong engagement and commercial outcomes:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li><strong>300 children</strong> participated in craft activities over 5 hours</li>
+              <li>High dwell time and repeat participation throughout the day</li>
+              <li>Strong alignment with retailer vouchers, driving food precinct spend</li>
+              <li>Positive feedback from centre management, retailers, and families</li>
+              <li>Successful launch positioning for <em>Taste of Italy</em> within the community</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The event successfully positioned Forrestfield as a <strong>community-driven destination</strong>, where food, culture, and connection intersect.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Insight -->
+      <section class="mb-5" aria-labelledby="keyInsightHeading">
+        <h2 id="keyInsightHeading" class="heading-blush-bg mb-4">Key Insight</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3"><strong>When experience design connects creativity, culture, and commerce, it creates value for everyone.</strong></p>
+            <p class="text-charcoal mb-0"><em>A World of Flavours</em> demonstrated how <strong>thoughtful placemaking, hands-on engagement, and strategic retail integration</strong> can transform a single-day activation into a memorable community moment that drives both engagement and commercial outcomes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Delivered -->
+      <section class="mb-5" aria-labelledby="servicesHeading">
+        <h2 id="servicesHeading" class="heading-blush-bg mb-4">Services Delivered</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">All services offered from concept to execution, with service delivery in conjunction with the client to support existing client relationship and in-house capabilities:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Event concept & creative direction</li>
+              <li>Activity design & development</li>
+              <li>Custom styling & environmental build</li>
+              <li>Entertainment sourcing & coordination</li>
+              <li>Props & fabrication</li>
+              <li>Onsite delivery & management</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="mb-5 testimonials" aria-labelledby="testimonialsHeading">
+        <h2 id="testimonialsHeading" class="heading-blush-bg mb-4">What Our Clients Say</h2>
+        <TestimonialsCarousel client:idle />
+      </section>
+
+      <!-- Related Services -->
+      <section class="mb-5" aria-labelledby="relatedServicesHeading">
+        <h2 id="relatedServicesHeading" class="heading-blush-bg text-center mb-4">Related Services</h2>
+        <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Creative Workshops</h3>
+              <p class="text-charcoal">Hands-on workshops for kids and adults that engage, inspire, and create memorable experiences.</p>
+              <a href="/workshops" class="btn-gold btn-sm mt-3 inline-block">Explore Workshops</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Corporate Events</h3>
+              <p class="text-charcoal">Professional planning and execution for business events, conferences, and corporate celebrations.</p>
+              <a href="/events" class="btn-gold btn-sm mt-3 inline-block">Explore Corporate Events</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Event Management</h3>
+              <p class="text-charcoal">Full-service event management from concept to completion, including design, styling, and coordination.</p>
+              <a href="/capabilities" class="btn-gold btn-sm mt-3 inline-block">View Capabilities</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Related Success Stories -->
+      <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
+        <div class="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
+          <SuccessStoriesCarousel client:idle />
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mb-5" aria-labelledby="ctaHeading">
+        <div class="mx-auto max-w-4xl px-4 md:px-6">
+          <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Ready to Create Your Next Community Activation?</h2>
+          <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center p-5">
+              <p class="lead text-charcoal mb-5">Whether you're planning a tenant launch, community event, or retail activation, we bring the same creativity, attention to detail, and strategic thinking to every project.</p>
+              <div class="cta-buttons">
+                <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
+                <a href="/workshops" class="btn-outline-gold btn-lg mb-3">Explore Our Workshop Services</a>
+              </div>
+              <p class="text-charcoal mt-4 mb-0">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+                {" | "}
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+                <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

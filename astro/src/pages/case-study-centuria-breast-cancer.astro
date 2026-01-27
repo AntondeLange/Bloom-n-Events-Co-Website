@@ -1,0 +1,264 @@
+---
+/**
+ * Case Study: Centuria Breast Cancer Awareness - hero, anchor nav, The Brief, Our Approach, What We Created, Graphic Design, Human Impact, Visual Evidence, Outcome, Key Insight, Services, Testimonials, Related Services, Related Success Stories, CTA.
+ * Matches case-study-centuria-breast-cancer.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const visualEvidenceSlides = [
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg", alt: "Purpose-led installation honouring Breast Cancer Awareness Day with soft pink florals and symbolic elements" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg", alt: "Oversized floral sculptures on custom turf bases creating meaningful visual impact in premium corporate environment" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.3.jpg", alt: "Vibrant Spring activation with butterflies and handcrafted botanical details symbolising growth and renewal" },
+  { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.4.jpg", alt: "Seamless transition from awareness phase to Spring celebration creating photo-worthy moments for tenants and visitors" },
+];
+---
+
+<BaseLayout
+  title="Success Story: Breast Cancer Awareness Day & Spring Activation | Purpose-Led Installation | Bloom'n Events Co"
+  description="How Bloom'n Events Co designed a two-phase evolving installation that honoured Breast Cancer Awareness Day while seamlessly transitioning into a vibrant Spring activation at 140 St Georges Terrace."
+  path="/case-study-centuria-breast-cancer"
+>
+  <h1 class="visually-hidden">Success Story: Breast Cancer Awareness Day & Spring Activation</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg"
+        alt="Breast Cancer Awareness Day & Spring Activation"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Breast Cancer Awareness Day & Spring Activation
+        </h1>
+        <p class="hero-subhead">
+          Purpose-Led Installation Creates Meaningful Connection
+        </p>
+        <p class="hero-subhead">
+          How Bloom'n Events Co designed a two-phase evolving installation that honoured Breast Cancer Awareness Day while seamlessly transitioning into a vibrant Spring activation
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#briefHeading", label: "The Brief" },
+      { href: "#approachHeading", label: "Our Approach" },
+      { href: "#createdHeading", label: "What We Created" },
+      { href: "#outcomeHeading", label: "Outcome" },
+      { href: "#testimonialsHeading", label: "Testimonials" },
+    ]}
+  />
+
+  <!-- Success Story Content -->
+  <section class="section-main">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <!-- The Brief -->
+      <section class="mb-5" aria-labelledby="briefHeading">
+        <h2 id="briefHeading" class="heading-blush-bg mb-4">The Brief</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Centuria engaged Bloom'n Events Co. to conceive, design, and deliver a <strong>dual-purpose installation</strong> at 140 St Georges Terrace for October—marking <strong>Breast Cancer Awareness Day</strong> while evolving into a month-long <strong>Spring activation</strong>.</p>
+            <p class="text-charcoal mb-0">The brief called for more than visual impact. The installation needed to honour a deeply personal cause with sensitivity, offer hope and uplift, and integrate seamlessly into a premium corporate environment—enhancing the everyday experience of tenants and visitors.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Approach -->
+      <section class="mb-5" aria-labelledby="approachHeading">
+        <h2 id="approachHeading" class="heading-blush-bg mb-4">Our Approach</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Bloom'n Events Co. approached the project as a <strong>story told through form, material, and emotion</strong>.</p>
+            <p class="text-charcoal mb-0">Rather than a single static display, we designed an <strong>evolving installation</strong>—one that began with reflection and solidarity, then transitioned into renewal and optimism. Every element was created with intention, balancing artistry with restraint.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- What We Created & Produced -->
+      <section class="mb-5" aria-labelledby="createdHeading">
+        <h2 id="createdHeading" class="heading-blush-bg mb-4">What We Created & Produced</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">At the heart of the activation was a <strong>bespoke, large-scale sculptural installation</strong>, designed and produced in-house.</p>
+            <p class="text-charcoal mb-2"><strong>Key elements included:</strong></p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li><strong>Custom, hand-made oversized floral sculptures</strong>, individually crafted to scale, colour, and form—symbolising strength, growth, and resilience</li>
+              <li>A <strong>designer-built circular platform</strong> (1.5m diameter), fabricated specifically for the site to anchor the installation and elevate its presence within the space</li>
+              <li><strong>Soft pink florals and symbolic ribbon elements</strong> for Breast Cancer Awareness Day, transitioning seamlessly into vibrant spring blooms</li>
+              <li>Suspended sculptural features, including oversized butterflies, adding verticality and movement</li>
+              <li>A curated material palette that felt tactile, refined, and emotionally gentle rather than theatrical</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">All components were designed for longevity, safety, and visual coherence across a 33-day display period.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Graphic Design & Signage -->
+      <section class="mb-5" aria-labelledby="graphicDesignHeading">
+        <h2 id="graphicDesignHeading" class="heading-blush-bg mb-4">Graphic Design & Signage</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Bloom'n Events Co. also delivered all <strong>graphic design and signage</strong>, ensuring the messaging was clear, respectful, and aligned with Centuria's brand.</p>
+            <p class="text-charcoal mb-2">This included:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Custom-designed signage acknowledging Breast Cancer Awareness Day</li>
+              <li>Spring transition messaging that reinforced themes of renewal and hope</li>
+              <li>Visual consistency across all elements, allowing the installation to feel intentional rather than decorative</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The signage supported reflection without overwhelming the space or the audience.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Human Impact -->
+      <section class="mb-5" aria-labelledby="humanImpactHeading">
+        <h2 id="humanImpactHeading" class="heading-blush-bg mb-4">The Human Impact</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">While the installation delivered strong visual and placemaking outcomes, its most powerful impact was deeply personal.</p>
+            <p class="text-charcoal mb-3">One tenant shared that during the month-long activation, his wife was undergoing active cancer treatment. Seeing the installation each day—its softness, care, and symbolism—gave him <strong>a sense of hope and quiet strength during an otherwise overwhelming time</strong>.</p>
+            <p class="text-charcoal mb-0">That response affirmed the intent behind every design decision: this was not about spectacle, but about presence, empathy, and connection.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Evidence -->
+      <section class="mb-5" aria-labelledby="visualEvidenceHeading">
+        <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
+        <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
+          <AboutImageCarousel id="breastCancerCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:idle />
+        </div>
+      </section>
+
+      <!-- The Outcome -->
+      <section class="mb-5" aria-labelledby="outcomeHeading">
+        <h2 id="outcomeHeading" class="heading-blush-bg mb-4">The Outcome</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Sustained engagement from tenants and visitors throughout October</li>
+              <li>Strong positive feedback praising the sensitivity and craftsmanship of the installation</li>
+              <li>Increased dwell time and organic interaction within the foyer space</li>
+              <li>Reinforced perception of 140SGT as a people-first, values-led workplace</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The installation became part of the emotional fabric of the building for the month—not just something to look at, but something to feel.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Insight -->
+      <section class="mb-5" aria-labelledby="insightHeading">
+        <h2 id="insightHeading" class="heading-blush-bg mb-4">Key Insight</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-0">When placemaking is led by empathy and executed with craft, it transcends aesthetics.</p>
+            <p class="text-charcoal mt-3 mb-0">This activation demonstrated how <strong>thoughtful design, bespoke fabrication, and human-centred storytelling</strong> can create moments of genuine meaning within corporate environments.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Delivered -->
+      <section class="mb-5" aria-labelledby="servicesHeading">
+        <h2 id="servicesHeading" class="heading-blush-bg mb-4">Services Delivered</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">All services offered from concept to execution, with service delivery in conjunction with the client to support existing client relationship and in-house capabilities:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Concept & creative direction</li>
+              <li>Bespoke sculpture design & fabrication</li>
+              <li>Custom platform build</li>
+              <li>Graphic design & signage</li>
+              <li>Large-scale installation</li>
+              <li>Seasonal transformation</li>
+              <li>Bump-in, changeover & removal</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="mb-5 testimonials" aria-labelledby="testimonialsHeading">
+        <h2 id="testimonialsHeading" class="heading-blush-bg mb-4">What Our Clients Say</h2>
+        <TestimonialsCarousel client:idle />
+      </section>
+
+      <!-- Related Services -->
+      <section class="mb-5" aria-labelledby="relatedServicesHeading">
+        <h2 id="relatedServicesHeading" class="heading-blush-bg text-center mb-4">Related Services</h2>
+        <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Corporate Events</h3>
+              <p class="text-charcoal">Professional planning and execution for business events, conferences, and corporate celebrations.</p>
+              <a href="/events" class="btn-gold btn-sm mt-3 inline-block">Explore Corporate Events</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Custom Displays</h3>
+              <p class="text-charcoal">Stunning, bespoke installations and decorations that transform any space for events or businesses.</p>
+              <a href="/displays" class="btn-gold btn-sm mt-3 inline-block">View Custom Displays</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Event Management</h3>
+              <p class="text-charcoal">Full-service event management from concept to completion, including design, styling, and coordination.</p>
+              <a href="/capabilities" class="btn-gold btn-sm mt-3 inline-block">View Capabilities</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Related Success Stories -->
+      <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
+        <div class="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
+          <SuccessStoriesCarousel client:idle />
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mb-5" aria-labelledby="ctaHeading">
+        <div class="mx-auto max-w-4xl px-4 md:px-6">
+          <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Ready to Create Your Next Purpose-Led Installation?</h2>
+          <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center p-5">
+              <p class="lead text-charcoal mb-5">Whether you're planning a purpose-led activation, seasonal display, or meaningful corporate installation, we bring the same empathy, craftsmanship, and strategic thinking to every project.</p>
+              <div class="cta-buttons">
+                <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
+                <a href="/displays" class="btn-outline-gold btn-lg mb-3">Explore Our Display Services</a>
+              </div>
+              <p class="text-charcoal mt-4 mb-0">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+                {" | "}
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+                <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

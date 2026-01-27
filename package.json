@@ -4,16 +4,7 @@
   "description": "Bloom'n Events Co - Professional Event Planning & Displays Website",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "optimize-images": "node scripts/optimize-images.js",
-    "update-srcset": "node scripts/update-images-srcset.js",
-    "optimize-all": "npm run optimize-images && npm run update-srcset",
-    "audit-deps": "npm audit",
-    "check-accessibility": "node scripts/check-accessibility.js",
-    "lint-css": "stylelint 'assets/css/**/*.css'",
-    "analyze-bundle": "vite-bundle-visualizer"
+    "audit-deps": "npm audit"
   },
   "keywords": [
     "event-planning",

@@ -26,7 +26,9 @@
                 );
             }
         }).catch(function(err) {
-            // Silently fail - don't block page load
+            if (typeof console !== 'undefined' && console.warn) {
+                console.warn('Cache clear failed:', err);
+            }
         });
     }
     

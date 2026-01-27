@@ -1,0 +1,52 @@
+---
+/**
+ * SEO: title, meta description, canonical, Open Graph, Twitter Card, structured data.
+ * Used in BaseLayout. No client-side code.
+ */
+import type { SeoProps } from "../lib/seo";
+import { canonicalUrl, fullTitle } from "../lib/seo";
+import { SITE } from "../lib/constants";
+import { getOrganizationSchema, getWebPageSchema } from "../lib/structured-data";
+
+interface Props extends SeoProps {
+  /** Optional structured data type: 'service' for service pages */
+  structuredDataType?: "service" | "webpage";
+  /** Optional service name for Service schema */
+  serviceName?: string;
+}
+
+const { title, description, path = "/", ogImage, noindex, structuredDataType = "webpage", serviceName } = Astro.props;
+const canonical = canonicalUrl(path);
+const full = fullTitle(title);
+const image = ogImage ?? `${SITE.baseUrl}/assets/images/logo-wht.png`;
+
+// Generate structured data
+const organizationSchema = getOrganizationSchema();
+const webpageSchema = getWebPageSchema(full, description, canonical, image);
+---
+
+<title>{full}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:url" content={canonical} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+<meta name="theme-color" content={SITE.themeColor} />
+
+<!-- Structured Data: Organization (appears on all pages) -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+<!-- Structured Data: WebPage (appears on all pages) -->
+<script type="application/ld+json" set:html={JSON.stringify(webpageSchema)} />

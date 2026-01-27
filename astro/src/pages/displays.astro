@@ -1,0 +1,339 @@
+---
+/**
+ * Displays: hero, anchor nav, What We Do, How It Works, What You Get, FAQs, Case Studies, CTA.
+ * Matches displays.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import { CONTACT } from "../lib/constants";
+import { getServiceSchema } from "../lib/structured-data";
+
+const serviceSchema = getServiceSchema(
+  "Custom Displays & Installations",
+  "Custom displays and installations in Perth & Western Australia. Seasonal decorations, event displays, permanent installations. In-house design, engineering, and fabrication."
+);
+---
+
+<BaseLayout
+  title="Custom Displays & Installations Perth & WA | Bloom'n Events Co"
+  description="Custom displays and installations in Perth & Western Australia. Seasonal decorations, event displays, permanent installations. In-house design, engineering, and fabrication. Based in Brookton, WA."
+  path="/displays"
+>
+  <h1 class="visually-hidden">Custom Displays & Installations Perth & WA</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg"
+        alt="Custom displays and installations"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Custom Displays & Installations in Perth
+        </h1>
+        <p class="hero-subhead">
+          Transform your space with stunning, bespoke displays that captivate and inspire. From seasonal decorations to permanent installations, we create visual experiences that leave lasting impressions.
+        </p>
+        <div class="hero-cta">
+          <a href="/contact" class="btn-gold">Start Your Project</a>
+          <a href="/gallery" class="btn-outline-gold">View Our Displays</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#whatWeDoHeading", label: "What We Do" },
+      { href: "#howItWorksHeading", label: "How It Works" },
+      { href: "#whatYouGetHeading", label: "What You Get" },
+      { href: "#faqsHeading", label: "FAQs" },
+      { href: "#caseStudiesHeading", label: "Case Studies" },
+    ]}
+  />
+
+  <!-- What We Do Section -->
+  <section class="section-main" aria-labelledby="whatWeDoHeading" id="whatWeDoHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whatWeDoHeading" class="heading-blush-bg text-center">What We Do</h2>
+      <div class="grid gap-4 mb-5">
+        <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; padding: 24px 28px;">
+          <div class="card-body">
+            <p class="lead text-charcoal mb-3">
+              At <b>Bloom'n Creative Design Co.</b> we create custom displays that leave lasting impressions. Large, lifelike installations for corporate events, public celebrations, seasonal holidays, and venue launches across Perth and Western Australia.
+            </p>
+            <p class="text-charcoal mb-3">
+              Designed, engineered, and built in-house. Reflects your brand identity or event theme. We've created displays for <a href="/gallery" class="text-gold">Centuria Capital</a>, <a href="/gallery" class="text-gold">Hawaiian Shopping Centres</a>, and other leading Perth businesses.
+            </p>
+            <p class="text-charcoal mb-0">
+              Seasonal displays, event installations, or permanent displays. Built locally. Engineered for safety. Installed by the same team who designed it.
+            </p>
+          </div>
+        </div>
+        <div class="grid gap-2 grid-cols-2 lg:grid-cols-5">
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/BloomnDisplays/Displays (5).png" class="w-full h-full object-cover object-center" alt="Custom display installation" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/BloomnDisplays/Displays (6).png" class="w-full h-full object-cover object-center" alt="Creative display design" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/BloomnDisplays/Displays (10).png" class="w-full h-full object-cover object-center" alt="Custom display installation" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/BloomnDisplays/Displays (11).png" class="w-full h-full object-cover object-center" alt="Creative display design" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg" class="w-full h-full object-cover object-center" alt="Seasonal display installation" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg" class="w-full h-full object-cover object-center" alt="Event display setup" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg" class="w-full h-full object-cover object-center" alt="Elegant display installation" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg" class="w-full h-full object-cover object-center" alt="Elegant display installation" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG" class="w-full h-full object-cover object-center" alt="Phoenix display installation" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG" class="w-full h-full object-cover object-center" alt="Phoenix display installation" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Display Types -->
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <article class="card shadow service-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Seasonal & Holiday Displays</h3>
+            <p class="text-charcoal">Australia Day, ANZAC Day, Easter, Christmas, Lunar New Year, Valentine's Day, and more. We create displays that celebrate every occasion.</p>
+          </div>
+        </article>
+        <article class="card shadow service-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Cultural & Awareness Displays</h3>
+            <p class="text-charcoal">NAIDOC Week, International Women's Day, RUOK Day, Pink Ribbon Day, and other cultural and awareness events.</p>
+          </div>
+        </article>
+        <article class="card shadow service-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Custom Event Displays</h3>
+            <p class="text-charcoal">Product launches, venue openings, brand activations, and bespoke installations tailored to your specific event or theme.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section-secondary" aria-labelledby="howItWorksHeading" id="howItWorksHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="howItWorksHeading" class="heading-blush-bg text-center">How It Works</h2>
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-chat-dots" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">1. Consultation</h3>
+            <p class="text-charcoal">We discuss your vision, venue, theme, and objectives. Our designers work with you to create a concept that perfectly matches your needs.</p>
+          </div>
+        </article>
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-pencil-square" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">2. Design & Build</h3>
+            <p class="text-charcoal">Our in-house team designs and builds your display, sourcing materials and creating unique, oversized installations with grand visual impact.</p>
+          </div>
+        </article>
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-tools" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">3. Installation</h3>
+            <p class="text-charcoal">We handle complete setup, ensuring seamless venue integration. Our team manages all technical elements, lighting, and styling.</p>
+          </div>
+        </article>
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-check-circle" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">4. Maintenance & Pack-Down</h3>
+            <p class="text-charcoal">We provide ongoing maintenance throughout your event and handle complete pack-down afterward. For hire displays, we manage storage and reuse.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You Get Section -->
+  <section class="section-main" aria-labelledby="whatYouGetHeading" id="whatYouGetHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whatYouGetHeading" class="heading-blush-bg text-center">What You Get</h2>
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Custom Design</h3>
+            <p class="text-charcoal">Every display is uniquely designed to match your brand, theme, or event. No generic solutions—we create bespoke installations that reflect your vision.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">In-House Production</h3>
+            <p class="text-charcoal">Design, fabrication, and installation are all handled in-house. This ensures quality, consistency, and a single point of contact throughout the process.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Oversized Impact</h3>
+            <p class="text-charcoal">We specialise in large, lifelike installations that create grand visual impact. Our displays are designed to captivate and inspire from any angle.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Technical Integration</h3>
+            <p class="text-charcoal">With 40+ years of engineering expertise, we can integrate lighting, sound, and interactive elements safely and professionally.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Hire or Purchase Options</h3>
+            <p class="text-charcoal">Choose to hire displays for seasonal events or purchase permanent installations. We can also create reusable displays for ongoing use.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Full Service Management</h3>
+            <p class="text-charcoal">From initial consultation through to pack-down, we manage every aspect. You have one dedicated team handling everything.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs Section -->
+  <section class="section-secondary" aria-labelledby="faqsHeading" id="faqsHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="faqsHeading" class="heading-blush-bg text-center">Frequently Asked Questions</h2>
+      <div class="max-w-4xl mx-auto">
+        <div class="accordion" id="displaysFAQ">
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
+                Can displays be hired or do we need to purchase them?
+              </button>
+            </h3>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#displaysFAQ">
+              <div class="accordion-body text-charcoal">
+                We offer both hire and purchase options. For seasonal displays that you'll use annually, hiring is often more cost-effective. For permanent installations or custom displays, purchase may be the better option. We'll discuss the best approach for your needs during consultation.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false">
+                How far in advance should we book?
+              </button>
+            </h3>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#displaysFAQ">
+              <div class="accordion-body text-charcoal">
+                For custom displays, we recommend booking 6-8 weeks in advance to allow time for design, sourcing, and fabrication. For seasonal displays using existing designs, 3-4 weeks is usually sufficient. However, we can accommodate shorter timelines depending on complexity and availability.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false">
+                Do you handle installation and removal?
+              </button>
+            </h3>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#displaysFAQ">
+              <div class="accordion-body text-charcoal">
+                Yes, we provide full installation and removal services. Our team handles all setup, ensures proper integration with your venue, and manages complete pack-down after your event. For hire displays, we also handle storage and maintenance.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false">
+                Can displays be customised to our brand?
+              </button>
+            </h3>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#displaysFAQ">
+              <div class="accordion-body text-charcoal">
+                Absolutely. Every display is customised to match your brand, theme, or event. We work closely with you to ensure colours, styling, and messaging align perfectly with your brand identity and objectives.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false">
+                What areas do you serve?
+              </button>
+            </h3>
+            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#displaysFAQ">
+              <div class="accordion-body text-charcoal">
+                We serve businesses throughout Perth and Western Australia. Based in Brookton, WA, we regularly work with clients across the Perth metropolitan area and can travel to regional locations as needed.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Case Studies Section -->
+  <section class="section-main" aria-labelledby="caseStudiesHeading" id="case-studies">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="caseStudiesHeading" class="heading-blush-bg text-center">Related Case Studies</h2>
+      <SuccessStoriesCarousel client:idle />
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="section-main" aria-labelledby="ctaHeading" id="cta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="ctaHeading" class="heading-blush-bg text-center">Ready to Start Your Project?</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">Whether you need a seasonal display, custom installation, or permanent display, we're here to create solutions that captivate and inspire your audience.</p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start Your Project</a>
+            <a href="/gallery" class="btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+            {" | "}
+            <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+
+  <!-- Structured Data: Service -->
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+</BaseLayout>

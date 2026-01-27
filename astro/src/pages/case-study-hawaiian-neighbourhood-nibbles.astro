@@ -1,0 +1,290 @@
+---
+/**
+ * Case Study: Hawaiian Neighbourhood Nibbles - hero, anchor nav, Background, Our Role, Concept, Designing Environment, Activity Design, Staffing, Visual Evidence, Outcome, Key Insight, Services, Testimonials, Related Services, Related Success Stories, CTA.
+ * Matches case-study-hawaiian-neighbourhood-nibbles.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+
+const visualEvidenceSlides = [
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg", alt: "Kids enjoying Hawaiian Neighbourhood Nibbles food-based school holiday workshop" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (2).jpg", alt: "Hands-on food-based activities engaging families across five Hawaiian shopping centres" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (5).jpg", alt: "Portable, consistent programme maintaining high-quality experience across multiple centre locations" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (3).jpg", alt: "Children participating in fun and educational food-based activities that encouraged dwell time" },
+  { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (4).jpg", alt: "Unique food-based experience that drove traffic uplifts across participating shopping centres" },
+];
+---
+
+<BaseLayout
+  title="Success Story: Neighbourhood Nibbles | School Holiday Programme | Bloom'n Events Co"
+  description="How Bloom'n Events Co delivered a successful food-based activity programme for Hawaiian across their suburban neighbourhood assets, driving traffic and family engagement across five shopping centres in 5 days."
+  path="/case-study-hawaiian-neighbourhood-nibbles"
+>
+  <h1 class="visually-hidden">Success Story: Neighbourhood Nibbles</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (5).jpg"
+        alt="School Holiday Programme Drives Traffic Across 5 Centres in 5 Days"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Neighbourhood Nibbles
+        </h1>
+        <p class="hero-subhead">
+          School Holiday Programme Drives Traffic and Family Engagement Across Five Shopping Centres in 5 Days.
+        </p>
+        <p class="hero-subhead">
+          How Bloom'n Events Co delivered a successful food-based activity programme for Hawaiian across their suburban neighbourhood assets
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#backgroundHeading", label: "Background" },
+      { href: "#ourRoleHeading", label: "Our Role" },
+      { href: "#conceptHeading", label: "The Concept" },
+      { href: "#outcomeHeading", label: "Outcome" },
+      { href: "#testimonialsHeading", label: "Testimonials" },
+    ]}
+  />
+
+  <!-- Success Story Content -->
+  <section class="section-main">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <!-- The Background -->
+      <section class="mb-5" aria-labelledby="backgroundHeading">
+        <h2 id="backgroundHeading" class="heading-blush-bg mb-4">The Background</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Food is one of Hawaiian Group's strongest strategic assets, with each centre offering a diverse mix of casual dining and takeaway options.</p>
+            <p class="text-charcoal mb-3">In May 2025, Hawaiian launched <strong>Neighbourhood Nibbles</strong>—a portfolio-wide media, loyalty, and content campaign celebrating this breadth of food catering through the Neighbourhood Perks rewards platform.</p>
+            <p class="text-charcoal mb-0">The July school holidays presented the opportunity to <strong>bring the campaign to life physically</strong>, bookending the digital activity with an on-ground, family-focused experience under a seasonal <strong>Winter Bites</strong> theme.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Our Role -->
+      <section class="mb-5" aria-labelledby="ourRoleHeading">
+        <h2 id="ourRoleHeading" class="heading-blush-bg mb-4">Our Role</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Bloom'n Events Co. was engaged to <strong>adapt and scale the successful <em>A World of Flavours</em> concept</strong> into a <strong>five-centre, five-day school holiday roadshow</strong>, delivering a consistent yet flexible activation across the suburban portfolio.</p>
+            <p class="text-charcoal mb-2">Our scope covered <strong>concept, design, production, logistics, and delivery</strong>, including:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Creative concept adaptation and seasonal theming</li>
+              <li>Design of all children's activities</li>
+              <li>Custom props, styling, and environmental build</li>
+              <li>Furniture planning and spatial layouts</li>
+              <li>Signage and visual presentation</li>
+              <li>Staffing, coordination, daily bump-in and pack-down</li>
+              <li>Multi-site logistics and travel management</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Concept -->
+      <section class="mb-5" aria-labelledby="conceptHeading">
+        <h2 id="conceptHeading" class="heading-blush-bg mb-4">The Concept</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3"><em>Neighbourhood Nibbles – Winter Bites</em> was designed as a <strong>warm, welcoming European-style café workshop</strong>, reinterpreting the <em>World of Flavours</em> experience for winter and school holiday audiences.</p>
+            <p class="text-charcoal mb-0">Each centre hosted a <strong>one-day activation</strong> during the first week of the July holidays, transforming high-traffic areas into intimate, craft-led food spaces that encouraged families to stop, participate, and stay longer.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Designing the Environment -->
+      <section class="mb-5" aria-labelledby="designHeading">
+        <h2 id="designHeading" class="heading-blush-bg mb-4">Designing the Environment</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Each activation space was fully styled and built to feel cohesive across all centres:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Good-quality wooden trestle tables and stools</li>
+              <li>Seating for up to 12 children at a time, with managed session flow</li>
+              <li>Italian-inspired table runners and placemats at every seat</li>
+              <li>A styled food cart as the visual anchor and registration point</li>
+              <li>European props including bicycle, bread baskets, produce, and café furniture</li>
+              <li>Market umbrellas with weighted bases, integrated into the activity zone</li>
+              <li>Branded signage displayed on wooden easels</li>
+              <li>Optional visual backdrop for themed photo moments</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The result was a <strong>consistent roadshow identity</strong> that could flex to suit each centre's footprint without losing impact.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activity Design -->
+      <section class="mb-5" aria-labelledby="activityHeading">
+        <h2 id="activityHeading" class="heading-blush-bg mb-4">Activity Design</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Based on proven engagement at Forrestfield, we delivered <strong>two highly popular, hands-on craft activities</strong>.</p>
+            <p class="text-charcoal mb-3">Activities were designed to feel playful yet structured, with children stepping into the role of "mini chefs" before creating their food-inspired craft.</p>
+            <p class="text-charcoal mb-0">Each child received a <strong>personalised chef hat to take home</strong>, extending the experience beyond the event itself, while reusable mini chef aprons were supplied onsite.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Staffing & Delivery -->
+      <section class="mb-5" aria-labelledby="staffingHeading">
+        <h2 id="staffingHeading" class="heading-blush-bg mb-4">Staffing & Delivery</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Each day was delivered by <strong>two Bloom'n Events Co. staff</strong>, dressed in full chef attire, managing:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Activity facilitation</li>
+              <li>Crowd flow and session timing</li>
+              <li>Parent engagement</li>
+              <li>Pack-down, reset, and relocation between centres</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The program required <strong>daily set-up and pack-down</strong>, plus coordination across five consecutive days—managed seamlessly to ensure consistency, safety, and energy at every location.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Evidence -->
+      <section class="mb-5" aria-labelledby="visualEvidenceHeading">
+        <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
+        <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
+          <AboutImageCarousel id="neighbourhoodNibblesCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:idle />
+        </div>
+      </section>
+
+      <!-- The Outcome -->
+      <section class="mb-5" aria-labelledby="outcomeHeading">
+        <h2 id="outcomeHeading" class="heading-blush-bg mb-4">The Outcome</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">Neighbourhood Nibbles – Winter Bites achieved strong results across the portfolio:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Up to <strong>100 children per centre</strong> planned at high-performing locations</li>
+              <li>High repeat participation throughout each day (10am–2pm)</li>
+              <li>Strong alignment with Neighbourhood Perks offers and retailer vouchers</li>
+              <li>Increased dwell time within food precincts</li>
+              <li>Positive feedback from centre management, retailers, and families</li>
+            </ul>
+            <p class="text-charcoal mt-3 mb-0">The program successfully translated a digital food campaign into a <strong>tangible, memorable family experience</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Insight -->
+      <section class="mb-5" aria-labelledby="keyInsightHeading">
+        <h2 id="keyInsightHeading" class="heading-blush-bg mb-4">Key Insight</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3"><strong>When a concept is designed to scale, it becomes a platform—not a one-off.</strong></p>
+            <p class="text-charcoal mb-0">Neighbourhood Nibbles – Winter Bites demonstrates Bloom'n Events Co.'s ability to <strong>evolve a successful activation into a multi-site roadshow</strong>, delivering consistent brand storytelling, operational excellence, and meaningful retail outcomes across an entire portfolio.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Delivered -->
+      <section class="mb-5" aria-labelledby="servicesHeading">
+        <h2 id="servicesHeading" class="heading-blush-bg mb-4">Services Delivered</h2>
+        <div class="card mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">All services offered from concept to execution, with service delivery in conjunction with the client to support existing client relationship and in-house capabilities:</p>
+            <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>Concept adaptation</li>
+              <li>Experiential & activity design</li>
+              <li>Props & styling</li>
+              <li>Roadshow logistics</li>
+              <li>Staffing & facilitation</li>
+              <li>Multi-site delivery</li>
+              <li>Retail placemaking</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="mb-5 testimonials" aria-labelledby="testimonialsHeading">
+        <h2 id="testimonialsHeading" class="heading-blush-bg mb-4">What Our Clients Say</h2>
+        <TestimonialsCarousel client:idle />
+      </section>
+
+      <!-- Related Services -->
+      <section class="mb-5" aria-labelledby="relatedServicesHeading">
+        <h2 id="relatedServicesHeading" class="heading-blush-bg text-center mb-4">Related Services</h2>
+        <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Creative Workshops</h3>
+              <p class="text-charcoal">Hands-on workshops for kids and adults that engage, inspire, and create memorable experiences.</p>
+              <a href="/workshops" class="btn-gold btn-sm mt-3 inline-block">Explore Workshops</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Corporate Events</h3>
+              <p class="text-charcoal">Professional planning and execution for business events, conferences, and corporate celebrations.</p>
+              <a href="/events" class="btn-gold btn-sm mt-3 inline-block">Explore Corporate Events</a>
+            </div>
+          </article>
+          <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center">
+              <h3 class="text-gold mb-3">Event Management</h3>
+              <p class="text-charcoal">Full-service event management from concept to completion, including design, styling, and coordination.</p>
+              <a href="/capabilities" class="btn-gold btn-sm mt-3 inline-block">View Capabilities</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Related Success Stories -->
+      <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
+        <div class="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
+          <SuccessStoriesCarousel client:idle />
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mb-5" aria-labelledby="ctaHeading">
+        <div class="mx-auto max-w-4xl px-4 md:px-6">
+          <h2 id="ctaHeading" class="heading-blush-bg text-center mb-5">Ready to Create Your Next School Holiday Programme?</h2>
+          <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+            <div class="card-body text-center p-5">
+              <p class="lead text-charcoal mb-5">Whether you're planning a single-centre activation or a multi-site roadshow, we bring the same attention to detail, operational excellence, and family-focused creativity to every project.</p>
+              <div class="cta-buttons">
+                <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Get a Free Consultation</a>
+                <a href="/workshops" class="btn-outline-gold btn-lg mb-3">Explore Our Workshop Services</a>
+              </div>
+              <p class="text-charcoal mt-4 mb-0">
+                <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+                <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+                {" | "}
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+                <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>

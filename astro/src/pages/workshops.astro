@@ -1,0 +1,347 @@
+---
+/**
+ * Workshops: hero, anchor nav, What We Do, How It Works, What You Get, FAQs, Case Studies, CTA.
+ * Matches workshops.html layout and copy.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/AnchorNav.astro";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
+import { CONTACT } from "../lib/constants";
+import { getServiceSchema } from "../lib/structured-data";
+
+const serviceSchema = getServiceSchema(
+  "Creative Workshops",
+  "Creative workshops for kids and adults in Perth & Western Australia. School holiday programmes, team building, community events. In-house design and delivery."
+);
+---
+
+<BaseLayout
+  title="Creative Workshops Perth & WA | Kids & Adult Workshops | Bloom'n Events Co"
+  description="Creative workshops for kids and adults in Perth & Western Australia. School holiday programmes, team building, community events. In-house design and delivery. Based in Brookton, WA."
+  path="/workshops"
+>
+  <h1 class="visually-hidden">Creative Workshops Perth & WA</h1>
+
+  <!-- Hero -->
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <img
+        src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0115.jpg"
+        alt="Creative workshops for kids and adults"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">
+          Creative Workshops for Kids & Adults in Perth
+        </h1>
+        <p class="hero-subhead">
+          Hands-on learning experiences that spark creativity, connection, and joy. From school holiday programmes to team building workshops, we deliver engaging activities across Perth and Western Australia.
+        </p>
+        <div class="hero-cta">
+          <a href="/contact" class="btn-gold">Book a Workshop</a>
+          <a href="#case-studies" class="btn-outline-gold">View Success Stories</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#whatWeDoHeading", label: "What We Do" },
+      { href: "#howItWorksHeading", label: "How It Works" },
+      { href: "#whatYouGetHeading", label: "What You Get" },
+      { href: "#faqsHeading", label: "FAQs" },
+      { href: "#case-studies", label: "Case Studies" },
+    ]}
+  />
+
+  <!-- What We Do Section -->
+  <section class="section-main" aria-labelledby="whatWeDoHeading" id="whatWeDoHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whatWeDoHeading" class="heading-blush-bg text-center">What We Do</h2>
+      <div class="grid gap-4 mb-5">
+        <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; padding: 24px 28px;">
+          <div class="card-body">
+            <p class="lead text-charcoal mb-3">
+              <b>Bloom'n Events Co.</b> delivers hands-on workshop experiences that spark curiosity and connection. From single-day activations to full school holiday programmes across Perth and Western Australia—nature art, sustainability, food crafts, and creative learning.
+            </p>
+            <p class="text-charcoal mb-3">
+              Designed and delivered in-house. No external facilitators to brief. Customised to your event, season, or theme. We've delivered workshops for <a href="/case-study-hawaiian-neighbourhood-nibbles" class="text-gold">Hawaiian Shopping Centres</a> and other leading Perth businesses—driving traffic and engagement.
+            </p>
+            <p class="text-charcoal mb-0">
+              Suitable for kids, adults, seniors, and team-building. We provide all materials and facilitation. One team. Consistent quality. No coordination headaches.
+            </p>
+          </div>
+        </div>
+        <div class="grid gap-2 grid-cols-2 lg:grid-cols-5">
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/AdultWorkshops/adultworkshops (3).jpg" class="w-full h-full object-cover object-center" alt="Adult creative workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/AdultWorkshops/adultworkshops (4).jpg" class="w-full h-full object-cover object-center" alt="Adult creative workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/KidsWorkshops/kidsworkshops01.jpg" class="w-full h-full object-cover object-center" alt="Kids creative workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/KidsWorkshops/kidsworkshops02.jpg" class="w-full h-full object-cover object-center" alt="Kids creative workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg" class="w-full h-full object-cover object-center" alt="Hawaiian Neighbourhood Nibbles workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (2).jpg" class="w-full h-full object-cover object-center" alt="Hawaiian Neighbourhood Nibbles workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0115.jpg" class="w-full h-full object-cover object-center" alt="Hawaiian World of Flavours workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0021.jpg" class="w-full h-full object-cover object-center" alt="Hawaiian World of Flavours workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG" class="w-full h-full object-cover object-center" alt="Phoenix school holiday workshop" loading="lazy" decoding="async">
+          </div>
+          <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
+            <img src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25305.JPG" class="w-full h-full object-cover object-center" alt="Phoenix school holiday workshop" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Workshop Types -->
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
+        <article class="card shadow service-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Kids Workshops</h3>
+            <p class="text-charcoal mb-3">Perfect for school holidays, community events, and family activations. Activities include nature crafts, sustainability projects, food crafts, and creative learning.</p>
+            <ul class="text-start text-charcoal small pl-4 md:pl-[120px]">
+              <li>Compostable Veggie Planter Pots</li>
+              <li>Native Bee Hotels & Bird Feeders</li>
+              <li>Nature Art & Weaving Crafts</li>
+              <li>Food Crafts & Creative Learning</li>
+              <li>Plus many more customised options</li>
+            </ul>
+          </div>
+        </article>
+        <article class="card shadow service-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Adult Workshops</h3>
+            <p class="text-charcoal mb-3">Ideal for team building, seniors' events, wellness programmes, and community gatherings. Focus on art, mindfulness, sustainability, and relaxation.</p>
+            <ul class="text-start text-charcoal small pl-4 md:pl-[120px]">
+              <li>Vision Board Canvas Creation</li>
+              <li>Mandala Mindfulness Art</li>
+              <li>Nature Weaving & Hydrodipping</li>
+              <li>Sip & Paint Activities</li>
+              <li>Plus customised workshop options</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section-secondary" aria-labelledby="howItWorksHeading" id="howItWorksHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="howItWorksHeading" class="heading-blush-bg text-center">How It Works</h2>
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-calendar-check" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">1. Book Your Workshop</h3>
+            <p class="text-charcoal">Contact us to discuss your needs, audience, dates, and location. We'll recommend suitable workshop activities and provide a customised quote.</p>
+          </div>
+        </article>
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-box-seam" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">2. We Prepare Everything</h3>
+            <p class="text-charcoal">Our team prepares all materials, tools, and supplies. We handle setup, ensuring everything is ready before participants arrive.</p>
+          </div>
+        </article>
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-people" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">3. Facilitate the Session</h3>
+            <p class="text-charcoal">Our experienced facilitators guide participants through each activity, ensuring everyone feels supported and engaged throughout the workshop.</p>
+          </div>
+        </article>
+        <article class="card shadow why-us-card" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <div class="why-us-icon mb-3">
+              <i class="bi bi-brush" aria-hidden="true"></i>
+            </div>
+            <h3 class="text-gold mb-3">4. Clean Up & Follow-Up</h3>
+            <p class="text-charcoal">We handle all pack-down and cleanup. Participants take home their creations, and we're available for feedback and future bookings.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You Get Section -->
+  <section class="section-main" aria-labelledby="whatYouGetHeading" id="whatYouGetHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whatYouGetHeading" class="heading-blush-bg text-center">What You Get</h2>
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">All Materials Included</h3>
+            <p class="text-charcoal">We provide all craft supplies, tools, and materials needed for each workshop. No need to source or prepare anything—we handle it all.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Expert Facilitation</h3>
+            <p class="text-charcoal">Our experienced facilitators guide participants through each activity, ensuring everyone feels supported and can complete their creation successfully.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Customised Activities</h3>
+            <p class="text-charcoal">Workshops are tailored to your audience, theme, and objectives. We can adapt activities for different age groups, skill levels, and event types.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Proven Engagement</h3>
+            <p class="text-charcoal">Our workshops have successfully driven traffic and dwell time for clients. See our <a href="/case-study-hawaiian-neighbourhood-nibbles" class="text-gold">Hawaiian Neighbourhood Nibbles success story</a> for results.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Flexible Scheduling</h3>
+            <p class="text-charcoal">We can deliver single-day workshops, multi-day programmes, or ongoing series. Perfect for school holidays, team building, or community events.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers);">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Full Setup & Cleanup</h3>
+            <p class="text-charcoal">We handle all setup before participants arrive and complete cleanup afterward. You can focus on your event while we manage the workshop.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs Section -->
+  <section class="section-secondary" aria-labelledby="faqsHeading" id="faqsHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="faqsHeading" class="heading-blush-bg text-center">Frequently Asked Questions</h2>
+      <div class="max-w-4xl mx-auto">
+        <div class="accordion" id="workshopsFAQ">
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
+                What age groups do you cater for?
+              </button>
+            </h3>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#workshopsFAQ">
+              <div class="accordion-body text-charcoal">
+                We offer workshops for all ages. Our kids workshops are suitable for children aged 5-15, while our adult workshops are designed for adults and seniors. We can also create custom workshops for specific age groups or mixed-age events.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false">
+                How many participants can you accommodate?
+              </button>
+            </h3>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#workshopsFAQ">
+              <div class="accordion-body text-charcoal">
+                We can accommodate various group sizes depending on the activity and venue. For single workshops, we typically handle 10-30 participants per session. For larger programmes, we can run multiple sessions or scale up with additional facilitators. Contact us to discuss your specific needs.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false">
+                Do you provide all materials?
+              </button>
+            </h3>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#workshopsFAQ">
+              <div class="accordion-body text-charcoal">
+                Yes, we provide all materials, tools, and supplies needed for each workshop. This includes craft supplies, tools, and any special items required. Participants just need to show up ready to create!
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false">
+                Can workshops be customised to our theme?
+              </button>
+            </h3>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#workshopsFAQ">
+              <div class="accordion-body text-charcoal">
+                Absolutely. We specialise in customising workshops to match your event theme, season, or brand. Whether it's a Hawaiian theme, sustainability focus, or seasonal celebration, we can adapt activities to align with your vision.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false">
+                How far in advance should we book?
+              </button>
+            </h3>
+            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#workshopsFAQ">
+              <div class="accordion-body text-charcoal">
+                We recommend booking at least 3-4 weeks in advance, especially for school holiday programmes or multi-location events. However, we can accommodate shorter timelines depending on availability. Contact us to discuss your dates.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Case Studies Section -->
+  <section class="section-main" aria-labelledby="caseStudiesHeading" id="case-studies">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="caseStudiesHeading" class="heading-blush-bg text-center">Related Case Studies</h2>
+      <SuccessStoriesCarousel client:idle />
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="section-main" aria-labelledby="ctaHeading" id="cta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="ctaHeading" class="heading-blush-bg text-center">Ready to Start Your Project?</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">Whether you're planning a school holiday programme, team-building event, or community activation, we're here to create memorable workshop experiences.</p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Book a Workshop</a>
+            <a href="/gallery" class="btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">{CONTACT.phone}</a>
+            {" | "}
+            <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">{CONTACT.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+
+  <!-- Structured Data: Service -->
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+</BaseLayout>
