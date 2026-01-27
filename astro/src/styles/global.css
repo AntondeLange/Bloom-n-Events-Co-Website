@@ -4082,6 +4082,37 @@ html body:not(.home) nav#main-navbar.navbar {
   border-bottom: 2px solid var(--color-gold) !important;
 }
 
+/* HARD OVERRIDE: Home navbar initial bottom, then top when data-nav-pos="top" */
+html body.home #main-navbar.navbar:not([data-nav-pos="top"]),
+html body.home nav#main-navbar.navbar:not([data-nav-pos="top"]) {
+  position: fixed !important;
+  bottom: env(safe-area-inset-bottom, 0) !important;
+  top: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 60 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border-top: 2px solid var(--color-gold) !important;
+  border-bottom: none !important;
+}
+
+html body.home #main-navbar.navbar[data-nav-pos="top"],
+html body.home nav#main-navbar.navbar[data-nav-pos="top"] {
+  position: fixed !important;
+  top: env(safe-area-inset-top, 0) !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 70 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  border-top: none !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+}
+
 /* Ensure ancestors of anchor-nav do NOT break sticky (overflow/transform/contain) */
 html body:not(.home) main,
 html body:not(.home) main * {
