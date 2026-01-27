@@ -78,6 +78,15 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
       return;
     }
 
+      // Fallback: if user scrolls even slightly, force top and keep it there (prevents stuck-at-bottom)
+      const onScrollFallback = () => {
+        if (window.scrollY > 12) {
+          setTop();
+          window.removeEventListener("scroll", onScrollFallback);
+        }
+      };
+      window.addEventListener("scroll", onScrollFallback, { passive: true });
+
     // CRITICAL: Wait a frame before setting up observers to ensure initial bottom state is applied
     // This prevents the observer from immediately overriding our initial bottom positioning
     requestAnimationFrame(() => {
@@ -128,6 +137,7 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
         (window as any).__navbarHeroObserver.disconnect();
         delete (window as any).__navbarHeroObserver;
       }
+      window.removeEventListener("scroll", onScrollFallback);
     };
   }, [isHome]);
 
