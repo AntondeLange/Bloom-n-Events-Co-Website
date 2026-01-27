@@ -30,15 +30,6 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
       navbar.classList.remove("top-[env(safe-area-inset-top)]", "z-50", "border-b-2");
       // Add bottom classes
       navbar.classList.add("fixed", "bottom-[env(safe-area-inset-bottom)]", "inset-x-0", "z-40", "border-t-2");
-      // CRITICAL: Force with inline styles using setProperty (highest priority)
-      navbar.style.setProperty("position", "fixed", "important");
-      navbar.style.setProperty("bottom", "env(safe-area-inset-bottom, 0)", "important");
-      navbar.style.setProperty("top", "auto", "important");
-      navbar.style.setProperty("z-index", "40", "important");
-      // CRITICAL: Ensure navbar is always visible
-      navbar.style.setProperty("display", "flex", "important");
-      navbar.style.setProperty("visibility", "visible", "important");
-      navbar.style.setProperty("opacity", "1", "important");
     };
 
     const setTop = () => {
@@ -48,15 +39,6 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
       navbar.classList.remove("bottom-[env(safe-area-inset-bottom)]", "z-40", "border-t-2");
       // Add top classes
       navbar.classList.add("fixed", "top-[env(safe-area-inset-top)]", "inset-x-0", "z-50", "border-b-2");
-      // CRITICAL: Force with inline styles using setProperty (highest priority)
-      navbar.style.setProperty("position", "fixed", "important");
-      navbar.style.setProperty("top", "env(safe-area-inset-top, 0)", "important");
-      navbar.style.setProperty("bottom", "auto", "important");
-      navbar.style.setProperty("z-index", "50", "important");
-      // CRITICAL: Ensure navbar is always visible
-      navbar.style.setProperty("display", "flex", "important");
-      navbar.style.setProperty("visibility", "visible", "important");
-      navbar.style.setProperty("opacity", "1", "important");
     };
 
     // NON-HOMEPAGE → always fixed top

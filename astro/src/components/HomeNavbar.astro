@@ -22,61 +22,16 @@ const isHome = currentPath === "/" || currentPath === "/index.html";
 
 <nav
   id="main-navbar"
-  class="navbar w-full bg-charcoal fixed bottom-[env(safe-area-inset-bottom)] inset-x-0 z-40 transition-[background-color,box-shadow] duration-300 border-gold border-t-2"
+  class:list={[
+    "navbar w-full bg-charcoal inset-x-0 transition-[background-color,box-shadow] duration-300 border-gold",
+    isHome ? "fixed bottom-[env(safe-area-inset-bottom)] z-40 border-t-2" : "fixed top-[env(safe-area-inset-top)] z-50 border-b-2"
+  ]}
   role="navigation"
   aria-label="Primary"
-  data-nav-pos="bottom"
-  style={isHome ? "position: fixed !important; bottom: env(safe-area-inset-bottom, 0) !important; top: auto !important; z-index: 40 !important;" : "position: fixed !important; top: env(safe-area-inset-top, 0) !important; bottom: auto !important; z-index: 50 !important;"}
+  data-nav-pos={isHome ? "bottom" : "top"}
 >
   <NavbarContent currentPath={currentPath} isHome={isHome} />
 </nav>
 
-<!-- React component handles positioning logic - loads immediately -->
+<!-- React component handles positioning logic -->
 <NavbarPositionController client:load isHome={isHome} />
-
-<!-- CRITICAL: Immediate inline script to force bottom positioning before ANY CSS or React loads -->
-{isHome && (
-  <script is:inline define:vars={{ isHome }}>
-    (function() {
-      // Run immediately, before DOMContentLoaded
-      if (!isHome) return;
-      
-      function forceBottom() {
-        const navbar = document.getElementById('main-navbar');
-        if (navbar) {
-          // Remove any top positioning classes and inline styles
-          navbar.classList.remove('top-[env(safe-area-inset-top)]', 'top-0', 'z-50', 'border-b-2');
-          navbar.classList.add('bottom-[env(safe-area-inset-bottom)]', 'z-40', 'border-t-2');
-          // Remove any top positioning
-          navbar.style.removeProperty('top');
-          // Force bottom positioning with highest priority
-          navbar.style.setProperty('position', 'fixed', 'important');
-          navbar.style.setProperty('bottom', 'env(safe-area-inset-bottom, 0)', 'important');
-          navbar.style.setProperty('top', 'auto', 'important');
-          navbar.style.setProperty('z-index', '40', 'important');
-          navbar.dataset.navPos = 'bottom';
-          console.log('Inline script: Forced navbar to bottom');
-          return true;
-        }
-        return false;
-      }
-      
-      // Try immediately
-      if (!forceBottom()) {
-        // If navbar doesn't exist yet, try on next tick
-        setTimeout(forceBottom, 0);
-      }
-      
-      // Also force on DOMContentLoaded as a safety net
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', forceBottom);
-      } else {
-        // Already loaded, force immediately
-        forceBottom();
-      }
-      
-      // Final safety net: force again after a short delay to override any React/JS that might run
-      setTimeout(forceBottom, 100);
-    })();
-  </script>
-)}
