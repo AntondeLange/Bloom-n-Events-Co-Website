@@ -24,25 +24,25 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
       return;
     }
 
-    const setBottom = () => {
-      if (lockedTop.current) return;
-      setNavPosition("bottom");
-      navbar.dataset.navPos = "bottom";
-      // Remove top classes
-      navbar.classList.remove("top-[env(safe-area-inset-top)]", "z-50", "border-b-2");
-      // Add bottom classes
-      navbar.classList.add("fixed", "bottom-[env(safe-area-inset-bottom)]", "inset-x-0", "z-40", "border-t-2");
-    };
+  const setBottom = () => {
+    if (lockedTop.current) return;
+    setNavPosition("bottom");
+    navbar.dataset.navPos = "bottom";
+    navbar.classList.remove("top-[env(safe-area-inset-top)]", "z-50", "border-b-2");
+    navbar.classList.add("fixed", "bottom-[env(safe-area-inset-bottom)]", "inset-x-0", "z-40", "border-t-2");
+    navbar.style.removeProperty("top");
+    navbar.style.removeProperty("bottom");
+  };
 
-    const setTop = () => {
-      lockedTop.current = true;
-      setNavPosition("top");
-      navbar.dataset.navPos = "top";
-      // Remove bottom classes
-      navbar.classList.remove("bottom-[env(safe-area-inset-bottom)]", "z-40", "border-t-2");
-      // Add top classes
-      navbar.classList.add("fixed", "top-[env(safe-area-inset-top)]", "inset-x-0", "z-50", "border-b-2");
-    };
+  const setTop = () => {
+    lockedTop.current = true;
+    setNavPosition("top");
+    navbar.dataset.navPos = "top";
+    navbar.classList.remove("bottom-[env(safe-area-inset-bottom)]", "z-40", "border-t-2");
+    navbar.classList.add("fixed", "top-[env(safe-area-inset-top)]", "inset-x-0", "z-50", "border-b-2");
+    navbar.style.removeProperty("top");
+    navbar.style.removeProperty("bottom");
+  };
 
     // NON-HOMEPAGE → always fixed top
     if (!isHome) {
@@ -51,7 +51,6 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
     }
 
     // HOMEPAGE → start at bottom IMMEDIATELY (synchronously)
-    // CRITICAL: Always start at bottom on homepage, regardless of scroll position
     console.log("NavbarPositionController: Setting initial state to bottom (isHome:", isHome, ", scrollY:", window.scrollY, ")");
     setBottom();
 
