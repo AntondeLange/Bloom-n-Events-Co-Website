@@ -6,7 +6,7 @@
  * 
  * This ensures the navbar starts at bottom on homepage and transitions correctly.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface NavbarPositionControllerProps {
   isHome: boolean;
