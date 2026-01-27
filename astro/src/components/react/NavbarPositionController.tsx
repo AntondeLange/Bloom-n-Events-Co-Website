@@ -14,6 +14,7 @@ interface NavbarPositionControllerProps {
 
 export default function NavbarPositionController({ isHome }: NavbarPositionControllerProps) {
   const [navPosition, setNavPosition] = useState<"bottom" | "top">(isHome ? "bottom" : "top");
+  const lockedTop = useRef(false);
 
   useEffect(() => {
     // CRITICAL: Set positioning immediately, synchronously
@@ -24,6 +25,7 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
     }
 
     const setBottom = () => {
+      if (lockedTop.current) return;
       setNavPosition("bottom");
       navbar.dataset.navPos = "bottom";
       // Remove top classes
@@ -33,6 +35,7 @@ export default function NavbarPositionController({ isHome }: NavbarPositionContr
     };
 
     const setTop = () => {
+      lockedTop.current = true;
       setNavPosition("top");
       navbar.dataset.navPos = "top";
       // Remove bottom classes
