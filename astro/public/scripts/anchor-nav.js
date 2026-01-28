@@ -7,6 +7,7 @@
   const setNavHeight = () => {
     const h = navbar ? navbar.offsetHeight : 72;
     document.documentElement.style.setProperty('--nav-height', `${h}px`);
+    document.documentElement.style.setProperty('--navbar-total-height', `${h}px`);
   };
 
   setNavHeight();

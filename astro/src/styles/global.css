@@ -3645,7 +3645,7 @@ nav.anchor-nav,
   opacity: 1 !important;
   position: -webkit-sticky !important; /* Safari support */
   position: sticky !important;
-  top: calc(env(safe-area-inset-top, 0) + var(--nav-height)) !important;
+  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
   z-index: 49 !important;
 }
 
@@ -3989,8 +3989,9 @@ html body[style*="overflow-y"] {
 /* ===== FINAL, SIMPLIFIED ANCHOR-NAV STICKY ENFORCEMENT ===== */
 :root {
   --nav-height: 72px;
+  --navbar-total-height: var(--nav-height);
   --anchor-nav-gap: 8px;
-  --anchor-nav-offset: calc(env(safe-area-inset-top, 0) + var(--nav-height) + var(--anchor-nav-gap));
+  --anchor-nav-offset: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height) + var(--anchor-nav-gap));
 }
 
 #main-navbar.navbar {
@@ -4019,6 +4020,35 @@ html body[style*="overflow-y"] {
   right: 0 !important;
   border-top: none !important;
   border-bottom: 2px solid var(--color-gold) !important;
+}
+
+/* Highest-specificity home overrides to win against legacy rules */
+body.home #main-navbar.navbar.navbar-bottom[data-nav-pos="bottom"] {
+  position: fixed !important;
+  bottom: env(safe-area-inset-bottom, 0) !important;
+  top: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+body.home #main-navbar.navbar.navbar-top[data-nav-pos="top"] {
+  position: fixed !important;
+  top: env(safe-area-inset-top, 0) !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
 }
 
 /* Structural wrappers to support observer + placeholder */

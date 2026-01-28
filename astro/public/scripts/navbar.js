@@ -3,19 +3,23 @@
   if (!navbar) return;
 
   const isHome = document.body.classList.contains('home');
+  let lockedTop = false;
 
   const setNavHeight = () => {
     const h = navbar.offsetHeight || 72;
     document.documentElement.style.setProperty('--nav-height', `${h}px`);
+    document.documentElement.style.setProperty('--navbar-total-height', `${h}px`);
   };
 
   const setBottom = () => {
+    if (lockedTop) return;
     navbar.dataset.navPos = 'bottom';
     navbar.classList.remove('navbar-top');
     navbar.classList.add('navbar-bottom');
   };
 
   const setTop = () => {
+    lockedTop = true;
     navbar.dataset.navPos = 'top';
     navbar.classList.remove('navbar-bottom');
     navbar.classList.add('navbar-top');
@@ -29,6 +33,7 @@
     return;
   }
 
+  // Force visible at bottom on load
   setBottom();
 
   const sentinel = document.querySelector('[data-hero-sentinel]');
