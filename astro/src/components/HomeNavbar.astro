@@ -1,16 +1,5 @@
 ---
-/**
- * Route-Aware Viewport-Anchored Navbar
- * 
- * Handles navbar positioning based on route:
- * - Non-homepage: Always fixed at top
- * - Homepage: Starts at bottom, moves to top on scroll, returns to bottom
- * 
- * Uses React component for reliable state management and positioning control.
- * MUST be placed outside all transformed ancestors (direct child of body or layout).
- */
 import NavbarContent from "./NavbarContent.astro";
-import NavbarPositionController from "./react/NavbarPositionController";
 
 interface Props {
   currentPath?: string;
@@ -24,14 +13,12 @@ const isHome = currentPath === "/" || currentPath === "/index.html";
   id="main-navbar"
   class:list={[
     "navbar w-full bg-charcoal inset-x-0 transition-[background-color,box-shadow] duration-300 border-gold",
-    isHome ? "fixed bottom-[env(safe-area-inset-bottom)] z-40 border-t-2" : "fixed top-[env(safe-area-inset-top)] z-50 border-b-2"
+    isHome ? "navbar-bottom" : "navbar-top"
   ]}
   role="navigation"
   aria-label="Primary"
   data-nav-pos={isHome ? "bottom" : "top"}
+  data-page={isHome ? "home" : "inner"}
 >
   <NavbarContent currentPath={currentPath} isHome={isHome} />
 </nav>
-
-<!-- React component handles positioning logic -->
-<NavbarPositionController client:load isHome={isHome} />

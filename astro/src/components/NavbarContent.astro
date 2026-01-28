@@ -37,7 +37,7 @@ const showCapabilities = !isActive(capabilitiesLink.href);
 const showGallery = !isActive("/gallery");
 ---
 
-<div class="relative mx-auto flex min-h-(--navbar-height) max-w-7xl flex-wrap items-center justify-between gap-4 px-4 md:px-6 navbar-inner">
+<div class="relative mx-auto flex min-h-[var(--nav-height,72px)] max-w-7xl flex-wrap items-center justify-between gap-4 px-4 md:px-6 navbar-inner">
   <!-- Mobile menu toggle (left on mobile) -->
   <details class="group/menu relative order-1 flex self-center lg:hidden">
     <summary
@@ -127,7 +127,7 @@ const showGallery = !isActive("/gallery");
         </button>
         <div
           id="portfolio-dropdown-menu"
-          class="portfolio-dropdown absolute left-0 z-50 hidden min-w-[180px] rounded-md border-2 border-gold bg-charcoal py-1 shadow-lg group-hover:block group-focus-within:block"
+          class="portfolio-dropdown absolute left-0 z-50 hidden min-w-[180px] rounded-md border-2 border-gold bg-charcoal py-1 shadow-lg"
           role="menu"
           aria-labelledby="portfolio-dropdown-trigger"
         >
