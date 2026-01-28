@@ -100,6 +100,20 @@
   .section-secondary { padding-top: 1.5rem; padding-bottom: 1.5rem; }
 }
 
+/* About page helpers */
+.about-tagline {
+  font-size: 0.95rem;
+}
+.vision-mission-card {
+  background-color: var(--color-champers);
+  border: 2px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 24px 28px;
+}
+.vision-mission-text {
+  line-height: 1.75;
+}
+
 
 /* h2 headings - 40px font size, gold text shadow (Our Services, Why Choose..., etc.) */
 h2,
@@ -1999,17 +2013,6 @@ section .service-card h3,
 }
 .position-relative {
   position: relative;
-}
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
 }
 .container-fluid {
   width: 100%;

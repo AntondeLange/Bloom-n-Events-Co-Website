@@ -4,7 +4,9 @@
   "description": "Bloom'n Events Co - Professional Event Planning & Displays Website",
   "type": "module",
   "scripts": {
-    "audit-deps": "npm audit"
+    "audit-deps": "npm audit",
+    "assets:audit": "node scripts/audit-assets.mjs",
+    "assets:prune": "node scripts/audit-assets.mjs --delete"
   },
   "keywords": [
     "event-planning",
