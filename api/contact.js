@@ -3,6 +3,8 @@
  * POST /api/contact
  */
 
+import fs from 'fs/promises';
+import path from 'path';
 import nodemailer from 'nodemailer';
 import { getEnv } from './_utils/env.js';
 import { setCorsHeaders, handleCorsPreflight } from './_utils/cors.js';
@@ -84,6 +86,31 @@ function getRequestContext(req) {
   };
 }
 
+const BACKLOG_PATH = path.resolve(process.cwd(), 'logs/contact-backlog.log');
+
+async function backlogSubmission(formData, req) {
+  try {
+    await fs.mkdir(path.dirname(BACKLOG_PATH), { recursive: true });
+    const { requestId, timestamp } = getRequestContext(req);
+    const entry = {
+      requestId,
+      timestamp,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      company: formData.company,
+      message: formData.message,
+      category: 'EmailService',
+      note: 'Stored offline because SMTP not configured'
+    };
+    await fs.appendFile(BACKLOG_PATH, JSON.stringify(entry) + '\n');
+    console.info('Contact form submission queued for manual review', { requestId, timestamp });
+  } catch (error) {
+    console.error('Failed to backlog contact form submission', error);
+  }
+}
+
 export default async function handler(req, res) {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -137,12 +164,7 @@ export default async function handler(req, res) {
     // Check if email is configured
     if (!env.SMTP_USER || !env.SMTP_PASS) {
       console.warn('Email not configured - form submission received but not sent');
-      const { requestId, timestamp } = getRequestContext(req);
-      console.info('Contact form submission withheld (SMTP missing)', {
-        requestId,
-        timestamp,
-        category: 'EmailService'
-      });
+      await backlogSubmission(formData, req);
       
       return res.status(200).json({
         success: true,
