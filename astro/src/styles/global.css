@@ -4090,12 +4090,15 @@ html body.home nav#main-navbar.navbar:not([data-nav-pos="top"]) {
   top: auto !important;
   left: 0 !important;
   right: 0 !important;
-  z-index: 60 !important;
+  z-index: 9999 !important;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   border-top: 2px solid var(--color-gold) !important;
   border-bottom: none !important;
+  transform: none !important;
+  translate: none !important;
+  pointer-events: auto !important;
 }
 
 html body.home #main-navbar.navbar[data-nav-pos="top"],
@@ -4105,12 +4108,15 @@ html body.home nav#main-navbar.navbar[data-nav-pos="top"] {
   bottom: auto !important;
   left: 0 !important;
   right: 0 !important;
-  z-index: 70 !important;
+  z-index: 9999 !important;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   border-top: none !important;
   border-bottom: 2px solid var(--color-gold) !important;
+  transform: none !important;
+  translate: none !important;
+  pointer-events: auto !important;
 }
 
 /* Ensure ancestors of anchor-nav do NOT break sticky (overflow/transform/contain) */
