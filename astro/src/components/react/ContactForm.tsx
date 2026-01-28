@@ -6,7 +6,7 @@
  * Using client:idle so JS loads after browser idle, keeping initial load minimal.
  */
 
-import { type FormEvent, useState, useEffect } from "react";
+import { type FormEvent, useState, useEffect, useRef } from "react";
 
 const API_URL = "/api/contact";
 const MESSAGE_MIN = 10;
@@ -23,12 +23,21 @@ export default function ContactForm() {
   const [messageLength, setMessageLength] = useState(0);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorModalMessage, setErrorModalMessage] = useState("");
+  const lastFocusedElement = useRef<HTMLElement | null>(null);
+  const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const closeErrorModal = () => {
+    setShowErrorModal(false);
+    const focusTarget = lastFocusedElement.current ?? submitButtonRef.current;
+    focusTarget?.focus();
+    lastFocusedElement.current = null;
+  };
 
   // Handle ESC key to close modal
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && showErrorModal) {
-        setShowErrorModal(false);
+        closeErrorModal();
       }
     };
 
@@ -93,7 +102,8 @@ export default function ContactForm() {
         .map(([field, error]) => getUserFriendlyError(field, error))
         .join("\n\n");
       setErrorModalMessage(`Please fix the following issues:\n\n${errorMessages}`);
-      setShowErrorModal(true);
+        setShowErrorModal(true);
+        lastFocusedElement.current = document.activeElement as HTMLElement;
     }
     
     return Object.keys(next).length === 0;
@@ -102,6 +112,7 @@ export default function ContactForm() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
+    lastFocusedElement.current = document.activeElement as HTMLElement;
     if (!validate(form)) return;
 
     setState({ status: "loading", message: "" });
@@ -133,6 +144,7 @@ export default function ContactForm() {
       } else {
         const errorMsg = data.message ?? data.error ?? "We couldn't send your message right now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
         setErrorModalMessage(errorMsg);
+        setErrorModalMessage(errorMsg);
         setShowErrorModal(true);
         setState({ status: "error", message: errorMsg });
       }
@@ -160,27 +172,27 @@ export default function ContactForm() {
               <h3 id="error-modal-title" className="error-modal-title">
                 Oops! Something Needs Your Attention
               </h3>
-              <button
-                type="button"
-                className="error-modal-close"
-                onClick={() => setShowErrorModal(false)}
-                aria-label="Close error message"
-              >
-                ×
-              </button>
+          <button
+            type="button"
+            className="error-modal-close"
+            onClick={() => setShowErrorModal(false)}
+            aria-label="Close error message"
+          >
+            ×
+          </button>
             </div>
             <div className="error-modal-body">
               <p className="error-modal-message">{errorModalMessage}</p>
             </div>
             <div className="error-modal-footer">
-              <button
-                type="button"
-                className="btn btn-gold"
-                onClick={() => setShowErrorModal(false)}
-                autoFocus
-              >
-                Got it, I'll fix that
-              </button>
+          <button
+            type="button"
+            className="btn btn-gold"
+            onClick={() => closeErrorModal()}
+            autoFocus
+          >
+            Got it, I'll fix that
+          </button>
             </div>
           </div>
         </div>
@@ -364,12 +376,13 @@ export default function ContactForm() {
         <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <button
-        type="submit"
-        className="btn btn-gold w-100"
-        id="submitBtn"
-        disabled={state.status === "loading"}
-      >
+          <button
+            type="submit"
+            className="btn btn-gold w-100"
+            id="submitBtn"
+            disabled={state.status === "loading"}
+            ref={submitButtonRef}
+          >
         <span id="submitText" className={state.status === "loading" ? "d-none" : ""}>
           Submit
         </span>

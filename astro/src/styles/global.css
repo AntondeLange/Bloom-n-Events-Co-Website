@@ -581,6 +581,19 @@ body.home main {
   .hero-cta .btn-outline-gold { width: 100%; max-width: 280px; text-align: center; }
 }
 
+@media (max-width: 767px) {
+  .hero-section {
+    min-height: 80svh;
+    height: auto;
+  }
+  .hero-content {
+    padding: 1.5rem 0.75rem;
+  }
+  .hero-headline {
+    font-size: clamp(2rem, 9vw, 3.25rem);
+  }
+}
+
 /* Ensure no carousel controls appear in hero section */
 .hero-section .carousel-control-prev,
 .hero-section .carousel-control-next,
@@ -903,6 +916,9 @@ p.acknowledgement-text,
 }
 @media (max-width: 991px) {
   .sticky-mobile-cta { display: block; }
+  main {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
 }
 
 /* CTA card (champers bg, gold border, padding) */
@@ -3454,6 +3470,24 @@ footer {
 
 .contact-form-card {
   padding: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-hero-section {
+    padding-top: 60px;
+  }
+  .contact-info-section,
+  .contact-form-section {
+    padding: 2.25rem 1.25rem;
+    min-height: auto;
+  }
+  .contact-info-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .contact-form-card {
+    padding: 2rem;
   }
 }
 

@@ -9,10 +9,9 @@ import { SITE } from "../lib/constants";
 
 interface Props {
   currentPath: string;
-  isHome?: boolean;
 }
 
-const { currentPath, isHome = false } = Astro.props;
+const { currentPath } = Astro.props;
 
 const navLinks = [
   { href: "/", label: "Home" },

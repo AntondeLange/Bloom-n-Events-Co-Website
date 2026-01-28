@@ -270,7 +270,7 @@ const visualEvidenceSlides = [
       <section class="mb-5" aria-labelledby="visualEvidenceHeading">
         <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
         <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
-          <AboutImageCarousel id="centuria50thCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:idle />
+          <AboutImageCarousel id="centuria50thCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:visible />
         </div>
       </section>
 
@@ -327,7 +327,7 @@ const visualEvidenceSlides = [
       <!-- Testimonials -->
       <section class="mb-5 testimonials" aria-labelledby="testimonialsHeading">
         <h2 id="testimonialsHeading" class="heading-blush-bg mb-4">What Our Clients Say</h2>
-        <TestimonialsCarousel client:idle />
+        <TestimonialsCarousel client:visible />
       </section>
 
       <!-- Related Services -->
@@ -362,7 +362,7 @@ const visualEvidenceSlides = [
       <section class="section-main" aria-labelledby="relatedCaseStudiesHeading">
         <div class="mx-auto max-w-7xl px-4 md:px-6">
           <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center mb-5">Related Success Stories</h2>
-          <SuccessStoriesCarousel client:idle />
+          <SuccessStoriesCarousel client:visible />
         </div>
       </section>
 

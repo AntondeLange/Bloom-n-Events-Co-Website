@@ -73,6 +73,17 @@ function validateContactForm(body) {
   };
 }
 
+function getRequestContext(req) {
+  const requestId =
+    req.headers['x-request-id'] ||
+    req.headers['x-amzn-trace-id'] ||
+    `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  return {
+    requestId,
+    timestamp: new Date().toISOString()
+  };
+}
+
 export default async function handler(req, res) {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -126,11 +137,11 @@ export default async function handler(req, res) {
     // Check if email is configured
     if (!env.SMTP_USER || !env.SMTP_PASS) {
       console.warn('Email not configured - form submission received but not sent');
-      // Still return success to user, but log the submission
-      console.log('Form submission:', {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        message: formData.message.substring(0, 100) + '...'
+      const { requestId, timestamp } = getRequestContext(req);
+      console.info('Contact form submission withheld (SMTP missing)', {
+        requestId,
+        timestamp,
+        category: 'EmailService'
       });
       
       return res.status(200).json({

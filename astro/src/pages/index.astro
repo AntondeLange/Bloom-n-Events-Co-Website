@@ -36,7 +36,7 @@ import { CONTACT } from "../lib/constants";
           >
             <source src="/assets/images/bloomn-hero.mp4" type="video/mp4" />
           </video>
-          <script src="/scripts/hero-video.js" defer></script>
+          <script src="/scripts/hero-video.js" defer is:inline></script>
         </div>
         <div class="hero-overlay" aria-hidden="true" />
         <div class="hero-content">
@@ -289,7 +289,7 @@ import { CONTACT } from "../lib/constants";
       <h2 id="case-studies-heading" class="heading-blush-bg">
         Success Stories
       </h2>
-      <SuccessStoriesCarousel client:idle />
+      <SuccessStoriesCarousel client:visible />
     </div>
   </section>
 
@@ -299,7 +299,7 @@ import { CONTACT } from "../lib/constants";
       <h2 id="testimonials-heading" class="heading-blush-bg text-center">
         What Our Clients Say
       </h2>
-      <TestimonialsCarousel client:idle />
+      <TestimonialsCarousel client:visible />
     </div>
   </section>
 

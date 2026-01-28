@@ -8,19 +8,21 @@ export default function StickyMobileCTA() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroHeight = window.innerHeight;
-      // Show after scrolling past hero (100vh)
-      setIsVisible(scrollY > heroHeight);
-    };
+    const sentinel = document.querySelector("[data-hero-sentinel]");
+    if (!sentinel) {
+      setIsVisible(window.scrollY > window.innerHeight);
+      return undefined;
+    }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Check initial position
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(!entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
   return (

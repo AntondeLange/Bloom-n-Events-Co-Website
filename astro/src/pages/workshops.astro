@@ -313,7 +313,7 @@ const serviceSchema = getServiceSchema(
   <section class="section-main" aria-labelledby="caseStudiesHeading" id="case-studies">
     <div class="mx-auto max-w-7xl px-4 md:px-6">
       <h2 id="caseStudiesHeading" class="heading-blush-bg text-center">Related Case Studies</h2>
-      <SuccessStoriesCarousel client:idle />
+      <SuccessStoriesCarousel client:visible />
     </div>
   </section>
 
@@ -343,5 +343,5 @@ const serviceSchema = getServiceSchema(
   <StickyMobileCTA client:idle />
 
   <!-- Structured Data: Service -->
-  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(serviceSchema)} />
 </BaseLayout>

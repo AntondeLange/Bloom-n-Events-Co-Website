@@ -4,6 +4,13 @@
   "description": "Bloom'n Events Co - Professional Event Planning & Displays Website",
   "type": "module",
   "scripts": {
+    "dev": "npm --prefix astro run dev",
+    "preview": "npm --prefix astro run preview",
+    "build": "npm --prefix astro run build",
+    "test": "npm --prefix astro run test",
+    "lint": "npm --prefix astro run lint",
+    "check": "npm --prefix astro run check",
+    "clean": "node -e \"require('fs').rmSync('./astro/dist', { recursive: true, force: true })\"",
     "audit-deps": "npm audit",
     "assets:audit": "node scripts/audit-assets.mjs",
     "assets:prune": "node scripts/audit-assets.mjs --delete"
@@ -17,18 +24,18 @@
   "author": "Bloom'n Events Co Pty Ltd",
   "license": "ISC",
   "devDependencies": {
-    "vite": "^5.1.0",
-    "vite-plugin-html": "^3.2.2",
-    "sharp": "^0.33.2",
-    "purgecss": "^6.0.0",
+    "autoprefixer": "^10.4.17",
     "cssnano": "^6.0.15",
     "postcss": "^8.4.35",
-    "autoprefixer": "^10.4.17",
+    "purgecss": "^6.0.0",
+    "sharp": "^0.33.2",
     "stylelint": "^16.2.1",
-    "stylelint-config-standard": "^36.0.0"
+    "stylelint-config-standard": "^36.0.0",
+    "vite": "^7.3.1",
+    "vite-plugin-html": "^3.2.2"
   },
   "dependencies": {
-    "openai": "^4.20.0",
-    "nodemailer": "^7.0.12"
+    "nodemailer": "^7.0.12",
+    "openai": "^4.20.0"
   }
 }
