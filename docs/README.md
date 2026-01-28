@@ -314,11 +314,11 @@ This website has undergone comprehensive optimization and testing, achieving **e
 
 ### **Form Security (Contact Form):**
 - ✅ **Honeypot Field** - Hidden spam trap field
-- ✅ **FormSubmit Captcha** - Enabled for bot protection
+- ✅ **Backend Rate Limiting** - API throttling on contact submissions
 - ✅ **Time-Based Protection** - Minimum 3 seconds on page before submission
 - ✅ **Enhanced Validation** - Email format, message length (10-200 chars), required fields
 - ✅ **Client-Side Validation** - Real-time feedback with accessibility support
-- ✅ **Server-Side Validation** - Handled by FormSubmit.co
+- ✅ **Server-Side Validation** - Handled by the backend contact API (Zod validation + email delivery)
 
 ### **HTTPS & Security Headers:**
 - ✅ **.htaccess Configuration** - HTTP to HTTPS redirect

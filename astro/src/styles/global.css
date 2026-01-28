@@ -4015,6 +4015,16 @@ html body[style*="overflow-y"] {
   border-bottom: none !important;
 }
 
+#main-navbar.navbar.navbar-hero {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  border-top: 2px solid var(--color-gold) !important;
+  border-bottom: none !important;
+}
+
 #main-navbar.navbar.navbar-top {
   position: fixed !important;
   top: env(safe-area-inset-top, 0) !important;
@@ -4030,6 +4040,20 @@ body.home #main-navbar.navbar.navbar-bottom[data-nav-pos="bottom"] {
   position: fixed !important;
   bottom: env(safe-area-inset-bottom, 0) !important;
   top: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+body.home #main-navbar.navbar.navbar-hero[data-nav-pos="hero"] {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: auto !important;
   left: 0 !important;
   right: 0 !important;
   z-index: 9999 !important;
