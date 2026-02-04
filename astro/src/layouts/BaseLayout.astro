@@ -62,5 +62,15 @@ const mainPadding = isHome ? "" : "pt-2";
     </main>
     <Footer />
     <script src="/scripts/accordion.js" defer is:inline></script>
+    <script is:inline>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => registration.unregister());
+        });
+      }
+      if ("caches" in window) {
+        caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
+      }
+    </script>
   </body>
 </html>
