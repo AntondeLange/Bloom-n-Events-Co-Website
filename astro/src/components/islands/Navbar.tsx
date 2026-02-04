@@ -105,7 +105,7 @@ export default function Navbar({ currentPath }: Props) {
 
   // Simplify positioning logic: always fixed, just toggle top/bottom classes
   const navPositionClass = isHome && navPosition === "bottom"
-    ? "fixed bottom-[env(safe-area-inset-bottom,0px)] top-auto left-0 right-0 z-40"
+    ? "absolute bottom-0 top-auto left-0 right-0 z-40"
     : "fixed top-[env(safe-area-inset-top,0px)] bottom-auto left-0 right-0 z-50 lg:z-[1030]";
 
   const navClassName = [
