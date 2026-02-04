@@ -37,7 +37,6 @@ jobs:
             https://www.bloomneventsco.com.au/
             https://www.bloomneventsco.com.au/about/
             https://www.bloomneventsco.com.au/contact/
-          uploadArtifacts: true
+          uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: ./.lighthouserc.json
-          artifactName: lighthouse-results-${{ github.run_id }}-${{ github.run_attempt }}
