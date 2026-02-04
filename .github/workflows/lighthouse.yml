@@ -40,3 +40,9 @@ jobs:
           uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: ./.lighthouserc.json
+
+      - name: Upload Lighthouse artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: .lighthouseci
