@@ -73,6 +73,35 @@ export default function Navbar({ currentPath }: Props) {
   }, [isHome]);
 
   useEffect(() => {
+    const navElement = navRef.current;
+    if (!navElement) return;
+
+    const applyFixedPosition = () => {
+      const isBottom = isHome && navPosition === "bottom";
+      navElement.style.position = "fixed";
+      navElement.style.left = "0";
+      navElement.style.right = "0";
+      if (isBottom) {
+        navElement.style.top = "auto";
+        navElement.style.bottom = "env(safe-area-inset-bottom, 0px)";
+        navElement.style.zIndex = "40";
+      } else {
+        navElement.style.bottom = "auto";
+        navElement.style.top = "env(safe-area-inset-top, 0px)";
+        navElement.style.zIndex = isHome ? "50" : "1030";
+      }
+    };
+
+    applyFixedPosition();
+    window.addEventListener("scroll", applyFixedPosition, { passive: true });
+    window.addEventListener("resize", applyFixedPosition);
+    return () => {
+      window.removeEventListener("scroll", applyFixedPosition);
+      window.removeEventListener("resize", applyFixedPosition);
+    };
+  }, [isHome, navPosition]);
+
+  useEffect(() => {
     if (!portfolioOpen) return;
     const handleDocumentClick = (event: MouseEvent) => {
       const target = event.target as Node;
