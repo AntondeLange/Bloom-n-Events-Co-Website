@@ -72,34 +72,8 @@ export default function Navbar({ currentPath }: Props) {
     return () => observer.disconnect();
   }, [isHome]);
 
-  useEffect(() => {
-    const navElement = navRef.current;
-    if (!navElement) return;
+  // Removed imperative style manipulation in favor of declarative classes
 
-    const applyFixedPosition = () => {
-      const isBottom = isHome && navPosition === "bottom";
-      navElement.style.position = "fixed";
-      navElement.style.left = "0";
-      navElement.style.right = "0";
-      if (isBottom) {
-        navElement.style.top = "auto";
-        navElement.style.bottom = "env(safe-area-inset-bottom, 0px)";
-        navElement.style.zIndex = "40";
-      } else {
-        navElement.style.bottom = "auto";
-        navElement.style.top = "env(safe-area-inset-top, 0px)";
-        navElement.style.zIndex = isHome ? "50" : "1030";
-      }
-    };
-
-    applyFixedPosition();
-    window.addEventListener("scroll", applyFixedPosition, { passive: true });
-    window.addEventListener("resize", applyFixedPosition);
-    return () => {
-      window.removeEventListener("scroll", applyFixedPosition);
-      window.removeEventListener("resize", applyFixedPosition);
-    };
-  }, [isHome, navPosition]);
 
   useEffect(() => {
     if (!portfolioOpen) return;
@@ -129,45 +103,24 @@ export default function Navbar({ currentPath }: Props) {
     };
   }, [portfolioOpen]);
 
+  // Simplify positioning logic: always fixed, just toggle top/bottom classes
+  const navPositionClass = isHome && navPosition === "bottom"
+    ? "fixed bottom-[env(safe-area-inset-bottom,0px)] top-auto left-0 right-0 z-40"
+    : "fixed top-[env(safe-area-inset-top,0px)] bottom-auto left-0 right-0 z-50 lg:z-[1030]";
+
   const navClassName = [
-    "navbar w-full bg-charcoal inset-x-0 transition-[background-color,box-shadow] duration-300 border-gold",
+    "navbar w-full bg-charcoal inset-x-0 transition-[background-color,box-shadow,transform] duration-300 border-gold",
+    navPositionClass,
     isHome ? "navbar-home" : "navbar-top",
-    navPosition === "top" ? "navbar-top" : "navbar-bottom",
   ].join(" ");
 
-  const navInlineStyle: React.CSSProperties = isHome
-    ? navPosition === "bottom"
-      ? {
-          position: "fixed",
-          bottom: "env(safe-area-inset-bottom, 0px)",
-          top: "auto",
-          left: 0,
-          right: 0,
-          zIndex: 40,
-        }
-      : {
-          position: "fixed",
-          top: "env(safe-area-inset-top, 0px)",
-          bottom: "auto",
-          left: 0,
-          right: 0,
-          zIndex: 50,
-        }
-    : {
-        position: "fixed",
-        top: "env(safe-area-inset-top, 0px)",
-        bottom: "auto",
-        left: 0,
-        right: 0,
-        zIndex: 1030,
-      };
 
   return (
     <nav
       id="main-navbar"
       ref={navRef}
       className={navClassName}
-      style={navInlineStyle}
+      // style={navInlineStyle} // Removed, using tailored classes instead
       role="navigation"
       aria-label="Primary"
       data-nav-pos={navPosition}
@@ -245,16 +198,16 @@ export default function Navbar({ currentPath }: Props) {
 
         <div className="order-2 hidden flex-1 basis-0 flex-wrap items-center gap-1 lg:order-1 lg:flex lg:basis-auto lg:flex-1">
           <ul className="flex flex-wrap items-center gap-1">
-                {visibleNavLinks.map(({ href, label }) => (
-                  <li key={`nav-link-${href}`}>
-                    <a
-                      href={href}
-                      className="rounded px-3 py-2 text-sm text-gold no-underline transition hover:bg-white/10 hover:text-gold"
-                    >
-                      {label}
-                    </a>
-                  </li>
-                ))}
+            {visibleNavLinks.map(({ href, label }) => (
+              <li key={`nav-link-${href}`}>
+                <a
+                  href={href}
+                  className="rounded px-3 py-2 text-sm text-gold no-underline transition hover:bg-white/10 hover:text-gold"
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
             <li className="relative group">
               <button
                 type="button"
@@ -263,7 +216,7 @@ export default function Navbar({ currentPath }: Props) {
                 className={[
                   "inline-flex items-center rounded px-3 py-2 text-sm text-gold no-underline transition hover:bg-white/10 hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-charcoal",
                   (portfolioLinks.some((link) => isActive(link.href, currentPath)) || isActive(capabilitiesLink.href, currentPath)) &&
-                    "font-semibold",
+                  "font-semibold",
                 ]
                   .filter(Boolean)
                   .join(" ")}
