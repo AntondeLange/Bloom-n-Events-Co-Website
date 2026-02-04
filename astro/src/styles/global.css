@@ -61,6 +61,11 @@
     min-height: 100vh;
     /* CRITICAL: Don't constrain height in flex layout - allow content to determine height */
     max-height: none !important;
+    /* FIX: Ensure body does NOT create a containing block for fixed positioning */
+    transform: none !important;
+    filter: none !important;
+    perspective: none !important;
+    contain: none !important;
   }
 
   img {
