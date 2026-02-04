@@ -3,8 +3,9 @@
  * About: hero, anchor nav, Who we were, Where we are, Vision & Mission, Where we're headed, CTA.
  * Matches about.html layout and copy. Carousels use AboutImageCarousel (React).
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
+import AnchorNav from "../components/islands/AnchorNav";
 import AboutImageCarousel from "../components/react/AboutImageCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
@@ -78,13 +79,14 @@ const clientLogos = [
   title="About Bloom'n Events Co | Event Production Team Perth & WA"
   description="About Bloom'n Events Co - Perth and Western Australia's full-service event production company. 40+ years combined experience. In-house design, engineering, and fabrication. Based in Brookton, WA."
   path="/about"
+  mainClass="about-page"
 >
   <h1 class="visually-hidden">About Bloom'n Events Co</h1>
 
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img
+      <Image
         src="/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg"
         alt="About Bloom'n Events Co - Creating unforgettable experiences"
         class="hero-image"
@@ -119,6 +121,7 @@ const clientLogos = [
       { href: "#visionMission", label: "Vision & Mission" },
       { href: "#whereWeAreHeaded", label: "Where We're Headed" },
     ]}
+    client:load
   />
 
   <!-- Who we were -->
@@ -146,7 +149,7 @@ const clientLogos = [
         <div class="client-logos-container">
           {clientLogos.map((logo) => (
             <div class="client-logo">
-              <img src={logo.src} alt={logo.alt} class="client-logo-img" loading="lazy" decoding="async" width="130" height="130" />
+              <Image src={logo.src} alt={logo.alt} class="client-logo-img" loading="lazy" decoding="async" width="130" height="130" />
             </div>
           ))}
         </div>
@@ -181,27 +184,6 @@ const clientLogos = [
     </div>
   </section>
 
-  <!-- Vision & Mission -->
-  <section class="section-hero" aria-labelledby="visionMissionHeading" id="visionMission">
-    <div class="mx-auto max-w-[1232px] vision-mission-container">
-      <h2 id="visionMissionHeading" class="visually-hidden">Vision and Mission</h2>
-      <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
-        <article class="card h-100 shadow vision-mission-card">
-          <div class="card-body text-center">
-            <h3 class="heading-blush-bg text-center">Vision</h3>
-            <p class="mb-0 text-charcoal vision-mission-text">To bring connection, joy, and beauty to every corner of Western Australia — transforming moments into memories through inspired, sustainable event experiences.</p>
-          </div>
-        </article>
-        <article class="card h-100 shadow vision-mission-card">
-          <div class="card-body text-center">
-            <h3 class="heading-blush-bg text-center">Mission</h3>
-            <p class="mb-0 text-charcoal vision-mission-text">We're a family-founded company driven by purpose and passion. We craft immersive artistic activations and design unforgettable events that uplift, connect, and give back. By working with other local businesses, with the same creed and supporting regional communities, we prove that business success and compassion can grow side by side.</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
   <!-- Where we're headed -->
   <section class="section-main" aria-labelledby="whereWeAreHeadedHeading" id="whereWeAreHeaded">
     <div class="mx-auto max-w-7xl px-4 md:px-6">
@@ -222,6 +204,27 @@ const clientLogos = [
             <AboutImageCarousel id="futureCarousel" slides={futureSlides} client:visible />
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section-hero" aria-labelledby="visionMissionHeading" id="visionMission">
+    <div class="mx-auto max-w-[1232px] vision-mission-container">
+      <h2 id="visionMissionHeading" class="visually-hidden">Vision and Mission</h2>
+      <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+        <article class="card h-100 shadow vision-mission-card">
+          <div class="card-body text-center">
+            <h3 class="heading-blush-bg text-center">Vision</h3>
+            <p class="mb-0 text-charcoal vision-mission-text">To bring connection, joy, and beauty to every corner of Western Australia — transforming moments into memories through inspired, sustainable event experiences.</p>
+          </div>
+        </article>
+        <article class="card h-100 shadow vision-mission-card">
+          <div class="card-body text-center">
+            <h3 class="heading-blush-bg text-center">Mission</h3>
+            <p class="mb-0 text-charcoal vision-mission-text">We're a family-founded company driven by purpose and passion. We craft immersive artistic activations and design unforgettable events that uplift, connect, and give back. By working with other local businesses, with the same creed and supporting regional communities, we prove that business success and compassion can grow side by side.</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>

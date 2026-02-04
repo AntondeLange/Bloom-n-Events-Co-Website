@@ -3,9 +3,10 @@
  * Case Study: Centuria 50th Birthday - hero, anchor nav, Overview, Our Role, What We Produced, Hospitality, Ceremony, Hero Moment, Subcontractor, Additional Elements, Visual Evidence, Outcome, Capability Highlight, Services, Testimonials, Related Services, Related Success Stories, CTA.
  * Matches case-study-centuria-50th-birthday.html layout and copy.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
-import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import AnchorNav from "../components/islands/AnchorNav";
+import Carousel from "../components/islands/Carousel";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
@@ -57,7 +58,7 @@ const visualEvidenceSlides = [
   { src: "/assets/images/Centuria 50th Birthday/f089e35d-d443-4bdc-9e1b-25373cdf712f.jpg", alt: "Elegant 50th birthday celebration image 49" },
   { src: "/assets/images/Centuria 50th Birthday/f94918eb-88e5-4480-98a9-3717670b5a04.jpg", alt: "Elegant 50th birthday celebration image 50" },
   { src: "/assets/images/Centuria 50th Birthday/fb0aa0bc-f55d-4709-a1f2-02a8401203f4.jpg", alt: "Elegant 50th birthday celebration image 51" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 ---
 
 <BaseLayout
@@ -70,7 +71,7 @@ const visualEvidenceSlides = [
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img
+      <Image
         src="/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg"
         alt="Elegant 50th birthday celebration"
         class="hero-image"
@@ -105,6 +106,7 @@ const visualEvidenceSlides = [
       { href: "#outcomeHeading", label: "Outcome" },
       { href: "#testimonialsHeading", label: "Testimonials" },
     ]}
+    client:load
   />
 
   <!-- Success Story Content -->
@@ -270,7 +272,7 @@ const visualEvidenceSlides = [
       <section class="mb-5" aria-labelledby="visualEvidenceHeading">
         <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
         <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
-          <AboutImageCarousel id="centuria50thCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:visible />
+          <Carousel slides={visualEvidenceSlides} client:visible />
         </div>
       </section>
 

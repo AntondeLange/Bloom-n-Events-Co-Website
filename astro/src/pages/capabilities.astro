@@ -3,9 +3,10 @@
  * Capabilities: hero, anchor nav, Introduction, One-Stop Partner, Fabrication, Engineering, Design, Digital, Signage, Media/Communications, Partnerships, Project Delivery, Gallery Carousel, CTA.
  * Matches capabilities.html layout and copy.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
-import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import AnchorNav from "../components/islands/AnchorNav";
+import Carousel from "../components/islands/Carousel";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
@@ -24,7 +25,7 @@ const capabilitiesSlides = [
   { src: "/assets/images/capabilities/83f05b5b-3b43-4d7d-8fdf-9be7a852920b.jpg", alt: "Contact systems" },
   { src: "/assets/images/Centuria 50th Birthday/e14d2e3c-1006-4cf5-9190-3d0210350522.jpg", alt: "Local partnerships and hospitality" },
   { src: "/assets/images/Centuria 50th Birthday/85f3764d-667a-4c4e-99ce-4d1c665e6628.jpg", alt: "End-to-end project delivery" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 ---
 
 <BaseLayout
@@ -37,7 +38,7 @@ const capabilitiesSlides = [
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img
+      <Image
         src="/assets/images/capabilities/image001.jpeg"
         alt="Bloom'n Events Co Capabilities - Concept. Craft. Code. Connection."
         class="hero-image"
@@ -79,6 +80,7 @@ const capabilitiesSlides = [
       { href: "#deliveryHeading", label: "Project Delivery" },
       { href: "#galleryHeading", label: "Our Work" },
     ]}
+    client:load
   />
 
   <!-- Capabilities Content -->
@@ -268,7 +270,7 @@ const capabilitiesSlides = [
       <!-- Image Gallery Carousel -->
       <section class="mb-5" aria-labelledby="galleryHeading">
         <h2 id="galleryHeading" class="heading-blush-bg mb-4">Our Work in Action</h2>
-        <AboutImageCarousel id="capabilitiesCarousel" slides={capabilitiesSlides} intervalMs={5000} client:visible />
+        <Carousel slides={capabilitiesSlides} client:visible />
       </section>
     </div>
   </section>

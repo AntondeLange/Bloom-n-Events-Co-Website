@@ -1,11 +1,11 @@
 ---
 /**
  * Base layout: global styles, SEO, skip link, navbar, main slot, footer.
- * Navbar is managed by HomeNavbar component (fixed-top on non-home, multi-state on home).
+ * Navbar is managed by the client-side Navbar island (fixed-top on inner pages, hero-following on home via sentinel).
  */
 import "../styles/global.css";
 import Seo from "../components/Seo.astro";
-import HomeNavbar from "../components/HomeNavbar.astro";
+import Navbar from "../components/islands/Navbar";
 import Footer from "../components/Footer.astro";
 import { getSeoProps } from "../lib/seo";
 import type { SeoProps } from "../lib/seo";
@@ -13,9 +13,11 @@ import type { SeoProps } from "../lib/seo";
 interface Props extends SeoProps {
   /** Optional additional class for <main> */
   mainClass?: string;
+  /** Controls whether the shared navbar is rendered from the layout */
+  renderNavbar?: boolean;
 }
 
-const { mainClass, ...seo } = Astro.props;
+const { mainClass, renderNavbar = true, ...seo } = Astro.props;
 const seoProps = getSeoProps(seo);
 const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
 const bodyClass = isHome ? "home" : "";
@@ -52,13 +54,13 @@ const mainPadding = isHome ? "" : "pt-2";
   <body class={`flex min-h-screen flex-col bg-champers text-charcoal ${bodyClass}`.trim()}>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Route-aware navbar: fixed-top on non-home, multi-state on home -->
-    <HomeNavbar currentPath={Astro.url.pathname} />
-    <main id="main-content" class={`flex-1 ${mainPadding} ${mainClass ?? ""}`.trim()} tabindex="-1">
-      <slot />
+    {renderNavbar && <Navbar currentPath={Astro.url.pathname} client:load />}
+    <main class={`flex-1 ${mainPadding} ${mainClass ?? ""}`.trim()}>
+      <div id="main-content" tabindex="-1">
+        <slot />
+      </div>
     </main>
     <Footer />
     <script src="/scripts/accordion.js" defer is:inline></script>
-    <script src="/scripts/navbar.js" defer is:inline></script>
-    <script src="/scripts/anchor-nav.js" defer is:inline></script>
   </body>
 </html>

@@ -4,7 +4,7 @@
  * Matches gallery.html structure and content.
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import Carousel from "../components/islands/Carousel";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
@@ -20,7 +20,7 @@ const eventSlides = [
   { src: "/assets/images/Centuria 50th Birthday/29d00126-b04a-4387-a735-9bfd8ffaaf12.jpg", alt: "Centuria 50th Birthday Celebration Details" },
   { src: "/assets/images/Centuria Connect140/Connect140 (5).jpg", alt: "Centuria Connect140 Dining Area" },
   { src: "/assets/images/Centuria Connect140/Connect140 (10).JPG", alt: "Centuria Connect140 Networking" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 
 const workshopSlides = [
   { src: "/assets/images/AdultWorkshops/adultworkshops (3).jpg", alt: "Adult Workshop Activity" },
@@ -35,7 +35,7 @@ const workshopSlides = [
   { src: "/assets/images/AdultWorkshops/adultworkshops (6).jpg", alt: "Adult Workshop Session" },
   { src: "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg", alt: "Finished Hawaiian Dishes" },
   { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG", alt: "Phoenix Workshop Activity" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 
 const displaysSlides = [
   { src: "/assets/images/BloomnDisplays/Displays (5).png", alt: "Custom Display Installation" },
@@ -48,7 +48,7 @@ const displaysSlides = [
   { src: "/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg", alt: "Elegant Display Installation" },
   { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG", alt: "Phoenix Display Installation" },
   { src: "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG", alt: "Phoenix Display Installation" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 ---
 
 <BaseLayout
@@ -62,12 +62,7 @@ const displaysSlides = [
       <h2 id="event-gallery-heading" class="heading-blush-bg mb-4 text-center">
         Event Gallery
       </h2>
-      <AboutImageCarousel
-        id="eventCarousel"
-        slides={eventSlides}
-        intervalMs={5000}
-        client:visible
-      />
+      <Carousel slides={eventSlides} client:visible />
     </div>
   </section>
 
@@ -77,12 +72,7 @@ const displaysSlides = [
       <h2 id="workshop-gallery-heading" class="heading-blush-bg mb-4 text-center">
         Workshop Gallery
       </h2>
-      <AboutImageCarousel
-        id="workshopCarousel"
-        slides={workshopSlides}
-        intervalMs={5000}
-        client:visible
-      />
+      <Carousel slides={workshopSlides} client:visible />
     </div>
   </section>
 
@@ -92,12 +82,7 @@ const displaysSlides = [
       <h2 id="displays-gallery-heading" class="heading-blush-bg mb-4 text-center">
         Displays Gallery
       </h2>
-      <AboutImageCarousel
-        id="displaysCarousel"
-        slides={displaysSlides}
-        intervalMs={5000}
-        client:visible
-      />
+      <Carousel slides={displaysSlides} client:visible />
     </div>
   </section>
 

@@ -5,6 +5,7 @@
  * Infinite loop; arrows overlay left/right.
  */
 import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "./Image";
 
 interface CaseStudy {
   image: string;
@@ -199,7 +200,7 @@ export default function SuccessStoriesCarousel() {
               data-index={index}
             >
               <div className="card h-100 shadow">
-                <img
+                <Image
                   src={study.image}
                   alt={study.imageAlt}
                   className="card-img-top"

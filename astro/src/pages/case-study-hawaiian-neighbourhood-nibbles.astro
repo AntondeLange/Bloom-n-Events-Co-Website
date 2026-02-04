@@ -3,9 +3,10 @@
  * Case Study: Hawaiian Neighbourhood Nibbles - hero, anchor nav, Background, Our Role, Concept, Designing Environment, Activity Design, Staffing, Visual Evidence, Outcome, Key Insight, Services, Testimonials, Related Services, Related Success Stories, CTA.
  * Matches case-study-hawaiian-neighbourhood-nibbles.html layout and copy.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
-import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import AnchorNav from "../components/islands/AnchorNav";
+import Carousel from "../components/islands/Carousel";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
@@ -17,7 +18,7 @@ const visualEvidenceSlides = [
   { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (5).jpg", alt: "Portable, consistent programme maintaining high-quality experience across multiple centre locations" },
   { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (3).jpg", alt: "Children participating in fun and educational food-based activities that encouraged dwell time" },
   { src: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (4).jpg", alt: "Unique food-based experience that drove traffic uplifts across participating shopping centres" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 ---
 
 <BaseLayout
@@ -30,7 +31,7 @@ const visualEvidenceSlides = [
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img
+      <Image
         src="/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (5).jpg"
         alt="School Holiday Programme Drives Traffic Across 5 Centres in 5 Days"
         class="hero-image"
@@ -65,6 +66,7 @@ const visualEvidenceSlides = [
       { href: "#outcomeHeading", label: "Outcome" },
       { href: "#testimonialsHeading", label: "Testimonials" },
     ]}
+    client:load
   />
 
   <!-- Success Story Content -->
@@ -167,7 +169,7 @@ const visualEvidenceSlides = [
       <section class="mb-5" aria-labelledby="visualEvidenceHeading">
         <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
         <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
-          <AboutImageCarousel id="neighbourhoodNibblesCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:visible />
+          <Carousel slides={visualEvidenceSlides} client:visible />
         </div>
       </section>
 

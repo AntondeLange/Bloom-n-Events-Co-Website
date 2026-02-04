@@ -6,6 +6,7 @@
  * Right: CTA, Get in Touch, social icons.
  * Uses details/summary for mobile accordions.
  */
+import { Image } from "astro:assets";
 import { SITE } from "../lib/constants";
 
 const year = new Date().getFullYear();
@@ -158,12 +159,14 @@ const socialLinks = [
       <!-- Center: logo, terms, copyright -->
       <div class="flex flex-col items-center justify-center text-center md:col-span-2 order-2">
         <a href="/" aria-label="Home">
-          <img
+          <Image
             src="/assets/images/logo-blk.png"
             alt={`${SITE.name} Logo`}
             class="footer-logo mx-auto mb-3 max-w-[300px] h-auto"
             loading="lazy"
             decoding="async"
+            width="300"
+            height="120"
           />
         </a>
         <p class="mb-1 text-sm font-light text-gold whitespace-nowrap">

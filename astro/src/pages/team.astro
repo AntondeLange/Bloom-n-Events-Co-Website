@@ -3,8 +3,9 @@
  * Team: hero, anchor nav, founders, team members, collaborators, CTA.
  * Matches team.html layout and copy. All cards use champers background with gold border.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
+import AnchorNav from "../components/islands/AnchorNav";
 import { CONTACT } from "../lib/constants";
 ---
 
@@ -16,7 +17,7 @@ import { CONTACT } from "../lib/constants";
   <!-- HERO SECTION -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img src="/assets/images/KidsWorkshops/kidsworkshops05.jpg" class="hero-image" alt="Bloom'n Events Co Team - Creative and passionate professionals" loading="eager" decoding="async" width="1600" height="900">
+      <Image src="/assets/images/KidsWorkshops/kidsworkshops05.jpg" class="hero-image" alt="Bloom'n Events Co Team - Creative and passionate professionals" loading="eager" decoding="async" width="1600" height="900" />
       <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
@@ -40,6 +41,7 @@ import { CONTACT } from "../lib/constants";
       { href: "#teamHeading", label: "Our Team" },
       { href: "#collaboratorsHeading", label: "Collaborators" },
     ]}
+    client:load
   />
 
   <!-- Founders Section -->
@@ -52,7 +54,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Founder 1 - Tamara -->
         <article class="card team-card director-card shadow h-100">
           <div class="director-image-container">
-            <img src="/assets/images/Team/Tamara.JPG" class="director-image" alt="Tamara de Lange - CEO & Founder" loading="lazy" decoding="async">
+            <Image src="/assets/images/Team/Tamara.JPG" class="director-image" alt="Tamara de Lange - CEO & Founder" loading="lazy" decoding="async" width="800" height="800" />
           </div>
           <div class="card-body">
             <h3 class="card-title director-name">Tamara de Lange (nee Lilly)</h3>
@@ -66,7 +68,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Founder 2 - Anton -->
         <article class="card team-card director-card shadow h-100">
           <div class="director-image-container">
-            <img src="/assets/images/Team/Anton.jpg" class="director-image" alt="Anton de Lange - COO & Co-Founder" loading="lazy" decoding="async">
+            <Image src="/assets/images/Team/Anton.jpg" class="director-image" alt="Anton de Lange - COO & Co-Founder" loading="lazy" decoding="async" width="800" height="800" />
           </div>
           <div class="card-body">
             <h3 class="card-title director-name">Anton de Lange</h3>
@@ -90,7 +92,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Team Member 1 - Joh -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-1.jpeg" alt="Joh - Engineering, Design, Construction & Patron" loading="lazy" decoding="async" width="400" height="400">
+            <Image src="/assets/images/Team/team-member-1.jpeg" alt="Joh - Engineering, Design, Construction & Patron" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Joh</h3>
@@ -101,7 +103,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Team Member 2 - Kim -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-2.jpg" alt="Kim - Sign Writing, Artistic Support" loading="lazy" decoding="async">
+            <Image src="/assets/images/Team/team-member-2.jpg" alt="Kim - Sign Writing, Artistic Support" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Kim</h3>
@@ -112,7 +114,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Team Member 3 - Sarah -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-4.jpeg" alt="Sarah - R&D, Creative Support & Patron" loading="lazy" decoding="async" width="400" height="400">
+            <Image src="/assets/images/Team/team-member-4.jpeg" alt="Sarah - R&D, Creative Support & Patron" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Sarah</h3>
@@ -123,7 +125,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Team Member 4 - Chelsea -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-3.jpg" alt="Chelsea - On-Site Event Support" loading="lazy" decoding="async">
+            <Image src="/assets/images/Team/team-member-3.jpg" alt="Chelsea - On-Site Event Support" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Chelsea</h3>
@@ -144,7 +146,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Collaborator 1 - Nino -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-6.jpg" alt="Nino - Music Maestro" loading="lazy" decoding="async" width="400" height="400">
+            <Image src="/assets/images/Team/team-member-6.jpg" alt="Nino - Music Maestro" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Nino</h3>
@@ -155,7 +157,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Collaborator 2 - Sarah -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-7.jpg" alt="Sarah - Marketing Genius" loading="lazy" decoding="async" width="400" height="400">
+            <Image src="/assets/images/Team/team-member-7.jpg" alt="Sarah - Marketing Genius" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Sarah</h3>
@@ -166,7 +168,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Collaborator 3 - Bronwyn -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/team-member-8.jpeg" alt="Bronwyn - Child Whisperer" loading="lazy" decoding="async" width="400" height="400">
+            <Image src="/assets/images/Team/team-member-8.jpeg" alt="Bronwyn - Child Whisperer" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Bronwyn</h3>
@@ -177,7 +179,7 @@ import { CONTACT } from "../lib/constants";
         <!-- Collaborator 4 - Shimmer -->
         <article class="card team-card shadow h-100">
           <div class="team-member-image">
-            <img src="/assets/images/Team/Team-member-9.jpg" alt="Shimmer - The Band" loading="lazy" decoding="async" width="400" height="400">
+            <Image src="/assets/images/Team/Team-member-9.jpg" alt="Shimmer - The Band" loading="lazy" decoding="async" width="400" height="400" />
           </div>
           <div class="card-body text-center">
             <h3 class="card-title team-member-name">Shimmer</h3>

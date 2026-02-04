@@ -3,6 +3,7 @@
  * React island with client:idle - carousel interactivity requires JS.
  */
 import { useState, useEffect } from "react";
+import Image from "./Image";
 
 interface Testimonial {
   image: string;
@@ -93,7 +94,7 @@ export default function TestimonialsCarousel() {
             }`}
           >
             <div className="testimonial-item">
-              <img
+              <Image
                 src={testimonial.image}
                 alt={testimonial.imageAlt}
                 className="testimonial-img testimonial-img-rectangular mb-4"

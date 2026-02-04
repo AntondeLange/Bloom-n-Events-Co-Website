@@ -86,11 +86,12 @@ function getRequestContext(req) {
   };
 }
 
-const BACKLOG_PATH = path.resolve(process.cwd(), 'logs/contact-backlog.log');
+const BACKLOG_DIR = path.resolve(process.env.CONTACT_BACKLOG_DIR || '/tmp');
+const BACKLOG_PATH = path.join(BACKLOG_DIR, 'contact-backlog.log');
 
 async function backlogSubmission(formData, req) {
   try {
-    await fs.mkdir(path.dirname(BACKLOG_PATH), { recursive: true });
+    await fs.mkdir(BACKLOG_DIR, { recursive: true });
     const { requestId, timestamp } = getRequestContext(req);
     const entry = {
       requestId,

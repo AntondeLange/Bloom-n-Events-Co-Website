@@ -5,16 +5,19 @@
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroStickyBoundary from "../components/HeroStickyBoundary.astro";
+import Navbar from "../components/islands/Navbar";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
+import { Image } from "astro:assets";
 ---
 
 <BaseLayout
   title="Full-Service Event Production Perth & WA"
   description="Full-service event production in Perth & Western Australia. In-house design, engineering, fabrication, and installation. Corporate events, workshops, custom displays. One team, one accountable partner. Based in Brookton, WA."
   path="/"
+  renderNavbar={false}
 >
   <!-- Hero: video bg, overlay, headline, CTAs -->
   <!-- Hero boundary (hero + sentinel only, NO navbar) -->
@@ -39,7 +42,7 @@ import { CONTACT } from "../lib/constants";
           <script src="/scripts/hero-video.js" defer is:inline></script>
         </div>
         <div class="hero-overlay" aria-hidden="true" />
-        <div class="hero-content">
+        <div class="hero-content flex flex-col justify-between min-h-full">
           <div class="w-full max-w-4xl px-4 text-center md:px-6">
             <h1 id="hero-heading" class="hero-headline">
               Transformation.<br />Connection.<br />Impact.
@@ -54,6 +57,10 @@ import { CONTACT } from "../lib/constants";
               <a href="/capabilities" class="btn-outline-gold">Explore Our Capabilities</a>
             </div>
           </div>
+            <div class="hero-navbar-wrapper mt-auto w-full">
+              <!-- Placing the navbar here keeps it inside the hero so it can slide up with the hero before becoming sticky at the top, while other pages rely on the shared layout header. -->
+              <Navbar currentPath="/" client:load />
+            </div>
         </div>
       </div>
     </Fragment>
@@ -67,9 +74,8 @@ import { CONTACT } from "../lib/constants";
       </h2>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <article class="service-card shadow-md">
-          <img
+          <Image
             src="/assets/images/Home/Corporate%20Events%20Hero%20Image.jpg"
-            srcset="/assets/images/Home/Corporate%20Events%20Hero%20Image.jpg 1600w, /assets/images/Home/Corporate%20Events%20Hero%20Image.jpg 1200w, /assets/images/Home/Corporate%20Events%20Hero%20Image.jpg 800w, /assets/images/Home/Corporate%20Events%20Hero%20Image.jpg 480w"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Corporate event planning and production services in Perth and Western Australia"
             class="card-img-top"
@@ -88,9 +94,8 @@ import { CONTACT } from "../lib/constants";
           </div>
         </article>
         <article class="service-card shadow-md">
-          <img
+          <Image
             src="/assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg"
-            srcset="/assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg 1600w, /assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg 1200w, /assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg 800w, /assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg 480w"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Creative workshops for kids and adults in Perth and Western Australia"
             class="card-img-top"
@@ -109,9 +114,8 @@ import { CONTACT } from "../lib/constants";
           </div>
         </article>
         <article class="service-card shadow-md">
-          <img
+          <Image
             src="/assets/images/Home/Custom%20Displays%20Hero%20Image.jpg"
-            srcset="/assets/images/Home/Custom%20Displays%20Hero%20Image.jpg 1600w, /assets/images/Home/Custom%20Displays%20Hero%20Image.jpg 1200w, /assets/images/Home/Custom%20Displays%20Hero%20Image.jpg 800w, /assets/images/Home/Custom%20Displays%20Hero%20Image.jpg 480w"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Custom displays and installations for events in Perth and Western Australia"
             class="card-img-top"

@@ -3,8 +3,9 @@
  * Displays: hero, anchor nav, What We Do, How It Works, What You Get, FAQs, Case Studies, CTA.
  * Matches displays.html layout and copy.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
+import AnchorNav from "../components/islands/AnchorNav";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import { CONTACT } from "../lib/constants";
@@ -26,7 +27,7 @@ const serviceSchema = getServiceSchema(
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img
+      <Image
         src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg"
         alt="Custom displays and installations"
         class="hero-image"
@@ -62,6 +63,7 @@ const serviceSchema = getServiceSchema(
       { href: "#faqsHeading", label: "FAQs" },
       { href: "#caseStudiesHeading", label: "Case Studies" },
     ]}
+    client:load
   />
 
   <!-- What We Do Section -->
@@ -84,34 +86,34 @@ const serviceSchema = getServiceSchema(
         </div>
         <div class="grid gap-2 grid-cols-2 lg:grid-cols-5">
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/BloomnDisplays/Displays (5).png" class="w-full h-full object-cover object-center" alt="Custom display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/BloomnDisplays/Displays (5).png" class="w-full h-full object-cover object-center" alt="Custom display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/BloomnDisplays/Displays (6).png" class="w-full h-full object-cover object-center" alt="Creative display design" loading="lazy" decoding="async">
+            <Image src="/assets/images/BloomnDisplays/Displays (6).png" class="w-full h-full object-cover object-center" alt="Creative display design" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/BloomnDisplays/Displays (10).png" class="w-full h-full object-cover object-center" alt="Custom display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/BloomnDisplays/Displays (10).png" class="w-full h-full object-cover object-center" alt="Custom display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/BloomnDisplays/Displays (11).png" class="w-full h-full object-cover object-center" alt="Creative display design" loading="lazy" decoding="async">
+            <Image src="/assets/images/BloomnDisplays/Displays (11).png" class="w-full h-full object-cover object-center" alt="Creative display design" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg" class="w-full h-full object-cover object-center" alt="Seasonal display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg" class="w-full h-full object-cover object-center" alt="Seasonal display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg" class="w-full h-full object-cover object-center" alt="Event display setup" loading="lazy" decoding="async">
+            <Image src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg" class="w-full h-full object-cover object-center" alt="Event display setup" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg" class="w-full h-full object-cover object-center" alt="Elegant display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg" class="w-full h-full object-cover object-center" alt="Elegant display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg" class="w-full h-full object-cover object-center" alt="Elegant display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg" class="w-full h-full object-cover object-center" alt="Elegant display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG" class="w-full h-full object-cover object-center" alt="Phoenix display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG" class="w-full h-full object-cover object-center" alt="Phoenix display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <img src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG" class="w-full h-full object-cover object-center" alt="Phoenix display installation" loading="lazy" decoding="async">
+            <Image src="/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG" class="w-full h-full object-cover object-center" alt="Phoenix display installation" loading="lazy" decoding="async" width="800" height="600" />
           </div>
         </div>
       </div>

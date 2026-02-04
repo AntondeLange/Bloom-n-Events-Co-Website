@@ -3,9 +3,10 @@
  * Case Study: Centuria Breast Cancer Awareness - hero, anchor nav, The Brief, Our Approach, What We Created, Graphic Design, Human Impact, Visual Evidence, Outcome, Key Insight, Services, Testimonials, Related Services, Related Success Stories, CTA.
  * Matches case-study-centuria-breast-cancer.html layout and copy.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/AnchorNav.astro";
-import AboutImageCarousel from "../components/react/AboutImageCarousel";
+import AnchorNav from "../components/islands/AnchorNav";
+import Carousel from "../components/islands/Carousel";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
@@ -16,7 +17,7 @@ const visualEvidenceSlides = [
   { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg", alt: "Oversized floral sculptures on custom turf bases creating meaningful visual impact in premium corporate environment" },
   { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.3.jpg", alt: "Vibrant Spring activation with butterflies and handcrafted botanical details symbolising growth and renewal" },
   { src: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.4.jpg", alt: "Seamless transition from awareness phase to Spring celebration creating photo-worthy moments for tenants and visitors" },
-];
+].map((slide) => ({ type: "image" as const, ...slide }));
 ---
 
 <BaseLayout
@@ -29,7 +30,7 @@ const visualEvidenceSlides = [
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <img
+      <Image
         src="/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg"
         alt="Breast Cancer Awareness Day & Spring Activation"
         class="hero-image"
@@ -64,6 +65,7 @@ const visualEvidenceSlides = [
       { href: "#outcomeHeading", label: "Outcome" },
       { href: "#testimonialsHeading", label: "Testimonials" },
     ]}
+    client:load
   />
 
   <!-- Success Story Content -->
@@ -143,7 +145,7 @@ const visualEvidenceSlides = [
       <section class="mb-5" aria-labelledby="visualEvidenceHeading">
         <h2 id="visualEvidenceHeading" class="heading-blush-bg text-center mb-4">Visual Evidence</h2>
         <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
-          <AboutImageCarousel id="breastCancerCarousel" slides={visualEvidenceSlides} intervalMs={5000} client:visible />
+          <Carousel slides={visualEvidenceSlides} client:visible />
         </div>
       </section>
 

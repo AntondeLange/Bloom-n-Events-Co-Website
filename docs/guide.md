@@ -1,13 +1,13 @@
 # Operational Guide
 
 ### Overview
-- **Architecture**: Static Astro build with Tailwind + React islands; `BaseLayout` wires navbar/footer/SEO and inlines only the required scripts (`accordion.js`, `navbar.js`, `anchor-nav.js`, `hero-video.js`).
+- **Architecture**: Static Astro build with Tailwind + React islands; `BaseLayout` wires navbar/footer/SEO and inlines only the required scripts (`accordion.js`, `hero-video.js`), while the hero-following/inner navbar and anchor navigation are handled via React islands.
 - **Routes**: `index`, `about`, `events`, `workshops`, `displays`, `capabilities`, gallery/case studies, `team`, `contact`, `policies`, `tandcs` — all pre-rendered and hydrated with client islands only where interactivity is needed.
 - **APIs**: `api/contact` handles form submissions with validation, honeypot, rate limiting, and sanitized logging; `backend/` hosts the chatbot proxy (OpenAI) for separate deployments.
 
 ### Performance & Core Web Vitals
 - **Hero-focused media**: The homepage loads a 1920×1080 video, so we rely on `preload=metadata`, `prefers-reduced-motion`, and the option to fall back to the poster when autoplay is blocked.
-- **React islands**: Keep `client:idle` for `StickyMobileCTA`, `SuccessStoriesCarousel`, `TestimonialsCarousel`, `AboutImageCarousel`, and the `ContactForm`. The shared React runtime (~186 KB gzip) is the biggest JS cost, so avoid adding extra islands unless necessary.
+- **React islands**: Keep `client:idle` for `StickyMobileCTA`, `SuccessStoriesCarousel`, `TestimonialsCarousel`, `Carousel`, and the `ContactForm`. The shared React runtime (~186 KB gzip) is the biggest JS cost, so avoid adding extra islands unless necessary.
 - **Scripts & fonts**: Load Google Fonts with `display=swap`, bootstrap icons via CDN with integrity, and keep all site-specific JS in `/scripts` to stay CSP-compatible.
 - **Optimization checks**: `npm run build` should succeed; `npm run lint` runs `astro check` (requires `@astrojs/check` + `typescript`).
 

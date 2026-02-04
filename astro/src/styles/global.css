@@ -17,6 +17,16 @@
 
 /* Base */
 @layer base {
+  :root {
+    --nav-h: 80px;
+    --anchor-h: 56px;
+  }
+  @media (min-width: 768px) {
+    :root {
+      --nav-h: 88px;
+    }
+  }
+
   html {
     scroll-behavior: smooth;
     /* Prevent horizontal scrolling while allowing vertical scrolling */
@@ -51,6 +61,12 @@
     min-height: 100vh;
     /* CRITICAL: Don't constrain height in flex layout - allow content to determine height */
     max-height: none !important;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
 
   :focus-visible {
@@ -98,6 +114,15 @@
 @media (max-width: 768px) {
   .section-main { padding-top: 2rem; padding-bottom: 2rem; }
   .section-secondary { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+}
+
+@layer components {
+  .frame {
+    @apply rounded-2xl border border-white/10 bg-white/5 overflow-hidden;
+  }
+  .frame-inset {
+    @apply rounded-xl overflow-hidden;
+  }
 }
 
 /* About page helpers */
@@ -451,17 +476,19 @@ span:has([class*="bi-"])::after {
   --navbar-total-height: calc(var(--navbar-height) + var(--navbar-border-width));
 }
 
-/* Portfolio dropdown: drop-up when navbar at bottom, drop-down when at top */
+/* Portfolio dropdown: drop-down by default, drop-up when navbar sits at the bottom */
 .portfolio-dropdown {
+  top: 100%;
+  bottom: auto;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+#main-navbar[data-nav-pos="bottom"] .portfolio-dropdown {
   top: auto;
   bottom: 100%;
   margin-bottom: 0.25rem;
-}
-nav.top-0 .portfolio-dropdown {
-  bottom: auto;
-  top: 100%;
-  margin-bottom: 0;
-  margin-top: 0.25rem;
+  margin-top: 0;
 }
 /* Show dropdown when button is focused or has aria-expanded="true" (keyboard access) */
 .group:has(#portfolio-dropdown-trigger:focus) .portfolio-dropdown,
@@ -471,10 +498,11 @@ nav.top-0 .portfolio-dropdown {
 
 /* Portfolio chevron: point up when navbar at bottom, down when at top */
 .portfolio-chevron {
-  transform: rotate(180deg); /* Point up when navbar at bottom */
+  transform: rotate(0deg);
 }
-nav.top-0 .portfolio-chevron {
-  transform: rotate(0deg); /* Point down when navbar at top */
+
+#main-navbar[data-nav-pos="bottom"] .portfolio-chevron {
+  transform: rotate(180deg);
 }
 
 /* Hero section (video bg + overlay + content) */
@@ -487,7 +515,7 @@ nav.top-0 .portfolio-chevron {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden !important; /* contain background media to hero bounds */
+  overflow: visible !important; /* allow sticky navbar to escape hero bounds */
   /* CRITICAL: Don't create a new stacking context that breaks sticky positioning */
   isolation: auto !important;
   contain: none !important;
@@ -547,6 +575,8 @@ body.home main {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 100%;
+  gap: 1rem;
 }
 .hero-headline {
   font-family: var(--font-display);
@@ -575,6 +605,17 @@ body.home main {
   gap: 0.75rem 1rem;
   margin-top: 2.5rem;
 }
+@media (min-width: 1024px) {
+  .hero-navbar-wrapper {
+    position: absolute;
+    bottom: env(safe-area-inset-bottom, 0.5rem);
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+  }
+}
 @media (max-width: 768px) {
   .hero-cta { flex-direction: column; align-items: center; }
   .hero-cta .btn-gold,
@@ -583,14 +624,48 @@ body.home main {
 
 @media (max-width: 767px) {
   .hero-section {
-    min-height: 80svh;
-    height: auto;
+    min-height: 100svh;
+    height: 100svh;
   }
   .hero-content {
-    padding: 1.5rem 0.75rem;
+    padding: 0 1rem;
+    min-height: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .hero-content > div {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .hero-headline {
     font-size: clamp(2rem, 9vw, 3.25rem);
+  }
+}
+
+@media (max-width: 767px) {
+  /* Home hero: center copy/buttons while keeping navbar pinned to bottom */
+  body.home .hero-content {
+    position: relative;
+    justify-content: center !important;
+    padding-bottom: calc(var(--navbar-total-height, 72px) + 1rem);
+  }
+
+  body.home .hero-navbar-wrapper {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    bottom: env(safe-area-inset-bottom, 0.5rem);
+    width: 100%;
+    margin-top: 0 !important;
+  }
+
+  body.home .hero-content > div {
+    min-height: 0 !important;
+    height: auto !important;
   }
 }
 
@@ -1309,6 +1384,44 @@ p.acknowledgement-text,
 .carousel-control-next-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23BF9B30'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid var(--color-gold);
+  position: relative;
+  background: var(--color-champers);
+}
+.carousel-inner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: inherit;
+}
+.carousel-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+}
+.carousel-item.active {
+  display: block;
+  opacity: 1;
+  position: relative;
+  pointer-events: auto;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
 .carousel-indicators {
   position: static;
   margin-top: 1.5rem;
@@ -1383,15 +1496,11 @@ p.acknowledgement-text,
 
 /* ===== ABOUT PAGE: anchor nav, section-hero, carousels, client logos ===== */
 .anchor-nav {
-  position: -webkit-sticky !important; /* Safari support */
-  position: sticky !important;
-  /* CRITICAL: Stick below navbar - must account for safe-area-inset-top on mobile */
-  /* Navbar is at top: env(safe-area-inset-top, 0), height: 74px */
-  /* So anchor-nav must be at: env(safe-area-inset-top, 0) + 74px */
-  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 49 !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1 !important;
   background: var(--color-champers) !important;
   border-bottom: 2px solid var(--color-gold) !important;
   padding: 1rem 0 !important;
@@ -1489,13 +1598,16 @@ body:not(.home) .hero-section + nav.anchor-nav {
   border-radius: 12px;
   border: 2px solid var(--color-gold);
 }
+/* Keep the inner track the same height as the frame so the image is clipped cleanly. */
 .about-workshop-carousel .carousel-inner {
   position: relative;
   overflow: hidden;
   width: 100%;
   aspect-ratio: 16 / 9;
-  height: auto;
+  height: 100%;
+  border-radius: inherit;
 }
+/* Each slide must fill the frame even during fade transitions. */
 .about-workshop-carousel .carousel-item {
   position: absolute;
   top: 0;
@@ -1505,8 +1617,7 @@ body:not(.home) .hero-section + nav.anchor-nav {
   transition: opacity 0.5s ease-in-out;
   pointer-events: none;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
+  height: 100%;
 }
 .about-workshop-carousel .carousel-item.active {
   position: relative;
@@ -1551,7 +1662,8 @@ body:not(.home) .hero-section + nav.anchor-nav {
 #displaysCarousel .carousel-inner,
 #futureCarousel .carousel-inner {
   aspect-ratio: 16 / 9 !important;
-  height: auto !important;
+  height: 100% !important;
+  width: 100% !important;
 }
 #centuria50thCarousel .carousel-item,
 #connect140Carousel .carousel-item,
@@ -1564,7 +1676,8 @@ body:not(.home) .hero-section + nav.anchor-nav {
 #displaysCarousel .carousel-item,
 #futureCarousel .carousel-item {
   aspect-ratio: 16 / 9 !important;
-  height: auto !important;
+  height: 100% !important;
+  width: 100% !important;
 }
 
 /* Client logos */
@@ -1786,7 +1899,7 @@ footer .footer-col .footer-heading-h3 {
   background-color: var(--color-champers);
   border: 2px solid var(--color-gold);
   border-radius: 12px;
-  overflow: visible; /* Allow card-body to show */
+  overflow: hidden; /* Keep founder images clipped inside rounded card */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1828,7 +1941,7 @@ article.director-card.card.team-card.shadow.h-100 > .card-body,
 .director-image-container {
   width: 100%;
   aspect-ratio: 1 / 1;
-  overflow: hidden;
+  overflow: hidden !important;
   position: relative;
   flex-shrink: 0;
 }
@@ -1848,7 +1961,7 @@ article.director-card.card.team-card.shadow.h-100 > .card-body,
 .team-member-image {
   width: 100%;
   aspect-ratio: 1 / 1;
-  overflow: hidden;
+  overflow: hidden !important;
   position: relative;
   flex-shrink: 0;
 }
@@ -3745,8 +3858,7 @@ body:not(.home) nav#main-navbar.navbar[style*="top: -"] {
   opacity: 1 !important;
 }
 
-/* CRITICAL: Force anchor-nav to stay sticky on ALL pages */
-/* MAXIMUM SPECIFICITY to override any conflicting rules from old CSS files */
+/* Anchor nav default (non-fixed) - sit comfortably below hero */
 .anchor-nav,
 nav.anchor-nav,
 .anchor-nav[style],
@@ -3755,21 +3867,33 @@ body:not(.home) .anchor-nav,
 body:not(.home) nav.anchor-nav,
 body:not(.home) .hero-section + .anchor-nav,
 body:not(.home) .hero-section + nav.anchor-nav {
-  position: -webkit-sticky !important; /* Safari support */
-  position: sticky !important;
-  /* CRITICAL: Must account for safe-area-inset-top on mobile devices */
-  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
-  left: 0 !important;
-  right: 0 !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
   width: 100% !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  z-index: 49 !important;
-  transform: translateY(0) !important;
+  z-index: 2 !important;
+  transform: none !important;
   will-change: auto !important;
   contain: none !important;
   isolation: auto !important;
+}
+
+.anchor-nav-inner {
+  width: 100%;
+  max-width: none !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.anchor-nav-fixed .anchor-nav-inner {
+  width: 100%;
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
 }
 
 /* CRITICAL: Homepage navbar MUST start at bottom on initial load */
@@ -3829,6 +3953,35 @@ html body.home nav#main-navbar.navbar[data-nav-pos="top"] {
   z-index: 50 !important;
   border-top: none !important;
   border-bottom: 2px solid var(--color-gold) !important;
+}
+
+/* === Custom sticky anchor-nav treatment (final override) === */
+html body .anchor-nav,
+html body nav.anchor-nav,
+html body .anchor-nav[data-anchor-nav],
+html body nav.anchor-nav[data-anchor-nav] {
+  background: rgba(12, 12, 12, 0.92) !important;
+  padding: 0.75rem 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(20px) !important;
+  color: var(--color-champers) !important;
+  min-height: 58px !important;
+  display: block !important;
+  justify-content: center !important;
+}
+
+html body .anchor-nav .anchor-nav-link,
+html body nav.anchor-nav .anchor-nav-link {
+  color: var(--color-champers) !important;
+}
+
+html body .anchor-nav .anchor-nav-link:hover,
+html body nav.anchor-nav .anchor-nav-link:hover,
+html body .anchor-nav .anchor-nav-link:focus-visible,
+html body nav.anchor-nav .anchor-nav-link:focus-visible {
+  background: rgba(191, 155, 48, 0.25) !important;
+  color: var(--color-charcoal) !important;
 }
 
 /* Prevent anchor-nav from being hidden or moved by scroll */
@@ -4013,79 +4166,37 @@ html body:not(.home) nav.anchor-nav[style*="position: fixed"] {
   top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
 }
 
-/* ===== CRITICAL: Ensure body overflow is ALWAYS correct for sticky positioning ===== */
-/* This MUST override ANY other CSS rules (including legacy CSS files) that set overflow: hidden */
-html body,
-html body[style*="overflow"],
-html body[style*="overflow-y"] {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  /* CRITICAL: overflow: hidden breaks position: sticky - it MUST be auto */
-}
-
-/* ===== FINAL, SIMPLIFIED ANCHOR-NAV STICKY ENFORCEMENT ===== */
-:root {
-  --nav-height: 72px;
-  --navbar-total-height: var(--nav-height);
-  --anchor-nav-gap: 8px;
-  --anchor-nav-offset: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height) + var(--anchor-nav-gap));
-}
-
-#main-navbar.navbar {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  z-index: 9999 !important;
-}
-
-#main-navbar.navbar.navbar-bottom {
-  position: fixed !important;
-  bottom: env(safe-area-inset-bottom, 0) !important;
+/* Final sticky wrapper override */
+html body .anchor-nav-wrapper[data-sticky-anchor] {
+  position: relative !important;
   top: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  border-top: 2px solid var(--color-gold) !important;
+  z-index: 4 !important;
+  width: 100% !important;
+  display: block !important;
+  background: transparent !important;
   border-bottom: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  isolation: auto !important;
+  padding-bottom: 0 !important;
 }
 
-#main-navbar.navbar.navbar-top {
-  position: fixed !important;
-  top: env(safe-area-inset-top, 0) !important;
-  bottom: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  border-top: none !important;
-  border-bottom: 2px solid var(--color-gold) !important;
+html body .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav {
+  position: relative !important;
+  margin: 0 auto !important;
+  max-width: var(--container-7xl) !important;
+  width: 100% !important;
+  background: transparent !important;
 }
 
-/* Highest-specificity home overrides to win against legacy rules */
-body.home #main-navbar.navbar.navbar-bottom[data-nav-pos="bottom"] {
-  position: fixed !important;
-  bottom: env(safe-area-inset-bottom, 0) !important;
-  top: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 9999 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: none !important;
+html body .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav-link {
+  color: var(--color-champers) !important;
 }
 
-body.home #main-navbar.navbar.navbar-top[data-nav-pos="top"] {
-  position: fixed !important;
-  top: env(safe-area-inset-top, 0) !important;
-  bottom: auto !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 9999 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: none !important;
+html body .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav-link:hover,
+html body .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav-link:focus-visible {
+  color: var(--color-charcoal) !important;
+  background: rgba(191, 155, 48, 0.25) !important;
 }
 
 /* Structural wrappers to support observer + placeholder */
@@ -4123,20 +4234,6 @@ html body:not(.home) section + nav.anchor-nav[data-anchor-nav] {
   transform: none !important;
   contain: none !important;
   isolation: auto !important;
-}
-
-/* JS-enforced fixed state (when sentinel leaves viewport) */
-.anchor-nav-fixed {
-  position: fixed !important;
-  top: var(--anchor-nav-offset) !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 49 !important;
-  overflow: visible !important;
-  transform: none !important;
-  contain: none !important;
-  isolation: auto !important;
-  background: inherit;
 }
 
 /* ABSOLUTE LAST OVERRIDE: force sticky under navbar on non-home */
@@ -4214,9 +4311,63 @@ html body.home nav#main-navbar.navbar[data-nav-pos="top"] {
   pointer-events: auto !important;
 }
 
-/* Ensure ancestors of anchor-nav do NOT break sticky (overflow/transform/contain) */
-html body:not(.home) main,
-html body:not(.home) main * {
+/* Override home navbar positioning so it can live inside the hero and rely on sticky positioning */
+body.home #main-navbar.navbar.navbar-home,
+body.home nav#main-navbar.navbar.navbar-home {
+  position: sticky !important;
+  top: env(safe-area-inset-top, 0) !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  border-top: none !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+  background: rgba(4, 4, 4, 0.85) !important;
+  backdrop-filter: blur(18px) !important;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.65) !important;
+  transform: none !important;
+  translate: none !important;
+  pointer-events: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  isolation: isolate !important;
+}
+
+/* Anchor navigation should be a sticky subheader that lives under the main navbar */
+html body .anchor-nav,
+html body nav.anchor-nav,
+html body .anchor-nav[data-anchor-nav],
+html body nav.anchor-nav[data-anchor-nav] {
+  position: sticky !important;
+  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 90 !important;
+  padding: 0.75rem 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  background: rgba(12, 12, 12, 0.92) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(16px) !important;
+  isolation: isolate !important;
+  --anchor-nav-height: 58px;
+}
+
+section[id],
+article[id],
+header[id],
+main[id],
+[role="region"][id],
+h2[id],
+h3[id],
+h4[id],
+h5[id] {
+  scroll-margin-top: var(--sticky-stack-height);
+}
+
+/* Ensure anchor-nav ancestor doesn't break sticky (keep scope tight) */
+html body:not(.home) main {
   overflow: visible !important;
   overflow-x: visible !important;
   overflow-y: visible !important;
@@ -4224,4 +4375,403 @@ html body:not(.home) main * {
   translate: none !important;
   contain: none !important;
   isolation: auto !important;
+}
+
+/* Sticky wrapper for anchor navigation */
+[data-sticky-anchor] {
+  position: relative !important;
+  top: auto !important;
+  z-index: 0 !important;
+  width: 100% !important;
+  display: block !important;
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  isolation: auto !important;
+}
+
+[data-sticky-anchor] .anchor-nav {
+  padding: 0.75rem 0 !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+  background: transparent !important;
+}
+
+[data-sticky-anchor] .anchor-nav-link {
+  color: var(--color-champers) !important;
+}
+
+[data-sticky-anchor] .anchor-nav-link:hover,
+[data-sticky-anchor] .anchor-nav-link:focus-visible {
+  color: var(--color-charcoal) !important;
+  background: rgba(191, 155, 48, 0.25) !important;
+}
+
+section[id],
+article[id],
+header[id],
+main[id],
+[role="region"][id],
+h2[id],
+h3[id],
+h4[id],
+h5[id] {
+  scroll-margin-top: var(--sticky-stack-height);
+}
+
+/* Anchor nav fixed state (highest priority) */
+html body .anchor-nav.anchor-nav-fixed,
+html body nav.anchor-nav.anchor-nav-fixed {
+  position: fixed !important;
+  top: var(--sticky-anchor-top) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  z-index: 96 !important;
+  background: rgba(12, 12, 12, 0.92) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(20px) !important;
+  isolation: isolate !important;
+  padding: 0.75rem 0 !important;
+}
+
+html body .anchor-nav.anchor-nav-fixed .anchor-nav-link,
+html body nav.anchor-nav.anchor-nav-fixed .anchor-nav-link {
+  color: var(--color-champers) !important;
+}
+
+html body .anchor-nav.anchor-nav-fixed .anchor-nav-link:hover,
+html body .anchor-nav.anchor-nav-fixed .anchor-nav-link:focus-visible,
+html body nav.anchor-nav.anchor-nav-fixed .anchor-nav-link:hover,
+html body nav.anchor-nav.anchor-nav-fixed .anchor-nav-link:focus-visible {
+  color: var(--color-charcoal) !important;
+  background: rgba(191, 155, 48, 0.25) !important;
+}
+
+/* === ABOUT PAGE: hero + anchor-nav alignment (final override) === */
+html body main.about-page {
+  --sticky-anchor-top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height, 72px));
+}
+
+html body main.about-page .hero-section {
+  min-height: calc(100svh - var(--anchor-h, var(--anchor-nav-height, 58px))) !important;
+  height: calc(100svh - var(--anchor-h, var(--anchor-nav-height, 58px))) !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  html body main.about-page .hero-section {
+    min-height: 100svh !important;
+    height: 100svh !important;
+  }
+}
+
+/* Restore overflow clipping on about page carousels */
+html body main.about-page .about-workshop-carousel,
+html body main.about-page .about-workshop-carousel .carousel-inner,
+html body main.about-page .about-workshop-carousel .carousel-item,
+html body main.about-page #eventCarousel,
+html body main.about-page #workshopCarousel,
+html body main.about-page #futureCarousel,
+html body main.about-page #eventCarousel .carousel-inner,
+html body main.about-page #workshopCarousel .carousel-inner,
+html body main.about-page #futureCarousel .carousel-inner,
+html body main.about-page #eventCarousel .carousel-item,
+html body main.about-page #workshopCarousel .carousel-item,
+html body main.about-page #futureCarousel .carousel-item {
+  overflow: hidden !important;
+}
+
+/* Fix about-page carousel image height so frames don't exceed images */
+html body main.about-page .about-workshop-carousel,
+html body main.about-page #eventCarousel,
+html body main.about-page #workshopCarousel,
+html body main.about-page #futureCarousel {
+  aspect-ratio: 16 / 9 !important;
+}
+
+html body main.about-page .about-workshop-carousel .carousel-inner,
+html body main.about-page #eventCarousel .carousel-inner,
+html body main.about-page #workshopCarousel .carousel-inner,
+html body main.about-page #futureCarousel .carousel-inner {
+  height: 100% !important;
+}
+
+html body main.about-page .about-workshop-carousel .carousel-item,
+html body main.about-page #eventCarousel .carousel-item,
+html body main.about-page #workshopCarousel .carousel-item,
+html body main.about-page #futureCarousel .carousel-item {
+  height: 100% !important;
+}
+
+html body main.about-page .about-workshop-carousel img,
+html body main.about-page #eventCarousel img,
+html body main.about-page #workshopCarousel img,
+html body main.about-page #futureCarousel img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* === FINAL GLOBAL FIXES: anchor-nav + media containment === */
+html body:not(.home) .anchor-nav,
+html body:not(.home) nav.anchor-nav {
+  position: sticky !important;
+  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height, 72px)) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  z-index: 90 !important;
+  background: var(--color-champers) !important;
+  border-top: 2px solid var(--color-gold) !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding: 0.75rem 0 !important;
+}
+
+html body:not(.home) .anchor-nav.anchor-nav-fixed,
+html body:not(.home) nav.anchor-nav.anchor-nav-fixed {
+  position: fixed !important;
+  top: var(--sticky-anchor-top, calc(env(safe-area-inset-top, 0) + var(--navbar-total-height, 72px))) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 95 !important;
+}
+
+html body:not(.home) .anchor-nav-inner {
+  max-width: var(--container-7xl) !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+html body:not(.home) .anchor-nav-link {
+  color: var(--color-gold) !important;
+}
+
+html body:not(.home) .anchor-nav-link:hover,
+html body:not(.home) .anchor-nav-link:focus-visible {
+  color: var(--color-charcoal) !important;
+  background: rgba(191, 155, 48, 0.2) !important;
+}
+
+/* Keep overflow clipping on utility and media containers */
+html body:not(.home) main .overflow-hidden {
+  overflow: hidden !important;
+}
+
+html body:not(.home) .hero-section {
+  overflow: hidden !important;
+}
+
+html body:not(.home) .hero-background {
+  overflow: hidden !important;
+}
+
+html body:not(.home) .hero-background img,
+html body:not(.home) .hero-background video,
+html body:not(.home) .hero-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Image carousels: keep frames and images clipped */
+html body:not(.home) .about-workshop-carousel,
+html body:not(.home) .about-workshop-carousel .carousel-inner,
+html body:not(.home) .about-workshop-carousel .carousel-item,
+html body:not(.home) #centuria50thCarousel,
+html body:not(.home) #connect140Carousel,
+html body:not(.home) #breastCancerCarousel,
+html body:not(.home) #worldOfFlavoursCarousel,
+html body:not(.home) #neighbourhoodNibblesCarousel,
+html body:not(.home) #capabilitiesCarousel,
+html body:not(.home) #eventCarousel,
+html body:not(.home) #workshopCarousel,
+html body:not(.home) #displaysCarousel,
+html body:not(.home) #futureCarousel,
+html body:not(.home) #centuria50thCarousel .carousel-inner,
+html body:not(.home) #connect140Carousel .carousel-inner,
+html body:not(.home) #breastCancerCarousel .carousel-inner,
+html body:not(.home) #worldOfFlavoursCarousel .carousel-inner,
+html body:not(.home) #neighbourhoodNibblesCarousel .carousel-inner,
+html body:not(.home) #capabilitiesCarousel .carousel-inner,
+html body:not(.home) #eventCarousel .carousel-inner,
+html body:not(.home) #workshopCarousel .carousel-inner,
+html body:not(.home) #displaysCarousel .carousel-inner,
+html body:not(.home) #futureCarousel .carousel-inner {
+  overflow: hidden !important;
+}
+
+html body:not(.home) .about-workshop-carousel .carousel-item,
+html body:not(.home) #centuria50thCarousel .carousel-item,
+html body:not(.home) #connect140Carousel .carousel-item,
+html body:not(.home) #breastCancerCarousel .carousel-item,
+html body:not(.home) #worldOfFlavoursCarousel .carousel-item,
+html body:not(.home) #neighbourhoodNibblesCarousel .carousel-item,
+html body:not(.home) #capabilitiesCarousel .carousel-item,
+html body:not(.home) #eventCarousel .carousel-item,
+html body:not(.home) #workshopCarousel .carousel-item,
+html body:not(.home) #displaysCarousel .carousel-item,
+html body:not(.home) #futureCarousel .carousel-item {
+  height: 100% !important;
+}
+
+html body:not(.home) .about-workshop-carousel img,
+html body:not(.home) #centuria50thCarousel img,
+html body:not(.home) #connect140Carousel img,
+html body:not(.home) #breastCancerCarousel img,
+html body:not(.home) #worldOfFlavoursCarousel img,
+html body:not(.home) #neighbourhoodNibblesCarousel img,
+html body:not(.home) #capabilitiesCarousel img,
+html body:not(.home) #eventCarousel img,
+html body:not(.home) #workshopCarousel img,
+html body:not(.home) #displaysCarousel img,
+html body:not(.home) #futureCarousel img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* === FINAL OVERRIDE: undo wrapper rules that were forcing transparent/boxed anchor-nav === */
+html body:not(.home) .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav {
+  position: sticky !important;
+  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height, 72px)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  background: var(--color-champers) !important;
+  border-top: 2px solid var(--color-gold) !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+}
+
+html body:not(.home) .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav.anchor-nav-fixed,
+html body:not(.home) .anchor-nav-wrapper[data-sticky-anchor] nav.anchor-nav.anchor-nav-fixed {
+  position: fixed !important;
+  top: var(--sticky-anchor-top, calc(env(safe-area-inset-top, 0) + var(--navbar-total-height, 72px))) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  background: var(--color-champers) !important;
+}
+
+html body:not(.home) .anchor-nav-wrapper[data-sticky-anchor] .anchor-nav-inner {
+  max-width: var(--container-7xl) !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+/* === FINAL RESET: anchor-nav definitive styles (non-home) === */
+body:not(.home) nav.anchor-nav[data-anchor-nav] {
+  all: unset !important;
+  box-sizing: border-box !important;
+  position: sticky !important;
+  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 95 !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0.75rem 0 !important;
+  background: var(--color-champers) !important;
+  border-top: 2px solid var(--color-gold) !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+  overflow: visible !important;
+}
+
+body:not(.home) nav.anchor-nav[data-anchor-nav].anchor-nav-fixed {
+  position: sticky !important;
+  top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
+}
+
+body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-inner {
+  max-width: var(--container-7xl, 80rem) !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  padding: 0 1rem !important;
+}
+
+body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem 1.25rem !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  justify-content: center !important;
+}
+
+body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-link {
+  color: var(--color-gold) !important;
+  text-decoration: none !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  padding: 0.4rem 0.85rem !important;
+  border-radius: 6px !important;
+  transition: color 0.2s ease, background-color 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-link:hover,
+body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-link:focus-visible {
+  color: var(--color-charcoal) !important;
+  background: rgba(191, 155, 48, 0.2) !important;
+}
+
+body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-link.active {
+  color: var(--color-charcoal) !important;
+  background: rgba(191, 155, 48, 0.28) !important;
+}
+
+@media (max-width: 768px) {
+  body:not(.home) nav.anchor-nav[data-anchor-nav] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-list {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    padding: 0 1rem !important;
+  }
+}
+
+/* Align hero height with anchor-nav on ALL non-home pages that include it */
+body:not(.home) main:has(nav.anchor-nav[data-anchor-nav]) .hero-section {
+  min-height: calc(100svh - var(--anchor-h, var(--anchor-nav-height, 58px))) !important;
+  height: calc(100svh - var(--anchor-h, var(--anchor-nav-height, 58px))) !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  body:not(.home) main:has(nav.anchor-nav[data-anchor-nav]) .hero-section {
+    min-height: 100svh !important;
+    height: 100svh !important;
+  }
+}
+
+/* Case study visual evidence: carousel should fill the frame (no side padding) */
+body:not(.home) section[aria-labelledby="visualEvidenceHeading"] .about-workshop-carousel {
+  max-width: 100% !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+body:not(.home) section[aria-labelledby="visualEvidenceHeading"] .about-workshop-carousel .carousel-inner,
+body:not(.home) section[aria-labelledby="visualEvidenceHeading"] .about-workshop-carousel .carousel-item {
+  width: 100% !important;
+  height: 100% !important;
 }

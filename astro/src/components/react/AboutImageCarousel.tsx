@@ -3,6 +3,7 @@
  * Matches Bootstrap carousel slide/fade structure for about-workshop-carousel styling.
  */
 import { useState, useEffect } from "react";
+import Image from "./Image";
 
 export interface AboutCarouselSlide {
   src: string;
@@ -77,7 +78,7 @@ export default function AboutImageCarousel({
             key={i}
             className={`carousel-item ${i === activeIndex ? "active" : ""}`}
           >
-            <img
+            <Image
               src={slide.src}
               alt={slide.alt}
               className="block w-full h-full object-cover object-center"

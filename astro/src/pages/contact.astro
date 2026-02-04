@@ -3,6 +3,7 @@
  * Contact: hero with background image, two-column layout (contact info left, form right).
  * Matches contact.html layout and copy.
  */
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactForm from "../components/react/ContactForm";
 import { CONTACT } from "../lib/constants";
@@ -19,7 +20,7 @@ const localBusinessSchema = getLocalBusinessSchema();
   <!-- Contact Page with Hero Background -->
   <section class="contact-hero-section" aria-label="Contact">
     <div class="contact-hero-background">
-      <img
+      <Image
         src="/assets/images/Brookton.JPG"
         class="contact-hero-image"
         alt="Brookton, WA - Home of Bloom'n Events Co"
