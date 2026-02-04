@@ -1,0 +1,15 @@
+exclude:
+  - astro
+  - node_modules
+  - backend
+  - api
+  - assets
+  - logs
+  - scripts
+  - .github
+  - .vscode
+  - .cursor
+  - package.json
+  - package-lock.json
+  - vercel.json
+  - README.md

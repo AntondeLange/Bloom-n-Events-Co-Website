@@ -36,4 +36,4 @@ jobs:
             https://www.bloomneventsco.com.au/contact/
           uploadArtifacts: true
           temporaryPublicStorage: true
-          configPath: ./.lighthouserc.json || true
+          configPath: ./.lighthouserc.json
