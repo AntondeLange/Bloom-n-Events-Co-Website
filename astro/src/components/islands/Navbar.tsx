@@ -106,11 +106,39 @@ export default function Navbar({ currentPath }: Props) {
     navPosition === "top" ? "navbar-top" : "navbar-bottom",
   ].join(" ");
 
+  const navInlineStyle: React.CSSProperties = isHome
+    ? navPosition === "bottom"
+      ? {
+          position: "fixed",
+          bottom: "env(safe-area-inset-bottom, 0px)",
+          top: "auto",
+          left: 0,
+          right: 0,
+          zIndex: 40,
+        }
+      : {
+          position: "fixed",
+          top: "env(safe-area-inset-top, 0px)",
+          bottom: "auto",
+          left: 0,
+          right: 0,
+          zIndex: 50,
+        }
+    : {
+        position: "fixed",
+        top: "env(safe-area-inset-top, 0px)",
+        bottom: "auto",
+        left: 0,
+        right: 0,
+        zIndex: 1030,
+      };
+
   return (
     <nav
       id="main-navbar"
       ref={navRef}
       className={navClassName}
+      style={navInlineStyle}
       role="navigation"
       aria-label="Primary"
       data-nav-pos={navPosition}
