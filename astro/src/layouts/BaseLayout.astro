@@ -55,8 +55,7 @@ const mainPadding = isHome ? "" : "pt-2";
           const isHome =
             window.location.pathname === "/" ||
             window.location.pathname === "/index.html";
-          const key = "bloomn_loader_seen";
-          if (!isHome || sessionStorage.getItem(key) === "1") {
+          if (!isHome) {
             document.documentElement.classList.add("loader-skip");
           }
         } catch (err) {
