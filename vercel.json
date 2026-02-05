@@ -43,7 +43,7 @@
       ,
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https://cdn.jsdelivr.net https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://api.openai.com https://www.google-analytics.com https://google-analytics.com https://www.googletagmanager.com https://cdn.jsdelivr.net https://formsubmit.co; frame-src 'self' https://www.facebook.com https://widgets.sociablekit.com; object-src 'none'; base-uri 'self'; form-action 'self'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://widgets.sociablekit.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://maxcdn.bootstrapcdn.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://maxcdn.bootstrapcdn.com; img-src 'self' data: https://cdn.jsdelivr.net https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://api.openai.com https://www.google-analytics.com https://google-analytics.com https://www.googletagmanager.com https://cdn.jsdelivr.net https://formsubmit.co https://data.accentapi.com; frame-src 'self' https://www.facebook.com https://widgets.sociablekit.com; object-src 'none'; base-uri 'self'; form-action 'self'"
         }
     ]
   }
