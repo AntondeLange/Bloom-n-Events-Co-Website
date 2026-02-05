@@ -52,9 +52,9 @@
     background-position: center;
     background-size: cover;
     /* Prevent horizontal scrolling while allowing vertical scrolling */
-    /* CRITICAL: overflow-y MUST be auto (not hidden) for sticky positioning to work */
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
+    /* CRITICAL: body must be overflow: visible for sticky to work relative to viewport */
+    /* overflow-x is handled by html selector */
+    overflow: visible !important;
     width: 100%;
     max-width: 100%;
     /* CRITICAL: Ensure body is the scrolling container for sticky positioning */
@@ -1707,9 +1707,9 @@ p.acknowledgement-text,
 }
 
 /* CRITICAL: Override legacy rules from assets/css/main.css */
-/* Ensure anchor-nav after hero section also uses correct positioning */
-body:not(.home) .hero-section+.anchor-nav,
-body:not(.home) .hero-section+nav.anchor-nav {
+/* Ensure anchor-nav on inner pages uses correct positioning */
+body:not(.home) .anchor-nav,
+body:not(.home) nav.anchor-nav {
   position: -webkit-sticky !important;
   position: sticky !important;
   top: calc(env(safe-area-inset-top, 0) + var(--navbar-total-height)) !important;
