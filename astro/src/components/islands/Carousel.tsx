@@ -1,5 +1,5 @@
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
-import Image from "../react/Image";
+
 
 export interface CarouselSlide {
   src: string;
@@ -83,7 +83,7 @@ export default function Carousel({
       <div className="carousel-inner">
         {slides.map((slide, index) => (
           <div key={index} className={`carousel-item ${index === activeIndex ? "active" : ""}`}>
-            <Image
+            <img
               src={slide.src}
               alt={slide.alt}
               className="block w-full h-full object-cover object-center"

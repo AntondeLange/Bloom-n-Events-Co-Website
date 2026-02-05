@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Image from "../react/Image";
+
 import { SITE } from "../../lib/constants";
 
 type Props = {
@@ -278,7 +278,7 @@ export default function Navbar({ currentPath }: Props) {
           className="order-2 flex shrink-0 items-center justify-center flex-1 self-center lg:order-2 lg:flex-none"
           aria-label={`${SITE.name} home`}
         >
-          <Image
+          <img
             src="/assets/images/logo-blk-long.png"
             alt={SITE.name}
             className="h-12 w-auto max-w-[200px] object-contain md:h-14"
