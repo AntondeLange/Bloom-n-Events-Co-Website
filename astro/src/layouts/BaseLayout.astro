@@ -7,6 +7,7 @@ import "../styles/global.css";
 import Seo from "../components/Seo.astro";
 import Navbar from "../components/islands/Navbar";
 import Footer from "../components/Footer.astro";
+import Loader from "../components/Loader.astro";
 import { getSeoProps } from "../lib/seo";
 import type { SeoProps } from "../lib/seo";
 
@@ -48,12 +49,28 @@ const mainPadding = isHome ? "" : "pt-2";
       integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk"
       crossorigin="anonymous"
     />
+    <script is:inline>
+      (() => {
+        try {
+          const isHome =
+            window.location.pathname === "/" ||
+            window.location.pathname === "/index.html";
+          const key = "bloomn_loader_seen";
+          if (!isHome || sessionStorage.getItem(key) === "1") {
+            document.documentElement.classList.add("loader-skip");
+          }
+        } catch (err) {
+          document.documentElement.classList.add("loader-skip");
+        }
+      })();
+    </script>
     <!-- Bootstrap CSS removed - was causing navbar/footer conflicts -->
     <!-- Custom accordion CSS added to global.css - Bootstrap JS still used for functionality -->
     <Seo {...seoProps} />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class={`flex min-h-screen flex-col bg-champers text-charcoal ${bodyClass}`.trim()}>
+    <Loader />
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Route-aware navbar: fixed-top on non-home, multi-state on home -->
     {renderNavbar && <Navbar currentPath={Astro.url.pathname} client:load />}

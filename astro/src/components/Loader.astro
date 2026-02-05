@@ -1,0 +1,25 @@
+---
+import rawLoaderSvg from "../../../assets/loader/logo_loader.svg?raw";
+
+const loaderSvg = rawLoaderSvg.replace(/<\?xml[^>]*>/, "").trim();
+---
+
+<div class="site-loader" aria-hidden="true">
+  <div class="site-loader__logo" set:html={loaderSvg}></div>
+  <script is:inline>
+    (() => {
+      try {
+        const isHome =
+          window.location.pathname === "/" ||
+          window.location.pathname === "/index.html";
+        if (!isHome) return;
+        const key = "bloomn_loader_seen";
+        if (sessionStorage.getItem(key) !== "1") {
+          sessionStorage.setItem(key, "1");
+        }
+      } catch (err) {
+        // No-op if storage is unavailable.
+      }
+    })();
+  </script>
+</div>
