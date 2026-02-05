@@ -3,7 +3,7 @@
  * Site footer: 3-column layout matching original.
  * Left: Bloom'n, Portfolio, Success Stories accordion links.
  * Center: logo, Terms | Policies, copyright.
- * Right: CTA, Get in Touch, social icons.
+ * Right: CTA, Start the Conversation, social icons.
  * Uses details/summary for mobile accordions.
  */
 import { Image } from "astro:assets";
@@ -180,8 +180,8 @@ const socialLinks = [
       <!-- Right: CTA, social -->
       <div class="flex flex-col items-center text-center md:col-span-5 md:items-center md:justify-center order-3">
         <h3 class="footer-heading-h3 mb-1 mt-2 md:mt-0">Ready to Create Something Amazing?</h3>
-        <p class="mb-3 text-sm text-white/90">Let's discuss how we can make your next event unforgettable</p>
-        <a href="/contact" class="btn-gold-footer mb-4 inline-block rounded no-underline">Get in Touch</a>
+        <p class="mb-3 text-sm text-white/90">Let's craft an experience that matters.</p>
+        <a href="/contact" class="btn-gold-footer mb-4 inline-block rounded no-underline">Start the Conversation</a>
         <div class="flex flex-wrap justify-center gap-3">
           {socialLinks.map(({ href, label, icon }) => (
             <a

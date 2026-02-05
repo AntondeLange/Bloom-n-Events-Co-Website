@@ -65,16 +65,16 @@ export default function ContactForm() {
     const label = fieldLabels[fieldName] || fieldName;
 
     if (error.includes("required")) {
-      return `Please fill in your ${label.toLowerCase()}. This field is required.`;
+      return `Please share your ${label.toLowerCase()}. This helps us respond.`;
     }
     if (error.includes("valid email")) {
-      return `Please enter a valid email address. Make sure it includes an @ symbol and a domain (e.g., yourname@example.com).`;
+      return "Please enter a valid email address (e.g., yourname@example.com).";
     }
     if (error.includes("at least")) {
-      return `Your ${label.toLowerCase()} is too short. Please provide more details (at least ${MESSAGE_MIN} characters).`;
+      return `Please add a little more detail (at least ${MESSAGE_MIN} characters).`;
     }
     if (error.includes("at most")) {
-      return `Your ${label.toLowerCase()} is too long. Please keep it under ${MESSAGE_MAX} characters.`;
+      return `Please keep it under ${MESSAGE_MAX} characters.`;
     }
     return error;
   }
@@ -138,18 +138,18 @@ export default function ContactForm() {
       const data = (await res.json()) as { success?: boolean; message?: string; error?: string };
 
       if (res.ok && data.success) {
-        setState({ status: "success", message: data.message ?? "Thanks! We'll be in touch soon." });
+        setState({ status: "success", message: data.message ?? "Thanks for reaching out. We'll be in touch soon." });
         form.reset();
         setMessageLength(0);
       } else {
-        const errorMsg = data.message ?? data.error ?? "We couldn't send your message right now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
+        const errorMsg = data.message ?? data.error ?? "We couldn't send your message just now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
         setErrorModalMessage(errorMsg);
         setErrorModalMessage(errorMsg);
         setShowErrorModal(true);
         setState({ status: "error", message: errorMsg });
       }
     } catch (error) {
-      const errorMsg = "We're having trouble connecting right now. Please check your internet connection and try again. If the problem persists, please contact us directly at enquiries@bloomneventsco.com.au or call 1800 826 268.";
+      const errorMsg = "We're having trouble connecting right now. Please try again, or contact us directly at enquiries@bloomneventsco.com.au or call 1800 826 268.";
       setErrorModalMessage(errorMsg);
       setShowErrorModal(true);
       setState({ status: "error", message: errorMsg });
@@ -170,7 +170,7 @@ export default function ContactForm() {
           <div className="error-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="error-modal-header">
               <h3 id="error-modal-title" className="error-modal-title">
-                Oops! Something Needs Your Attention
+                Almost there — a few details to fix
               </h3>
           <button
             type="button"
@@ -191,7 +191,7 @@ export default function ContactForm() {
             onClick={() => closeErrorModal()}
             autoFocus
           >
-            Got it, I'll fix that
+            I'll update that
           </button>
             </div>
           </div>
@@ -215,7 +215,7 @@ export default function ContactForm() {
           className="form-control"
           id="firstName"
           name="firstName"
-          placeholder="First Name"
+          placeholder="First name"
           autoComplete="given-name"
           required
           aria-required="true"
@@ -236,7 +236,7 @@ export default function ContactForm() {
           className="form-control"
           id="lastName"
           name="lastName"
-          placeholder="Last Name"
+          placeholder="Last name"
           autoComplete="family-name"
           required
           aria-required="true"
@@ -257,7 +257,7 @@ export default function ContactForm() {
           className="form-control"
           id="phone"
           name="phone"
-          placeholder="Phone Number"
+          placeholder="Phone number"
           autoComplete="tel"
           required
           aria-required="true"
@@ -278,7 +278,7 @@ export default function ContactForm() {
           className="form-control"
           id="email"
           name="email"
-          placeholder="Email Address"
+          placeholder="Email address"
           autoComplete="email"
           required
           aria-required="true"
@@ -299,7 +299,7 @@ export default function ContactForm() {
           className="form-control"
           id="company"
           name="company"
-          placeholder="Company"
+          placeholder="Company or organisation"
           autoComplete="organization"
           required
           aria-required="true"
@@ -321,7 +321,7 @@ export default function ContactForm() {
             id="message"
             name="message"
             rows={4}
-            placeholder="Message"
+            placeholder="Tell us about your event or idea"
             autoComplete="off"
             maxLength={MESSAGE_MAX}
             required
@@ -366,7 +366,7 @@ export default function ContactForm() {
           name="newsletter"
         />
         <label className="form-check-label" htmlFor="newsletter">
-          I'd like to receive exclusive offers and updates
+          Send me occasional updates and offers
         </label>
       </div>
 
@@ -384,7 +384,7 @@ export default function ContactForm() {
             ref={submitButtonRef}
           >
         <span id="submitText" className={state.status === "loading" ? "d-none" : ""}>
-          Submit
+          Send Message
         </span>
         <span id="loadingText" className={state.status === "loading" ? "" : "d-none"}>
           <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>

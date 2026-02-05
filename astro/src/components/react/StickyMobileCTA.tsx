@@ -33,9 +33,9 @@ export default function StickyMobileCTA() {
       aria-label="Mobile call to action"
     >
       <div className="container">
-        <div className="sticky-mobile-cta-text">Ready to start your project?</div>
+        <div className="sticky-mobile-cta-text">Ready to create together?</div>
         <a href="/contact" className="btn-gold">
-          Start Your Project
+          Start the Conversation
         </a>
       </div>
     </div>

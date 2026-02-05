@@ -2986,7 +2986,7 @@ nav#main-navbar.navbar>div>div.navbar-contact,
   padding: 0 !important;
 }
 
-/* Protect nav links - exclude logo and Contact Us button from this rule */
+/* Protect nav links - exclude logo and CTA button from this rule */
 #main-navbar.navbar a:not(.navbar-brand):not([aria-label*="home"]):not([href="/"]):not(.btn-gold):not([href="/contact"]) {
   display: block !important;
   padding: 0.5rem 0.75rem !important;
@@ -3086,7 +3086,7 @@ nav#main-navbar.navbar>div>div.navbar-contact,
   }
 }
 
-/* Ensure Contact Us button is gold */
+/* Ensure CTA button is gold */
 #main-navbar.navbar .btn-gold,
 #main-navbar.navbar a.btn-gold,
 #main-navbar.navbar a[href="/contact"].btn-gold {

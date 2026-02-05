@@ -294,7 +294,7 @@ export default function Navbar({ currentPath }: Props) {
             href="/contact"
             className="rounded bg-gold px-4 py-2 text-sm font-semibold text-charcoal no-underline transition hover:bg-charcoal hover:text-gold active:bg-charcoal active:text-gold"
           >
-            Contact Us
+            Let's Create
           </a>
         </div>
       </div>

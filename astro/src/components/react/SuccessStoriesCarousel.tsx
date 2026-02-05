@@ -20,45 +20,45 @@ const caseStudies: CaseStudy[] = [
   {
     image: "/assets/images/Centuria Connect140/Connect140 (10).JPG",
     imageAlt: "Centuria Connect140 Networking Event",
-    title: "Corporate Networking Event Delivers Meaningful Connections",
+    title: "A Networking Event Built for Meaningful Connection",
     description:
-      "How we created an engaging atmosphere for Centuria Capital that naturally facilitated meaningful conversations among Perth business professionals.",
+      "How we crafted an atmosphere for Centuria Capital where Perth business leaders could meet with ease, purpose, and genuine connection.",
     link: "/case-study-centuria-connect140",
     metadata: { client: "Centuria Capital", location: "Perth CBD", type: "Corporate Networking" },
   },
   {
     image: "/assets/images/Home/Food Festival Celebrates Tenant Opening & Drives Engagement CASE STUDY IMAGE.jpg",
     imageAlt: "Hawaiian Forrestfield Food Festival",
-    title: "Food Festival Celebrates Tenant Opening & Drives Engagement",
+    title: "A Food Festival That Welcomed a Tenant and the Community",
     description:
-      "One-day event for Hawaiian Shopping Centres that celebrated a key tenant opening while showcasing food diversity and driving community engagement.",
+      "A one-day event for Hawaiian Shopping Centres that celebrated a key tenant opening while inviting the community to gather, taste, and stay longer.",
     link: "/case-study-hawaiian-forrestfield",
     metadata: { client: "Hawaiian Shopping Centres", location: "Forrestfield", type: "Food Festival" },
   },
   {
     image: "/assets/images/Home/School Holiday Activity Drives Traffic Across 5 Centres in 5 Days CASE STUDY IMAGE.jpg",
     imageAlt: "Hawaiian Neighbourhood Nibbles School Holiday Programme",
-    title: "School Holiday Programme Drives Traffic Across 5 Centres in 5 Days",
+    title: "School Holiday Programme That Brought Families Across Five Centres",
     description:
-      "Food-based July school holiday activity across seven Hawaiian shopping centres that drove traffic uplifts and encouraged family dwell time.",
+      "A food-based July school holiday activation that invited families to create, connect, and linger across multiple Hawaiian shopping centres.",
     link: "/case-study-hawaiian-neighbourhood-nibbles",
     metadata: { client: "Hawaiian Shopping Centres", location: "Multiple Locations", type: "School Holiday Programme" },
   },
   {
     image: "/assets/images/Centuria 50th Birthday/efea378d-9bd1-4906-9237-db1ed574869c.jpg",
     imageAlt: "140 St Georges Terrace 50th Birthday Celebration",
-    title: "Landmark Anniversary Event Honours Legacy and Signals Future",
+    title: "A Landmark Anniversary That Honoured Legacy and Looked Forward",
     description:
-      "Bespoke 50th Birthday Celebration for 140 St Georges Terrace that honoured the building's legacy while presenting it as contemporary and future-focused.",
+      "A bespoke 50th birthday celebration for 140 St Georges Terrace that respected the past while presenting a contemporary, future-ready vision.",
     link: "/case-study-centuria-50th-birthday",
     metadata: { client: "Centuria Capital", location: "140 St Georges Terrace", type: "50th Anniversary" },
   },
   {
     image: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg",
     imageAlt: "Breast Cancer Awareness Day & Spring Activation",
-    title: "Purpose-Led Installation Creates Meaningful Connection",
+    title: "A Purpose-Led Installation Rooted in Care",
     description:
-      "Two-phase evolving installation honouring Breast Cancer Awareness Day while transitioning into a vibrant Spring activation at 140 St Georges Terrace.",
+      "A two-phase installation that honoured Breast Cancer Awareness Day, then gently transitioned into a vibrant Spring activation at 140 St Georges Terrace.",
     link: "/case-study-centuria-breast-cancer",
     metadata: { client: "Centuria Capital", location: "140 St Georges Terrace", type: "Purpose-Led Installation" },
   },
@@ -227,7 +227,7 @@ export default function SuccessStoriesCarousel() {
                   <h3 className="card-title text-gold mb-3">{study.title}</h3>
                   <p className="card-text text-charcoal">{study.description}</p>
                   <a href={study.link} className="btn btn-gold btn-sm">
-                    Read Success Story
+                    Read the Story
                   </a>
                 </div>
               </div>

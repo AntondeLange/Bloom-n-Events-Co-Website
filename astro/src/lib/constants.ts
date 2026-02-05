@@ -6,7 +6,7 @@
 export const SITE = {
   name: "Bloom'n Events Co",
   legalName: "Bloom'n Events Co Pty Ltd",
-  tagline: "Professional Event Planning & Displays",
+  tagline: "Crafted Experiences, Locally Built",
   baseUrl: "https://www.bloomneventsco.com.au",
   locale: "en_AU",
   themeColor: "#BF9B30",
