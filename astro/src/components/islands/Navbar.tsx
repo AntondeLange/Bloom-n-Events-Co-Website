@@ -37,6 +37,7 @@ export default function Navbar({ currentPath }: Props) {
   const visiblePortfolioLinks = portfolioLinks.filter(({ href }) => !isActive(href, currentPath));
   const showCapabilities = !isActive(capabilitiesLink.href, currentPath);
   const showGallery = !isActive("/gallery", currentPath);
+  const showBlog = !isActive("/blog", currentPath);
 
   useEffect(() => {
     const navElement = navRef.current;
@@ -193,6 +194,14 @@ export default function Navbar({ currentPath }: Props) {
                 Gallery
               </a>
             )}
+            {showBlog && (
+              <a
+                href="/blog"
+                className="block px-4 py-2 text-sm text-gold no-underline hover:bg-white/10 hover:text-gold"
+              >
+                Blog
+              </a>
+            )}
           </div>
         </details>
 
@@ -267,6 +276,16 @@ export default function Navbar({ currentPath }: Props) {
                   className="rounded px-3 py-2 text-sm text-gold no-underline transition hover:bg-white/10 hover:text-gold"
                 >
                   Gallery
+                </a>
+              </li>
+            )}
+            {showBlog && (
+              <li>
+                <a
+                  href="/blog"
+                  className="rounded px-3 py-2 text-sm text-gold no-underline transition hover:bg-white/10 hover:text-gold"
+                >
+                  Blog
                 </a>
               </li>
             )}

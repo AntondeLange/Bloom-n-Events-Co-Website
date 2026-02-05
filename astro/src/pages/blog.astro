@@ -1,0 +1,129 @@
+---
+/**
+ * Blog: hero, anchor nav, social widgets, CTA.
+ */
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/islands/AnchorNav";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { CONTACT } from "../lib/constants";
+---
+
+<BaseLayout
+  title="Blog & Social Updates | Bloom'n Events Co"
+  description="Latest stories and social updates from Bloom'n Events Co. Follow our LinkedIn, Instagram, and Facebook posts for behind-the-scenes moments across Perth and Western Australia."
+  path="/blog"
+>
+  <h1 class="visually-hidden">Bloom'n Events Co Blog</h1>
+
+  <!-- Blog Hero -->
+  <section class="hero-section" aria-labelledby="blogHeroHeading" id="blog">
+    <div class="hero-background">
+      <Image
+        src="/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg"
+        alt="Bloom'n Events Co blog and social updates"
+        class="hero-image"
+        loading="eager"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 id="blogHeroHeading" class="hero-headline">
+          Blog & Social Updates
+        </h1>
+        <p class="hero-subhead">
+          Stories, highlights, and behind-the-scenes moments from Bloom'n Events Co. Follow along for the latest
+          projects, community activations, and creative builds across Western Australia.
+        </p>
+        <div class="hero-cta">
+          <a href="/contact" class="btn-gold">Start the Conversation</a>
+          <a href="/gallery" class="btn-outline-gold">View Our Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anchor nav -->
+  <AnchorNav
+    links={[
+      { href: "#blog", label: "Blog" },
+      { href: "#linkedin", label: "LinkedIn" },
+      { href: "#instagram", label: "Instagram" },
+      { href: "#facebook", label: "Facebook" },
+    ]}
+    client:load
+  />
+
+  <!-- LinkedIn -->
+  <section class="section-main" aria-labelledby="linkedinHeading" id="linkedin">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="linkedinHeading" class="heading-blush-bg text-center">LinkedIn</h2>
+      <div class="card shadow">
+        <div class="card-body p-4 md:p-5">
+          <div class="sk-ww-linkedin-page-post" data-embed-id="25651346"></div>
+          <script src="https://widgets.sociablekit.com/linkedin-page-posts/widget.js" defer is:inline></script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram -->
+  <section class="section-main" aria-labelledby="instagramHeading" id="instagram">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="instagramHeading" class="heading-blush-bg text-center">Instagram</h2>
+      <div class="card shadow">
+        <div class="card-body p-4 md:p-5">
+          <div class="sk-instagram-feed" data-embed-id="25613579"></div>
+          <script src="https://widgets.sociablekit.com/instagram-feed/widget.js" defer is:inline></script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facebook -->
+  <section class="section-main" aria-labelledby="facebookHeading" id="facebook">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="facebookHeading" class="heading-blush-bg text-center">Facebook</h2>
+      <div class="card shadow">
+        <div class="card-body p-4 md:p-5">
+          <div class="sk-ww-facebook-profile" data-embed-id="25651352"></div>
+          <script src="https://widgets.sociablekit.com/facebook-profile/widget.js" defer is:inline></script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section-main" aria-labelledby="cta-heading" id="cta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="cta-heading" class="heading-blush-bg text-center">Let's create your next experience.</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body p-5 text-center">
+          <p class="lead text-charcoal mb-5">
+            We invite you to create with us. One team, one accountable partner, and a shared commitment to craft.
+          </p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start the Conversation</a>
+            <a href="/about" class="btn-outline-gold btn-lg mb-3">Learn More About Us</a>
+          </div>
+          <p class="text-charcoal mt-4 mb-0">
+            <i class="bi bi-telephone-fill" aria-hidden="true"></i>{" "}
+            <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="text-gold hover:underline">
+              {CONTACT.phone}
+            </a>{" "}
+            | <i class="bi bi-envelope-fill" aria-hidden="true"></i>{" "}
+            <a href={`mailto:${CONTACT.email}`} class="text-gold hover:underline">
+              {CONTACT.email}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>
