@@ -24,7 +24,6 @@
   "author": "Bloom'n Events Co Pty Ltd",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.58.1",
     "autoprefixer": "^10.4.17",
     "cssnano": "^6.0.15",
     "postcss": "^8.4.35",

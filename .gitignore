@@ -32,6 +32,7 @@ node_modules/
 # Build output
 dist/
 .vite/
+artifacts/
 
 # Optimized images (generated, can be regenerated)
 assets/images/optimized/
