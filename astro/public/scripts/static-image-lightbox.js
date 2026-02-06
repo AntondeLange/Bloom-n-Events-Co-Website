@@ -3,6 +3,7 @@
     ".carousel",
     ".about-workshop-carousel",
     ".success-stories-carousel-wrapper",
+    ".team-carousel",
     ".image-lightbox",
     ".site-loader",
     "nav",

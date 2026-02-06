@@ -5,8 +5,81 @@
  */
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AnchorNav from "../components/islands/AnchorNav";
+import TeamCarousel from "../components/react/TeamCarousel";
 import { CONTACT } from "../lib/constants";
+
+const teamCarouselMembers = [
+  {
+    name: "Tamara de Lange (nee Lilly)",
+    role: "CEO & Founder",
+    src: "/assets/images/Team/Tamara.JPG",
+    alt: "Tamara de Lange - CEO & Founder",
+    blurb: "Founder and creative lead with 22+ years of experience in placemaking, events, and community development.",
+  },
+  {
+    name: "Anton de Lange",
+    role: "COO & Co-Founder",
+    src: "/assets/images/Team/Anton.jpg",
+    alt: "Anton de Lange - COO & Co-Founder",
+    blurb: "Operations lead with decades of technical, safety, and delivery expertise across complex projects.",
+  },
+  {
+    name: "Joh",
+    role: "Engineering, Design, Construction & Patron",
+    src: "/assets/images/Team/team-member-1.jpeg",
+    alt: "Joh - Engineering, Design, Construction & Patron",
+    blurb: "Engineering, design, and construction support for Bloom'n Events Co.",
+  },
+  {
+    name: "Kim",
+    role: "Sign Writing, Artistic Support",
+    src: "/assets/images/Team/team-member-2.jpg",
+    alt: "Kim - Sign Writing, Artistic Support",
+    blurb: "Sign writing and artistic support for Bloom'n Events Co.",
+  },
+  {
+    name: "Sarah",
+    role: "R&D, Creative Support & Patron",
+    src: "/assets/images/Team/team-member-4.jpeg",
+    alt: "Sarah - R&D, Creative Support & Patron",
+    blurb: "Research, creative support, and patron care for Bloom'n Events Co.",
+  },
+  {
+    name: "Chelsea",
+    role: "On-Site Event Support",
+    src: "/assets/images/Team/team-member-3.jpg",
+    alt: "Chelsea - On-Site Event Support",
+    blurb: "On-site event support and guest care for Bloom'n Events Co.",
+  },
+  {
+    name: "Nino",
+    role: "Music Maestro",
+    src: "/assets/images/Team/team-member-6.jpg",
+    alt: "Nino - Music Maestro",
+    blurb: "Music direction and performance support for Bloom'n Events Co.",
+  },
+  {
+    name: "Sarah",
+    role: "Marketing Genius",
+    src: "/assets/images/Team/team-member-7.jpg",
+    alt: "Sarah - Marketing Genius",
+    blurb: "Marketing and storytelling support for Bloom'n Events Co.",
+  },
+  {
+    name: "Bronwyn",
+    role: "Child Whisperer",
+    src: "/assets/images/Team/team-member-8.jpeg",
+    alt: "Bronwyn - Child Whisperer",
+    blurb: "Kids workshops and family engagement support for Bloom'n Events Co.",
+  },
+  {
+    name: "Shimmer",
+    role: "The Band",
+    src: "/assets/images/Team/Team-member-9.jpg",
+    alt: "Shimmer - The Band",
+    blurb: "Live music and performance support for Bloom'n Events Co.",
+  },
+];
 ---
 
 <BaseLayout
@@ -34,158 +107,27 @@ import { CONTACT } from "../lib/constants";
     </div>
   </section>
 
-  <!-- Anchor Navigation -->
-  <AnchorNav
-    links={[
-      { href: "#foundersHeading", label: "Founders" },
-      { href: "#teamHeading", label: "Our Team" },
-      { href: "#collaboratorsHeading", label: "Collaborators" },
-    ]}
-    client:idle
-  />
-
-  <!-- Founders Section -->
-  <section class="section-main" aria-labelledby="foundersHeading" id="foundersHeading">
+  <!-- Meet the Team Carousel Section -->
+  <section class="section-secondary team-carousel-section" aria-labelledby="teamHeading" id="teamHeading">
     <div class="mx-auto max-w-7xl px-4 md:px-6">
-      <h2 id="foundersHeading" class="heading-blush-bg text-center">
-        Bloom'n Powerhouse Founders
-      </h2>
-      <div class="grid gap-8 md:grid-cols-2">
-        <!-- Founder 1 - Tamara -->
-        <article class="card team-card director-card shadow h-100">
-          <div class="director-image-container">
-            <Image src="/assets/images/Team/Tamara.JPG" class="director-image" alt="Tamara de Lange - CEO & Founder" loading="lazy" decoding="async" width="800" height="800" />
-          </div>
-          <div class="card-body">
-            <h3 class="card-title director-name">Tamara de Lange (nee Lilly)</h3>
-            <h4 class="card-text director-position">CEO & Founder</h4>
-            <p class="card-text text-charcoal">
-              Tamara brings over 22 years of experience across retail and commercial property management, corporate agribusiness, events management, community development and local government. She successfully managed Casual Leasing and Mall Media revenue across more than 20 shopping centres in five Australian states (2003-2018), generating multi-million dollar returns for stakeholders. Skilled in visual merchandising and placemaking, Tamara understands how to plan, design, and manage spaces that enhance vitality and promote well-being. She also holds a Permaculture Design Certificate and has founded and led various community initiatives and organisations.
+      <div class="team-carousel-panel">
+        <div class="team-carousel-grid">
+          <div class="team-carousel-copy">
+            <div class="team-carousel-title-box">
+              <h2 id="teamHeading" class="team-carousel-title">
+                <span>Meet</span>
+                <span class="team-carousel-title-gold">Our</span>
+                <span>Bloom'n</span>
+                <span class="team-carousel-title-gold">Team</span>
+              </h2>
+            </div>
+            <p class="team-carousel-subtitle team-carousel-subtitle-bottom">
+              A close-knit, family-run business proudly supporting other local and family-owned businesses across
+              Western Australia, grounded in community, care, and shared success.
             </p>
           </div>
-        </article>
-
-        <!-- Founder 2 - Anton -->
-        <article class="card team-card director-card shadow h-100">
-          <div class="director-image-container">
-            <Image src="/assets/images/Team/Anton.jpg" class="director-image" alt="Anton de Lange - COO & Co-Founder" loading="lazy" decoding="async" width="800" height="800" />
-          </div>
-          <div class="card-body">
-            <h3 class="card-title director-name">Anton de Lange</h3>
-            <h4 class="card-text director-position">COO & Co-Founder</h4>
-            <p class="card-text text-charcoal">
-              Anton is a highly adaptable and dependable professional with a broad background spanning over three decades across technical maintenance, safety, and operations. Drawing on extensive experience from a distinguished career in the defence sector, he has held senior roles within the electrical engineering industry, excelling in sales leadership, production oversight, project management, and strategic marketing. His expertise includes managing key client relationships, leading large teams, and coordinating local and international production efforts. With a strong commitment to safety and operational excellence, he brings steady leadership and practical insight to every project.
-            </p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team Members Section -->
-  <section class="section-secondary" aria-labelledby="teamHeading" id="teamHeading">
-    <div class="mx-auto max-w-7xl px-4 md:px-6">
-      <h2 id="teamHeading" class="heading-blush-bg text-center">
-        Our Bloom'n Powerhouse Team
-      </h2>
-      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <!-- Team Member 1 - Joh -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-1.jpeg" alt="Joh - Engineering, Design, Construction & Patron" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Joh</h3>
-            <p class="card-text text-charcoal">Engineering, Design, Construction & Patron</p>
-          </div>
-        </article>
-
-        <!-- Team Member 2 - Kim -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-2.jpg" alt="Kim - Sign Writing, Artistic Support" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Kim</h3>
-            <p class="card-text text-charcoal">Sign Writing, Artistic Support</p>
-          </div>
-        </article>
-
-        <!-- Team Member 3 - Sarah -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-4.jpeg" alt="Sarah - R&D, Creative Support & Patron" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Sarah</h3>
-            <p class="card-text text-charcoal">R&D, Creative Support & Patron</p>
-          </div>
-        </article>
-
-        <!-- Team Member 4 - Chelsea -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-3.jpg" alt="Chelsea - On-Site Event Support" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Chelsea</h3>
-            <p class="card-text text-charcoal">On-Site Event Support</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Collaborators Section -->
-  <section class="section-secondary" aria-labelledby="collaboratorsHeading" id="collaboratorsHeading">
-    <div class="mx-auto max-w-7xl px-4 md:px-6">
-      <h2 id="collaboratorsHeading" class="heading-blush-bg text-center">
-        Our Bloom'n Powerhouse Collaborators
-      </h2>
-      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <!-- Collaborator 1 - Nino -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-6.jpg" alt="Nino - Music Maestro" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Nino</h3>
-            <p class="card-text text-charcoal">Music Maestro</p>
-          </div>
-        </article>
-
-        <!-- Collaborator 2 - Sarah -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-7.jpg" alt="Sarah - Marketing Genius" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Sarah</h3>
-            <p class="card-text text-charcoal">Marketing Genius</p>
-          </div>
-        </article>
-
-        <!-- Collaborator 3 - Bronwyn -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/team-member-8.jpeg" alt="Bronwyn - Child Whisperer" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Bronwyn</h3>
-            <p class="card-text text-charcoal">Child Whisperer</p>
-          </div>
-        </article>
-
-        <!-- Collaborator 4 - Shimmer -->
-        <article class="card team-card shadow h-100">
-          <div class="team-member-image">
-            <Image src="/assets/images/Team/Team-member-9.jpg" alt="Shimmer - The Band" loading="lazy" decoding="async" width="400" height="400" />
-          </div>
-          <div class="card-body text-center">
-            <h3 class="card-title team-member-name">Shimmer</h3>
-            <p class="card-text text-charcoal">The Band</p>
-          </div>
-        </article>
+          <TeamCarousel members={teamCarouselMembers} client:visible />
+        </div>
       </div>
     </div>
   </section>
