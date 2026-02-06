@@ -10,15 +10,21 @@ import Footer from "../components/Footer.astro";
 import Loader from "../components/Loader.astro";
 import { getSeoProps } from "../lib/seo";
 import type { SeoProps } from "../lib/seo";
+import montserrat400Url from "@fontsource/montserrat/files/montserrat-latin-400-normal.woff2?url";
+import dancingScript600Url from "@fontsource/dancing-script/files/dancing-script-latin-600-normal.woff2?url";
 
 interface Props extends SeoProps {
   /** Optional additional class for <main> */
   mainClass?: string;
   /** Controls whether the shared navbar is rendered from the layout */
   renderNavbar?: boolean;
+  /** Optional LCP image preload data */
+  lcpImageSrc?: string;
+  lcpImageSrcSet?: string;
+  lcpImageSizes?: string;
 }
 
-const { mainClass, renderNavbar = true, ...seo } = Astro.props;
+const { mainClass, renderNavbar = true, lcpImageSrc, lcpImageSrcSet, lcpImageSizes, ...seo } = Astro.props;
 const seoProps = getSeoProps(seo);
 const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
 const bodyClass = isHome ? "home" : "";
@@ -34,21 +40,34 @@ const mainPadding = isHome ? "" : "pt-2";
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/assets/images/butterfly-icon.svg" />
     <link rel="apple-touch-icon" href="/assets/images/butterfly-icon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <!-- Performance: Preload main background image for better LCP -->
-    <link rel="preload" as="image" href="/assets/images/BloomnBackground.jpg" />
+    {lcpImageSrc && (
+      <link
+        rel="preload"
+        as="image"
+        href={lcpImageSrc}
+        imagesrcset={lcpImageSrcSet}
+        imagesizes={lcpImageSizes}
+      />
+    )}
+    <link rel="preload" as="font" type="font/woff2" href={montserrat400Url} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={dancingScript600Url} crossorigin />
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Montserrat:wght@400;600&display=swap"
-    />
-    <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
       integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk"
       crossorigin="anonymous"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk"
+        crossorigin="anonymous"
+      />
+    </noscript>
     <script is:inline>
       (() => {
         try {
@@ -72,7 +91,7 @@ const mainPadding = isHome ? "" : "pt-2";
     <Loader />
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Route-aware navbar: fixed-top on non-home, multi-state on home -->
-    {renderNavbar && <Navbar currentPath={Astro.url.pathname} client:load />}
+    {renderNavbar && <Navbar currentPath={Astro.url.pathname} client:idle />}
     <main class={`flex-1 ${mainPadding} ${mainClass ?? ""}`.trim()}>
       <div id="main-content" tabindex="-1">
         <slot />

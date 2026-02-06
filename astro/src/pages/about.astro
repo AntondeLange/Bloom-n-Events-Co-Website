@@ -3,12 +3,17 @@
  * About: hero, anchor nav, Who we were, Where we are, Vision & Mission, Where we're headed, CTA.
  * Matches about.html layout and copy. Carousels use AboutImageCarousel (React).
  */
-import { Image } from "astro:assets";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AnchorNav from "../components/islands/AnchorNav";
 import AboutImageCarousel from "../components/react/AboutImageCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
+import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
+
+const heroImage = "/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg";
+const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH));
+const heroImagePreloadSrcSet = buildSrcSet(heroImage);
 
 const workshopSlides = [
   { src: "/assets/images/KidsWorkshops/kidsworkshops01.jpg", alt: "Kids workshop activities - creative learning" },
@@ -66,7 +71,7 @@ const futureSlides = [
 ];
 
 const clientLogos = [
-  { src: "/assets/images/RidgeClientLogos/vicinity%20centres.jpeg", alt: "Vicinity Centres" },
+  { src: "/assets/images/RidgeClientLogos/vicinity centres.jpeg", alt: "Vicinity Centres" },
   { src: "/assets/images/RidgeClientLogos/JLL.png", alt: "JLL" },
   { src: "/assets/images/RidgeClientLogos/perron-group.jpg", alt: "Perron Group" },
   { src: "/assets/images/RidgeClientLogos/Belmont-Forum-768x768.png", alt: "Belmont Forum" },
@@ -80,20 +85,25 @@ const clientLogos = [
   description="About Bloom'n Events Co - Perth and Western Australia's full-service event production team. 40+ years combined experience. Locally designed, engineered, and crafted experiences from Brookton, WA."
   path="/about"
   mainClass="about-page"
+  lcpImageSrc={heroImagePreloadSrc}
+  lcpImageSrcSet={heroImagePreloadSrcSet}
+  lcpImageSizes="100vw"
 >
   <h1 class="visually-hidden">About Bloom'n Events Co</h1>
 
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <Image
-        src="/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg"
+      <OptimizedImage
+        src={heroImage}
         alt="About Bloom'n Events Co - Creating unforgettable experiences"
         class="hero-image"
         loading="eager"
+        fetchpriority="high"
         decoding="async"
         width="1600"
         height="900"
+        sizes="100vw"
       />
     </div>
     <div class="hero-overlay" aria-hidden="true" />
@@ -121,7 +131,7 @@ const clientLogos = [
       { href: "#visionMission", label: "Vision & Mission" },
       { href: "#whereWeAreHeaded", label: "Where We're Headed" },
     ]}
-    client:load
+    client:idle
   />
 
   <!-- Who we were -->
@@ -149,7 +159,16 @@ const clientLogos = [
         <div class="client-logos-container">
           {clientLogos.map((logo) => (
             <div class="client-logo">
-              <Image src={logo.src} alt={logo.alt} class="client-logo-img" loading="lazy" decoding="async" width="130" height="130" />
+              <OptimizedImage
+                src={logo.src}
+                alt={logo.alt}
+                class="client-logo-img"
+                loading="lazy"
+                decoding="async"
+                width="130"
+                height="130"
+                sizes="(max-width: 768px) 25vw, 130px"
+              />
             </div>
           ))}
         </div>

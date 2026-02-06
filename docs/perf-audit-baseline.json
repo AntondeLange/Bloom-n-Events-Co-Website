@@ -1,0 +1,885 @@
+{
+  "generatedAt": "2026-02-05T23:41:09.226Z",
+  "pages": [
+    {
+      "path": "/",
+      "local": [
+        {
+          "url": "/_astro/about.BcRNHbh_.css",
+          "size": 118506
+        },
+        {
+          "url": "/assets/images/BloomnBackground.jpg",
+          "size": 311470
+        },
+        {
+          "url": "/assets/images/logo-blk-long.png",
+          "size": 45448
+        },
+        {
+          "url": "/scripts/hero-video.js",
+          "size": 567
+        },
+        {
+          "url": "/scripts/accordion.js",
+          "size": 3951
+        },
+        {
+          "url": "/assets/images/Home/Corporate%20Events%20Hero%20Image.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/Custom%20Displays%20Hero%20Image.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%20Connect140/Connect140%20(10)-1024w.JPG",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/Food%20Festival%20Celebrates%20Tenant%20Opening%20&amp;%20Drives%20Engagement%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/School%20Holiday%20Activity%20Drives%20Traffic%20Across%205%20Centres%20in%205%20Days%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%2050th%20Birthday/efea378d-9bd1-4906-9237-db1ed574869c-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%20Breast%20Cancer/Centuria%20Breast%20Cancer%20Oct25.1-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Testimonials/testimonial-1.png",
+          "size": 34101
+        },
+        {
+          "url": "/assets/images/Testimonials/testimonial-2.png",
+          "size": 28183
+        },
+        {
+          "url": "/assets/images/Testimonials/testimonial-3.png",
+          "size": 34101
+        },
+        {
+          "url": "/assets/images/logo-blk.png",
+          "size": 53673
+        },
+        {
+          "url": "/assets/images/logo-wht.png",
+          "size": 51491
+        },
+        {
+          "url": "/assets/images/bloomn-hero.mp4",
+          "size": 31623092
+        }
+      ],
+      "external": [
+        "https://fonts.googleapis.com/css2",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      ],
+      "totals": {
+        "requests": 11,
+        "bytes": 32304583,
+        "imageBytes": 558467,
+        "jsBytes": 4518,
+        "cssBytes": 118506,
+        "videoBytes": 31623092,
+        "otherBytes": 0
+      }
+    },
+    {
+      "path": "/about/",
+      "local": [
+        {
+          "url": "/_astro/about.BcRNHbh_.css",
+          "size": 118506
+        },
+        {
+          "url": "/assets/images/BloomnBackground.jpg",
+          "size": 311470
+        },
+        {
+          "url": "/assets/images/logo-blk-long.png",
+          "size": 45448
+        },
+        {
+          "url": "/scripts/accordion.js",
+          "size": 3951
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/e0293b65-2d54-4611-89fa-b71439ce701d.jpg",
+          "size": 535342
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops01.jpg",
+          "size": 77681
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops02.jpg",
+          "size": 109302
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops03.jpg",
+          "size": 517603
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops04.jpg",
+          "size": 336968
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops05.jpg",
+          "size": 89351
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops06.jpg",
+          "size": 587614
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops07.jpg",
+          "size": 510887
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (3).jpg",
+          "size": 255365
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (4).jpg",
+          "size": 163154
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (6).jpg",
+          "size": 304996
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (9).jpg",
+          "size": 49349
+        },
+        {
+          "url": "/assets/images/RidgeClientLogos/vicinity%20centres.jpeg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/RidgeClientLogos/JLL.png",
+          "size": 19436
+        },
+        {
+          "url": "/assets/images/RidgeClientLogos/perron-group.jpg",
+          "size": 356471
+        },
+        {
+          "url": "/assets/images/RidgeClientLogos/Belmont-Forum-768x768.png",
+          "size": 11196
+        },
+        {
+          "url": "/assets/images/RidgeClientLogos/stockland-logo.png",
+          "size": 4330
+        },
+        {
+          "url": "/assets/images/RidgeClientLogos/City-of-Swan.png",
+          "size": 35220
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg",
+          "size": 335117
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (2).jpg",
+          "size": 1500002
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (3).jpg",
+          "size": 1526325
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (4).jpg",
+          "size": 1353286
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (5).jpg",
+          "size": 1489251
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0021.jpg",
+          "size": 504387
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0029.jpg",
+          "size": 2551555
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg",
+          "size": 1018342
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0115.jpg",
+          "size": 1556581
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0118.jpg",
+          "size": 1974979
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0164.jpg",
+          "size": 1888343
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0173.jpg",
+          "size": 1256578
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0332.jpg",
+          "size": 1394810
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0421.jpg",
+          "size": 2087438
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.0.jpg",
+          "size": 352105
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG",
+          "size": 987351
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25305.JPG",
+          "size": 972624
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25340.JPG",
+          "size": 810918
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25356.JPG",
+          "size": 1264291
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25358.JPG",
+          "size": 1261837
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg",
+          "size": 523091
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c.jpg",
+          "size": 519337
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg",
+          "size": 299274
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/064a7a51-766f-4fcf-b1df-f934851ef16c.jpg",
+          "size": 388096
+        },
+        {
+          "url": "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg",
+          "size": 511288
+        },
+        {
+          "url": "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg",
+          "size": 387151
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (1).jpg",
+          "size": 3354534
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (2).jpg",
+          "size": 3443685
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (10).JPG",
+          "size": 3330231
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (2).png",
+          "size": 3190095
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (3).png",
+          "size": 2546429
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (4).png",
+          "size": 2655061
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (5).png",
+          "size": 2586928
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (6).png",
+          "size": 2203813
+        },
+        {
+          "url": "/assets/images/logo-blk.png",
+          "size": 53673
+        }
+      ],
+      "external": [
+        "https://fonts.googleapis.com/css2",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      ],
+      "totals": {
+        "requests": 56,
+        "bytes": 56522446,
+        "imageBytes": 56399989,
+        "jsBytes": 3951,
+        "cssBytes": 118506,
+        "videoBytes": 0,
+        "otherBytes": 0
+      }
+    },
+    {
+      "path": "/capabilities/",
+      "local": [
+        {
+          "url": "/_astro/about.BcRNHbh_.css",
+          "size": 118506
+        },
+        {
+          "url": "/assets/images/BloomnBackground.jpg",
+          "size": 311470
+        },
+        {
+          "url": "/assets/images/logo-blk-long.png",
+          "size": 45448
+        },
+        {
+          "url": "/scripts/accordion.js",
+          "size": 3951
+        },
+        {
+          "url": "/assets/images/capabilities/image001.jpeg",
+          "size": 270162
+        },
+        {
+          "url": "/assets/images/capabilities/IMG_2783.JPG",
+          "size": 1313888
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/2c2cb266-3db9-4b1a-9883-d081e3984832.jpg",
+          "size": 445144
+        },
+        {
+          "url": "/assets/images/capabilities/7FCD8344-1546-4FB3-A6A3-B0F1B4B461EF.jpg",
+          "size": 1135256
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/8ae8e18f-9d0e-4949-88a7-23d2e71404c8.jpg",
+          "size": 324289
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/347b5e84-b47b-4b04-a67f-24ff945c12e7.jpg",
+          "size": 344556
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/8139aea6-bce9-485b-be8d-9122335cacfb.jpg",
+          "size": 564800
+        },
+        {
+          "url": "/assets/images/capabilities/b27999ca-e73c-46ed-9130-28d70d6d9ab5.jpg",
+          "size": 191311
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/803956c1-9edf-4c6b-a8f4-c2957cd64773.jpg",
+          "size": 419224
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/ab545699-5b13-459b-ae20-280d093b9bc9.jpg",
+          "size": 191668
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/d2c8216e-ada9-4d96-be15-3dce70639b44.jpg",
+          "size": 341719
+        },
+        {
+          "url": "/assets/images/capabilities/83f05b5b-3b43-4d7d-8fdf-9be7a852920b.jpg",
+          "size": 306206
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/e14d2e3c-1006-4cf5-9190-3d0210350522.jpg",
+          "size": 381441
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/85f3764d-667a-4c4e-99ce-4d1c665e6628.jpg",
+          "size": 484309
+        },
+        {
+          "url": "/assets/images/Centuria%20Connect140/Connect140%20(10)-1024w.JPG",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/Food%20Festival%20Celebrates%20Tenant%20Opening%20&amp;%20Drives%20Engagement%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/School%20Holiday%20Activity%20Drives%20Traffic%20Across%205%20Centres%20in%205%20Days%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%2050th%20Birthday/efea378d-9bd1-4906-9237-db1ed574869c-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%20Breast%20Cancer/Centuria%20Breast%20Cancer%20Oct25.1-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/logo-blk.png",
+          "size": 53673
+        }
+      ],
+      "external": [
+        "https://fonts.googleapis.com/css2",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      ],
+      "totals": {
+        "requests": 19,
+        "bytes": 7247021,
+        "imageBytes": 7124564,
+        "jsBytes": 3951,
+        "cssBytes": 118506,
+        "videoBytes": 0,
+        "otherBytes": 0
+      }
+    },
+    {
+      "path": "/events/",
+      "local": [
+        {
+          "url": "/_astro/about.BcRNHbh_.css",
+          "size": 118506
+        },
+        {
+          "url": "/assets/images/BloomnBackground.jpg",
+          "size": 311470
+        },
+        {
+          "url": "/assets/images/logo-blk-long.png",
+          "size": 45448
+        },
+        {
+          "url": "/scripts/accordion.js",
+          "size": 3951
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg",
+          "size": 497594
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (1).jpg",
+          "size": 3354534
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (2).jpg",
+          "size": 3443685
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (3).jpg",
+          "size": 3662606
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (4).JPG",
+          "size": 3868417
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c.jpg",
+          "size": 519337
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg",
+          "size": 299274
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/064a7a51-766f-4fcf-b1df-f934851ef16c.jpg",
+          "size": 388096
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/1292f05a-3499-44dc-a9b9-09a7bd33d047.jpg",
+          "size": 250697
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/1fd2ee64-1cbe-4d47-8087-c8d748149530.jpg",
+          "size": 363203
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg",
+          "size": 523091
+        },
+        {
+          "url": "/assets/images/Centuria%20Connect140/Connect140%20(10)-1024w.JPG",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/Food%20Festival%20Celebrates%20Tenant%20Opening%20&amp;%20Drives%20Engagement%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/School%20Holiday%20Activity%20Drives%20Traffic%20Across%205%20Centres%20in%205%20Days%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%2050th%20Birthday/efea378d-9bd1-4906-9237-db1ed574869c-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%20Breast%20Cancer/Centuria%20Breast%20Cancer%20Oct25.1-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/logo-blk.png",
+          "size": 53673
+        }
+      ],
+      "external": [
+        "https://fonts.googleapis.com/css2",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      ],
+      "totals": {
+        "requests": 16,
+        "bytes": 17703582,
+        "imageBytes": 17581125,
+        "jsBytes": 3951,
+        "cssBytes": 118506,
+        "videoBytes": 0,
+        "otherBytes": 0
+      }
+    },
+    {
+      "path": "/gallery/",
+      "local": [
+        {
+          "url": "/_astro/about.BcRNHbh_.css",
+          "size": 118506
+        },
+        {
+          "url": "/assets/images/BloomnBackground.jpg",
+          "size": 311470
+        },
+        {
+          "url": "/assets/images/logo-blk-long.png",
+          "size": 45448
+        },
+        {
+          "url": "/scripts/accordion.js",
+          "size": 3951
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (1).jpg",
+          "size": 3354534
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg",
+          "size": 523091
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (2).jpg",
+          "size": 3443685
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg",
+          "size": 497594
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (3).jpg",
+          "size": 3662606
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/efea378d-9bd1-4906-9237-db1ed574869c.jpg",
+          "size": 423152
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (4).JPG",
+          "size": 3868417
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/29d00126-b04a-4387-a735-9bfd8ffaaf12.jpg",
+          "size": 477863
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (5).jpg",
+          "size": 2981714
+        },
+        {
+          "url": "/assets/images/Centuria Connect140/Connect140 (10).JPG",
+          "size": 3330231
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (3).jpg",
+          "size": 255365
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0021.jpg",
+          "size": 504387
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops01.jpg",
+          "size": 77681
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg",
+          "size": 335117
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (4).jpg",
+          "size": 163154
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0029.jpg",
+          "size": 2551555
+        },
+        {
+          "url": "/assets/images/KidsWorkshops/kidsworkshops02.jpg",
+          "size": 109302
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25.1.JPG",
+          "size": 987351
+        },
+        {
+          "url": "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (2).jpg",
+          "size": 1500002
+        },
+        {
+          "url": "/assets/images/AdultWorkshops/adultworkshops (6).jpg",
+          "size": 304996
+        },
+        {
+          "url": "/assets/images/Hawaiian World Of Flavours/Hawaian250315-0068.jpg",
+          "size": 1018342
+        },
+        {
+          "url": "/assets/images/Pheonix SH Oct 2025/PheonixTTSOct25364.JPG",
+          "size": 1242051
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (5).png",
+          "size": 2586928
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (6).png",
+          "size": 2203813
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (10).png",
+          "size": 2889828
+        },
+        {
+          "url": "/assets/images/BloomnDisplays/Displays (11).png",
+          "size": 3205373
+        },
+        {
+          "url": "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg",
+          "size": 511288
+        },
+        {
+          "url": "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.2.jpg",
+          "size": 387151
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg",
+          "size": 299274
+        },
+        {
+          "url": "/assets/images/Centuria 50th Birthday/6b9b824b-c52d-4a0b-af80-a2e0f7716094.jpg",
+          "size": 607305
+        },
+        {
+          "url": "/assets/images/Centuria%20Connect140/Connect140%20(10)-1024w.JPG",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/Food%20Festival%20Celebrates%20Tenant%20Opening%20&amp;%20Drives%20Engagement%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Home/School%20Holiday%20Activity%20Drives%20Traffic%20Across%205%20Centres%20in%205%20Days%20CASE%20STUDY%20IMAGE-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%2050th%20Birthday/efea378d-9bd1-4906-9237-db1ed574869c-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/Centuria%20Breast%20Cancer/Centuria%20Breast%20Cancer%20Oct25.1-1024w.jpg",
+          "size": null
+        },
+        {
+          "url": "/assets/images/logo-blk.png",
+          "size": 53673
+        }
+      ],
+      "external": [
+        "https://fonts.googleapis.com/css2",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      ],
+      "totals": {
+        "requests": 35,
+        "bytes": 44836198,
+        "imageBytes": 44713741,
+        "jsBytes": 3951,
+        "cssBytes": 118506,
+        "videoBytes": 0,
+        "otherBytes": 0
+      }
+    },
+    {
+      "path": "/contact/",
+      "local": [
+        {
+          "url": "/_astro/about.BcRNHbh_.css",
+          "size": 118506
+        },
+        {
+          "url": "/assets/images/BloomnBackground.jpg",
+          "size": 311470
+        },
+        {
+          "url": "/assets/images/logo-blk-long.png",
+          "size": 45448
+        },
+        {
+          "url": "/scripts/accordion.js",
+          "size": 3951
+        },
+        {
+          "url": "/assets/images/Brookton.JPG",
+          "size": 1537765
+        },
+        {
+          "url": "/assets/images/logo-blk.png",
+          "size": 53673
+        }
+      ],
+      "external": [
+        "https://fonts.googleapis.com/css2",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      ],
+      "totals": {
+        "requests": 6,
+        "bytes": 2070813,
+        "imageBytes": 1948356,
+        "jsBytes": 3951,
+        "cssBytes": 118506,
+        "videoBytes": 0,
+        "otherBytes": 0
+      }
+    }
+  ],
+  "largestImages": [
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/bloomn-hero.mp4",
+      "size": 31623092
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (4).JPG",
+      "size": 3868417
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (3).jpg",
+      "size": 3662606
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (8).JPG",
+      "size": 3565249
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (2).jpg",
+      "size": 3443685
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (1).jpg",
+      "size": 3354534
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Team/team-member-7.jpg",
+      "size": 3342809
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (10).JPG",
+      "size": 3330231
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/BloomnDisplays/Displays (11)-1600w.png",
+      "size": 3228351
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/BloomnDisplays/Displays (11).png",
+      "size": 3205373
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (11).JPG",
+      "size": 3196301
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/BloomnDisplays/Displays (2).png",
+      "size": 3190095
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (6).JPG",
+      "size": 3169923
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Team/Tamara.JPG",
+      "size": 3044266
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (5).jpg",
+      "size": 2981714
+    }
+  ],
+  "largestBundles": [
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/client.9unXo8s5.js",
+      "size": 186619
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/about.BcRNHbh_.css",
+      "size": 118506
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/ContactForm.CP4qtR4T.js",
+      "size": 8841
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/index.WFquGv8Z.js",
+      "size": 7848
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/SuccessStoriesCarousel.CLyZGzoe.js",
+      "size": 7301
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/Navbar.CQ7q64ca.js",
+      "size": 7158
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/TestimonialsCarousel.BtrmEngT.js",
+      "size": 4533
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/AnchorNav.CEX8kNec.js",
+      "size": 2305
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/Carousel.C8d6zEA9.js",
+      "size": 1782
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/_astro/AboutImageCarousel.BTgUr-Vw.js",
+      "size": 1654
+    }
+  ]
+}

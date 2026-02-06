@@ -5,6 +5,8 @@
  * Infinite loop; arrows overlay left/right.
  */
 import { useEffect, useRef, useState, useCallback } from "react";
+import OptimizedImage from "./OptimizedImage";
+import ImageLightbox from "./ImageLightbox";
 
 
 interface CaseStudy {
@@ -72,6 +74,7 @@ export default function SuccessStoriesCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const isInitialMount = useRef(true);
   const userHasInteracted = useRef(false);
 
@@ -177,6 +180,16 @@ export default function SuccessStoriesCarousel() {
     moveToIndex(currentIndex + 1);
   };
 
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
+  };
+
+  const activeLightbox = lightboxIndex !== null ? caseStudies[lightboxIndex] : null;
+
   return (
     <div className="success-stories-carousel-wrapper">
       <button
@@ -200,14 +213,24 @@ export default function SuccessStoriesCarousel() {
               data-index={index}
             >
               <div className="card h-100 shadow">
-                <img
+                <OptimizedImage
                   src={study.image}
                   alt={study.imageAlt}
-                  className="card-img-top"
-                  loading="lazy"
-                  decoding="async"
-                  width="1600"
-                  height="900"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="card-img-top success-stories-carousel-image"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  width={1600}
+                  height={900}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open full-size image: ${study.title}`}
+                  onClick={() => openLightbox(index)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openLightbox(index);
+                    }
+                  }}
                 />
                 <div className="portfolio-card-metadata">
                   <div className="portfolio-card-metadata-item">
@@ -243,6 +266,13 @@ export default function SuccessStoriesCarousel() {
       >
         <i className="bi bi-chevron-right" aria-hidden="true" />
       </button>
+      {activeLightbox && (
+        <ImageLightbox
+          src={activeLightbox.image}
+          alt={activeLightbox.imageAlt}
+          onClose={closeLightbox}
+        />
+      )}
     </div>
   );
 }

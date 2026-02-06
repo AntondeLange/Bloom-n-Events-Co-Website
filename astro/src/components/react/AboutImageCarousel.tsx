@@ -3,6 +3,8 @@
  * Matches Bootstrap carousel slide/fade structure for about-workshop-carousel styling.
  */
 import { useState, useEffect } from "react";
+import OptimizedImage from "./OptimizedImage";
+import ImageLightbox from "./ImageLightbox";
 
 
 export interface AboutCarouselSlide {
@@ -24,6 +26,7 @@ export default function AboutImageCarousel({
 }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
     // Respect prefers-reduced-motion: pause auto-advance if user prefers reduced motion
@@ -48,6 +51,15 @@ export default function AboutImageCarousel({
   const goNext = () => {
     setActiveIndex((prev) => (prev + 1) % slides.length);
     setIsAutoPlaying(false);
+  };
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setIsAutoPlaying(false);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
   };
 
   if (slides.length === 0) return null;
@@ -78,14 +90,25 @@ export default function AboutImageCarousel({
             key={i}
             className={`carousel-item ${i === activeIndex ? "active" : ""}`}
           >
-            <img
+            <OptimizedImage
               src={slide.src}
               alt={slide.alt}
               className="block w-full h-full object-cover object-center"
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 80vw"
+              loading={i === 0 ? "eager" : "lazy"}
               decoding="async"
-              width="1600"
-              height="900"
+              width={1600}
+              height={900}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open full-size image: ${slide.alt}`}
+              onClick={() => openLightbox(i)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openLightbox(i);
+                }
+              }}
             />
           </div>
         ))}
@@ -108,6 +131,13 @@ export default function AboutImageCarousel({
         <span className="carousel-control-next-icon" aria-hidden="true" />
         <span className="visually-hidden">Next</span>
       </button>
+      {lightboxIndex !== null && slides[lightboxIndex] && (
+        <ImageLightbox
+          src={slides[lightboxIndex].src}
+          alt={slides[lightboxIndex].alt}
+          onClose={closeLightbox}
+        />
+      )}
     </div>
   );
 }

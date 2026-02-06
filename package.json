@@ -13,7 +13,11 @@
     "clean": "node -e \"require('fs').rmSync('./astro/dist', { recursive: true, force: true })\"",
     "audit-deps": "npm audit",
     "assets:audit": "node scripts/audit-assets.mjs",
-    "assets:prune": "node scripts/audit-assets.mjs --delete"
+    "assets:prune": "node scripts/audit-assets.mjs --delete",
+    "perf:audit": "node scripts/perf-audit-local.mjs",
+    "perf:budget": "node scripts/perf-budget.mjs",
+    "seo:check": "node scripts/check-seo.mjs",
+    "links:check": "node scripts/check-links.mjs"
   },
   "keywords": [
     "event-planning",

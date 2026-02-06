@@ -3,13 +3,18 @@
  * Capabilities: hero, anchor nav, Introduction, One-Stop Partner, Fabrication, Engineering, Design, Digital, Signage, Media/Communications, Partnerships, Project Delivery, Gallery Carousel, CTA.
  * Matches capabilities.html layout and copy.
  */
-import { Image } from "astro:assets";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AnchorNav from "../components/islands/AnchorNav";
 import Carousel from "../components/islands/Carousel";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
+import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
+
+const heroImage = "/assets/images/capabilities/image001.jpeg";
+const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH));
+const heroImagePreloadSrcSet = buildSrcSet(heroImage);
 
 const capabilitiesSlides = [
   { src: "/assets/images/capabilities/IMG_2783.JPG", alt: "Bloom'n Events Co capabilities" },
@@ -32,20 +37,25 @@ const capabilitiesSlides = [
   title="Event Production Capabilities Perth & WA | Bloom'n Events Co"
   description="Full-service event production capabilities in Perth & Western Australia. Locally designed, engineered, and built experiences across design, fabrication, signage, and installation. Based in Brookton, WA."
   path="/capabilities"
+  lcpImageSrc={heroImagePreloadSrc}
+  lcpImageSrcSet={heroImagePreloadSrcSet}
+  lcpImageSizes="100vw"
 >
   <h1 class="visually-hidden">Event Production Capabilities Perth & WA</h1>
 
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <Image
-        src="/assets/images/capabilities/image001.jpeg"
+      <OptimizedImage
+        src={heroImage}
         alt="Bloom'n Events Co Capabilities - Concept. Craft. Code. Connection."
         class="hero-image"
         loading="eager"
+        fetchpriority="high"
         decoding="async"
         width="1600"
         height="900"
+        sizes="100vw"
       />
     </div>
     <div class="hero-overlay" aria-hidden="true" />
@@ -80,7 +90,7 @@ const capabilitiesSlides = [
       { href: "#deliveryHeading", label: "Project Delivery" },
       { href: "#galleryHeading", label: "Our Work" },
     ]}
-    client:load
+    client:idle
   />
 
   <!-- Capabilities Content -->

@@ -1,4 +1,6 @@
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
+import OptimizedImage from "../react/OptimizedImage";
+import ImageLightbox from "../react/ImageLightbox";
 
 
 export interface CarouselSlide {
@@ -25,6 +27,7 @@ export default function Carousel({
   const carouselId = id ?? `carousel-${autoId}`;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -58,6 +61,15 @@ export default function Carousel({
     setIsAutoPlaying(false);
   };
 
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setIsAutoPlaying(false);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
+  };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
@@ -83,14 +95,25 @@ export default function Carousel({
       <div className="carousel-inner">
         {slides.map((slide, index) => (
           <div key={index} className={`carousel-item ${index === activeIndex ? "active" : ""}`}>
-            <img
+            <OptimizedImage
               src={slide.src}
               alt={slide.alt}
               className="block w-full h-full object-cover object-center"
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 80vw"
+              loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
-              width="1600"
-              height="900"
+              width={1600}
+              height={900}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open full-size image: ${slide.alt}`}
+              onClick={() => openLightbox(index)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openLightbox(index);
+                }
+              }}
             />
           </div>
         ))}
@@ -103,6 +126,13 @@ export default function Carousel({
         <span className="carousel-control-next-icon" aria-hidden="true" />
         <span className="visually-hidden">Next</span>
       </button>
+      {lightboxIndex !== null && slides[lightboxIndex] && (
+        <ImageLightbox
+          src={slides[lightboxIndex].src}
+          alt={slides[lightboxIndex].alt}
+          onClose={closeLightbox}
+        />
+      )}
     </div>
   );
 }

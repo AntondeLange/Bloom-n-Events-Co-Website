@@ -95,7 +95,9 @@ const normalizeRef = (raw) => {
 
 const canonicalPath = (ref) => {
   // Remove common responsive suffixes like -1200w, -768w, -2x
-  return ref.replace(/-\d{2,5}w(?=\.)/gi, "").replace(/-\d+x(?=\.)/gi, "");
+  const withoutSize = ref.replace(/-\d{2,5}w(?=\.)/gi, "").replace(/-\d+x(?=\.)/gi, "");
+  // Collapse raster formats so .jpg/.webp/.avif variants share a base
+  return withoutSize.replace(/\.(avif|webp|png|jpe?g)$/i, "");
 };
 
 const shouldScanDir = (dirpath) => {

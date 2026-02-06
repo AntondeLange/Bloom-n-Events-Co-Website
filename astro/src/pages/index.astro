@@ -10,7 +10,9 @@ import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import TestimonialsCarousel from "../components/react/TestimonialsCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import { Image } from "astro:assets";
+import heroPoster from "../assets/images/Home/Corporate Events Hero Image.jpg";
 ---
 
 <BaseLayout
@@ -24,23 +26,63 @@ import { Image } from "astro:assets";
   <HeroStickyBoundary>
     <Fragment slot="hero">
       <div class="hero-section relative min-h-svh overflow-visible">
-        <div class="hero-background">
-          <video
-            id="hero-video"
-            class="h-full w-full object-cover object-center"
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            poster="/assets/images/logo-wht.png"
-            width="1920"
-            height="1080"
-            aria-label="Bloom'n Events Co event production showcase video"
-          >
-            <source src="/assets/images/bloomn-hero.mp4" type="video/mp4" />
-          </video>
-          <script src="/scripts/hero-video.js" defer is:inline></script>
-        </div>
+          <div class="hero-background">
+            <Image
+              src={heroPoster}
+              alt="Bloom'n Events Co event production showcase"
+              class="absolute inset-0 h-full w-full object-cover object-center"
+              priority
+              sizes="100vw"
+              width="1920"
+              height="1080"
+            />
+
+            <video
+              id="hero-video"
+              class="absolute inset-0 h-full w-full object-cover object-center opacity-0 transition-opacity duration-300"
+              muted
+              loop
+              playsinline
+              preload="none"
+              width="1920"
+              height="1080"
+              aria-label="Bloom'n Events Co event production showcase video"
+            >
+              <source src="/assets/images/bloomn-hero.mp4" type="video/mp4" />
+            </video>
+
+            <script is:inline>
+              (function () {
+                const video = document.getElementById("hero-video");
+                if (!video) return;
+
+                const prefersReduced =
+                  window.matchMedia &&
+                  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+                const saveData =
+                  navigator.connection && navigator.connection.saveData;
+
+                if (prefersReduced || saveData) return;
+
+                const start = async () => {
+                  try {
+                    video.preload = "metadata";
+                    await video.play();
+                    video.classList.remove("opacity-0");
+                  } catch (_) {
+                    // Autoplay blocked or error: keep poster image.
+                  }
+                };
+
+                if ("requestIdleCallback" in window) {
+                  requestIdleCallback(start, { timeout: 1500 });
+                } else {
+                  setTimeout(start, 800);
+                }
+              })();
+            </script>
+          </div>
         <div class="hero-overlay" aria-hidden="true" />
         <div class="hero-content flex flex-col justify-between min-h-full">
           <div class="w-full max-w-4xl px-4 text-center md:px-6">
@@ -58,7 +100,7 @@ import { Image } from "astro:assets";
           </div>
             <div class="hero-navbar-wrapper mt-auto w-full">
               <!-- Placing the navbar here keeps it inside the hero so it can slide up with the hero before becoming sticky at the top, while other pages rely on the shared layout header. -->
-              <Navbar currentPath="/" client:load />
+              <Navbar currentPath="/" client:idle />
             </div>
         </div>
       </div>
@@ -73,8 +115,8 @@ import { Image } from "astro:assets";
       </h2>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <article class="service-card shadow-md">
-          <Image
-            src="/assets/images/Home/Corporate%20Events%20Hero%20Image.jpg"
+          <OptimizedImage
+            src="/assets/images/Home/Corporate Events Hero Image.jpg"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Corporate event planning and production services in Perth and Western Australia"
             class="card-img-top"
@@ -92,8 +134,8 @@ import { Image } from "astro:assets";
           </div>
         </article>
         <article class="service-card shadow-md">
-          <Image
-            src="/assets/images/Home/Creative%20Workshops%20Hero%20Image.jpg"
+          <OptimizedImage
+            src="/assets/images/Home/Creative Workshops Hero Image.jpg"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Creative workshops for kids and adults in Perth and Western Australia"
             class="card-img-top"
@@ -111,8 +153,8 @@ import { Image } from "astro:assets";
           </div>
         </article>
         <article class="service-card shadow-md">
-          <Image
-            src="/assets/images/Home/Custom%20Displays%20Hero%20Image.jpg"
+          <OptimizedImage
+            src="/assets/images/Home/Custom Displays Hero Image.jpg"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Custom displays and installations for events in Perth and Western Australia"
             class="card-img-top"

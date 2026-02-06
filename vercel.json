@@ -5,15 +5,6 @@
   "outputDirectory": "astro/dist",
   "headers": [
     {
-      "source": "/sw.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
         {
@@ -36,16 +27,63 @@
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
         },
-      {
-        "key": "Permissions-Policy",
-        "value": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
-      }
-      ,
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+        },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://widgets.sociablekit.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://maxcdn.bootstrapcdn.com https://widgets.sociablekit.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com; img-src 'self' data: https://cdn.jsdelivr.net https:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://api.openai.com https://www.google-analytics.com https://google-analytics.com https://www.googletagmanager.com https://cdn.jsdelivr.net https://formsubmit.co https://data.accentapi.com https://views.sociablekit.com https://scrolls.sociablekit.com; frame-src 'self' https://www.facebook.com https://widgets.sociablekit.com; object-src 'none'; base-uri 'self'; form-action 'self'"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
-    ]
-  }
+      ]
+    },
+    {
+      "source": "/_astro/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*/index.html",
+      "destination": "/:path*/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*.html",
+      "destination": "/:path*",
+      "permanent": true
+    }
   ]
 }

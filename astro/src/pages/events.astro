@@ -3,13 +3,18 @@
  * Events: hero, anchor nav, What We Do, How It Works, What You Get, FAQs, Case Studies, CTA.
  * Matches events.html layout and copy.
  */
-import { Image } from "astro:assets";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AnchorNav from "../components/islands/AnchorNav";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import { CONTACT } from "../lib/constants";
 import { getServiceSchema } from "../lib/structured-data";
+import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
+
+const heroImage = "/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg";
+const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH));
+const heroImagePreloadSrcSet = buildSrcSet(heroImage);
 
 const serviceSchema = getServiceSchema(
   "Corporate Event Planning",
@@ -21,20 +26,25 @@ const serviceSchema = getServiceSchema(
   title="Corporate Event Planning Perth & WA | Bloom'n Events Co"
   description="Corporate event planning in Perth & Western Australia. Networking events, conferences, and product launches crafted with in-house design, engineering, and fabrication. Based in Brookton, WA."
   path="/events"
+  lcpImageSrc={heroImagePreloadSrc}
+  lcpImageSrcSet={heroImagePreloadSrcSet}
+  lcpImageSizes="100vw"
 >
   <h1 class="visually-hidden">Corporate Event Planning Perth & WA</h1>
 
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <Image
-        src="/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg"
+      <OptimizedImage
+        src={heroImage}
         alt="Professional corporate event setup in Perth"
         class="hero-image"
         loading="eager"
+        fetchpriority="high"
         decoding="async"
         width="1600"
         height="900"
+        sizes="100vw"
       />
     </div>
     <div class="hero-overlay" aria-hidden="true" />
@@ -63,7 +73,7 @@ const serviceSchema = getServiceSchema(
       { href: "#faqsHeading", label: "FAQs" },
       { href: "#case-studies", label: "Success Stories" },
     ]}
-    client:load
+    client:idle
   />
 
   <!-- What We Do Section -->
@@ -86,34 +96,34 @@ const serviceSchema = getServiceSchema(
         </div>
         <div class="grid gap-2 grid-cols-2 lg:grid-cols-5">
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria Connect140/Connect140 (1).jpg" class="w-full h-full object-cover object-center" alt="Corporate networking event setup" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria Connect140/Connect140 (1).jpg" class="w-full h-full object-cover object-center" alt="Corporate networking event setup" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria Connect140/Connect140 (2).jpg" class="w-full h-full object-cover object-center" alt="Brand activation at business event" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria Connect140/Connect140 (2).jpg" class="w-full h-full object-cover object-center" alt="Brand activation at business event" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria Connect140/Connect140 (3).jpg" class="w-full h-full object-cover object-center" alt="Conference setup with arrangements" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria Connect140/Connect140 (3).jpg" class="w-full h-full object-cover object-center" alt="Conference setup with arrangements" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria Connect140/Connect140 (4).JPG" class="w-full h-full object-cover object-center" alt="Product launch event" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria Connect140/Connect140 (4).JPG" class="w-full h-full object-cover object-center" alt="Product launch event" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria 50th Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria 50th Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria 50th Birthday/02f37f68-0f92-4a73-ab31-9214554139ec.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria 50th Birthday/064a7a51-766f-4fcf-b1df-f934851ef16c.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria 50th Birthday/064a7a51-766f-4fcf-b1df-f934851ef16c.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria 50th Birthday/1292f05a-3499-44dc-a9b9-09a7bd33d047.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria 50th Birthday/1292f05a-3499-44dc-a9b9-09a7bd33d047.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria 50th Birthday/1fd2ee64-1cbe-4d47-8087-c8d748149530.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria 50th Birthday/1fd2ee64-1cbe-4d47-8087-c8d748149530.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
           <div class="w-full h-40 overflow-hidden rounded shadow" style="height: 160px; border: 2px solid var(--color-gold); border-radius: 0.75rem;">
-            <Image src="/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" />
+            <OptimizedImage src="/assets/images/Centuria 50th Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715.jpg" class="w-full h-full object-cover object-center" alt="Elegant 50th birthday celebration" loading="lazy" decoding="async" width="800" height="600" sizes="(max-width: 1024px) 50vw, 20vw" />
           </div>
         </div>
       </div>

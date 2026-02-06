@@ -3,31 +3,40 @@
  * Contact: hero with background image, two-column layout (contact info left, form right).
  * Matches contact.html layout and copy.
  */
-import { Image } from "astro:assets";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactForm from "../components/react/ContactForm";
 import { CONTACT } from "../lib/constants";
 import { getLocalBusinessSchema } from "../lib/structured-data";
+import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
 
 const localBusinessSchema = getLocalBusinessSchema();
+const heroImage = "/assets/images/Brookton.JPG";
+const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH));
+const heroImagePreloadSrcSet = buildSrcSet(heroImage);
 ---
 
 <BaseLayout
   title="Contact Bloom'n Events Co | Event Production Perth & WA"
   description="Contact Bloom'n Events Co for full-service event production in Perth & Western Australia. Phone: 1800 826 268. Email: enquiries@bloomneventsco.com.au. Based in Brookton, WA. Start the conversation today."
   path="/contact"
+  lcpImageSrc={heroImagePreloadSrc}
+  lcpImageSrcSet={heroImagePreloadSrcSet}
+  lcpImageSizes="100vw"
 >
   <!-- Contact Page with Hero Background -->
   <section class="contact-hero-section" aria-label="Contact">
     <div class="contact-hero-background">
-      <Image
-        src="/assets/images/Brookton.JPG"
+      <OptimizedImage
+        src={heroImage}
         class="contact-hero-image"
         alt="Brookton, WA - Home of Bloom'n Events Co"
         loading="eager"
+        fetchpriority="high"
         decoding="async"
         width="1600"
         height="900"
+        sizes="100vw"
       />
       <div class="contact-hero-overlay"></div>
     </div>

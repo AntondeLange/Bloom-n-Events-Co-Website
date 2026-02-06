@@ -3,6 +3,7 @@
  * React island with client:idle - carousel interactivity requires JS.
  */
 import { useState, useEffect } from "react";
+import OptimizedImage from "./OptimizedImage";
 
 
 interface Testimonial {
@@ -93,13 +94,14 @@ export default function TestimonialsCarousel() {
               }`}
           >
             <div className="testimonial-item">
-              <img
+              <OptimizedImage
                 src={testimonial.image}
                 alt={testimonial.imageAlt}
                 className="testimonial-img testimonial-img-rectangular mb-4"
-                width="200"
-                height="50"
-                loading="lazy"
+                width={200}
+                height={50}
+                sizes="200px"
+                loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
               />
               <h3 className="testimonial-name">{testimonial.name}</h3>

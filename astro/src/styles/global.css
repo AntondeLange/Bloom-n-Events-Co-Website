@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "@fontsource/dancing-script/400.css";
+@import "@fontsource/dancing-script/600.css";
+@import "@fontsource/dancing-script/700.css";
+@import "@fontsource/montserrat/400.css";
+@import "@fontsource/montserrat/600.css";
 
 /* Design system: Bloom'n Events Co (Tailwind v4 @theme) */
 @theme {
@@ -40,12 +45,28 @@
     }
   }
 
+  picture {
+    display: block;
+  }
+
+  picture img {
+    display: block;
+  }
+
   body {
     font-family: var(--font-sans);
     color: var(--color-charcoal);
     -webkit-font-smoothing: antialiased;
     background-color: var(--color-champers);
-    background-image: url(/assets/images/BloomnBackground.jpg);
+    background-image: url(/assets/images/BloomnBackground-1024w.jpg);
+    background-image: image-set(
+      url("/assets/images/BloomnBackground-1024w.avif") type("image/avif") 1x,
+      url("/assets/images/BloomnBackground-1600w.avif") type("image/avif") 2x,
+      url("/assets/images/BloomnBackground-1024w.webp") type("image/webp") 1x,
+      url("/assets/images/BloomnBackground-1600w.webp") type("image/webp") 2x,
+      url("/assets/images/BloomnBackground-1024w.jpg") 1x,
+      url("/assets/images/BloomnBackground-1600w.jpg") 2x
+    );
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -1277,6 +1298,10 @@ p.acknowledgement-text,
   will-change: transform;
 }
 
+.success-stories-carousel-image {
+  cursor: zoom-in;
+}
+
 .success-stories-carousel-card:not(.active):hover .card-img-top {
   transform: scale(1.02);
 }
@@ -1339,6 +1364,70 @@ p.acknowledgement-text,
   margin-top: 1rem;
   margin-bottom: 0;
   align-self: center;
+}
+
+/* Success stories full-screen image */
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 20, 20, 0.9);
+  cursor: zoom-out;
+  padding: 2rem;
+}
+
+.image-lightbox-inner {
+  position: relative;
+  max-width: 96vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-lightbox-img {
+  width: auto;
+  height: auto;
+  max-width: 96vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.image-lightbox-close {
+  position: absolute;
+  top: -2.5rem;
+  right: 0;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.image-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .image-lightbox {
+    padding: 1.25rem;
+  }
+
+  .image-lightbox-close {
+    top: -2.25rem;
+  }
 }
 
 .success-stories-carousel-arrow {
