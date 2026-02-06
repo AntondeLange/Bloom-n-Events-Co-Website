@@ -8,13 +8,13 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   // Marketing site: maximize CDN caching, reduce server/runtime work.
-  output: 'static',
+  output: "static",
   // Reduce HTML bytes over the wire.
   compressHTML: true,
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
   },
 
-  integrations: [react()]
+  integrations: [react()],
 });
