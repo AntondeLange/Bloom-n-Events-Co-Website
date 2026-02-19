@@ -14,6 +14,8 @@ const localBusinessSchema = getLocalBusinessSchema();
 const heroImage = "/assets/images/Brookton.JPG";
 const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH));
 const heroImagePreloadSrcSet = buildSrcSet(heroImage);
+const contactEmailHref = `mailto:${CONTACT.email}`;
+const contactPhoneHref = `tel:${CONTACT.phone.replace(/\s/g, "")}`;
 ---
 
 <BaseLayout
@@ -49,6 +51,11 @@ const heroImagePreloadSrcSet = buildSrcSet(heroImage);
             <h1 class="hero-headline">Let's Create Something Meaningful Together</h1>
             <p class="contact-description">
               Share your dates, budget, and the feeling you want to create. One team. One accountable partner. Full-service event production with engineering-grade care.
+            </p>
+            <p class="contact-info-text mt-3">
+              <a href={contactEmailHref} class="contact-link">Email us</a>
+              {" | "}
+              <a href={contactPhoneHref} class="contact-link">Call {CONTACT.phone}</a>
             </p>
 
             <!-- Contact Info at Bottom Left -->
@@ -110,7 +117,7 @@ const heroImagePreloadSrcSet = buildSrcSet(heroImage);
                 <div class="contact-info-block">
                   <h3 class="contact-info-heading">Email</h3>
                   <p class="contact-info-text">
-                    <a href={`mailto:${CONTACT.email}`} class="contact-link">{CONTACT.email}</a>
+                    <a href={contactEmailHref} class="contact-link">{CONTACT.email}</a>
                   </p>
                 </div>
 
@@ -118,7 +125,7 @@ const heroImagePreloadSrcSet = buildSrcSet(heroImage);
                 <div class="contact-info-block">
                   <h3 class="contact-info-heading">Contact</h3>
                   <p class="contact-info-text">
-                    <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} class="contact-link">{CONTACT.phone}</a>
+                    <a href={contactPhoneHref} class="contact-link">{CONTACT.phone}</a>
                   </p>
                 </div>
               </div>

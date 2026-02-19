@@ -4,6 +4,7 @@
  */
 
 import { SITE } from "./constants";
+import { normalizePathname } from "./url-path";
 
 export interface SeoProps {
   title: string;
@@ -26,7 +27,7 @@ export function getSeoProps(props: SeoProps): SeoProps {
 }
 
 export function canonicalUrl(path: string): string {
-  const p = path.startsWith("/") ? path : `/${path}`;
+  const p = normalizePathname(path);
   return `${SITE.baseUrl}${p}`;
 }
 

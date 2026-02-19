@@ -3,6 +3,8 @@
   "installCommand": "npm install && cd astro && npm install",
   "buildCommand": "cd astro && npm run build",
   "outputDirectory": "astro/dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -71,13 +73,23 @@
   ],
   "redirects": [
     {
+      "source": "/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true
     },
     {
+      "source": "/:path*/index",
+      "destination": "/:path*",
+      "permanent": true
+    },
+    {
       "source": "/:path*/index.html",
-      "destination": "/:path*/",
+      "destination": "/:path*",
       "permanent": true
     },
     {

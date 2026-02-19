@@ -9,6 +9,7 @@ import Navbar from "../components/islands/Navbar";
 import Footer from "../components/Footer.astro";
 import Loader from "../components/Loader.astro";
 import { getSeoProps } from "../lib/seo";
+import { isHomePath } from "../lib/url-path";
 import type { SeoProps } from "../lib/seo";
 import montserrat400Url from "@fontsource/montserrat/files/montserrat-latin-400-normal.woff2?url";
 import dancingScript600Url from "@fontsource/dancing-script/files/dancing-script-latin-600-normal.woff2?url";
@@ -26,7 +27,7 @@ interface Props extends SeoProps {
 
 const { mainClass, renderNavbar = true, lcpImageSrc, lcpImageSrcSet, lcpImageSizes, ...seo } = Astro.props;
 const seoProps = getSeoProps(seo);
-const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
+const isHome = isHomePath(Astro.url.pathname);
 const bodyClass = isHome ? "home" : "";
 // All pages reserve space for the navbar (homepage animation handled by position switching)
 // Homepage: no top padding (hero starts at top), other pages: small padding
@@ -71,9 +72,15 @@ const mainPadding = isHome ? "" : "pt-2";
     <script is:inline>
       (() => {
         try {
-          const isHome =
-            window.location.pathname === "/" ||
-            window.location.pathname === "/index.html";
+          const isHome = (() => {
+            const pathname = window.location.pathname || "/";
+            const normalizedPath = pathname
+              .replace(/\/{2,}/g, "/")
+              .replace(/\/+$/, "")
+              .replace(/\/index(?:\.html)?$/i, "")
+              .replace(/\.html$/i, "");
+            return normalizedPath === "" || normalizedPath === "/";
+          })();
           if (!isHome) {
             document.documentElement.classList.add("loader-skip");
           }

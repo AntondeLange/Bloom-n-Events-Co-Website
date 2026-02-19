@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { SITE } from "../../lib/constants";
+import { isHomePath, normalizePathname } from "../../lib/url-path";
 
 type Props = {
   currentPath: string;
@@ -20,24 +21,29 @@ const portfolioLinks = [
 
 const capabilitiesLink = { href: "/capabilities", label: "Our Capabilities" };
 
-const isActive = (href: string, currentPath: string) => {
-  if (href === "/") return currentPath === "/" || currentPath === "";
-  return currentPath.startsWith(href);
+const isActive = (href: string, normalizedCurrentPath: string) => {
+  const normalizedHref = normalizePathname(href);
+  if (normalizedHref === "/") return normalizedCurrentPath === "/";
+  return (
+    normalizedCurrentPath === normalizedHref ||
+    normalizedCurrentPath.startsWith(`${normalizedHref}/`)
+  );
 };
 
 export default function Navbar({ currentPath }: Props) {
   const navRef = useRef<HTMLElement>(null);
   const portfolioTriggerRef = useRef<HTMLButtonElement>(null);
   const portfolioMenuRef = useRef<HTMLDivElement>(null);
-  const isHome = currentPath === "/" || currentPath === "/index.html";
+  const normalizedCurrentPath = normalizePathname(currentPath);
+  const isHome = isHomePath(normalizedCurrentPath);
   const [navPosition, setNavPosition] = useState<"top" | "bottom">(isHome ? "bottom" : "top");
   const [portfolioOpen, setPortfolioOpen] = useState(false);
 
-  const visibleNavLinks = navLinks.filter(({ href }) => !isActive(href, currentPath));
-  const visiblePortfolioLinks = portfolioLinks.filter(({ href }) => !isActive(href, currentPath));
-  const showCapabilities = !isActive(capabilitiesLink.href, currentPath);
-  const showGallery = !isActive("/gallery", currentPath);
-  const showBlog = !isActive("/blog", currentPath);
+  const visibleNavLinks = navLinks.filter(({ href }) => !isActive(href, normalizedCurrentPath));
+  const visiblePortfolioLinks = portfolioLinks.filter(({ href }) => !isActive(href, normalizedCurrentPath));
+  const showCapabilities = !isActive(capabilitiesLink.href, normalizedCurrentPath);
+  const showGallery = !isActive("/gallery", normalizedCurrentPath);
+  const showBlog = !isActive("/blog", normalizedCurrentPath);
 
   useEffect(() => {
     const navElement = navRef.current;
@@ -224,7 +230,7 @@ export default function Navbar({ currentPath }: Props) {
                 ref={portfolioTriggerRef}
                 className={[
                   "inline-flex items-center rounded px-3 py-2 text-sm text-gold no-underline transition hover:bg-white/10 hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-charcoal",
-                  (portfolioLinks.some((link) => isActive(link.href, currentPath)) || isActive(capabilitiesLink.href, currentPath)) &&
+                  (portfolioLinks.some((link) => isActive(link.href, normalizedCurrentPath)) || isActive(capabilitiesLink.href, normalizedCurrentPath)) &&
                   "font-semibold",
                 ]
                   .filter(Boolean)
