@@ -10,6 +10,9 @@ import { getEnv } from './_utils/env.js';
 import { setCorsHeaders, handleCorsPreflight } from './_utils/cors.js';
 import { checkRateLimit } from './_utils/rateLimit.js';
 
+const MESSAGE_MIN = 10;
+const MESSAGE_MAX = 200;
+
 function escapeHtml(s) {
   if (typeof s !== 'string') return '';
   return s
@@ -18,6 +21,64 @@ function escapeHtml(s) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function parseRequestBody(req) {
+  let body = req.body;
+  if (!body) return {};
+
+  if (Buffer.isBuffer(body)) {
+    body = body.toString('utf8');
+  }
+
+  if (typeof body === 'object') {
+    return body;
+  }
+
+  if (typeof body !== 'string') {
+    return {};
+  }
+
+  const contentType = (req.headers['content-type'] || '').toLowerCase();
+
+  if (contentType.includes('application/json')) {
+    try {
+      const parsed = JSON.parse(body);
+      if (parsed && typeof parsed === 'object') {
+        return parsed;
+      }
+    } catch {
+      return {};
+    }
+  }
+
+  if (contentType.includes('application/x-www-form-urlencoded') || body.includes('=')) {
+    return Object.fromEntries(new URLSearchParams(body).entries());
+  }
+
+  return {};
+}
+
+function wantsHtmlResponse(req) {
+  const contentType = (req.headers['content-type'] || '').toLowerCase();
+  const accept = (req.headers.accept || '').toLowerCase();
+  const isFormPost =
+    contentType.includes('application/x-www-form-urlencoded') ||
+    contentType.includes('multipart/form-data');
+  return isFormPost && accept.includes('text/html');
+}
+
+function redirectTo(res, location) {
+  if (typeof res.redirect === 'function') {
+    return res.redirect(303, location);
+  }
+  if (typeof res.status === 'function') {
+    res.status(303);
+  } else {
+    res.statusCode = 303;
+  }
+  res.setHeader('Location', location);
+  return res.end();
 }
 
 // Validation schema
@@ -49,11 +110,11 @@ function validateContactForm(body) {
     throw new Error('Email too long (max 255 characters)');
   }
   
-  if (!message || typeof message !== 'string' || message.trim().length < 10) {
-    throw new Error('Message is required and must be at least 10 characters');
+  if (!message || typeof message !== 'string' || message.trim().length < MESSAGE_MIN) {
+    throw new Error(`Message is required and must be at least ${MESSAGE_MIN} characters`);
   }
-  if (message.length > 2000) {
-    throw new Error('Message too long (max 2000 characters)');
+  if (message.length > MESSAGE_MAX) {
+    throw new Error(`Message too long (max ${MESSAGE_MAX} characters)`);
   }
   
   // Optional fields
@@ -113,6 +174,8 @@ async function backlogSubmission(formData, req) {
 }
 
 export default async function handler(req, res) {
+  const useHtmlRedirect = wantsHtmlResponse(req);
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return handleCorsPreflight(req, res);
@@ -142,7 +205,8 @@ export default async function handler(req, res) {
     // Validate request
     let formData;
     try {
-      formData = validateContactForm(req.body);
+      const parsedBody = parseRequestBody(req);
+      formData = validateContactForm(parsedBody);
     } catch (error) {
       return res.status(400).json({
         success: false,
@@ -154,6 +218,9 @@ export default async function handler(req, res) {
     // Honeypot check - if website field has value, it's likely a bot
     if (formData.website && formData.website.trim() !== '') {
       // Silently fail for bots
+      if (useHtmlRedirect) {
+        return redirectTo(res, '/contact-success');
+      }
       return res.status(200).json({
         success: true,
         message: 'Thank you for your message. We will get back to you soon.'
@@ -166,10 +233,15 @@ export default async function handler(req, res) {
     if (!env.SMTP_USER || !env.SMTP_PASS) {
       console.warn('Email not configured - form submission received but not sent');
       await backlogSubmission(formData, req);
-      
-      return res.status(200).json({
+
+      res.setHeader('X-RateLimit-Remaining', rateLimit.remaining);
+      if (useHtmlRedirect) {
+        return redirectTo(res, '/contact-success?queued=1');
+      }
+      return res.status(202).json({
         success: true,
-        message: 'Thank you for your message. We will get back to you soon.'
+        queued: true,
+        message: 'Thanks for reaching out. Your enquiry has been received and queued for manual follow-up.'
       });
     }
     
@@ -238,6 +310,10 @@ export default async function handler(req, res) {
     
     // Add rate limit headers
     res.setHeader('X-RateLimit-Remaining', rateLimit.remaining);
+
+    if (useHtmlRedirect) {
+      return redirectTo(res, '/contact-success');
+    }
     
     return res.status(200).json({
       success: true,

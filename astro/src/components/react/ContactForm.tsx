@@ -144,7 +144,6 @@ export default function ContactForm() {
       } else {
         const errorMsg = data.message ?? data.error ?? "We couldn't send your message just now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
         setErrorModalMessage(errorMsg);
-        setErrorModalMessage(errorMsg);
         setShowErrorModal(true);
         setState({ status: "error", message: errorMsg });
       }
@@ -162,7 +161,7 @@ export default function ContactForm() {
       {showErrorModal && (
         <div
           className="error-modal-overlay"
-          onClick={() => setShowErrorModal(false)}
+          onClick={() => closeErrorModal()}
           role="dialog"
           aria-modal="true"
           aria-labelledby="error-modal-title"
@@ -175,7 +174,7 @@ export default function ContactForm() {
           <button
             type="button"
             className="error-modal-close"
-            onClick={() => setShowErrorModal(false)}
+            onClick={() => closeErrorModal()}
             aria-label="Close error message"
           >
             ×
@@ -198,7 +197,15 @@ export default function ContactForm() {
         </div>
       )}
 
-      <form onSubmit={onSubmit} className="contact-form" id="contactForm" method="POST" noValidate aria-label="Contact form">
+      <form
+        onSubmit={onSubmit}
+        className="contact-form"
+        id="contactForm"
+        method="POST"
+        action={API_URL}
+        noValidate
+        aria-label="Contact form"
+      >
         {/* Success Messages */}
         <div id="alertContainer">
           {state.status === "success" && (

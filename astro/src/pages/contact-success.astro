@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Thanks for Contacting Bloom'n Events Co"
+  description="Thanks for contacting Bloom'n Events Co. We have received your enquiry and will be in touch soon."
+  path="/contact-success"
+  noindex={true}
+>
+  <section class="mx-auto max-w-3xl px-4 py-24 text-center md:px-6">
+    <h1 class="text-4xl font-semibold text-charcoal md:text-5xl">Thank You</h1>
+    <p class="mx-auto mt-4 max-w-2xl text-lg text-charcoal/85">
+      Your enquiry has been received. Our team will review it and get back to you as soon as possible.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <a href="/contact" class="btn-gold">Back to Contact</a>
+      <a href="/" class="btn-outline-gold">Go to Home</a>
+    </div>
+  </section>
+</BaseLayout>
