@@ -4,13 +4,14 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run images:build && astro build",
+    "build": "npm run images:build && npm run videos:build && astro build",
     "preview": "astro preview",
     "test": "echo \"No tests configured for the Astro site.\"",
     "lint": "astro check",
     "check": "astro check",
     "astro": "astro",
     "images:build": "node ../scripts/build-images.mjs",
+    "videos:build": "node ../scripts/build-videos.mjs",
     "assets:audit": "node ../scripts/audit-assets.mjs",
     "assets:prune": "node ../scripts/audit-assets.mjs --delete"
   },

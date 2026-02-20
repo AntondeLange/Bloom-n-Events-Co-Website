@@ -48,6 +48,8 @@ import heroPoster from "../assets/images/Home/Corporate Events Hero Image.jpg";
               height="1080"
               aria-label="Bloom'n Events Co event production showcase video"
             >
+              <source data-src="/assets/videos/bloomn-hero-720p.webm" type="video/webm" />
+              <source data-src="/assets/videos/bloomn-hero-720p.mp4" type="video/mp4" />
               <source data-src="/assets/images/bloomn-hero.mp4" type="video/mp4" />
             </video>
 
@@ -55,8 +57,9 @@ import heroPoster from "../assets/images/Home/Corporate Events Hero Image.jpg";
               (function () {
                 const video = document.getElementById("hero-video");
                 if (!video) return;
-                const source = video.querySelector("source[data-src]");
-                if (!(source instanceof HTMLSourceElement)) return;
+                const sources = Array.from(video.querySelectorAll("source[data-src]"))
+                  .filter((source) => source instanceof HTMLSourceElement);
+                if (sources.length === 0) return;
 
                 const prefersReduced =
                   window.matchMedia &&
@@ -80,12 +83,16 @@ import heroPoster from "../assets/images/Home/Corporate Events Hero Image.jpg";
 
                 const start = async () => {
                   try {
-                    if (!source.src) {
+                    let hasAssignedSource = false;
+                    sources.forEach((source) => {
+                      if (!(source instanceof HTMLSourceElement)) return;
+                      if (source.src) return;
                       const src = source.getAttribute("data-src");
                       if (!src) return;
                       source.src = src;
-                      video.load();
-                    }
+                      hasAssignedSource = true;
+                    });
+                    if (hasAssignedSource) video.load();
                     video.preload = "metadata";
                     await video.play();
                     video.classList.remove("opacity-0");

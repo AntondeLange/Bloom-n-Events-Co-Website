@@ -7,6 +7,7 @@
     "dev": "npm --prefix astro run dev",
     "preview": "npm --prefix astro run preview",
     "build": "npm --prefix astro run build",
+    "videos:build": "node scripts/build-videos.mjs",
     "test": "npm --prefix astro run test",
     "lint": "npm --prefix astro run lint",
     "check": "npm --prefix astro run check",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.17",
     "cssnano": "^6.0.15",
+    "ffmpeg-static": "^5.3.0",
     "postcss": "^8.4.35",
     "purgecss": "^6.0.0",
     "sharp": "^0.33.2",
