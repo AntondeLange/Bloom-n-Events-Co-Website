@@ -29,6 +29,7 @@ const fallbackSrc = encodeSrc(withWidthSuffix(src, DEFAULT_WIDTH));
 const fallbackSrcSet = buildSrcSet(src);
 const avifSrcSet = buildSrcSet(src, "avif");
 const webpSrcSet = buildSrcSet(src, "webp");
+const resolvedFetchPriority = fetchpriority ?? (loading === "lazy" ? "low" : undefined);
 ---
 
 <picture>
@@ -44,6 +45,6 @@ const webpSrcSet = buildSrcSet(src, "webp");
     decoding={decoding}
     width={width}
     height={height}
-    {...(fetchpriority ? { fetchpriority } : {})}
+    {...(resolvedFetchPriority ? { fetchpriority: resolvedFetchPriority } : {})}
   />
 </picture>

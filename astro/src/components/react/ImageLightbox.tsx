@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../../lib/image-utils";
 
 interface Props {
   src: string;
@@ -24,6 +25,11 @@ export default function ImageLightbox({ src, alt, onClose }: Props) {
 
   if (!src) return null;
 
+  const fallbackSrc = encodeSrc(withWidthSuffix(src, DEFAULT_WIDTH));
+  const fallbackSrcSet = buildSrcSet(src);
+  const avifSrcSet = buildSrcSet(src, "avif");
+  const webpSrcSet = buildSrcSet(src, "webp");
+
   return (
     <div className="image-lightbox" role="dialog" aria-modal="true" onClick={onClose}>
       <div className="image-lightbox-inner" onClick={(event) => event.stopPropagation()}>
@@ -35,13 +41,19 @@ export default function ImageLightbox({ src, alt, onClose }: Props) {
         >
           &times;
         </button>
-        <img
-          src={encodeURI(src)}
-          alt={alt}
-          className="image-lightbox-img"
-          loading="eager"
-          decoding="async"
-        />
+        <picture>
+          <source type="image/avif" srcSet={avifSrcSet} sizes="100vw" />
+          <source type="image/webp" srcSet={webpSrcSet} sizes="100vw" />
+          <img
+            src={fallbackSrc}
+            srcSet={fallbackSrcSet}
+            sizes="100vw"
+            alt={alt}
+            className="image-lightbox-img"
+            loading="eager"
+            decoding="async"
+          />
+        </picture>
       </div>
     </div>
   );

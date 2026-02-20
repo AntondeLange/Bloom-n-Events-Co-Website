@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 
 import { SITE } from "../../lib/constants";
 import { isHomePath, normalizePathname } from "../../lib/url-path";
+import OptimizedImage from "../react/OptimizedImage";
 
 type Props = {
   currentPath: string;
@@ -32,11 +33,13 @@ const isActive = (href: string, normalizedCurrentPath: string) => {
 
 export default function Navbar({ currentPath }: Props) {
   const navRef = useRef<HTMLElement>(null);
+  const mobileMenuRef = useRef<HTMLDetailsElement>(null);
   const portfolioTriggerRef = useRef<HTMLButtonElement>(null);
   const portfolioMenuRef = useRef<HTMLDivElement>(null);
   const normalizedCurrentPath = normalizePathname(currentPath);
   const isHome = isHomePath(normalizedCurrentPath);
   const [navPosition, setNavPosition] = useState<"top" | "bottom">(isHome ? "bottom" : "top");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [portfolioOpen, setPortfolioOpen] = useState(false);
 
   const visibleNavLinks = navLinks.filter(({ href }) => !isActive(href, normalizedCurrentPath));
@@ -121,6 +124,17 @@ export default function Navbar({ currentPath }: Props) {
     isHome ? "navbar-home" : "navbar-top",
   ].join(" ");
 
+  const handleMobileMenuToggle = (event: SyntheticEvent<HTMLDetailsElement>) => {
+    setMobileMenuOpen(event.currentTarget.open);
+  };
+
+  const closeMobileMenu = () => {
+    const details = mobileMenuRef.current;
+    if (details?.open) {
+      details.open = false;
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
     <nav
@@ -134,11 +148,16 @@ export default function Navbar({ currentPath }: Props) {
       data-page={isHome ? "home" : "inner"}
     >
       <div className="relative mx-auto flex min-h-[var(--nav-height,72px)] max-w-7xl flex-wrap items-center justify-between gap-4 px-4 md:px-6 navbar-inner">
-        <details className="group/menu relative order-1 flex self-center lg:hidden">
+        <details
+          ref={mobileMenuRef}
+          className="group/menu relative order-1 flex self-center lg:hidden"
+          onToggle={handleMobileMenuToggle}
+        >
           <summary
             className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded bg-gold text-charcoal transition hover:bg-charcoal hover:text-gold active:bg-charcoal active:text-gold [&::-webkit-details-marker]:hidden"
             aria-label="Toggle menu"
-            aria-expanded={false}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu-panel"
           >
             <svg
               className="h-6 w-6 shrink-0"
@@ -155,12 +174,16 @@ export default function Navbar({ currentPath }: Props) {
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </summary>
-          <div className="mobile-menu-panel absolute left-0 z-50 min-w-[200px] rounded-md border border-charcoal/20 bg-charcoal py-2 shadow-lg">
+          <div
+            id="mobile-menu-panel"
+            className="mobile-menu-panel absolute left-0 z-50 min-w-[200px] rounded-md border border-charcoal/20 bg-charcoal py-2 shadow-lg"
+          >
             {visibleNavLinks.map(({ href, label }) => (
               <a
                 key={`mobile-${href}`}
                 href={href}
                 className="block px-4 py-2 text-sm text-gold no-underline hover:bg-white/10 hover:text-gold"
+                onClick={closeMobileMenu}
               >
                 {label}
               </a>
@@ -175,6 +198,7 @@ export default function Navbar({ currentPath }: Props) {
                     key={`mobile-portfolio-${href}`}
                     href={href}
                     className="block pr-4 py-2 pl-[30px] text-sm text-gold no-underline hover:bg-white/10 hover:text-gold"
+                    onClick={closeMobileMenu}
                   >
                     {label}
                   </a>
@@ -185,6 +209,7 @@ export default function Navbar({ currentPath }: Props) {
                     <a
                       href={capabilitiesLink.href}
                       className="block pr-4 py-2 pl-[30px] text-sm text-gold no-underline hover:bg-white/10 hover:text-gold"
+                      onClick={closeMobileMenu}
                     >
                       {capabilitiesLink.label}
                     </a>
@@ -196,6 +221,7 @@ export default function Navbar({ currentPath }: Props) {
               <a
                 href="/gallery"
                 className="block px-4 py-2 text-sm text-gold no-underline hover:bg-white/10 hover:text-gold"
+                onClick={closeMobileMenu}
               >
                 Gallery
               </a>
@@ -204,6 +230,7 @@ export default function Navbar({ currentPath }: Props) {
               <a
                 href="/blog"
                 className="block px-4 py-2 text-sm text-gold no-underline hover:bg-white/10 hover:text-gold"
+                onClick={closeMobileMenu}
               >
                 Blog
               </a>
@@ -223,7 +250,7 @@ export default function Navbar({ currentPath }: Props) {
                 </a>
               </li>
             ))}
-            <li className="relative group">
+            <li className="relative">
               <button
                 type="button"
                 id="portfolio-dropdown-trigger"
@@ -303,13 +330,15 @@ export default function Navbar({ currentPath }: Props) {
           className="order-2 flex shrink-0 items-center justify-center flex-1 self-center lg:order-2 lg:flex-none"
           aria-label={`${SITE.name} home`}
         >
-          <img
+          <OptimizedImage
             src="/assets/images/logo-blk-long.png"
             alt={SITE.name}
             className="h-12 w-auto max-w-[200px] object-contain md:h-14"
-            width="200"
-            height="60"
+            sizes="(max-width: 1023px) 200px, 240px"
+            width={200}
+            height={60}
             loading="eager"
+            decoding="async"
             fetchPriority="low"
           />
         </a>

@@ -1,4 +1,4 @@
-export const RESPONSIVE_WIDTHS = [480, 768, 1024, 1600] as const;
+export const RESPONSIVE_WIDTHS = [320, 480, 768, 1024, 1280, 1600] as const;
 export const DEFAULT_WIDTH = 1024;
 
 const splitExt = (src: string) => {

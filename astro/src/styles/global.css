@@ -557,9 +557,8 @@ span:has([class*="bi-"])::after {
   margin-top: 0;
 }
 
-/* Show dropdown when button is focused or has aria-expanded="true" (keyboard access) */
-.group:has(#portfolio-dropdown-trigger:focus) .portfolio-dropdown,
-.group:has(#portfolio-dropdown-trigger[aria-expanded="true"]) .portfolio-dropdown {
+/* Show dropdown only when trigger is explicitly expanded */
+#portfolio-dropdown-trigger[aria-expanded="true"] + .portfolio-dropdown {
   display: block !important;
 }
 

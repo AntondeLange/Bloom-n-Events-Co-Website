@@ -48,13 +48,15 @@ import heroPoster from "../assets/images/Home/Corporate Events Hero Image.jpg";
               height="1080"
               aria-label="Bloom'n Events Co event production showcase video"
             >
-              <source src="/assets/images/bloomn-hero.mp4" type="video/mp4" />
+              <source data-src="/assets/images/bloomn-hero.mp4" type="video/mp4" />
             </video>
 
             <script is:inline>
               (function () {
                 const video = document.getElementById("hero-video");
                 if (!video) return;
+                const source = video.querySelector("source[data-src]");
+                if (!(source instanceof HTMLSourceElement)) return;
 
                 const prefersReduced =
                   window.matchMedia &&
@@ -63,10 +65,27 @@ import heroPoster from "../assets/images/Home/Corporate Events Hero Image.jpg";
                 const saveData =
                   navigator.connection && navigator.connection.saveData;
 
-                if (prefersReduced || saveData) return;
+                const effectiveType =
+                  navigator.connection &&
+                  typeof navigator.connection.effectiveType === "string"
+                    ? navigator.connection.effectiveType.toLowerCase()
+                    : "";
+
+                const isSlowConnection =
+                  effectiveType.includes("slow-2g") ||
+                  effectiveType.includes("2g") ||
+                  effectiveType.includes("3g");
+
+                if (prefersReduced || saveData || isSlowConnection) return;
 
                 const start = async () => {
                   try {
+                    if (!source.src) {
+                      const src = source.getAttribute("data-src");
+                      if (!src) return;
+                      source.src = src;
+                      video.load();
+                    }
                     video.preload = "metadata";
                     await video.play();
                     video.classList.remove("opacity-0");

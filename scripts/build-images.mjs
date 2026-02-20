@@ -30,8 +30,13 @@ const excludeDirs = new Set([
   path.join(repoRoot, ".git"),
 ]);
 
-const SUPPORTED_EXTS = new Set([".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"]);
-const WIDTHS = [480, 768, 1024, 1600];
+const SUPPORTED_EXTS = new Set([".jpg", ".jpeg", ".png"]);
+const WIDTHS = [320, 480, 768, 1024, 1280, 1600];
+
+const JPEG_QUALITY = 72;
+const WEBP_QUALITY = 68;
+const AVIF_QUALITY = 44;
+const AVIF_EFFORT = 6;
 
 const assetRegex = /\/assets\/images\/[^"'\n]+/gi;
 
@@ -115,9 +120,20 @@ const generateVariants = async (inputPath) => {
       await ensureDir(fallbackPath);
       let pipeline = sharp(inputPath, { failOnError: false }).rotate().resize(resizeOpts);
       if (ext.toLowerCase() === ".png") {
-        pipeline = pipeline.png({ compressionLevel: 9, adaptiveFiltering: true });
+        pipeline = pipeline.png({
+          compressionLevel: 9,
+          adaptiveFiltering: true,
+          effort: 10,
+          palette: true,
+          quality: 78,
+        });
       } else {
-        pipeline = pipeline.jpeg({ quality: 80, mozjpeg: true, progressive: true });
+        pipeline = pipeline.jpeg({
+          quality: JPEG_QUALITY,
+          mozjpeg: true,
+          progressive: true,
+          chromaSubsampling: "4:2:0",
+        });
       }
       await pipeline.toFile(fallbackPath);
     }
@@ -128,7 +144,7 @@ const generateVariants = async (inputPath) => {
       await sharp(inputPath, { failOnError: false })
         .rotate()
         .resize(resizeOpts)
-        .webp({ quality: 75 })
+        .webp({ quality: WEBP_QUALITY, effort: 5 })
         .toFile(webpPath);
     }
 
@@ -138,7 +154,7 @@ const generateVariants = async (inputPath) => {
       await sharp(inputPath, { failOnError: false })
         .rotate()
         .resize(resizeOpts)
-        .avif({ quality: 50, effort: 4 })
+        .avif({ quality: AVIF_QUALITY, effort: AVIF_EFFORT })
         .toFile(avifPath);
     }
   }
@@ -164,7 +180,7 @@ const main = async () => {
 
   let processed = 0;
   for (const ref of refs) {
-    const ext = path.extname(ref);
+    const ext = path.extname(ref).toLowerCase();
     if (!SUPPORTED_EXTS.has(ext)) continue;
     const inputPath = path.join(publicRoot, ref);
     if (!(await fileExists(inputPath))) {

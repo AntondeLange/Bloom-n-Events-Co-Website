@@ -27,6 +27,7 @@ export default function OptimizedImage({
   const fallbackSrcSet = buildSrcSet(src);
   const avifSrcSet = buildSrcSet(src, "avif");
   const webpSrcSet = buildSrcSet(src, "webp");
+  const resolvedFetchPriority = fetchPriority ?? (loading === "lazy" ? "low" : undefined);
 
   return (
     <picture>
@@ -40,7 +41,7 @@ export default function OptimizedImage({
         className={className}
         loading={loading}
         decoding={decoding}
-        fetchPriority={fetchPriority}
+        fetchPriority={resolvedFetchPriority}
         width={width}
         height={height}
         {...rest}

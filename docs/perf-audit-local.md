@@ -1,6 +1,6 @@
 # Local Perf Asset Audit
 
-Generated: 2026-02-06T02:20:56.619Z
+Generated: 2026-02-20T06:55:49.880Z
 
 ## Page Asset Totals (local, uncompressed)
 
@@ -8,12 +8,12 @@ Generated: 2026-02-06T02:20:56.619Z
 
 | Page | Requests | Total Bytes | Images | JS | CSS | Video | Other |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| / | 18 | 32 MB | 1.5 MB | 3.9 KB | 124 KB | 30 MB | 44 KB |
-| /about/ | 58 | 11 MB | 11 MB | 3.9 KB | 124 KB | 0 B | 44 KB |
-| /capabilities/ | 24 | 2.5 MB | 2.4 MB | 3.9 KB | 124 KB | 0 B | 44 KB |
-| /events/ | 21 | 2.1 MB | 1.9 MB | 3.9 KB | 124 KB | 0 B | 44 KB |
-| /gallery/ | 37 | 8.1 MB | 7.9 MB | 3.9 KB | 124 KB | 0 B | 44 KB |
-| /contact/ | 7 | 459 KB | 287 KB | 3.9 KB | 124 KB | 0 B | 44 KB |
+| / | 18 | 1.5 MB | 1.3 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /about/ | 59 | 6.5 MB | 6.3 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /capabilities/ | 17 | 1.3 MB | 1.1 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /events/ | 22 | 1.8 MB | 1.6 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /gallery/ | 24 | 3.5 MB | 3.4 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /contact/ | 8 | 442 KB | 261 KB | 6.7 KB | 131 KB | 0 B | 44 KB |
 
 ## Largest Local Images
 
@@ -31,17 +31,17 @@ Generated: 2026-02-06T02:20:56.619Z
 | /assets/images/BloomnDisplays/Displays (11).png | 3.1 MB |
 | /assets/images/Centuria Connect140/Connect140 (11).JPG | 3.0 MB |
 | /assets/images/BloomnDisplays/Displays (2).png | 3.0 MB |
-| /assets/images/BloomnDisplays/Displays (2)-1600w.png | 3.0 MB |
 | /assets/images/Centuria Connect140/Connect140 (6).JPG | 3.0 MB |
 | /assets/images/Team/Tamara.JPG | 2.9 MB |
+| /assets/images/Centuria Connect140/Connect140 (5).jpg | 2.8 MB |
 
 ## Largest JS Bundles
 
 | File | Size |
 | --- | ---: |
-| /_astro/client.9unXo8s5.js | 182 KB |
+| /_astro/client.D_Es0amM.js | 178 KB |
 | /_astro/Corporate Events Hero Image.BQlnVx-l_ZVaY2y.webp | 173 KB |
-| /_astro/about.qUuQSqkn.css | 124 KB |
+| /_astro/about.Di2Fvkg4.css | 131 KB |
 | /_astro/montserrat-latin-ext-600-normal.CSDhkhgS.woff | 40 KB |
 | /_astro/montserrat-latin-ext-400-normal.BffdBkAA.woff | 39 KB |
 | /_astro/montserrat-latin-ext-600-normal.DSkTqI9L.woff2 | 32 KB |
