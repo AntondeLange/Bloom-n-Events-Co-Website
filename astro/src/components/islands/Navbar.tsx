@@ -163,7 +163,7 @@ export default function Navbar({ currentPath }: Props) {
               className="h-6 w-6 shrink-0"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#1e1e1e"
+              stroke="#2c2c2c"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"

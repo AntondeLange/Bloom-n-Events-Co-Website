@@ -12,7 +12,7 @@ import { getSeoProps } from "../lib/seo";
 import { isHomePath } from "../lib/url-path";
 import type { SeoProps } from "../lib/seo";
 import montserrat400Url from "@fontsource/montserrat/files/montserrat-latin-400-normal.woff2?url";
-import dancingScript600Url from "@fontsource/dancing-script/files/dancing-script-latin-600-normal.woff2?url";
+import pinyonScript400Url from "@fontsource/pinyon-script/files/pinyon-script-latin-400-normal.woff2?url";
 
 interface Props extends SeoProps {
   /** Optional additional class for <main> */
@@ -52,7 +52,7 @@ const mainPadding = isHome ? "" : "pt-2";
       />
     )}
     <link rel="preload" as="font" type="font/woff2" href={montserrat400Url} crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href={dancingScript600Url} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={pinyonScript400Url} crossorigin />
     <link
       rel="preload"
       as="style"
