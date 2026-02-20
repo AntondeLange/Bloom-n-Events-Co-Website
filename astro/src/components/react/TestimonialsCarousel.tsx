@@ -101,7 +101,7 @@ export default function TestimonialsCarousel() {
                 width={200}
                 height={50}
                 sizes="200px"
-                loading={index === 0 ? "eager" : "lazy"}
+                loading="lazy"
                 decoding="async"
               />
               <h3 className="testimonial-name">{testimonial.name}</h3>

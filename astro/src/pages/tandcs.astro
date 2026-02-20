@@ -3,7 +3,7 @@
  * Terms & Conditions: hero, terms content in cards, CTA.
  * Matches tandcs.html layout and copy.
  */
-import { Image } from "astro:assets";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { CONTACT } from "../lib/constants";
 ---
@@ -24,12 +24,14 @@ import { CONTACT } from "../lib/constants";
   <!-- Hero -->
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
-      <Image
+      <OptimizedImage
         src="/assets/images/Hawaiian World Of Flavours/Hawaian250315-0173.jpg"
         alt="Terms & Conditions"
         class="hero-image"
         loading="eager"
+        fetchpriority="high"
         decoding="async"
+        sizes="100vw"
         width="1600"
         height="900"
       />

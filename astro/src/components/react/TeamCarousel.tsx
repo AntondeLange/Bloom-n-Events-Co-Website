@@ -81,7 +81,7 @@ export default function TeamCarousel({ members, intervalMs = 6000 }: Props) {
                 alt={member.alt}
                 className="team-carousel-image"
                 sizes="(max-width: 768px) 85vw, 520px"
-                loading={index === activeIndex ? "eager" : "lazy"}
+                loading="lazy"
                 decoding="async"
                 width={900}
                 height={1100}

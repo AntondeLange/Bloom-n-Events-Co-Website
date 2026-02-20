@@ -2,7 +2,7 @@
 /**
  * Blog: hero, anchor nav, social widgets, CTA.
  */
-import { Image } from "astro:assets";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AnchorNav from "../components/islands/AnchorNav";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
@@ -19,12 +19,14 @@ import { CONTACT } from "../lib/constants";
   <!-- Blog Hero -->
   <section class="hero-section" aria-labelledby="blogHeroHeading" id="blog">
     <div class="hero-background">
-      <Image
+      <OptimizedImage
         src="/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg"
         alt="Bloom'n Events Co blog and social updates"
         class="hero-image"
         loading="eager"
+        fetchpriority="high"
         decoding="async"
+        sizes="100vw"
         width="1600"
         height="900"
       />

@@ -218,7 +218,7 @@ export default function SuccessStoriesCarousel() {
                   alt={study.imageAlt}
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="card-img-top success-stories-carousel-image"
-                  loading={index === 0 ? "eager" : "lazy"}
+                  loading="lazy"
                   width={1600}
                   height={900}
                   role="button"

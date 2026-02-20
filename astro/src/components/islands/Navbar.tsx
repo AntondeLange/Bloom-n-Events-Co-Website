@@ -310,7 +310,7 @@ export default function Navbar({ currentPath }: Props) {
             width="200"
             height="60"
             loading="eager"
-            fetchPriority="high"
+            fetchPriority="low"
           />
         </a>
 

@@ -95,7 +95,7 @@ export default function AboutImageCarousel({
               alt={slide.alt}
               className="block w-full h-full object-cover object-center"
               sizes="(max-width: 768px) 100vw, 80vw"
-              loading={i === 0 ? "eager" : "lazy"}
+              loading="lazy"
               decoding="async"
               width={1600}
               height={900}

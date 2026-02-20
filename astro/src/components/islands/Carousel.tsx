@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useMemo, useState, type KeyboardEvent } from "react";
 import OptimizedImage from "../react/OptimizedImage";
 import ImageLightbox from "../react/ImageLightbox";
 
@@ -13,6 +13,10 @@ interface Props {
   slides: CarouselSlide[];
   /** Auto-advance interval in ms */
   intervalMs?: number;
+  /** Enable windowed rendering once slide count exceeds this threshold */
+  virtualizeThreshold?: number;
+  /** Number of slides to keep mounted when windowed rendering is enabled */
+  renderWindow?: number;
   className?: string;
 }
 
@@ -20,6 +24,8 @@ export default function Carousel({
   id,
   slides,
   intervalMs = 5000,
+  virtualizeThreshold = 8,
+  renderWindow = 5,
   className = "",
 }: Props) {
   // Auto-generate an ID when none is provided so that multiple carousels stay unique.
@@ -50,6 +56,25 @@ export default function Carousel({
     }
     setActiveIndex((prev) => Math.min(prev, slides.length - 1));
   }, [slides.length]);
+
+  const normalizedThreshold = Math.max(1, Math.floor(virtualizeThreshold));
+  const normalizedWindow = Math.max(3, Math.floor(renderWindow));
+  const cappedWindow = Math.min(slides.length, normalizedWindow);
+  const windowSize = cappedWindow % 2 === 0 && cappedWindow > 1 ? cappedWindow - 1 : cappedWindow;
+  const shouldVirtualize = slides.length > normalizedThreshold && windowSize < slides.length;
+
+  const renderedIndices = useMemo(() => {
+    if (!shouldVirtualize) {
+      return Array.from({ length: slides.length }, (_, index) => index);
+    }
+
+    const halfWindow = Math.floor(windowSize / 2);
+    const indices: number[] = [];
+    for (let offset = -halfWindow; offset <= halfWindow; offset += 1) {
+      indices.push((activeIndex + offset + slides.length) % slides.length);
+    }
+    return indices;
+  }, [activeIndex, shouldVirtualize, slides.length, windowSize]);
 
   const goPrev = () => {
     setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
@@ -93,30 +118,39 @@ export default function Carousel({
       onKeyDown={handleKeyDown}
     >
       <div className="carousel-inner">
-        {slides.map((slide, index) => (
-          <div key={index} className={`carousel-item ${index === activeIndex ? "active" : ""}`}>
-            <OptimizedImage
-              src={slide.src}
-              alt={slide.alt}
-              className="block w-full h-full object-cover object-center"
-              sizes="(max-width: 768px) 100vw, 80vw"
-              loading={index === 0 ? "eager" : "lazy"}
-              decoding="async"
-              width={1600}
-              height={900}
-              role="button"
-              tabIndex={0}
-              aria-label={`Open full-size image: ${slide.alt}`}
-              onClick={() => openLightbox(index)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  openLightbox(index);
-                }
-              }}
-            />
-          </div>
-        ))}
+        {renderedIndices.map((index) => {
+          const slide = slides[index];
+          if (!slide) return null;
+
+          const rawDistance = Math.abs(index - activeIndex);
+          const circularDistance = Math.min(rawDistance, slides.length - rawDistance);
+          const shouldEagerLoad = circularDistance <= 1;
+
+          return (
+            <div key={index} className={`carousel-item ${index === activeIndex ? "active" : ""}`}>
+              <OptimizedImage
+                src={slide.src}
+                alt={slide.alt}
+                className="block w-full h-full object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 80vw"
+                loading={shouldEagerLoad ? "eager" : "lazy"}
+                decoding="async"
+                width={1600}
+                height={900}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open full-size image: ${slide.alt}`}
+                onClick={() => openLightbox(index)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openLightbox(index);
+                  }
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
       <button type="button" className="carousel-control-prev" onClick={goPrev} aria-label="Previous image">
         <span className="carousel-control-prev-icon" aria-hidden="true" />

@@ -62,7 +62,7 @@ const displaysSlides = [
       <h2 id="event-gallery-heading" class="heading-blush-bg mb-4 text-center">
         Event Moments
       </h2>
-      <Carousel slides={eventSlides} client:visible />
+      <Carousel slides={eventSlides} virtualizeThreshold={8} renderWindow={5} client:visible />
     </div>
   </section>
 
@@ -72,7 +72,7 @@ const displaysSlides = [
       <h2 id="workshop-gallery-heading" class="heading-blush-bg mb-4 text-center">
         Workshop Moments
       </h2>
-      <Carousel slides={workshopSlides} client:visible />
+      <Carousel slides={workshopSlides} virtualizeThreshold={8} renderWindow={5} client:visible />
     </div>
   </section>
 
@@ -82,7 +82,7 @@ const displaysSlides = [
       <h2 id="displays-gallery-heading" class="heading-blush-bg mb-4 text-center">
         Display Stories
       </h2>
-      <Carousel slides={displaysSlides} client:visible />
+      <Carousel slides={displaysSlides} virtualizeThreshold={8} renderWindow={5} client:visible />
     </div>
   </section>
 
