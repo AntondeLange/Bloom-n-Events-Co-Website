@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-20T06:55:49.880Z",
+  "generatedAt": "2026-02-20T12:08:57.952Z",
   "pages": [
     {
       "path": "/",
@@ -34,15 +34,15 @@
         },
         {
           "url": "/assets/images/Home/Corporate%20Events%20Hero%20Image-1024w.jpg",
-          "size": 93516
+          "size": 75603
         },
         {
           "url": "/assets/images/Home/Creative%20Workshops%20Hero%20Image-1024w.jpg",
-          "size": 190123
+          "size": 153558
         },
         {
           "url": "/assets/images/Home/Custom%20Displays%20Hero%20Image-1024w.jpg",
-          "size": 268176
+          "size": 215779
         },
         {
           "url": "/assets/images/Centuria%20Connect140/Connect140%20(10)-1024w.JPG",
@@ -86,8 +86,8 @@
       ],
       "totals": {
         "requests": 18,
-        "bytes": 1522100,
-        "imageBytes": 1336595,
+        "bytes": 1415225,
+        "imageBytes": 1229720,
         "jsBytes": 6847,
         "cssBytes": 133938,
         "videoBytes": 0,
@@ -380,11 +380,11 @@
         },
         {
           "url": "/assets/images/Centuria%2050th%20Birthday/e14d2e3c-1006-4cf5-9190-3d0210350522-1024w.jpg",
-          "size": 61721
+          "size": 48303
         },
         {
           "url": "/assets/images/Centuria%2050th%20Birthday/85f3764d-667a-4c4e-99ce-4d1c665e6628-1024w.jpg",
-          "size": 100781
+          "size": 81900
         },
         {
           "url": "/assets/images/capabilities/IMG_2783-1024w.JPG",
@@ -428,8 +428,8 @@
       ],
       "totals": {
         "requests": 17,
-        "bytes": 1384000,
-        "imageBytes": 1198495,
+        "bytes": 1351701,
+        "imageBytes": 1166196,
         "jsBytes": 6847,
         "cssBytes": 133938,
         "videoBytes": 0,
@@ -477,11 +477,11 @@
         },
         {
           "url": "/assets/images/Centuria%20Connect140/Connect140%20(3)-1024w.jpg",
-          "size": 91291
+          "size": 72956
         },
         {
           "url": "/assets/images/Centuria%20Connect140/Connect140%20(4)-1024w.JPG",
-          "size": 84094
+          "size": 67495
         },
         {
           "url": "/assets/images/Centuria%2050th%20Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c-1024w.jpg",
@@ -497,11 +497,11 @@
         },
         {
           "url": "/assets/images/Centuria%2050th%20Birthday/1292f05a-3499-44dc-a9b9-09a7bd33d047-1024w.jpg",
-          "size": 178466
+          "size": 146846
         },
         {
           "url": "/assets/images/Centuria%2050th%20Birthday/1fd2ee64-1cbe-4d47-8087-c8d748149530-1024w.jpg",
-          "size": 205281
+          "size": 165977
         },
         {
           "url": "/assets/images/Centuria%2050th%20Birthday/25d854af-18a7-46ed-9cb8-1e3d7a818715-1024w.jpg",
@@ -537,8 +537,8 @@
       ],
       "totals": {
         "requests": 22,
-        "bytes": 1899222,
-        "imageBytes": 1713717,
+        "bytes": 1793364,
+        "imageBytes": 1607859,
         "jsBytes": 6847,
         "cssBytes": 133938,
         "videoBytes": 0,
@@ -574,7 +574,7 @@
         },
         {
           "url": "/assets/images/Centuria%20Connect140/Connect140%20(5)-1024w.jpg",
-          "size": 82653
+          "size": 66348
         },
         {
           "url": "/assets/images/Centuria%20Connect140/Connect140%20(10)-1024w.JPG",
@@ -598,7 +598,7 @@
         },
         {
           "url": "/assets/images/Pheonix%20SH%20Oct%202025/PheonixTTSOct25364-1024w.JPG",
-          "size": 253063
+          "size": 203787
         },
         {
           "url": "/assets/images/AdultWorkshops/adultworkshops%20(3)-1024w.jpg",
@@ -626,7 +626,7 @@
         },
         {
           "url": "/assets/images/BloomnDisplays/Displays%20(10)-1024w.png",
-          "size": 1072372
+          "size": 398607
         },
         {
           "url": "/assets/images/Home/Food%20Festival%20Celebrates%20Tenant%20Opening%20&amp;%20Drives%20Engagement%20CASE%20STUDY%20IMAGE-1024w.jpg",
@@ -654,8 +654,8 @@
       ],
       "totals": {
         "requests": 24,
-        "bytes": 3712305,
-        "imageBytes": 3526800,
+        "bytes": 2972959,
+        "imageBytes": 2787454,
         "jsBytes": 6847,
         "cssBytes": 133938,
         "videoBytes": 0,
@@ -671,7 +671,7 @@
         },
         {
           "url": "/assets/images/Brookton-1024w.JPG",
-          "size": 194965
+          "size": 156147
         },
         {
           "url": "/_astro/montserrat-latin-400-normal.BLhwKU8k.woff2",
@@ -703,8 +703,8 @@
       ],
       "totals": {
         "requests": 8,
-        "bytes": 452920,
-        "imageBytes": 267415,
+        "bytes": 414102,
+        "imageBytes": 228597,
         "jsBytes": 6847,
         "cssBytes": 133938,
         "videoBytes": 0,
@@ -746,10 +746,6 @@
       "size": 3330231
     },
     {
-      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/BloomnDisplays/Displays (11)-1600w.png",
-      "size": 3228351
-    },
-    {
       "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/BloomnDisplays/Displays (11).png",
       "size": 3205373
     },
@@ -772,6 +768,10 @@
     {
       "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Centuria Connect140/Connect140 (5).jpg",
       "size": 2981714
+    },
+    {
+      "file": "/Users/antondelange/Desktop/ICT50220 Diploma of Information Technology/Projects/Bloom'n Events Co - Project - Anton/Bloom'n Events Co - Project/astro/dist/assets/images/Home/Corporate Events Hero Image.jpg",
+      "size": 2961938
     }
   ],
   "largestBundles": [

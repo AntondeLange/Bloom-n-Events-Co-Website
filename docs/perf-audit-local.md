@@ -1,6 +1,6 @@
 # Local Perf Asset Audit
 
-Generated: 2026-02-20T06:55:49.880Z
+Generated: 2026-02-20T12:08:57.952Z
 
 ## Page Asset Totals (local, uncompressed)
 
@@ -8,12 +8,12 @@ Generated: 2026-02-20T06:55:49.880Z
 
 | Page | Requests | Total Bytes | Images | JS | CSS | Video | Other |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| / | 18 | 1.5 MB | 1.3 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| / | 18 | 1.3 MB | 1.2 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
 | /about/ | 59 | 6.5 MB | 6.3 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
 | /capabilities/ | 17 | 1.3 MB | 1.1 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
-| /events/ | 22 | 1.8 MB | 1.6 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
-| /gallery/ | 24 | 3.5 MB | 3.4 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
-| /contact/ | 8 | 442 KB | 261 KB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /events/ | 22 | 1.7 MB | 1.5 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /gallery/ | 24 | 2.8 MB | 2.7 MB | 6.7 KB | 131 KB | 0 B | 44 KB |
+| /contact/ | 8 | 404 KB | 223 KB | 6.7 KB | 131 KB | 0 B | 44 KB |
 
 ## Largest Local Images
 
@@ -27,13 +27,13 @@ Generated: 2026-02-20T06:55:49.880Z
 | /assets/images/Centuria Connect140/Connect140 (1).jpg | 3.2 MB |
 | /assets/images/Team/team-member-7.jpg | 3.2 MB |
 | /assets/images/Centuria Connect140/Connect140 (10).JPG | 3.2 MB |
-| /assets/images/BloomnDisplays/Displays (11)-1600w.png | 3.1 MB |
 | /assets/images/BloomnDisplays/Displays (11).png | 3.1 MB |
 | /assets/images/Centuria Connect140/Connect140 (11).JPG | 3.0 MB |
 | /assets/images/BloomnDisplays/Displays (2).png | 3.0 MB |
 | /assets/images/Centuria Connect140/Connect140 (6).JPG | 3.0 MB |
 | /assets/images/Team/Tamara.JPG | 2.9 MB |
 | /assets/images/Centuria Connect140/Connect140 (5).jpg | 2.8 MB |
+| /assets/images/Home/Corporate Events Hero Image.jpg | 2.8 MB |
 
 ## Largest JS Bundles
 
