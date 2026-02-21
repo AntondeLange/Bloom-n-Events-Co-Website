@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "@fontsource/playfair-display/600.css";
-@import "@fontsource/playfair-display/700.css";
+@import "@fontsource/dancing-script/600.css";
+@import "@fontsource/dancing-script/700.css";
 @import "@fontsource/montserrat/400.css";
 @import "@fontsource/montserrat/600.css";
 @import "@fontsource/pinyon-script/400.css";
@@ -15,7 +15,7 @@
   --color-cream: #f8f8f8;
 
   /* Typography */
-  --font-display: "Playfair Display", "Times New Roman", serif;
+  --font-display: "Dancing Script", "Times New Roman", serif;
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-tagline: "Pinyon Script", "Segoe Script", cursive;
 }
