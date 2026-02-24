@@ -271,71 +271,104 @@ export const POST = async ({ request }) => {
     return respondQueued(useHtmlRedirect, rateLimit, request);
   }
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: env.SMTP_HOST,
-      port: env.SMTP_PORT,
-      secure: env.SMTP_SECURE,
-      auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASS,
-      },
-    });
+  const e = escapeHtml;
+  const msgHtml = e(formData.message).replace(/\n/g, '<br>');
+  const clientIp = getClientIp(request);
+  const mailOptions = {
+    from: env.SMTP_FROM,
+    to: env.ENQUIRIES_EMAIL,
+    replyTo: formData.email,
+    subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
+    html: `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${e(formData.firstName)} ${e(formData.lastName)}</p>
+      ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
+      <p><strong>Email:</strong> ${e(formData.email)}</p>
+      ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
+      <p><strong>Message:</strong></p>
+      <p>${msgHtml}</p>
+      <hr>
+      <p><small>Submitted from: ${e(request.headers.get('referer') || 'Unknown')}</small></p>
+      <p><small>IP Address: ${e(clientIp)}</small></p>
+    `,
+    text: `
+      New Contact Form Submission
+      
+      Name: ${formData.firstName} ${formData.lastName}
+      ${formData.company ? `Company: ${formData.company}\n` : ''}
+      Email: ${formData.email}
+      ${formData.phone ? `Phone: ${formData.phone}\n` : ''}
+      Message:
+      ${formData.message}
+    `,
+  };
 
-    const e = escapeHtml;
-    const msgHtml = e(formData.message).replace(/\n/g, '<br>');
-    const clientIp = getClientIp(request);
-    const mailOptions = {
-      from: env.SMTP_FROM,
-      to: env.ENQUIRIES_EMAIL,
-      replyTo: formData.email,
-      subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${e(formData.firstName)} ${e(formData.lastName)}</p>
-        ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
-        <p><strong>Email:</strong> ${e(formData.email)}</p>
-        ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p>${msgHtml}</p>
-        <hr>
-        <p><small>Submitted from: ${e(request.headers.get('referer') || 'Unknown')}</small></p>
-        <p><small>IP Address: ${e(clientIp)}</small></p>
-      `,
-      text: `
-        New Contact Form Submission
-        
-        Name: ${formData.firstName} ${formData.lastName}
-        ${formData.company ? `Company: ${formData.company}\n` : ''}
-        Email: ${formData.email}
-        ${formData.phone ? `Phone: ${formData.phone}\n` : ''}
-        Message:
-        ${formData.message}
-      `,
-    };
+  const autoReplyOptions = {
+    from: env.SMTP_FROM,
+    to: formData.email,
+    subject: "Thank you for contacting Bloom'n Events Co",
+    html: `
+      <p>Dear ${e(formData.firstName)},</p>
+      <p>Thank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.</p>
+      <p>Best regards,<br>The Bloom'n Events Co Team</p>
+    `,
+    text: `Dear ${formData.firstName},\n\nThank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.\n\nBest regards,\nThe Bloom'n Events Co Team`,
+  };
 
-    await transporter.sendMail(mailOptions);
+  const smtpTargets =
+    Array.isArray(env.SMTP_TARGETS) && env.SMTP_TARGETS.length > 0
+      ? env.SMTP_TARGETS
+      : [
+          {
+            host: env.SMTP_HOST,
+            port: env.SMTP_PORT,
+            secure: env.SMTP_SECURE,
+          },
+        ];
 
-    const autoReplyOptions = {
-      from: env.SMTP_FROM,
-      to: formData.email,
-      subject: "Thank you for contacting Bloom'n Events Co",
-      html: `
-        <p>Dear ${e(formData.firstName)},</p>
-        <p>Thank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.</p>
-        <p>Best regards,<br>The Bloom'n Events Co Team</p>
-      `,
-      text: `Dear ${formData.firstName},\n\nThank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.\n\nBest regards,\nThe Bloom'n Events Co Team`,
-    };
+  let deliveryError = null;
 
-    transporter.sendMail(autoReplyOptions).catch((err) => {
-      console.error('Auto-reply email failed:', err);
-    });
-  } catch (emailError) {
+  for (const target of smtpTargets) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: target.host,
+        port: target.port,
+        secure: target.secure,
+        auth: {
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS,
+        },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 12000,
+      });
+
+      await transporter.sendMail(mailOptions);
+
+      transporter.sendMail(autoReplyOptions).catch((err) => {
+        console.error('Auto-reply email failed:', err);
+      });
+
+      deliveryError = null;
+      break;
+    } catch (error) {
+      deliveryError = error;
+      console.error('Primary contact email attempt failed', {
+        host: target.host,
+        port: target.port,
+        secure: target.secure,
+        code: error?.code || 'unknown',
+        command: error?.command || 'unknown',
+        message: error?.message || 'unknown',
+      });
+    }
+  }
+
+  if (deliveryError) {
     console.error('Primary contact email failed; queuing submission for manual follow-up', {
-      code: emailError?.code || 'unknown',
-      command: emailError?.command || 'unknown',
-      message: emailError?.message || 'unknown',
+      code: deliveryError?.code || 'unknown',
+      command: deliveryError?.command || 'unknown',
+      message: deliveryError?.message || 'unknown',
     });
     await backlogSubmission(
       formData,
