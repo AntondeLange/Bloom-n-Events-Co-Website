@@ -3998,6 +3998,23 @@ footer .footer-logo {
   object-position: center !important;
 }
 
+/* Reduce visible matte mismatch on legacy logo PNGs (navbar/footer). */
+nav#main-navbar.navbar>div>a[href="/"],
+nav#main-navbar.navbar>div>a[aria-label],
+#main-navbar>div>a[href="/"],
+#main-navbar>div>a[aria-label],
+footer a[href="/"] {
+  isolation: isolate;
+}
+
+nav#main-navbar.navbar>div>a[href="/"] img,
+nav#main-navbar.navbar>div>a[aria-label] img,
+#main-navbar>div>a[href="/"] img,
+#main-navbar>div>a[aria-label] img,
+footer .footer-logo {
+  mix-blend-mode: screen !important;
+}
+
 /* ===== CONTACT PAGE LAYOUT ===== */
 .contact-hero-section {
   position: relative;
