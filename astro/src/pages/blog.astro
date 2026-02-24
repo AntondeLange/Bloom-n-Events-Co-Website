@@ -7,6 +7,69 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import AnchorNav from "../components/islands/AnchorNav";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { CONTACT } from "../lib/constants";
+
+const featuredPosts = [
+  {
+    date: "24 February 2026",
+    category: "Corporate Events",
+    title: "How We Craft Corporate Events That Feel Effortless",
+    excerpt:
+      "From first concept to pack-down, we coordinate design, logistics, and on-site delivery so every touchpoint feels polished and intentional.",
+    href: "/events",
+    image: "/assets/images/Centuria Connect140/Connect140 (2).jpg",
+    imageAlt: "Guests networking at a professionally styled corporate event",
+  },
+  {
+    date: "17 February 2026",
+    category: "Workshops",
+    title: "Designing School Holiday Programs Families Actually Remember",
+    excerpt:
+      "Our workshop activations blend creativity, flow, and practical delivery planning so centres can drive engagement across every session.",
+    href: "/workshops",
+    image: "/assets/images/KidsWorkshops/kidsworkshops01.jpg",
+    imageAlt: "Children participating in a hands-on workshop activation",
+  },
+  {
+    date: "10 February 2026",
+    category: "Custom Displays",
+    title: "From Sketch to Build: Our In-House Display Process",
+    excerpt:
+      "We bring concepts to life with in-house fabrication, engineering-led planning, and install teams who understand both safety and storytelling.",
+    href: "/displays",
+    image: "/assets/images/BloomnDisplays/Displays (13).png",
+    imageAlt: "Custom event display installation with branded styling",
+  },
+  {
+    date: "03 February 2026",
+    category: "Case Study",
+    title: "Connect 140: A Corporate Activation Designed for Real Conversations",
+    excerpt:
+      "See how we translated strategy into a high-impact business event experience with cohesive branding, environment design, and live execution.",
+    href: "/case-study-centuria-connect140",
+    image: "/assets/images/Centuria Connect140/Connect140 (10).JPG",
+    imageAlt: "Connect 140 corporate event experience in venue",
+  },
+  {
+    date: "27 January 2026",
+    category: "Case Study",
+    title: "Neighbourhood Nibbles: Driving Community Traffic Through Experience Design",
+    excerpt:
+      "This campaign shows how curated activities, styling, and programming can help shopping centres increase dwell time and repeat visitation.",
+    href: "/case-study-hawaiian-neighbourhood-nibbles",
+    image: "/assets/images/Hawaiian Neighbourhood Nibbles/Neighbourhood-Nibbles (1).jpeg",
+    imageAlt: "Neighbourhood Nibbles community activation at a shopping centre",
+  },
+  {
+    date: "20 January 2026",
+    category: "Capability",
+    title: "Why Clients Choose One Team for Strategy, Design, and Delivery",
+    excerpt:
+      "Our integrated model reduces hand-offs and keeps quality high from brief through to final pack-down across Perth and regional WA.",
+    href: "/capabilities",
+    image: "/assets/images/Centuria 50th Birthday/00ef2aa7-6a7e-45d9-9613-0f17e9c0941c.jpg",
+    imageAlt: "Professionally styled event setup showing full-service delivery",
+  },
+];
 ---
 
 <BaseLayout
@@ -53,12 +116,52 @@ import { CONTACT } from "../lib/constants";
   <AnchorNav
     links={[
       { href: "#blog", label: "Blog" },
+      { href: "#featured-posts", label: "Featured Posts" },
       { href: "#linkedin", label: "LinkedIn" },
       { href: "#instagram", label: "Instagram" },
       { href: "#facebook", label: "Facebook" },
     ]}
     client:idle
   />
+
+  <!-- Featured Posts -->
+  <section class="section-secondary" aria-labelledby="featuredPostsHeading" id="featured-posts">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="featuredPostsHeading" class="heading-blush-bg text-center">Featured Articles</h2>
+      <p class="lead text-charcoal text-center mb-5">
+        Helpful reads on the work Bloom'n Events Co does best, from full-service event delivery to high-impact activations.
+      </p>
+      <div class="grid gap-6 md:grid-cols-2">
+        {featuredPosts.map((post) => (
+          <article class="blog-post-card card shadow h-full">
+            <a href={post.href} class="blog-post-image-link" aria-label={`Read article: ${post.title}`}>
+              <OptimizedImage
+                src={post.image}
+                alt={post.imageAlt}
+                class="blog-post-image"
+                loading="lazy"
+                decoding="async"
+                width={1200}
+                height={750}
+                sizes="(max-width: 767px) 92vw, 45vw"
+              />
+            </a>
+            <div class="card-body p-4 md:p-5">
+              <div class="blog-post-meta">
+                <span class="blog-post-pill">{post.date}</span>
+                <span class="blog-post-pill">{post.category}</span>
+              </div>
+              <h3 class="blog-post-title">
+                <a href={post.href} class="text-gold hover:underline">{post.title}</a>
+              </h3>
+              <p class="text-charcoal mb-0">{post.excerpt}</p>
+              <a href={post.href} class="blog-post-link text-gold hover:underline">Read article -&gt;</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- LinkedIn -->
   <section class="section-main" aria-labelledby="linkedinHeading" id="linkedin">
@@ -126,6 +229,67 @@ import { CONTACT } from "../lib/constants";
       </div>
     </div>
   </section>
+
+  <style>
+    .blog-post-card {
+      background-color: var(--color-champers);
+      border: 2px solid var(--color-gold);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .blog-post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .blog-post-image-link {
+      display: block;
+      border-bottom: 1px solid rgba(191, 155, 48, 0.35);
+    }
+
+    .blog-post-image {
+      width: 100%;
+      height: 13.75rem;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .blog-post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .blog-post-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 155, 48, 0.65);
+      background: rgba(212, 186, 112, 0.16);
+      color: var(--color-charcoal);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+    }
+
+    .blog-post-title {
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+      font-size: 1.3rem;
+    }
+
+    .blog-post-link {
+      display: inline-flex;
+      margin-top: 1rem;
+      font-weight: 700;
+    }
+  </style>
 
   <StickyMobileCTA client:idle />
 </BaseLayout>
