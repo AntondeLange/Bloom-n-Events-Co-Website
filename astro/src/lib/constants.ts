@@ -9,7 +9,7 @@ export const SITE = {
   tagline: "Designing experiences that move people",
   baseUrl: "https://www.bloomneventsco.com.au",
   locale: "en_AU",
-  themeColor: "#D4BA70",
+  themeColor: "#BF9B30",
 } as const;
 
 export const CONTACT = {
