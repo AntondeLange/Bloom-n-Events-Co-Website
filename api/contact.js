@@ -81,6 +81,22 @@ function redirectTo(res, location) {
   return res.end();
 }
 
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  const forwardedValue = Array.isArray(forwarded) ? forwarded[0] : forwarded;
+  if (typeof forwardedValue === 'string' && forwardedValue.trim() !== '') {
+    return forwardedValue.split(',')[0].trim();
+  }
+
+  const realIp = req.headers['x-real-ip'];
+  const realIpValue = Array.isArray(realIp) ? realIp[0] : realIp;
+  if (typeof realIpValue === 'string' && realIpValue.trim() !== '') {
+    return realIpValue.trim();
+  }
+
+  return 'Unknown';
+}
+
 // Validation schema
 function validateContactForm(body) {
   if (!body || typeof body !== 'object') {
@@ -150,7 +166,7 @@ function getRequestContext(req) {
 const BACKLOG_DIR = path.resolve(process.env.CONTACT_BACKLOG_DIR || '/tmp');
 const BACKLOG_PATH = path.join(BACKLOG_DIR, 'contact-backlog.log');
 
-async function backlogSubmission(formData, req) {
+async function backlogSubmission(formData, req, note = 'Stored offline because SMTP not configured') {
   try {
     await fs.mkdir(BACKLOG_DIR, { recursive: true });
     const { requestId, timestamp } = getRequestContext(req);
@@ -164,13 +180,25 @@ async function backlogSubmission(formData, req) {
       company: formData.company,
       message: formData.message,
       category: 'EmailService',
-      note: 'Stored offline because SMTP not configured'
+      note
     };
     await fs.appendFile(BACKLOG_PATH, JSON.stringify(entry) + '\n');
     console.info('Contact form submission queued for manual review', { requestId, timestamp });
   } catch (error) {
     console.error('Failed to backlog contact form submission', error);
   }
+}
+
+function respondQueued(res, useHtmlRedirect, rateLimit) {
+  res.setHeader('X-RateLimit-Remaining', rateLimit.remaining);
+  if (useHtmlRedirect) {
+    return redirectTo(res, '/contact-success?queued=1');
+  }
+  return res.status(202).json({
+    success: true,
+    queued: true,
+    message: 'Thanks for reaching out. Your enquiry has been received and queued for manual follow-up.'
+  });
 }
 
 export default async function handler(req, res) {
@@ -233,80 +261,82 @@ export default async function handler(req, res) {
     if (!env.SMTP_USER || !env.SMTP_PASS) {
       console.warn('Email not configured - form submission received but not sent');
       await backlogSubmission(formData, req);
-
-      res.setHeader('X-RateLimit-Remaining', rateLimit.remaining);
-      if (useHtmlRedirect) {
-        return redirectTo(res, '/contact-success?queued=1');
-      }
-      return res.status(202).json({
-        success: true,
-        queued: true,
-        message: 'Thanks for reaching out. Your enquiry has been received and queued for manual follow-up.'
-      });
+      return respondQueued(res, useHtmlRedirect, rateLimit);
     }
-    
-    // Configure email transporter
-    const transporter = nodemailer.createTransport({
-      host: env.SMTP_HOST,
-      port: env.SMTP_PORT,
-      secure: env.SMTP_SECURE,
-      auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASS,
-      },
-    });
-    
-    const e = escapeHtml;
-    const msgHtml = e(formData.message).replace(/\n/g, '<br>');
-    const mailOptions = {
-      from: env.SMTP_FROM,
-      to: env.ENQUIRIES_EMAIL,
-      replyTo: formData.email,
-      subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${e(formData.firstName)} ${e(formData.lastName)}</p>
-        ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
-        <p><strong>Email:</strong> ${e(formData.email)}</p>
-        ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p>${msgHtml}</p>
-        <hr>
-        <p><small>Submitted from: ${e(req.headers.referer || 'Unknown')}</small></p>
-        <p><small>IP Address: ${e(req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || 'Unknown')}</small></p>
-      `,
-      text: `
-        New Contact Form Submission
-        
-        Name: ${formData.firstName} ${formData.lastName}
-        ${formData.company ? `Company: ${formData.company}\n` : ''}
-        Email: ${formData.email}
-        ${formData.phone ? `Phone: ${formData.phone}\n` : ''}
-        Message:
-        ${formData.message}
-      `,
-    };
-    
-    // Send email
-    await transporter.sendMail(mailOptions);
-    
-    // Send auto-reply to user
-    const autoReplyOptions = {
-      from: env.SMTP_FROM,
-      to: formData.email,
-      subject: 'Thank you for contacting Bloom\'n Events Co',
-      html: `
-        <p>Dear ${e(formData.firstName)},</p>
-        <p>Thank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.</p>
-        <p>Best regards,<br>The Bloom'n Events Co Team</p>
-      `,
-      text: `Dear ${formData.firstName},\n\nThank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.\n\nBest regards,\nThe Bloom'n Events Co Team`,
-    };
-    
-    // Send auto-reply (don't fail if this fails)
-    transporter.sendMail(autoReplyOptions).catch(err => {
-      console.error('Auto-reply email failed:', err);
-    });
+
+    try {
+      // Configure email transporter
+      const transporter = nodemailer.createTransport({
+        host: env.SMTP_HOST,
+        port: env.SMTP_PORT,
+        secure: env.SMTP_SECURE,
+        auth: {
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS,
+        },
+      });
+
+      const e = escapeHtml;
+      const msgHtml = e(formData.message).replace(/\n/g, '<br>');
+      const clientIp = getClientIp(req);
+      const mailOptions = {
+        from: env.SMTP_FROM,
+        to: env.ENQUIRIES_EMAIL,
+        replyTo: formData.email,
+        subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${e(formData.firstName)} ${e(formData.lastName)}</p>
+          ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
+          <p><strong>Email:</strong> ${e(formData.email)}</p>
+          ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
+          <p><strong>Message:</strong></p>
+          <p>${msgHtml}</p>
+          <hr>
+          <p><small>Submitted from: ${e(req.headers.referer || 'Unknown')}</small></p>
+          <p><small>IP Address: ${e(clientIp)}</small></p>
+        `,
+        text: `
+          New Contact Form Submission
+          
+          Name: ${formData.firstName} ${formData.lastName}
+          ${formData.company ? `Company: ${formData.company}\n` : ''}
+          Email: ${formData.email}
+          ${formData.phone ? `Phone: ${formData.phone}\n` : ''}
+          Message:
+          ${formData.message}
+        `,
+      };
+
+      // Send email
+      await transporter.sendMail(mailOptions);
+
+      // Send auto-reply to user
+      const autoReplyOptions = {
+        from: env.SMTP_FROM,
+        to: formData.email,
+        subject: 'Thank you for contacting Bloom\'n Events Co',
+        html: `
+          <p>Dear ${e(formData.firstName)},</p>
+          <p>Thank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.</p>
+          <p>Best regards,<br>The Bloom'n Events Co Team</p>
+        `,
+        text: `Dear ${formData.firstName},\n\nThank you for contacting Bloom'n Events Co. We have received your message and will get back to you as soon as possible.\n\nBest regards,\nThe Bloom'n Events Co Team`,
+      };
+
+      // Send auto-reply (don't fail if this fails)
+      transporter.sendMail(autoReplyOptions).catch(err => {
+        console.error('Auto-reply email failed:', err);
+      });
+    } catch (emailError) {
+      console.error('Primary contact email failed; queuing submission for manual follow-up', {
+        code: emailError?.code || 'unknown',
+        command: emailError?.command || 'unknown',
+        message: emailError?.message || 'unknown'
+      });
+      await backlogSubmission(formData, req, 'Stored offline because SMTP delivery failed');
+      return respondQueued(res, useHtmlRedirect, rateLimit);
+    }
     
     // Add rate limit headers
     res.setHeader('X-RateLimit-Remaining', rateLimit.remaining);

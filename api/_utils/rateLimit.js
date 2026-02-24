@@ -18,10 +18,24 @@ function cleanup() {
   }
 }
 
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  const forwardedValue = Array.isArray(forwarded) ? forwarded[0] : forwarded;
+  if (typeof forwardedValue === 'string' && forwardedValue.trim() !== '') {
+    return forwardedValue.split(',')[0].trim();
+  }
+
+  const realIp = req.headers['x-real-ip'];
+  const realIpValue = Array.isArray(realIp) ? realIp[0] : realIp;
+  if (typeof realIpValue === 'string' && realIpValue.trim() !== '') {
+    return realIpValue.trim();
+  }
+
+  return 'unknown';
+}
+
 export function checkRateLimit(req, endpoint, windowMs, maxRequests) {
-  const ip = req.headers['x-forwarded-for']?.split(',')[0] || 
-             req.headers['x-real-ip'] || 
-             'unknown';
+  const ip = getClientIp(req);
   const key = getKey(ip, endpoint);
   
   // Cleanup old entries periodically
