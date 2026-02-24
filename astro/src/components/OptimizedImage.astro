@@ -5,8 +5,8 @@ interface Props {
   src: string;
   alt: string;
   class?: string;
-  width?: number;
-  height?: number;
+  width?: number | `${number}`;
+  height?: number | `${number}`;
   sizes?: string;
   loading?: "lazy" | "eager";
   decoding?: "async" | "sync" | "auto";
@@ -30,6 +30,8 @@ const fallbackSrcSet = buildSrcSet(src);
 const avifSrcSet = buildSrcSet(src, "avif");
 const webpSrcSet = buildSrcSet(src, "webp");
 const resolvedFetchPriority = fetchpriority ?? (loading === "lazy" ? "low" : undefined);
+const resolvedWidth = typeof width === "string" ? Number(width) : width;
+const resolvedHeight = typeof height === "string" ? Number(height) : height;
 ---
 
 <picture>
@@ -43,8 +45,8 @@ const resolvedFetchPriority = fetchpriority ?? (loading === "lazy" ? "low" : und
     class={className}
     loading={loading}
     decoding={decoding}
-    width={width}
-    height={height}
+    width={resolvedWidth}
+    height={resolvedHeight}
     {...(resolvedFetchPriority ? { fetchpriority: resolvedFetchPriority } : {})}
   />
 </picture>

@@ -36,7 +36,7 @@ const featuredPosts = [
     excerpt:
       "We bring concepts to life with in-house fabrication, engineering-led planning, and install teams who understand both safety and storytelling.",
     href: "/displays",
-    image: "/assets/images/BloomnDisplays/Displays (13).png",
+    image: "/assets/images/BloomnDisplays/Displays (11).png",
     imageAlt: "Custom event display installation with branded styling",
   },
   {
@@ -127,10 +127,12 @@ const featuredPosts = [
   <!-- Featured Posts -->
   <section class="section-secondary" aria-labelledby="featuredPostsHeading" id="featured-posts">
     <div class="mx-auto max-w-7xl px-4 md:px-6">
-      <h2 id="featuredPostsHeading" class="heading-blush-bg text-center">Featured Articles</h2>
-      <p class="lead text-charcoal text-center mb-5">
-        Helpful reads on the work Bloom'n Events Co does best, from full-service event delivery to high-impact activations.
-      </p>
+      <h2 id="featuredPostsHeading" class="heading-blush-bg text-center mb-5">
+        Featured Articles
+        <span class="featured-heading-subtext">
+          Helpful reads on the work Bloom'n Events Co does best, from full-service event delivery to high-impact activations.
+        </span>
+      </h2>
       <div class="grid gap-6 md:grid-cols-2">
         {featuredPosts.map((post) => (
           <article class="blog-post-card card shadow h-full">
@@ -249,9 +251,14 @@ const featuredPosts = [
       border-bottom: 1px solid rgba(191, 155, 48, 0.35);
     }
 
-    .blog-post-image {
+    :global(.blog-post-image-link picture) {
+      display: block;
       width: 100%;
-      height: 13.75rem;
+    }
+
+    :global(.blog-post-image-link img.blog-post-image) {
+      width: 100%;
+      height: clamp(14rem, 24vw, 18rem);
       object-fit: cover;
       object-position: center;
       display: block;
@@ -288,6 +295,17 @@ const featuredPosts = [
       display: inline-flex;
       margin-top: 1rem;
       font-weight: 700;
+    }
+
+    .featured-heading-subtext {
+      display: block;
+      margin-top: 0.85rem;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: normal;
+      text-transform: none;
+      color: var(--color-charcoal);
     }
   </style>
 

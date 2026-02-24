@@ -12,7 +12,6 @@ export interface TeamCarouselMember {
 
 interface Props {
   members: TeamCarouselMember[];
-  intervalMs?: number;
 }
 
 const getSlidePosition = (index: number, activeIndex: number, length: number) => {
@@ -24,7 +23,7 @@ const getSlidePosition = (index: number, activeIndex: number, length: number) =>
   return "is-hidden";
 };
 
-export default function TeamCarousel({ members, intervalMs = 6000 }: Props) {
+export default function TeamCarousel({ members }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
