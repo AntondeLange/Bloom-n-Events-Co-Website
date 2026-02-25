@@ -271,6 +271,52 @@ const featuredPosts = [
     </div>
   </section>
 
+  <script is:inline>
+    (() => {
+      const applySocialA11yFixes = () => {
+        document.querySelectorAll("button.sk-post-share").forEach((button) => {
+          if (!(button instanceof HTMLButtonElement)) return;
+          if (!button.getAttribute("aria-label")) {
+            const author =
+              button
+                .closest(".sk-post-item")
+                ?.querySelector(".sk-post-username")
+                ?.textContent?.trim() || "";
+            button.setAttribute("aria-label", author ? `Share post from ${author}` : "Share this post");
+          }
+        });
+
+        document.querySelectorAll("button.sk-slider__btn").forEach((button) => {
+          if (!(button instanceof HTMLButtonElement)) return;
+          if (button.getAttribute("aria-label")) return;
+          const isPrevious = button.classList.contains("sk-slider__btn--left");
+          button.setAttribute("aria-label", isPrevious ? "Previous posts" : "Next posts");
+        });
+
+        document.querySelectorAll("a.sk-header-name, a.sk-post-username").forEach((link) => {
+          if (!(link instanceof HTMLAnchorElement)) return;
+          const visibleText = link.textContent?.trim();
+          if (!visibleText) return;
+          if (link.getAttribute("aria-label") !== visibleText) {
+            link.setAttribute("aria-label", visibleText);
+          }
+        });
+      };
+
+      const observer = new MutationObserver(() => applySocialA11yFixes());
+      observer.observe(document.body, { childList: true, subtree: true });
+      applySocialA11yFixes();
+
+      window.addEventListener(
+        "beforeunload",
+        () => {
+          observer.disconnect();
+        },
+        { once: true }
+      );
+    })();
+  </script>
+
   <style>
     .blog-post-card {
       background-color: var(--color-champers);
@@ -345,6 +391,12 @@ const featuredPosts = [
       letter-spacing: normal;
       text-transform: none;
       color: var(--color-charcoal);
+    }
+
+    :global(.sk-ww-linkedin-page-post .sk-header-name),
+    :global(.sk-ww-linkedin-page-post .sk-post-username),
+    :global(.sk-instagram-feed .instagram-user-root-container .bio-website) {
+      color: var(--color-charcoal) !important;
     }
   </style>
 
