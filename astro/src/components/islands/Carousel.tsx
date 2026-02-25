@@ -105,6 +105,11 @@ export default function Carousel({
     }
   };
 
+  const toggleAutoPlay = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setIsAutoPlaying((prev) => !prev);
+  };
+
   if (!slides.length) return null;
 
   return (
@@ -152,6 +157,14 @@ export default function Carousel({
           );
         })}
       </div>
+      <button
+        type="button"
+        className="carousel-autoplay-toggle"
+        onClick={toggleAutoPlay}
+        aria-pressed={isAutoPlaying}
+      >
+        {isAutoPlaying ? "Pause slides" : "Play slides"}
+      </button>
       <button type="button" className="carousel-control-prev" onClick={goPrev} aria-label="Previous image">
         <span className="carousel-control-prev-icon" aria-hidden="true" />
         <span className="visually-hidden">Previous</span>

@@ -263,7 +263,6 @@ export default function Navbar({ currentPath }: Props) {
                   .filter(Boolean)
                   .join(" ")}
                 aria-expanded={portfolioOpen}
-                aria-haspopup="true"
                 aria-controls="portfolio-dropdown-menu"
                 onClick={() => setPortfolioOpen((prev) => !prev)}
               >
@@ -274,7 +273,6 @@ export default function Navbar({ currentPath }: Props) {
                 id="portfolio-dropdown-menu"
                 ref={portfolioMenuRef}
                 className={`portfolio-dropdown absolute left-0 z-50 min-w-[180px] rounded-md border-2 border-gold bg-charcoal py-1 shadow-lg ${portfolioOpen ? "" : "hidden"}`}
-                role="menu"
                 aria-labelledby="portfolio-dropdown-trigger"
                 data-dropdown-position={navPosition}
               >
@@ -283,7 +281,6 @@ export default function Navbar({ currentPath }: Props) {
                     key={`portfolio-${href}`}
                     href={href}
                     className="block pr-4 py-2 pl-[30px] text-sm text-gold no-underline hover:bg-white/10 hover:text-gold focus:bg-white/10 focus:outline-none"
-                    role="menuitem"
                   >
                     {label}
                   </a>
@@ -294,7 +291,6 @@ export default function Navbar({ currentPath }: Props) {
                     <a
                       href={capabilitiesLink.href}
                       className="block pr-4 py-2 pl-[30px] text-sm text-gold no-underline hover:bg-white/10 hover:text-gold focus:bg-white/10 focus:outline-none"
-                      role="menuitem"
                     >
                       {capabilitiesLink.label}
                     </a>

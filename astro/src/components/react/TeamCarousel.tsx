@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import OptimizedImage from "./OptimizedImage";
 
@@ -27,6 +27,9 @@ export default function TeamCarousel({ members }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const modalPanelRef = useRef<HTMLDivElement | null>(null);
+  const modalCloseRef = useRef<HTMLButtonElement | null>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   const total = members.length;
   const activeMember = useMemo(() => members[activeIndex], [members, activeIndex]);
@@ -39,11 +42,56 @@ export default function TeamCarousel({ members }: Props) {
 
   useEffect(() => {
     if (selectedIndex === null) return;
+    const previousOverflow = document.body.style.overflow;
+    lastFocusedRef.current = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = "hidden";
+
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelectedIndex(null);
+      if (event.key === "Escape") {
+        setSelectedIndex(null);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const modal = modalPanelRef.current;
+      if (!modal) return;
+
+      const focusable = Array.from(
+        modal.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute("hidden"));
+
+      if (focusable.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey) {
+        if (!active || active === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
+
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    requestAnimationFrame(() => {
+      modalCloseRef.current?.focus();
+    });
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKey);
+      lastFocusedRef.current?.focus();
+    };
   }, [selectedIndex]);
 
   if (!members.length) return null;
@@ -117,8 +165,14 @@ export default function TeamCarousel({ members }: Props) {
         createPortal(
           <div className="team-modal" role="dialog" aria-modal="true" aria-label="Team member details">
             <div className="team-modal-backdrop" onClick={closeProfile} />
-            <div className="team-modal-panel">
-              <button type="button" className="team-modal-close" onClick={closeProfile} aria-label="Close profile">
+            <div ref={modalPanelRef} className="team-modal-panel">
+              <button
+                ref={modalCloseRef}
+                type="button"
+                className="team-modal-close"
+                onClick={closeProfile}
+                aria-label="Close profile"
+              >
                 &times;
               </button>
               <div className="team-modal-image">

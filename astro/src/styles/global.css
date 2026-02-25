@@ -9,6 +9,8 @@
 @theme {
   /* Brand colors - Tailwind v4 auto-generates bg-*, text-*, border-* utilities */
   --color-gold: #bf9b30;
+  --color-gold-text: #8a6a00;
+  --color-error: #8a2c2c;
   --color-charcoal: #1e1e1e;
   --color-champers: #fbf9f4;
   --color-blush: #d5b7a0;
@@ -25,6 +27,8 @@
   :root {
     --nav-h: 80px;
     --anchor-h: 56px;
+    --focus-ring-inner: #1e1e1e;
+    --focus-ring-outer: rgba(251, 249, 244, 0.92);
   }
 
   @media (min-width: 768px) {
@@ -108,8 +112,9 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--focus-ring-inner);
     outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--focus-ring-outer);
   }
 
   /* UX: Smooth transitions for all links */
@@ -347,7 +352,7 @@ h2.heading-blush-bg {
   font-family: var(--font-display);
   font-size: 25px;
   font-weight: 600;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
 }
 
 /* Director card titles override card-title defaults - FORCE VISIBILITY */
@@ -356,7 +361,7 @@ article.card.team-card.director-card.shadow.h-100 div.card-body h3.card-title.di
 .director-card .card-body h3.director-name {
   font-size: 36px !important;
   font-weight: 700 !important;
-  color: #bf9b30 !important;
+  color: var(--color-gold-text) !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -371,7 +376,7 @@ article.card.team-card.director-card.shadow.h-100 div.card-body h4.card-text.dir
 .director-card .card-body h4.director-position {
   font-size: 18px !important;
   font-weight: 600 !important;
-  color: #bf9b30 !important;
+  color: var(--color-gold-text) !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -423,7 +428,7 @@ article.trust-badge-card h3,
 .card .card-body h3.card-title {
   font-family: var(--font-display) !important;
   font-size: 25px !important;
-  color: #bf9b30 !important;
+  color: var(--color-gold-text) !important;
 }
 
 /* Keep About page Vision/Mission heading pills charcoal with gold shadow. */
@@ -541,6 +546,13 @@ span:has([class*="bi-"])::after {
 }
 
 .text-gold {
+  color: var(--color-gold-text) !important;
+}
+
+/* Preserve brighter gold on charcoal surfaces (navbar/footer/overlays). */
+#main-navbar .text-gold,
+footer .text-gold,
+.bg-charcoal .text-gold {
   color: var(--color-gold) !important;
 }
 
@@ -849,7 +861,7 @@ p.acknowledgement-text,
   align-items: center !important;
   justify-content: center !important;
   background-color: transparent !important;
-  color: var(--color-gold) !important;
+  color: var(--color-gold-text) !important;
   font-size: 1.25rem;
   position: relative !important;
   overflow: visible !important;
@@ -862,7 +874,7 @@ p.acknowledgement-text,
 .why-us-icon i[class*="bi-"],
 .why-us-icon>i {
   font-family: "bootstrap-icons" !important;
-  color: var(--color-gold) !important;
+  color: var(--color-gold-text) !important;
   font-size: 3rem !important;
   display: inline-block !important;
   visibility: visible !important;
@@ -906,7 +918,7 @@ p.acknowledgement-text,
   font-family: var(--font-sans);
   font-size: 3rem;
   font-weight: 700;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -951,7 +963,7 @@ p.acknowledgement-text,
 
 .trust-icon i {
   font-size: 3rem;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
 }
 
 .trust-badge-card:hover .trust-icon {
@@ -1032,7 +1044,7 @@ p.acknowledgement-text,
 
 .testimonial-name {
   font-family: var(--font-display);
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 700;
   margin: 0 0 10px 0;
@@ -1447,6 +1459,12 @@ main img[data-lightbox] {
   background: rgba(251, 249, 244, 0.3);
 }
 
+.image-lightbox-close:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
+}
+
 @media (max-width: 768px) {
   .image-lightbox {
     padding: 1.25rem;
@@ -1487,6 +1505,12 @@ main img[data-lightbox] {
 
 .success-stories-carousel-arrow:active {
   transform: translateY(-50%) scale(0.95);
+}
+
+.success-stories-carousel-arrow:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
 }
 
 .success-stories-carousel-prev {
@@ -1655,6 +1679,40 @@ main img[data-lightbox] {
 
 .carousel-control-next {
   right: 0.5rem;
+}
+
+.carousel-control-prev:focus-visible,
+.carousel-control-next:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
+}
+
+.carousel-autoplay-toggle {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 11;
+  border: 2px solid var(--color-gold);
+  background: var(--color-champers);
+  color: var(--color-charcoal);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.carousel-autoplay-toggle:hover {
+  background: var(--color-gold);
+}
+
+.carousel-autoplay-toggle:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
 }
 
 .carousel-control-prev-icon,
@@ -1875,12 +1933,12 @@ body:not(.home) nav.anchor-nav {
 
 .anchor-nav-link:hover,
 .anchor-nav-link:focus {
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   background: rgba(191, 155, 48, 0.1);
 }
 
 .anchor-nav-link.active {
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   background: rgba(191, 155, 48, 0.15);
   font-weight: 600;
 }
@@ -2200,8 +2258,9 @@ footer .footer-col .footer-heading-h3 {
   footer .footer-accordion-button:not(.collapsed):focus {
     border: 2px solid var(--color-gold) !important;
     border-color: var(--color-gold) !important;
-    box-shadow: 0 0 0 0.25rem rgba(191, 155, 48, 0.25) !important;
-    outline: none !important;
+    box-shadow: 0 0 0 4px var(--focus-ring-outer) !important;
+    outline: 2px solid var(--focus-ring-inner) !important;
+    outline-offset: 2px !important;
   }
 
   footer .footer-accordion-button.collapsed,
@@ -2218,8 +2277,9 @@ footer .footer-col .footer-heading-h3 {
   footer .footer-accordion-button[aria-expanded="false"]:focus {
     border: 2px solid var(--color-gold) !important;
     border-color: var(--color-gold) !important;
-    box-shadow: 0 0 0 0.25rem rgba(191, 155, 48, 0.25) !important;
-    outline: none !important;
+    box-shadow: 0 0 0 4px var(--focus-ring-outer) !important;
+    outline: 2px solid var(--focus-ring-inner) !important;
+    outline-offset: 2px !important;
   }
 
   footer .footer-accordion-button span {
@@ -2385,7 +2445,7 @@ article.director-card.card.team-card.shadow.h-100>.card-body,
   font-family: var(--font-display);
   font-size: 36px;
   font-weight: 700;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   margin-bottom: 10px;
   text-align: center;
 }
@@ -2394,7 +2454,7 @@ article.director-card.card.team-card.shadow.h-100>.card-body,
   font-family: var(--font-display);
   font-size: 36px;
   font-weight: 700;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   margin-bottom: 10px;
   text-align: center;
 }
@@ -2403,7 +2463,7 @@ article.director-card.card.team-card.shadow.h-100>.card-body,
   font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 600;
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   margin-bottom: 15px;
   text-align: center;
 }
@@ -2524,7 +2584,7 @@ article.card.team-card.director-card.shadow.h-100 div.card-body,
 }
 
 .team-carousel-title-gold {
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   text-shadow: none;
 }
 
@@ -2638,7 +2698,7 @@ article.card.team-card.director-card.shadow.h-100 div.card-body,
 }
 
 .team-carousel-role {
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   font-weight: 600;
   margin: 0;
 }
@@ -2668,9 +2728,15 @@ article.card.team-card.director-card.shadow.h-100 div.card-body,
   transform: translateY(-1px);
 }
 
+.team-carousel-arrow:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
+}
+
 .team-carousel-count {
   font-family: var(--font-display);
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   font-size: 1.1rem;
 }
 
@@ -2732,7 +2798,7 @@ article.card.team-card.director-card.shadow.h-100 div.card-body,
 }
 
 .team-modal-role {
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   font-weight: 600;
   margin: 0;
 }
@@ -2758,6 +2824,12 @@ article.card.team-card.director-card.shadow.h-100 div.card-body,
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+.team-modal-close:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
 }
 
 @keyframes teamModalIn {
@@ -2864,7 +2936,7 @@ section .service-card h3,
   font-family: var(--font-display) !important;
   font-size: 25px !important;
   font-weight: 600 !important;
-  color: #bf9b30 !important;
+  color: var(--color-gold-text) !important;
 }
 
 /* Accordion styles - styled to match design */
@@ -2969,7 +3041,7 @@ section .service-card h3,
 }
 
 .text-danger {
-  color: var(--color-blush);
+  color: var(--color-error);
 }
 
 .alert {
@@ -3093,8 +3165,9 @@ section .service-card h3,
 }
 
 .accordion-button:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(191, 155, 48, 0.25);
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
 }
 
 .accordion-collapse {
@@ -4289,8 +4362,9 @@ footer {
 .contact-form .form-control:focus {
   background-color: var(--color-cream);
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(191, 155, 48, 0.1);
-  outline: none;
+  box-shadow: 0 0 0 4px rgba(251, 249, 244, 0.92);
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
 }
 
 .contact-form .message-input-wrapper {
@@ -4309,8 +4383,9 @@ footer {
 .contact-form .message-input-wrapper textarea:focus {
   background-color: var(--color-cream);
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(191, 155, 48, 0.1);
-  outline: none;
+  box-shadow: 0 0 0 4px rgba(251, 249, 244, 0.92);
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
 }
 
 .contact-form .message-char-counter {
@@ -4330,11 +4405,11 @@ footer {
 }
 
 .contact-form .message-char-counter.warning {
-  color: var(--color-gold);
+  color: var(--color-gold-text);
 }
 
 .contact-form .message-char-counter.error {
-  color: var(--color-blush);
+  color: var(--color-error);
 }
 
 .contact-form .form-check {
@@ -4360,7 +4435,9 @@ footer {
 
 .contact-form .form-check-input:focus {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(191, 155, 48, 0.1);
+  box-shadow: 0 0 0 4px rgba(251, 249, 244, 0.92);
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
 }
 
 @media (max-width: 991.98px) {
@@ -4531,7 +4608,13 @@ footer {
 
 .error-modal-close:hover {
   background-color: rgba(191, 155, 48, 0.1);
-  color: var(--color-gold);
+  color: var(--color-gold-text);
+}
+
+.error-modal-close:focus-visible {
+  outline: 2px solid var(--focus-ring-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-ring-outer);
 }
 
 .error-modal-body {
@@ -5392,7 +5475,7 @@ html body:not(.home) .anchor-nav-inner {
 }
 
 html body:not(.home) .anchor-nav-link {
-  color: var(--color-gold) !important;
+  color: var(--color-gold-text) !important;
 }
 
 html body:not(.home) .anchor-nav-link:hover,
@@ -5553,7 +5636,7 @@ body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-list {
 }
 
 body:not(.home) nav.anchor-nav[data-anchor-nav] .anchor-nav-link {
-  color: var(--color-gold) !important;
+  color: var(--color-gold-text) !important;
   text-decoration: none !important;
   font-size: 0.9rem !important;
   font-weight: 600 !important;

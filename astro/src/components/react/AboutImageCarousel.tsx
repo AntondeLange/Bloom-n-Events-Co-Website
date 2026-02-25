@@ -74,6 +74,11 @@ export default function AboutImageCarousel({
     }
   };
 
+  const toggleAutoPlay = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setIsAutoPlaying((prev) => !prev);
+  };
+
   return (
     <div
       className={`carousel slide carousel-fade about-workshop-carousel`}
@@ -113,6 +118,14 @@ export default function AboutImageCarousel({
           </div>
         ))}
       </div>
+      <button
+        type="button"
+        className="carousel-autoplay-toggle"
+        onClick={toggleAutoPlay}
+        aria-pressed={isAutoPlaying}
+      >
+        {isAutoPlaying ? "Pause slides" : "Play slides"}
+      </button>
       <button
         type="button"
         className="carousel-control-prev"

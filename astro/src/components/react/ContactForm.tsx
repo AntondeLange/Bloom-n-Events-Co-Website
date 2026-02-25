@@ -25,6 +25,8 @@ export default function ContactForm() {
   const [errorModalMessage, setErrorModalMessage] = useState("");
   const lastFocusedElement = useRef<HTMLElement | null>(null);
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+  const errorModalRef = useRef<HTMLDivElement | null>(null);
+  const errorModalCloseRef = useRef<HTMLButtonElement | null>(null);
 
   const closeErrorModal = () => {
     setShowErrorModal(false);
@@ -33,21 +35,54 @@ export default function ContactForm() {
     lastFocusedElement.current = null;
   };
 
-  // Handle ESC key to close modal
+  // Handle ESC key and trap keyboard focus while modal is open
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && showErrorModal) {
+    if (!showErrorModal) return;
+
+    const handleModalKeys = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
         closeErrorModal();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+      const modal = errorModalRef.current;
+      if (!modal) return;
+
+      const focusable = Array.from(
+        modal.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute("hidden"));
+
+      if (focusable.length === 0) {
+        e.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey) {
+        if (!active || active === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
 
-    if (showErrorModal) {
-      document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
-    }
+    document.addEventListener("keydown", handleModalKeys);
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      errorModalCloseRef.current?.focus();
+    });
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleModalKeys);
       document.body.style.overflow = "";
     };
   }, [showErrorModal]);
@@ -164,13 +199,19 @@ export default function ContactForm() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="error-modal-title"
+          aria-describedby="error-modal-message"
         >
-          <div className="error-modal-content" onClick={(e) => e.stopPropagation()}>
+          <div
+            ref={errorModalRef}
+            className="error-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="error-modal-header">
               <h3 id="error-modal-title" className="error-modal-title">
                 Almost there — a few details to fix
               </h3>
           <button
+            ref={errorModalCloseRef}
             type="button"
             className="error-modal-close"
             onClick={() => closeErrorModal()}
@@ -180,14 +221,13 @@ export default function ContactForm() {
           </button>
             </div>
             <div className="error-modal-body">
-              <p className="error-modal-message">{errorModalMessage}</p>
+              <p id="error-modal-message" className="error-modal-message">{errorModalMessage}</p>
             </div>
             <div className="error-modal-footer">
           <button
             type="button"
             className="btn btn-gold"
             onClick={() => closeErrorModal()}
-            autoFocus
           >
             I'll update that
           </button>

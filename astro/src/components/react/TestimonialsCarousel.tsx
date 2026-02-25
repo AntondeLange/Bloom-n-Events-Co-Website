@@ -84,6 +84,11 @@ export default function TestimonialsCarousel() {
     setIsAutoPlaying(false);
   };
 
+  const toggleAutoPlaying = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setIsAutoPlaying((prev) => !prev);
+  };
+
   return (
     <div className="carousel slide carousel-fade" id="testimonialCarousel">
       <div className="carousel-inner">
@@ -113,6 +118,14 @@ export default function TestimonialsCarousel() {
           </div>
         ))}
       </div>
+      <button
+        type="button"
+        className="carousel-autoplay-toggle"
+        onClick={toggleAutoPlaying}
+        aria-pressed={isAutoPlaying}
+      >
+        {isAutoPlaying ? "Pause testimonials" : "Play testimonials"}
+      </button>
       <button
         type="button"
         onClick={goPrev}
