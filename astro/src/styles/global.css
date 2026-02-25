@@ -297,8 +297,8 @@ h2.heading-blush-bg {
 
 .btn-outline-gold {
   background-color: transparent;
-  color: var(--color-gold);
-  border: 2px solid var(--color-gold);
+  color: var(--color-gold-text);
+  border: 2px solid var(--color-gold-text);
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -316,6 +316,14 @@ h2.heading-blush-bg {
   border-color: var(--color-gold);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(30, 30, 30, 0.2);
+}
+
+/* Keep brighter gold outline buttons on dark hero surfaces. */
+.hero-section .btn-outline-gold,
+.hero-content .btn-outline-gold,
+.hero-cta .btn-outline-gold {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
 }
 
 /* Button sizes */
@@ -1268,7 +1276,7 @@ p.acknowledgement-text,
 }
 
 .success-stories-carousel-card:not(.active) {
-  opacity: 0.5;
+  opacity: 1;
   cursor: pointer;
   transition: opacity 0.5s ease;
 }
@@ -1276,6 +1284,10 @@ p.acknowledgement-text,
 .success-stories-carousel-card:not(.active) .card {
   transform: scale(0.95);
   transition: transform 0.5s ease, box-shadow 0.4s ease;
+}
+
+.success-stories-carousel-card:not(.active) .card-img-top {
+  opacity: 0.75;
 }
 
 .success-stories-carousel-card.active {
