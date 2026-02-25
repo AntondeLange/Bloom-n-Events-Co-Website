@@ -16,6 +16,8 @@ const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH))
 const heroImagePreloadSrcSet = buildSrcSet(heroImage);
 const contactEmailHref = `mailto:${CONTACT.email}`;
 const contactPhoneHref = `tel:${CONTACT.phone.replace(/\s/g, "")}`;
+const submissionStatus = Astro.url.searchParams.get("status");
+const showDeliveryUnavailable = submissionStatus === "delivery-unavailable";
 ---
 
 <BaseLayout
@@ -136,6 +138,15 @@ const contactPhoneHref = `tel:${CONTACT.phone.replace(/\s/g, "")}`;
         <!-- Right Section - Contact Form Card -->
         <div class="col-12 col-lg-6 contact-form-section">
           <div class="contact-form-card">
+            {showDeliveryUnavailable && (
+              <div class="alert alert-danger mb-4" role="status">
+                Form submissions are temporarily unavailable. Please email or call us directly right now.
+                {" "}
+                <a href={contactEmailHref} class="contact-link">Email us</a>
+                {" or "}
+                <a href={contactPhoneHref} class="contact-link">call {CONTACT.phone}</a>.
+              </div>
+            )}
             <div class="contact-form-header">
               <h2 class="contact-form-title">Tell Us About Your Vision</h2>
               <p class="contact-form-subtitle">Our team is ready to listen and guide every detail, big or small.</p>

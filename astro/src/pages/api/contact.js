@@ -1,5 +1,3 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
 import nodemailer from 'nodemailer';
 import { getEnv } from './_utils/env.js';
 import { checkRateLimit, getClientIp } from './_utils/rateLimit.js';
@@ -122,18 +120,6 @@ function validateContactForm(body) {
   };
 }
 
-function getRequestContext(request) {
-  const requestId =
-    request.headers.get('x-request-id') ||
-    request.headers.get('x-amzn-trace-id') ||
-    `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
-  return {
-    requestId,
-    timestamp: new Date().toISOString(),
-  };
-}
-
 function json(payload, status = 200, extraHeaders) {
   const headers = new Headers({
     'content-type': 'application/json; charset=utf-8',
@@ -160,48 +146,22 @@ function redirectTo(location) {
   });
 }
 
-async function backlogSubmission(formData, request, env, note = 'Stored offline because SMTP not configured') {
-  const backlogDir = path.resolve(env.CONTACT_BACKLOG_DIR || '/tmp');
-  const backlogPath = path.join(backlogDir, 'contact-backlog.log');
+function respondDeliveryUnavailable(useHtmlRedirect, request, enquiriesEmail) {
+  const fallbackEmail = enquiriesEmail || 'enquiries@bloomneventsco.com.au';
+  const redirectLocation = '/contact?status=delivery-unavailable';
 
-  try {
-    await fs.mkdir(backlogDir, { recursive: true });
-    const { requestId, timestamp } = getRequestContext(request);
-    const entry = {
-      requestId,
-      timestamp,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      phone: formData.phone,
-      company: formData.company,
-      message: formData.message,
-      category: 'EmailService',
-      note,
-    };
-    await fs.appendFile(backlogPath, JSON.stringify(entry) + '\n');
-    console.info('Contact form submission queued for manual review', { requestId, timestamp });
-  } catch (error) {
-    console.error('Failed to backlog contact form submission', error);
-  }
-}
-
-function respondQueued(useHtmlRedirect, rateLimit, request) {
   if (useHtmlRedirect) {
-    return withCors(redirectTo('/contact-success?queued=1'), request);
+    return withCors(redirectTo(redirectLocation), request);
   }
 
   return withCors(
     json(
       {
-        success: true,
-        queued: true,
-        message: 'Thanks for reaching out. Your enquiry has been received and queued for manual follow-up.',
+        success: false,
+        error: 'Service unavailable',
+        message: `We are currently unable to receive form submissions. Please email ${fallbackEmail} directly.`,
       },
-      202,
-      {
-        'X-RateLimit-Remaining': rateLimit.remaining,
-      },
+      503,
     ),
     request,
   );
@@ -266,9 +226,8 @@ export const POST = async ({ request }) => {
   const env = getEnv();
 
   if (!env.SMTP_USER || !env.SMTP_PASS) {
-    console.warn('Email not configured - form submission received but not sent');
-    await backlogSubmission(formData, request, env);
-    return respondQueued(useHtmlRedirect, rateLimit, request);
+    console.warn('Email not configured - rejecting contact form submission');
+    return respondDeliveryUnavailable(useHtmlRedirect, request, env.ENQUIRIES_EMAIL);
   }
 
   const e = escapeHtml;
@@ -365,18 +324,12 @@ export const POST = async ({ request }) => {
   }
 
   if (deliveryError) {
-    console.error('Primary contact email failed; queuing submission for manual follow-up', {
+    console.error('Primary contact email failed', {
       code: deliveryError?.code || 'unknown',
       command: deliveryError?.command || 'unknown',
       message: deliveryError?.message || 'unknown',
     });
-    await backlogSubmission(
-      formData,
-      request,
-      env,
-      'Stored offline because SMTP delivery failed',
-    );
-    return respondQueued(useHtmlRedirect, rateLimit, request);
+    return respondDeliveryUnavailable(useHtmlRedirect, request, env.ENQUIRIES_EMAIL);
   }
 
   if (useHtmlRedirect) {

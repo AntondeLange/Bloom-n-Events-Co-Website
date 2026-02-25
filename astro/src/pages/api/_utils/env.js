@@ -94,7 +94,6 @@ export function getEnv() {
       readEnv('SMTP_FROM') ||
       readEnv('CONTACT_FROM_EMAIL') ||
       `"Bloom'n Events Co Website" <${smtpUser || 'noreply@bloomneventsco.com.au'}>`,
-    CONTACT_BACKLOG_DIR: readEnv('CONTACT_BACKLOG_DIR') || '/tmp',
   };
 }
 

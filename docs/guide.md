@@ -1,9 +1,9 @@
 # Operational Guide
 
 ### Overview
-- **Architecture**: Static Astro build with Tailwind + React islands; `BaseLayout` wires navbar/footer/SEO and inlines only the required scripts (`accordion.js`, `hero-video.js`), while the hero-following/inner navbar and anchor navigation are handled via React islands.
+- **Architecture**: Astro site with Tailwind + React islands; pages are mostly pre-rendered while `/api/*` routes are server-rendered for form/chat handlers. `BaseLayout` wires navbar/footer/SEO and inlines required helper scripts.
 - **Routes**: `index`, `about`, `events`, `workshops`, `displays`, `capabilities`, gallery/case studies, `team`, `contact`, `policies`, `tandcs` — all pre-rendered and hydrated with client islands only where interactivity is needed.
-- **APIs**: `api/contact` handles form submissions with validation, honeypot, rate limiting, and sanitized logging; `backend/` hosts the chatbot proxy (OpenAI) for separate deployments.
+- **APIs**: `astro/src/pages/api/contact.js` handles form submissions with validation, honeypot, rate limiting, and sanitized logging; `backend/` hosts a separate Express chatbot proxy path.
 
 ### Performance & Core Web Vitals
 - **Hero-focused media**: The homepage loads a 1920×1080 video, so we rely on `preload=metadata`, `prefers-reduced-motion`, and the option to fall back to the poster when autoplay is blocked.
@@ -13,7 +13,7 @@
 
 ### Accessibility & Interaction
 - **Semantic structure**: Each page has `main`, `section`, and heading landmarks; nav uses `aria-label` and dynamic classes to signal active states.
-- **Forms**: React contact form validates client-side, shows accessible alerts, traps focus inside the modal, and returns focus to the submit button after errors.
+- **Forms**: React contact form validates client-side, shows accessible alerts, and returns focus to the submit button after modal dismissal.
 - **Motion**: Carousels respect `prefers-reduced-motion` by pausing auto-advance and skipping animations in reduced-motion mode.
 - **Keyboard work**: Dropdowns and carousels expose `aria-controls`/`aria-label`s plus `focus` states handled via small helper scripts.
 
@@ -25,7 +25,7 @@
 ### Security & Compliance
 - **Headers**: `vercel.json` enforces HSTS, X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy, and a restrictive Permissions-Policy.
 - **CSP**: Added `Content-Security-Policy` in Vercel headers (default 'self', inline script/style allowances, fonts from Google, connects to OpenAI/GA, frames for Facebook/widgets). Inline JSON-LD scripts remain marked `is:inline`, so the policy stays functional without `unsafe-inline` for the rest of the site.
-- **API hygiene**: `api/contact` uses `escapeHtml` for email payloads, rate limiting, and sanitizes logs (no PII). Always keep SMTP creds outside git and prefer `getEnv` helpers.
+- **API hygiene**: `astro/src/pages/api/contact.js` uses `escapeHtml` for email payloads, rate limiting, and sanitizes logs. Always keep SMTP creds outside git and prefer `getEnv` helpers.
 - **CSP**: Scripts live outside HTML where possible; for inline JSON-LD, explicitly mark with `is:inline` to satisfy Astro’s lint hints.
 
 ### Validation & Spam Defense
@@ -38,13 +38,13 @@
 
 ### Deployment & Testing
 - Root scripts (`npm run dev/preview/build/lint/check`) delegate to `astro/` workspace. `clean` removes `astro/dist` to guarantee fresh builds.
-- Always run `npm run lint` before merging to catch unused props or missing `is:inline` directives; build output should remain static-only.
+- Always run `npm run lint` before merging to catch unused props or missing `is:inline` directives.
 - After updates, verify hero nav behavior, sticky CTA visibility, and contact form submission manually in Chrome’s mobile emulator (320–375px + tablets).
 
 ## Launch Verification Checklist
 
 1. **Build & type safety**  
-   - `npm run build` → successful static output (no warnings).  
+   - `npm run build` → successful Astro build (no warnings).  
    - `npm run lint` / `astro check` run clean (already run per phase).  
 2. **Repo hygiene**  
    - `git status` reports only tracked source changes (no generated junk).  
@@ -54,7 +54,7 @@
 4. **Responsive verification**  
    - Hero height capped on narrow screens, sticky CTA adds padding at bottom, and contact page uses scalable spacing per viewport breakpoints.  
 5. **Accessibility functional checks**  
-   - Keyboard nav works with visible focus states; contact form modal traps focus and restores it after closing; reduced-motion respects user settings.  
+   - Keyboard nav works with visible focus states; contact form modal restores focus after closing; reduced-motion respects user settings.  
 6. **Performance sanity check**  
    - Carousels hydrate on `client:visible`, hero video only loads as metadata, sticky nav/CTA transitions remain stable; React runtime only loads when islands render.  
 7. **SEO/indexability**  
