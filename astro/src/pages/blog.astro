@@ -171,8 +171,11 @@ const featuredPosts = [
       <h2 id="linkedinHeading" class="heading-blush-bg text-center">LinkedIn</h2>
         <div class="card shadow">
           <div class="card-body p-4 md:p-5">
-            <div class="sk-ww-linkedin-page-post" data-embed-id="25651346"></div>
-            <script src="https://widgets.sociablekit.com/linkedin-page-posts/widget.js" defer is:inline></script>
+            <div
+              class="sk-ww-linkedin-page-post"
+              data-embed-id="25651346"
+              data-widget-script="https://widgets.sociablekit.com/linkedin-page-posts/widget.js"
+            ></div>
             <p class="mt-3 mb-0 text-center text-charcoal">
               If this feed does not load, visit
               {" "}
@@ -197,8 +200,11 @@ const featuredPosts = [
       <h2 id="instagramHeading" class="heading-blush-bg text-center">Instagram</h2>
         <div class="card shadow">
           <div class="card-body p-4 md:p-5">
-            <div class="sk-instagram-feed" data-embed-id="25613579"></div>
-            <script src="https://widgets.sociablekit.com/instagram-feed/widget.js" defer is:inline></script>
+            <div
+              class="sk-instagram-feed"
+              data-embed-id="25613579"
+              data-widget-script="https://widgets.sociablekit.com/instagram-feed/widget.js"
+            ></div>
             <p class="mt-3 mb-0 text-center text-charcoal">
               If this feed does not load, visit
               {" "}
@@ -223,8 +229,11 @@ const featuredPosts = [
       <h2 id="facebookHeading" class="heading-blush-bg text-center">Facebook</h2>
         <div class="card shadow">
           <div class="card-body p-4 md:p-5">
-            <div class="sk-ww-facebook-profile" data-embed-id="25651352"></div>
-            <script src="https://widgets.sociablekit.com/facebook-profile/widget.js" defer is:inline></script>
+            <div
+              class="sk-ww-facebook-profile"
+              data-embed-id="25651352"
+              data-widget-script="https://widgets.sociablekit.com/facebook-profile/widget.js"
+            ></div>
             <p class="mt-3 mb-0 text-center text-charcoal">
               If this feed does not load, visit
               {" "}
@@ -273,6 +282,45 @@ const featuredPosts = [
 
   <script is:inline>
     (() => {
+      const widgetHosts = Array.from(document.querySelectorAll("[data-widget-script]"));
+      const loadedWidgetScripts = new Set();
+
+      const loadWidgetScript = (src) => {
+        if (!src || loadedWidgetScripts.has(src)) return;
+        loadedWidgetScripts.add(src);
+
+        const script = document.createElement("script");
+        script.src = src;
+        script.defer = true;
+        script.async = true;
+        document.head.append(script);
+      };
+
+      const activateWidget = (element) => {
+        if (!(element instanceof HTMLElement)) return;
+        const src = element.dataset.widgetScript;
+        if (!src) return;
+        loadWidgetScript(src);
+        element.removeAttribute("data-widget-script");
+      };
+
+      if ("IntersectionObserver" in window) {
+        const widgetObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              activateWidget(entry.target);
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: "280px 0px" }
+        );
+
+        widgetHosts.forEach((host) => widgetObserver.observe(host));
+      } else {
+        widgetHosts.forEach((host) => activateWidget(host));
+      }
+
       const applySocialA11yFixes = () => {
         document.querySelectorAll("button.sk-post-share").forEach((button) => {
           if (!(button instanceof HTMLButtonElement)) return;
@@ -304,7 +352,7 @@ const featuredPosts = [
       };
 
       const observer = new MutationObserver(() => applySocialA11yFixes());
-      observer.observe(document.body, { childList: true, subtree: true });
+      widgetHosts.forEach((host) => observer.observe(host, { childList: true, subtree: true }));
       applySocialA11yFixes();
 
       window.addEventListener(

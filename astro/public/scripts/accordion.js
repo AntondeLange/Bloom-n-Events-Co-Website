@@ -7,17 +7,14 @@
     const accordionButtons = document.querySelectorAll('.accordion-button[data-bs-toggle="collapse"]');
     
     if (accordionButtons.length === 0) {
-      // Retry after a short delay if elements aren't ready
-      setTimeout(initAccordion, 100);
       return;
     }
     
     accordionButtons.forEach((button) => {
-      // Remove any existing listeners by cloning
-      const newButton = button.cloneNode(true);
-      button.parentNode.replaceChild(newButton, button);
-      
-      newButton.addEventListener('click', function(e) {
+      if (button.dataset.accordionBound === 'true') return;
+      button.dataset.accordionBound = 'true';
+
+      button.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         

@@ -39,8 +39,9 @@ const mainPadding = isHome ? "" : "pt-2";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href="/assets/images/butterfly-icon.svg" />
-    <link rel="apple-touch-icon" href="/assets/images/butterfly-icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     {lcpImageSrc && (
@@ -70,33 +71,13 @@ const mainPadding = isHome ? "" : "pt-2";
         crossorigin="anonymous"
       />
     </noscript>
-    <script is:inline>
-      (() => {
-        try {
-          const isHome = (() => {
-            const pathname = window.location.pathname || "/";
-            const normalizedPath = pathname
-              .replace(/\/{2,}/g, "/")
-              .replace(/\/+$/, "")
-              .replace(/\/index(?:\.html)?$/i, "")
-              .replace(/\.html$/i, "");
-            return normalizedPath === "" || normalizedPath === "/";
-          })();
-          if (!isHome) {
-            document.documentElement.classList.add("loader-skip");
-          }
-        } catch (err) {
-          document.documentElement.classList.add("loader-skip");
-        }
-      })();
-    </script>
     <!-- Bootstrap CSS removed - was causing navbar/footer conflicts -->
     <!-- Custom accordion CSS added to global.css - Bootstrap JS still used for functionality -->
     <Seo {...seoProps} />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class={`flex min-h-screen flex-col bg-champers text-charcoal ${bodyClass}`.trim()}>
-    <Loader />
+    {isHome && <Loader />}
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Route-aware navbar: fixed-top on non-home, multi-state on home -->
     {renderNavbar && <Navbar currentPath={Astro.url.pathname} client:idle />}
@@ -108,15 +89,17 @@ const mainPadding = isHome ? "" : "pt-2";
     <Footer />
     <script src="/scripts/accordion.js" defer is:inline></script>
     <script src="/scripts/static-image-lightbox.js" defer is:inline></script>
-    <script is:inline>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          registrations.forEach((registration) => registration.unregister());
-        });
-      }
-      if ("caches" in window) {
-        caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
-      }
-    </script>
+    {import.meta.env.DEV && (
+      <script is:inline>
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.getRegistrations().then((registrations) => {
+            registrations.forEach((registration) => registration.unregister());
+          });
+        }
+        if ("caches" in window) {
+          caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
+        }
+      </script>
+    )}
   </body>
 </html>

@@ -95,6 +95,13 @@
     contain: none !important;
   }
 
+  /* Fixed background can cause expensive repaints on touch devices */
+  @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+
   /* FIX: Ensure header and main also don't create containing blocks */
   header,
   main {

@@ -133,8 +133,26 @@
 
   markEligibleImages();
 
-  const observer = new MutationObserver(() => {
-    markEligibleImages();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  let markQueued = false;
+  const queueMarkEligibleImages = () => {
+    if (markQueued) return;
+    markQueued = true;
+
+    const run = () => {
+      markQueued = false;
+      markEligibleImages();
+    };
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(run, { timeout: 250 });
+    } else {
+      setTimeout(run, 50);
+    }
+  };
+
+  const observer = new MutationObserver(queueMarkEligibleImages);
+  observer.observe(main, { childList: true, subtree: true });
 })();
