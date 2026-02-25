@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run images:build && npm run videos:build && astro build",
+    "build": "npm run images:build && npm run videos:build && npm run sitemap:build && astro build",
     "preview": "astro preview",
     "test": "echo \"No tests configured for the Astro site.\"",
     "lint": "astro check",
@@ -12,6 +12,7 @@
     "astro": "astro",
     "images:build": "node ../scripts/build-images.mjs",
     "videos:build": "node ../scripts/build-videos.mjs",
+    "sitemap:build": "node ../scripts/generate-sitemap.mjs",
     "assets:audit": "node ../scripts/audit-assets.mjs",
     "assets:prune": "node ../scripts/audit-assets.mjs --delete"
   },

@@ -1,11 +1,16 @@
 #!/usr/bin/env node
+import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const distRoot = path.resolve(__dirname, "..", "astro", "dist");
+const distRootCandidates = [
+  path.resolve(__dirname, "..", "astro", "dist", "client"),
+  path.resolve(__dirname, "..", "astro", "dist"),
+];
+const distRoot = distRootCandidates.find((candidate) => existsSync(candidate)) ?? distRootCandidates[0];
 const baseUrl = "https://www.bloomneventsco.com.au";
 
 const listHtmlFiles = async (dir) => {

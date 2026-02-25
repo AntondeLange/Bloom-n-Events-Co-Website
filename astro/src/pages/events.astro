@@ -9,7 +9,7 @@ import AnchorNav from "../components/islands/AnchorNav";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import { CONTACT } from "../lib/constants";
-import { getServiceSchema } from "../lib/structured-data";
+import { getFaqSchema, getServiceSchema } from "../lib/structured-data";
 import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
 
 const heroImage = "/assets/images/Centuria 50th Birthday/60a182ec-9f16-4f20-919b-59e9451bb4a8.jpg";
@@ -20,6 +20,34 @@ const serviceSchema = getServiceSchema(
   "Corporate Event Planning",
   "Corporate event planning in Perth & Western Australia. Networking events, conferences, and product launches delivered with in-house design, engineering, and fabrication."
 );
+
+const faqSchema = getFaqSchema([
+  {
+    question: "What types of corporate events do you plan?",
+    answer:
+      "We plan a wide range of corporate events including networking events, conferences, workshops, product launches, brand activations, team building events, and custom corporate experiences. Each one is tailored to your goals and the people you want to welcome.",
+  },
+  {
+    question: "How far in advance should we book?",
+    answer:
+      "We recommend booking at least 4-6 weeks in advance for standard events, and 8-12 weeks for larger conferences or complex activations. We can sometimes work to shorter timelines depending on availability. Reach out and we'll talk through your dates.",
+  },
+  {
+    question: "Do you handle all aspects of the event?",
+    answer:
+      "Yes. We provide full-service event management, including design, styling, technical setup (lighting, sound, power), coordination, on-site management, and pack-down. We can also coordinate with caterers, speakers, and other vendors if helpful.",
+  },
+  {
+    question: "What areas do you serve?",
+    answer:
+      "We serve businesses throughout Perth and Western Australia. Based in Brookton, WA, we regularly work with clients across the Perth metropolitan area and can travel to regional locations as needed.",
+  },
+  {
+    question: "Can you work with our existing venue?",
+    answer:
+      "Absolutely. We can work with your chosen venue or help you find the right location. We'll assess the space, handle all technical requirements, and transform it to match your event vision.",
+  },
+]);
 ---
 
 <BaseLayout
@@ -350,6 +378,9 @@ const serviceSchema = getServiceSchema(
   </section>
 
   <StickyMobileCTA client:idle />
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
 
   <!-- Structured Data: Service -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify(serviceSchema)} />

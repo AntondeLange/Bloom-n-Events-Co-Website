@@ -26,7 +26,7 @@ interface Props extends SeoProps {
 }
 
 const { mainClass, renderNavbar = true, lcpImageSrc, lcpImageSrcSet, lcpImageSizes, ...seo } = Astro.props;
-const seoProps = getSeoProps(seo);
+const seoProps = getSeoProps(seo, Astro.url.pathname);
 const isHome = isHomePath(Astro.url.pathname);
 const bodyClass = isHome ? "home" : "";
 // All pages reserve space for the navbar (homepage animation handled by position switching)

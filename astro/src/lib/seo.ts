@@ -14,13 +14,13 @@ export interface SeoProps {
   noindex?: boolean;
 }
 
-const defaultOgImage = `${SITE.baseUrl}/images/logo-wht.png`;
+const defaultOgImage = `${SITE.baseUrl}/assets/images/logo-wht.png`;
 
-export function getSeoProps(props: SeoProps): SeoProps {
+export function getSeoProps(props: SeoProps, fallbackPath = "/"): SeoProps {
   return {
     title: props.title,
     description: props.description,
-    path: props.path ?? "/",
+    path: props.path ?? fallbackPath,
     ogImage: props.ogImage ?? defaultOgImage,
     noindex: props.noindex ?? false,
   };
@@ -32,5 +32,14 @@ export function canonicalUrl(path: string): string {
 }
 
 export function fullTitle(pageTitle: string): string {
-  return `${pageTitle} | ${SITE.name}`;
+  const cleanedTitle = pageTitle.trim();
+  if (cleanedTitle.length === 0) {
+    return SITE.name;
+  }
+
+  if (cleanedTitle.toLowerCase().includes(SITE.name.toLowerCase())) {
+    return cleanedTitle;
+  }
+
+  return `${cleanedTitle} | ${SITE.name}`;
 }

@@ -96,6 +96,24 @@ export interface ServiceSchema {
   };
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface FAQPageSchema {
+  "@context": "https://schema.org";
+  "@type": "FAQPage";
+  mainEntity: Array<{
+    "@type": "Question";
+    name: string;
+    acceptedAnswer: {
+      "@type": "Answer";
+      text: string;
+    };
+  }>;
+}
+
 /**
  * Generate Organization schema (appears on all pages)
  */
@@ -203,5 +221,23 @@ export function getServiceSchema(
       "@type": "State",
       name: "Western Australia",
     },
+  };
+}
+
+/**
+ * Generate FAQPage schema for pages with static FAQ content
+ */
+export function getFaqSchema(items: FAQItem[]): FAQPageSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   };
 }
