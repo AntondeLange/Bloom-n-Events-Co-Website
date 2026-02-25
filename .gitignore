@@ -56,3 +56,6 @@ images/Capabilities/IMG_1244.mov
 images/Capabilities/IMG_1244.mov
 .vercel
 .env*.local
+
+# Legacy local API sandbox (source of truth is astro/src/pages/api)
+/api/
