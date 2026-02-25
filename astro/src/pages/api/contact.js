@@ -6,7 +6,7 @@ import { handleCorsPreflight, withCors } from './_utils/cors.js';
 export const prerender = false;
 
 const MESSAGE_MIN = 10;
-const MESSAGE_MAX = 200;
+const MESSAGE_MAX = 500;
 
 function escapeHtml(s) {
   if (typeof s !== 'string') return '';

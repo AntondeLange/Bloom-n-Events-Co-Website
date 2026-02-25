@@ -10,7 +10,7 @@ import { type FormEvent, useState, useEffect, useRef } from "react";
 
 const API_URL = "/api/contact";
 const MESSAGE_MIN = 10;
-const MESSAGE_MAX = 200;
+const MESSAGE_MAX = 500;
 
 interface FormState {
   status: "idle" | "loading" | "success" | "error";
@@ -89,7 +89,6 @@ export default function ContactForm() {
     if (!email) next.email = "Email is required.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = "Please enter a valid email.";
     if (!(data.get("phone") as string)?.trim()) next.phone = "Phone is required.";
-    if (!(data.get("company") as string)?.trim()) next.company = "Company is required.";
     const msg = (data.get("message") as string)?.trim();
     if (!msg) next.message = "Message is required.";
     else if (msg.length < MESSAGE_MIN) next.message = `Message must be at least ${MESSAGE_MIN} characters.`;
@@ -300,16 +299,14 @@ export default function ContactForm() {
       </div>
 
       <div className="mb-3">
-        <label htmlFor="company" className="form-label">Company <span className="text-danger">*</span></label>
+        <label htmlFor="company" className="form-label">Company</label>
         <input
           type="text"
           className="form-control"
           id="company"
           name="company"
-          placeholder="Company or organisation"
+          placeholder="Company or organisation (optional)"
           autoComplete="organization"
-          required
-          aria-required="true"
           aria-invalid={!!errors.company}
           aria-describedby={errors.company ? "err-company" : undefined}
         />
