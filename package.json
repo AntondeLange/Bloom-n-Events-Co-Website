@@ -30,7 +30,7 @@
   "author": "Bloom'n Events Co Pty Ltd",
   "license": "ISC",
   "dependencies": {
-    "nodemailer": "^6.10.1"
+    "nodemailer": "^7.0.13"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",

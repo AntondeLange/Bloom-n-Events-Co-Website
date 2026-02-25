@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { getEnv } from './_utils/env.js';
+import { getAllowedOrigins, getEnv } from './_utils/env.js';
 import { checkRateLimit, getClientIp } from './_utils/rateLimit.js';
 import { handleCorsPreflight, withCors } from './_utils/cors.js';
 
@@ -72,7 +72,7 @@ function validateContactForm(body) {
     throw new Error('Invalid request body');
   }
 
-  const { firstName, lastName, email, message, company, phone, website } = body;
+  const { firstName, lastName, email, message, company, phone, website, newsletter } = body;
 
   if (!firstName || typeof firstName !== 'string' || firstName.trim().length === 0) {
     throw new Error('First name is required');
@@ -109,6 +109,12 @@ function validateContactForm(body) {
     throw new Error('Phone number too long (max 20 characters)');
   }
 
+  const newsletterOptIn =
+    newsletter === true ||
+    newsletter === 'true' ||
+    newsletter === 'on' ||
+    newsletter === '1';
+
   return {
     firstName: String(firstName).trim(),
     lastName: String(lastName).trim(),
@@ -117,7 +123,19 @@ function validateContactForm(body) {
     company: typeof company === 'string' ? company.trim() : '',
     phone: typeof phone === 'string' ? phone.trim() : '',
     website: typeof website === 'string' ? website.trim() : '',
+    newsletterOptIn,
   };
+}
+
+function getRefererOrigin(request) {
+  const referer = request.headers.get('referer');
+  if (!referer) return null;
+
+  try {
+    return new URL(referer).origin;
+  } catch {
+    return null;
+  }
 }
 
 function json(payload, status = 200, extraHeaders) {
@@ -171,6 +189,30 @@ export const OPTIONS = async ({ request }) => handleCorsPreflight(request);
 
 export const POST = async ({ request }) => {
   const useHtmlRedirect = wantsHtmlResponse(request);
+  const env = getEnv();
+
+  if (env.NODE_ENV === 'production') {
+    const allowedOrigins = getAllowedOrigins();
+    if (allowedOrigins !== '*') {
+      const origin = request.headers.get('origin');
+      const refererOrigin = getRefererOrigin(request);
+      const requestOrigin = origin || refererOrigin;
+
+      if (!requestOrigin || !allowedOrigins.includes(requestOrigin)) {
+        return withCors(
+          json(
+            {
+              success: false,
+              error: 'Forbidden',
+              message: 'Origin not allowed.',
+            },
+            403,
+          ),
+          request,
+        );
+      }
+    }
+  }
 
   const rateLimit = checkRateLimit(request, 'contact', 15 * 60 * 1000, 5);
   if (!rateLimit.allowed) {
@@ -223,8 +265,6 @@ export const POST = async ({ request }) => {
     );
   }
 
-  const env = getEnv();
-
   if (!env.SMTP_USER || !env.SMTP_PASS) {
     console.warn('Email not configured - rejecting contact form submission');
     return respondDeliveryUnavailable(useHtmlRedirect, request, env.ENQUIRIES_EMAIL);
@@ -244,6 +284,7 @@ export const POST = async ({ request }) => {
       ${formData.company ? `<p><strong>Company:</strong> ${e(formData.company)}</p>` : ''}
       <p><strong>Email:</strong> ${e(formData.email)}</p>
       ${formData.phone ? `<p><strong>Phone:</strong> ${e(formData.phone)}</p>` : ''}
+      <p><strong>Newsletter Opt-in:</strong> ${formData.newsletterOptIn ? 'Yes' : 'No'}</p>
       <p><strong>Message:</strong></p>
       <p>${msgHtml}</p>
       <hr>
@@ -257,6 +298,7 @@ export const POST = async ({ request }) => {
       ${formData.company ? `Company: ${formData.company}\n` : ''}
       Email: ${formData.email}
       ${formData.phone ? `Phone: ${formData.phone}\n` : ''}
+      Newsletter Opt-in: ${formData.newsletterOptIn ? 'Yes' : 'No'}
       Message:
       ${formData.message}
     `,

@@ -69,7 +69,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,
+  credentials: false,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Type'],
@@ -99,7 +99,6 @@ app.options('*', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
   } else if (env.NODE_ENV !== 'production' || allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', 'true');
   } else {
     return res.status(403).json({ error: 'CORS not allowed' });
   }

@@ -1,5 +1,22 @@
 import { getAllowedOrigins } from './env.js';
 
+function appendVary(headers, token) {
+  const current = headers.get('Vary');
+  if (!current) {
+    headers.set('Vary', token);
+    return;
+  }
+
+  const tokens = current
+    .split(',')
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (!tokens.includes(token.toLowerCase())) {
+    headers.set('Vary', `${current}, ${token}`);
+  }
+}
+
 export function buildCorsHeaders(request) {
   const headers = new Headers();
   const allowedOrigins = getAllowedOrigins();
@@ -9,7 +26,7 @@ export function buildCorsHeaders(request) {
     headers.set('Access-Control-Allow-Origin', '*');
   } else if (origin && allowedOrigins.includes(origin)) {
     headers.set('Access-Control-Allow-Origin', origin);
-    headers.set('Access-Control-Allow-Credentials', 'true');
+    appendVary(headers, 'Origin');
   }
 
   headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
