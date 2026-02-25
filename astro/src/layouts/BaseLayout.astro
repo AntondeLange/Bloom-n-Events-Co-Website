@@ -29,6 +29,7 @@ const { mainClass, renderNavbar = true, lcpImageSrc, lcpImageSrcSet, lcpImageSiz
 const seoProps = getSeoProps(seo, Astro.url.pathname);
 const isHome = isHomePath(Astro.url.pathname);
 const bodyClass = isHome ? "home" : "";
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? "";
 // All pages reserve space for the navbar (homepage animation handled by position switching)
 // Homepage: no top padding (hero starts at top), other pages: small padding
 const mainPadding = isHome ? "" : "pt-2";
@@ -89,6 +90,7 @@ const mainPadding = isHome ? "" : "pt-2";
     <Footer />
     <script src="/scripts/accordion.js" defer is:inline></script>
     <script src="/scripts/static-image-lightbox.js" defer is:inline></script>
+    <script src="/scripts/analytics.js" data-ga-id={gaMeasurementId} defer is:inline></script>
     {import.meta.env.DEV && (
       <script is:inline>
         if ("serviceWorker" in navigator) {

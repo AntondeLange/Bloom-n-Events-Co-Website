@@ -11,6 +11,7 @@ import { type FormEvent, useState, useEffect, useRef } from "react";
 const API_URL = "/api/contact";
 const MESSAGE_MIN = 10;
 const MESSAGE_MAX = 500;
+const FORM_ID = "contact_form";
 
 interface FormState {
   status: "idle" | "loading" | "success" | "error";
@@ -27,6 +28,14 @@ export default function ContactForm() {
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
   const errorModalRef = useRef<HTMLDivElement | null>(null);
   const errorModalCloseRef = useRef<HTMLButtonElement | null>(null);
+
+  function track(
+    eventName: string,
+    params: Record<string, string | number | boolean> = {}
+  ) {
+    if (typeof window === "undefined" || typeof window.bloomTrack !== "function") return;
+    window.bloomTrack(eventName, params);
+  }
 
   const closeErrorModal = () => {
     setShowErrorModal(false);
@@ -130,16 +139,21 @@ export default function ContactForm() {
     else if (msg.length > MESSAGE_MAX) next.message = `Message must be at most ${MESSAGE_MAX} characters.`;
 
     setErrors(next);
-    
+
     if (Object.keys(next).length > 0) {
       const errorMessages = Object.entries(next)
         .map(([field, error]) => getUserFriendlyError(field, error))
         .join("\n\n");
       setErrorModalMessage(`Please fix the following issues:\n\n${errorMessages}`);
-        setShowErrorModal(true);
-        lastFocusedElement.current = document.activeElement as HTMLElement;
+      setShowErrorModal(true);
+      lastFocusedElement.current = document.activeElement as HTMLElement;
+      track("lead_form_validation_failed", {
+        form_id: FORM_ID,
+        error_count: Object.keys(next).length,
+        invalid_fields: Object.keys(next).join(","),
+      });
     }
-    
+
     return Object.keys(next).length === 0;
   }
 
@@ -147,6 +161,7 @@ export default function ContactForm() {
     e.preventDefault();
     const form = e.currentTarget;
     lastFocusedElement.current = document.activeElement as HTMLElement;
+    track("lead_form_submit_attempted", { form_id: FORM_ID });
     if (!validate(form)) return;
 
     setState({ status: "loading", message: "" });
@@ -173,6 +188,11 @@ export default function ContactForm() {
 
       if (res.ok && data.success) {
         setState({ status: "success", message: data.message ?? "Thanks for reaching out. We'll be in touch soon." });
+        track("lead_form_submitted", {
+          form_id: FORM_ID,
+          lead_method: "form",
+          newsletter_opt_in: body.newsletter,
+        });
         form.reset();
         setMessageLength(0);
       } else {
@@ -180,12 +200,21 @@ export default function ContactForm() {
         setErrorModalMessage(errorMsg);
         setShowErrorModal(true);
         setState({ status: "error", message: errorMsg });
+        track("lead_form_submit_failed", {
+          form_id: FORM_ID,
+          failure_type: res.status >= 500 ? "server_error" : "validation_error",
+          status_code: res.status,
+        });
       }
-    } catch (error) {
+    } catch {
       const errorMsg = "We're having trouble connecting right now. Please try again, or contact us directly at enquiries@bloomneventsco.com.au or call 1800 826 268.";
       setErrorModalMessage(errorMsg);
       setShowErrorModal(true);
       setState({ status: "error", message: errorMsg });
+      track("lead_form_submit_failed", {
+        form_id: FORM_ID,
+        failure_type: "network_error",
+      });
     }
   }
 
