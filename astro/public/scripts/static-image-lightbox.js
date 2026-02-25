@@ -39,6 +39,7 @@
       if (isExcluded(img)) return;
       if (isInteractiveImage(img)) return;
       if (!img.currentSrc && !img.src) return;
+      if (!img.alt || !img.alt.trim()) return;
       img.setAttribute("data-lightbox", "true");
       if (!img.hasAttribute("role")) img.setAttribute("role", "button");
       if (!img.hasAttribute("tabindex")) img.tabIndex = 0;

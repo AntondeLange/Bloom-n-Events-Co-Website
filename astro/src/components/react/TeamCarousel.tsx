@@ -163,7 +163,13 @@ export default function TeamCarousel({ members }: Props) {
         mounted &&
         typeof document !== "undefined" &&
         createPortal(
-          <div className="team-modal" role="dialog" aria-modal="true" aria-label="Team member details">
+          <div
+            className="team-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="team-modal-title"
+            aria-describedby={members[selectedIndex].blurb ? "team-modal-blurb" : undefined}
+          >
             <div className="team-modal-backdrop" onClick={closeProfile} />
             <div ref={modalPanelRef} className="team-modal-panel">
               <button
@@ -188,10 +194,10 @@ export default function TeamCarousel({ members }: Props) {
                 />
               </div>
               <div className="team-modal-content">
-                <h3 className="team-modal-name">{members[selectedIndex].name}</h3>
+                <h3 id="team-modal-title" className="team-modal-name">{members[selectedIndex].name}</h3>
                 <p className="team-modal-role">{members[selectedIndex].role}</p>
                 {members[selectedIndex].blurb && (
-                  <p className="team-modal-blurb">{members[selectedIndex].blurb}</p>
+                  <p id="team-modal-blurb" className="team-modal-blurb">{members[selectedIndex].blurb}</p>
                 )}
               </div>
             </div>

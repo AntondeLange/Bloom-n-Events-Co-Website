@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type SyntheticEvent } from "react";
+import { useEffect, useRef, useState, type FocusEvent, type SyntheticEvent } from "react";
 
 import { SITE } from "../../lib/constants";
 import { isHomePath, normalizePathname } from "../../lib/url-path";
@@ -102,6 +102,7 @@ export default function Navbar({ currentPath }: Props) {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setPortfolioOpen(false);
+        portfolioTriggerRef.current?.focus();
       }
     };
 
@@ -134,6 +135,21 @@ export default function Navbar({ currentPath }: Props) {
       details.open = false;
     }
     setMobileMenuOpen(false);
+  };
+
+  const handlePortfolioBlur = (event: FocusEvent<HTMLLIElement>) => {
+    const nextTarget = event.relatedTarget as Node | null;
+    if (!nextTarget) {
+      setPortfolioOpen(false);
+      return;
+    }
+    if (
+      portfolioMenuRef.current?.contains(nextTarget) ||
+      portfolioTriggerRef.current?.contains(nextTarget)
+    ) {
+      return;
+    }
+    setPortfolioOpen(false);
   };
 
   return (
@@ -250,7 +266,7 @@ export default function Navbar({ currentPath }: Props) {
                 </a>
               </li>
             ))}
-            <li className="relative">
+            <li className="relative" onBlur={handlePortfolioBlur}>
               <button
                 type="button"
                 id="portfolio-dropdown-trigger"

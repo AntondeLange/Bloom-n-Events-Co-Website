@@ -91,13 +91,41 @@ export default function AnchorNav({ links }: Props) {
     };
   }, [links]);
 
+  const focusTarget = (target: HTMLElement) => {
+    const hadTabIndex = target.hasAttribute("tabindex");
+    if (!hadTabIndex) {
+      target.setAttribute("tabindex", "-1");
+    }
+    target.focus({ preventScroll: true });
+    if (!hadTabIndex) {
+      target.addEventListener(
+        "blur",
+        () => {
+          target.removeAttribute("tabindex");
+        },
+        { once: true }
+      );
+    }
+  };
+
   const handleClick = (href: string, event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
+    if (event.defaultPrevented) return;
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const target = document.querySelector<HTMLElement>(href);
     if (!target) return;
+    event.preventDefault();
     const offset = computeStackOffset().stickyHeight;
     const targetTop = target.getBoundingClientRect().top + window.pageYOffset - offset;
-    window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.history.pushState(null, "", href);
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+
+    window.setTimeout(() => {
+      focusTarget(target);
+    }, prefersReducedMotion ? 0 : 350);
   };
 
   return (
