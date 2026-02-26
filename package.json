@@ -30,6 +30,8 @@
   "author": "Bloom'n Events Co Pty Ltd",
   "license": "ISC",
   "dependencies": {
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.36.2",
     "nodemailer": "^7.0.13"
   },
   "devDependencies": {

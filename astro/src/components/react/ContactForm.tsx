@@ -18,6 +18,20 @@ interface FormState {
   message: string;
 }
 
+async function submitLead(data: any) {
+  const res = await fetch("/api/lead", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+      companyWebsite: "", // honeypot
+    }),
+  });
+
+  const result = await res.json();
+  return result.ok;
+}
+
 export default function ContactForm() {
   const [state, setState] = useState<FormState>({ status: "idle", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -179,15 +193,15 @@ export default function ContactForm() {
     };
 
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+      const leadSubmitted = await submitLead({
+        name: `${body.firstName} ${body.lastName}`.trim(),
+        email: body.email,
+        phone: body.phone,
+        brief: body.message,
       });
-      const data = (await res.json()) as { success?: boolean; message?: string; error?: string };
 
-      if (res.ok && data.success) {
-        setState({ status: "success", message: data.message ?? "Thanks for reaching out. We'll be in touch soon." });
+      if (leadSubmitted) {
+        setState({ status: "success", message: "Thanks for reaching out. We'll be in touch soon." });
         track("lead_form_submitted", {
           form_id: FORM_ID,
           lead_method: "form",
@@ -196,14 +210,13 @@ export default function ContactForm() {
         form.reset();
         setMessageLength(0);
       } else {
-        const errorMsg = data.message ?? data.error ?? "We couldn't send your message just now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
+        const errorMsg = "We couldn't send your message just now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
         setErrorModalMessage(errorMsg);
         setShowErrorModal(true);
         setState({ status: "error", message: errorMsg });
         track("lead_form_submit_failed", {
           form_id: FORM_ID,
-          failure_type: res.status >= 500 ? "server_error" : "validation_error",
-          status_code: res.status,
+          failure_type: "server_error",
         });
       }
     } catch {

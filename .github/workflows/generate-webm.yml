@@ -1,0 +1,30 @@
+name: Generate WebM videos
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build-webm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Convert MP4 to WebM (VP9)
+        run: node .github/scripts/convert-webm.mjs
+
+      - name: Commit WebM files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add **/*.webm || true
+          git commit -m "chore: generate webm videos" || echo "No changes"
+          git push || echo "Nothing to push"
+

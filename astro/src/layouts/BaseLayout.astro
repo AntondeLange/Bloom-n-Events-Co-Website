@@ -8,6 +8,7 @@ import Seo from "../components/Seo.astro";
 import Navbar from "../components/islands/Navbar";
 import Footer from "../components/Footer.astro";
 import Loader from "../components/Loader.astro";
+import ChatConcierge from "../components/react/ChatConcierge";
 import { getSeoProps } from "../lib/seo";
 import { isHomePath } from "../lib/url-path";
 import type { SeoProps } from "../lib/seo";
@@ -40,9 +41,9 @@ const mainPadding = isHome ? "" : "pt-2";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
-    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/assets/images/butterfly-icon.svg" />
+    <link rel="icon" href="/assets/images/butterfly-icon.svg" />
+    <link rel="apple-touch-icon" href="/assets/images/butterfly-icon.svg" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     {lcpImageSrc && (
@@ -88,6 +89,7 @@ const mainPadding = isHome ? "" : "pt-2";
       </div>
     </main>
     <Footer />
+    <ChatConcierge client:idle />
     <script src="/scripts/accordion.js" defer is:inline></script>
     <script src="/scripts/static-image-lightbox.js" defer is:inline></script>
     <script src="/scripts/analytics.js" data-ga-id={gaMeasurementId} defer is:inline></script>
