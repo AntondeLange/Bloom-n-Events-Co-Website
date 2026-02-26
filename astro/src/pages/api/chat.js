@@ -96,6 +96,18 @@ const READY_NOW_KEYWORDS = [
   'want to proceed',
 ];
 
+const BROWSING_SIGNAL_KEYWORDS = [
+  'just browsing',
+  'just looking',
+  'looking around',
+  'browsing',
+  'exploring',
+  'ideas',
+  'inspiration',
+  'not sure yet',
+  'checking options',
+];
+
 const FLOW_LEAD_SEQUENCE = {
   events: ['name', 'email', 'phone', 'timeframe', 'location', 'scale', 'budgetConstraint', 'brief'],
   workshops: ['name', 'email', 'phone', 'timeframe', 'location', 'scale', 'budgetConstraint', 'brief'],
@@ -168,6 +180,20 @@ const COMPLEXITY_KEYWORDS = [
 
 const BUDGET_LOW_SIGNAL_KEYWORDS = ['cheap', 'cheapest', 'low cost', 'minimal budget', 'tight budget'];
 const TIMING_URGENT_KEYWORDS = ['asap', 'tomorrow', 'next week', 'this weekend', 'urgent'];
+const VAGUE_OUTCOME_WORDS = [
+  'happy',
+  'fun',
+  'good',
+  'great',
+  'nice',
+  'memorable',
+  'successful',
+  'engaged',
+  'excited',
+  'inspired',
+  'positive',
+  'wow',
+];
 
 const KNOWLEDGE_BASE = [
   {
@@ -290,6 +316,46 @@ function tokenize(text) {
   return (text.toLowerCase().match(/[a-z0-9']+/g) || []).filter((token) => token.length > 2);
 }
 
+function truncateWords(text, maxChars = 24) {
+  const value = normalizeText(text);
+  if (value.length <= maxChars) return value;
+  return `${value.slice(0, maxChars).trim()}...`;
+}
+
+function isVagueOutcomeAnswer(value) {
+  const text = normalizeText(value).toLowerCase();
+  if (!text) return true;
+
+  const tokens = tokenize(text);
+  if (tokens.length <= 1) return true;
+  if (tokens.length <= 3 && tokens.every((token) => VAGUE_OUTCOME_WORDS.includes(token))) return true;
+
+  const hasConcreteGoalSignal = containsAny(text, [
+    'lead',
+    'leads',
+    'sales',
+    'sign-up',
+    'signup',
+    'register',
+    'attendance',
+    'attendees',
+    'network',
+    'networking',
+    'launch',
+    'awareness',
+    'engagement',
+    'team',
+    'culture',
+    'retention',
+    'feedback',
+    'nps',
+    'fundraising',
+    'donation',
+  ]);
+
+  return !hasConcreteGoalSignal && tokens.length < 6;
+}
+
 function containsAny(text, keywords) {
   if (!text) return false;
   const haystack = text.toLowerCase();
@@ -302,6 +368,112 @@ function countKeywordHits(text, keywords) {
   return keywords.reduce((hits, keyword) => {
     return haystack.includes(keyword) ? hits + 1 : hits;
   }, 0);
+}
+
+function buildLeadDraftText(leadDraft) {
+  if (!leadDraft || typeof leadDraft !== 'object') return '';
+  return [
+    leadDraft.name,
+    leadDraft.email,
+    leadDraft.phone,
+    leadDraft.projectType,
+    leadDraft.timeframe,
+    leadDraft.location,
+    leadDraft.scale,
+    leadDraft.brief,
+    leadDraft.budgetConstraint,
+  ]
+    .map((value) => normalizeText(value))
+    .filter(Boolean)
+    .join(' ');
+}
+
+function inferDiscoveryContext(flow, conversationText, leadDraft) {
+  const text = `${conversationText} ${buildLeadDraftText(leadDraft)}`.toLowerCase();
+  const hasYear = /\b20\d{2}\b/.test(text);
+  const hasMonth = /\b(jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|sept|september|oct|october|nov|november|dec|december)\b/.test(
+    text,
+  );
+  const hasDateToken = /\b\d{1,2}[\/-]\d{1,2}([\/-]\d{2,4})?\b/.test(text);
+  const hasTimeWindowKeyword = containsAny(text, [
+    'next month',
+    'this month',
+    'next year',
+    'this year',
+    'q1',
+    'q2',
+    'q3',
+    'q4',
+    'week',
+    'weeks',
+    'timeframe',
+    'timeline',
+    'date window',
+    'by ',
+  ]);
+  const timeframeKnown = Boolean(normalizeText(leadDraft?.timeframe)) || hasYear || hasMonth || hasDateToken || hasTimeWindowKeyword;
+
+  const hasLocationKeyword = containsAny(text, [
+    ' in ',
+    ' at ',
+    'office',
+    'venue',
+    'perth',
+    'wa',
+    'brookton',
+    'fremantle',
+    'online',
+    'on-site',
+    'onsite',
+    'city',
+    'suburb',
+  ]);
+  const locationKnown = Boolean(normalizeText(leadDraft?.location)) || hasLocationKeyword;
+
+  const hasScaleKeyword = containsAny(text, [
+    'guest',
+    'guests',
+    'people',
+    'pax',
+    'attendee',
+    'attendees',
+    'headcount',
+    'size',
+    'scale',
+    'sqm',
+    'm2',
+    'metre',
+    'meter',
+    'dimensions',
+    'session',
+    'sessions',
+    'team of',
+  ]);
+  const scaleKnown = Boolean(normalizeText(leadDraft?.scale)) || hasScaleKeyword;
+
+  const outcomeKnown = normalizeText(leadDraft?.brief).length >= 10;
+  const formatKnown = flow !== 'events' || containsAny(text, FLOW_KEYWORDS.events.concat(['celebration', 'awards', 'expo', 'summit']));
+  const audienceKnown =
+    flow !== 'workshops' ||
+    containsAny(text, ['kids', 'children', 'adults', 'team', 'staff', 'school', 'community', 'corporate']);
+  const durationKnown =
+    flow !== 'workshops' || containsAny(text, ['hour', 'hours', 'half day', 'full day', 'session', 'sessions', 'duration']);
+  const environmentKnown =
+    flow !== 'displays' || containsAny(text, ['indoor', 'outdoor', 'inside', 'outside']);
+  const hireModeKnown =
+    flow !== 'displays' || containsAny(text, ['hire', 'rent', 'buy', 'purchase', 'keep', 'custom build', 'custom']);
+
+  return {
+    timeframeKnown,
+    locationKnown,
+    scaleKnown,
+    outcomeKnown,
+    formatKnown,
+    audienceKnown,
+    durationKnown,
+    environmentKnown,
+    hireModeKnown,
+  };
 }
 
 function detectFlow(message, history, requestedFlow) {
@@ -652,16 +824,16 @@ function getSuggestedReplies(flow, leadMode, salesStage) {
   }
 
   if (flow === 'events') {
-    return ['Get event quote', 'See case studies', 'Talk process'];
+    return ['Get event quote', 'See case studies', 'View /events'];
   }
   if (flow === 'workshops') {
-    return ['Plan a workshop', 'Audience fit', 'Date availability'];
+    return ['Plan a workshop', 'Audience fit', 'View /workshops'];
   }
   if (flow === 'displays') {
-    return ['Discuss installation', 'Hire vs buy', 'Branding options'];
+    return ['Discuss installation', 'Hire vs buy', 'View /displays'];
   }
 
-  return ['Show me case studies', 'What is your process?', 'Start my project'];
+  return ['Show me case studies', 'What is your process?', 'View /workshops'];
 }
 
 function buildSystemPrompt({
@@ -700,6 +872,11 @@ Voice:
 - Warm, confident, useful, and concise.
 - Light dry humour is fine; never sarcastic at the user.
 - Keep responses under 160 words unless asked for depth.
+- If user shares their name, acknowledge once naturally before the next question (for example: "Nice to meet you, Anton.").
+- Do not end early with a consult CTA when user is still exploring. Ask one useful follow-up question first.
+- If user says they are browsing, point them to the most relevant route and offer to keep guiding.
+- If the user has already answered a question, acknowledge it and move to the next missing detail. Do not repeat the same question.
+- If the user's answer is vague or incomplete, reframe with examples and ask for a concrete detail instead of repeating wording.
 
 Hard rules:
 - Never invent capabilities, pricing, availability, legal terms, or policy promises.
@@ -722,23 +899,161 @@ ${snippetText}
 When mentioning pages, use exact routes: /events, /workshops, /displays, /capabilities, /gallery, /team, /about, /contact.`;
 }
 
-function buildFallbackReply({ flow, leadMode, nextLeadQuestion }) {
-  const flowCopy = {
-    events:
-      "Love this. We can help shape a corporate event from concept to pack-down with one accountable team.",
-    workshops:
-      "Great brief. We run in-house workshops for kids, adults, teams, and communities with materials and facilitation included.",
-    displays:
-      "Perfect. We design and deliver custom displays and installations tailored to brand, space, and timing.",
-    browse:
-      "Happy to help. I can point you to case studies, process, service fit, and next steps quickly.",
+function getFriendlyFirstName(name) {
+  const first = normalizeText(name).split(/\s+/)[0] || '';
+  const safe = first.replace(/[^a-zA-Z'-]/g, '');
+  return safe.slice(0, 24);
+}
+
+function buildFallbackReply({
+  flow,
+  leadMode,
+  nextLeadField,
+  nextLeadQuestion,
+  leadDraft,
+  userMessage,
+  conversationText,
+}) {
+  const pickOne = (items) => items[Math.floor(Math.random() * items.length)];
+  const allText = `${normalizeText(conversationText)} ${normalizeText(userMessage)}`.toLowerCase();
+  const browsingText = `${allText} ${normalizeText(leadDraft?.brief)}`.toLowerCase();
+  const isBrowsing = containsAny(browsingText, BROWSING_SIGNAL_KEYWORDS);
+
+  const flowQuestions = {
+    events: [
+      'Love this, events are right in our lane. Are you planning a launch, conference, or networking style event?',
+      'Great fit. What date window and location are you working with?',
+      'Nice brief. Roughly how many guests are you planning for?',
+    ],
+    workshops: [
+      'Love this, workshops are a strong fit for us. Is this for kids, adults, or a team session?',
+      'Great direction. How many people and what duration are you thinking?',
+      'Perfect. Do you already have a date window and location in mind?',
+    ],
+    displays: [
+      'Nice, displays and installs are right in our wheelhouse. Is this indoor or outdoor?',
+      'Great fit. Are you after hire or a custom build to keep?',
+      'Perfect. Roughly what dimensions or footprint are you planning around?',
+    ],
+    browse: [
+      'Sure thing. Want case studies, process, or service fit first?',
+      'Happy to help. Do you want to compare events, workshops, and displays quickly?',
+      'Great question. Are you exploring ideas or already planning something specific?',
+    ],
+  };
+
+  const flowRoutes = {
+    events: '/events',
+    workshops: '/workshops',
+    displays: '/displays',
+    browse: '/capabilities',
   };
 
   if (leadMode && nextLeadQuestion) {
-    return `${flowCopy[flow] || flowCopy.browse} ${nextLeadQuestion}`;
+    const firstName = getFriendlyFirstName(leadDraft?.name);
+    if (nextLeadField === 'email' && firstName) {
+      return `Nice to meet you, ${firstName}. ${nextLeadQuestion}`;
+    }
+
+    const leadBridges = [
+      'Great, quick one:',
+      'Perfect, next detail:',
+      'Thanks, one more:',
+      'Nice, let me lock in one more thing:',
+    ];
+    return `${pickOne(leadBridges)} ${nextLeadQuestion}`;
   }
 
-  return `${flowCopy[flow] || flowCopy.browse} If you want, we can jump straight to a consult via /contact, 1800 826 268, or enquiries@bloomneventsco.com.au.`;
+  const discovery = inferDiscoveryContext(flow, allText, leadDraft);
+  if (flow === 'events') {
+    if (!discovery.formatKnown) {
+      return 'Love this, events are right in our lane. Are you planning a launch, conference, networking event, or something else?';
+    }
+    if (!discovery.timeframeKnown && !discovery.locationKnown) {
+      return 'Great fit. What date window and location are you working with?';
+    }
+    if (!discovery.timeframeKnown) {
+      return 'Perfect. What date window are you targeting?';
+    }
+    if (!discovery.locationKnown) {
+      return 'Great. Where is the event happening?';
+    }
+    if (!discovery.scaleKnown) {
+      return 'Nice. Roughly how many guests are you planning for?';
+    }
+    if (!discovery.outcomeKnown) {
+      const answer = normalizeText(userMessage);
+      if (answer) {
+        if (isVagueOutcomeAnswer(answer)) {
+          return `Love that direction. When you say "${truncateWords(
+            answer,
+          )}", what outcome matters most: stronger connection, celebrating wins, or a specific action like sign-ups?`;
+        }
+        return 'Nice, that helps. Could you add one concrete success signal (for example engagement, sign-ups, or team feedback)?';
+      }
+      return 'Great context so far. What do you want people to feel or do at the event?';
+    }
+    return 'Nice brief so far. Want to keep shaping details here, or tap /events to browse formats and /gallery for examples?';
+  }
+
+  if (flow === 'workshops') {
+    if (!discovery.audienceKnown) {
+      return 'Love this, workshops are a strong fit. Is this for kids, adults, or a team session?';
+    }
+    if (!discovery.durationKnown) {
+      return 'Great. How long should the workshop run (for example 60 mins, half day, or full day)?';
+    }
+    if (!discovery.timeframeKnown && !discovery.locationKnown) {
+      return 'Perfect. What date window and location are you working with?';
+    }
+    if (!discovery.timeframeKnown) {
+      return 'Nice. What date window are you aiming for?';
+    }
+    if (!discovery.locationKnown) {
+      return 'Great. Where would you like the workshop delivered?';
+    }
+    if (!discovery.scaleKnown) {
+      return 'How many people should the session be designed for?';
+    }
+    return 'Great direction. Want to keep planning here, or tap /workshops to browse formats and examples?';
+  }
+
+  if (flow === 'displays') {
+    if (!discovery.hireModeKnown) {
+      return 'Nice, displays are right in our wheelhouse. Are you after hire, or a custom build to keep?';
+    }
+    if (!discovery.environmentKnown) {
+      return 'Perfect. Is this display going indoor or outdoor?';
+    }
+    if (!discovery.timeframeKnown) {
+      return 'Great. What install window are you working to?';
+    }
+    if (!discovery.locationKnown) {
+      return 'Where will this be installed?';
+    }
+    if (!discovery.scaleKnown) {
+      return 'Do you have target dimensions or a footprint in mind?';
+    }
+    return 'Great context. Want to keep shaping it here, or tap /displays to explore build styles and examples?';
+  }
+
+  if (isBrowsing) {
+    if (flow === 'browse') {
+      return 'No pressure. If you are browsing, start with /events, /workshops, or /displays, and case studies at /gallery. Tap one of the page buttons below, or tell me your goal and I can point you to the best fit in one step.';
+    }
+    if (flow === 'workshops') {
+      return 'No pressure. Best place to explore is /workshops for audience types, format ideas, and examples. Tap the button below to open it now, or tell me your audience and I can narrow options quickly.';
+    }
+    if (flow === 'events') {
+      return 'No pressure. Start at /events for event formats and delivery scope. Tap the button below to open it now, or share your date window and I can suggest the best path.';
+    }
+    if (flow === 'displays') {
+      return 'No pressure. Start at /displays for install styles and build options. Tap the button below to open it now, or share indoor/outdoor plus size and I can guide you fast.';
+    }
+    return `No pressure. If you are just looking, the best starting point is ${flowRoutes[flow] || flowRoutes.browse}. Tap the button below to open it now, or I can ask two quick questions and narrow it fast.`;
+  }
+
+  return pickOne(flowQuestions[flow] || flowQuestions.browse);
 }
 
 function validateChatRequest(body) {
@@ -934,7 +1249,11 @@ export const POST = async ({ request }) => {
           reply: buildFallbackReply({
             flow: detectedFlow,
             leadMode,
+            nextLeadField,
             nextLeadQuestion,
+            leadDraft: mergedLeadDraft,
+            userMessage: validated.message,
+            conversationText,
           }),
           model: 'rule-based-fallback',
           intent: detectedFlow,
@@ -1017,7 +1336,11 @@ export const POST = async ({ request }) => {
       buildFallbackReply({
         flow: detectedFlow,
         leadMode,
+        nextLeadField,
         nextLeadQuestion,
+        leadDraft: mergedLeadDraft,
+        userMessage: validated.message,
+        conversationText,
       });
 
     return withCors(

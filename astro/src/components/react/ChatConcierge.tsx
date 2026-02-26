@@ -60,6 +60,15 @@ const FLOW_MENU = [
   { label: "Just Browsing", flow: "browse" as const },
 ];
 
+const ROUTE_CTA_CONFIG = [
+  { href: "/workshops", label: "Open Workshops Page" },
+  { href: "/events", label: "Open Events Page" },
+  { href: "/displays", label: "Open Displays Page" },
+  { href: "/gallery", label: "View Case Studies" },
+  { href: "/capabilities", label: "View Capabilities" },
+  { href: "/contact", label: "Open Contact Page" },
+];
+
 function track(eventName: string, params: Record<string, string | number | boolean> = {}) {
   if (typeof window === "undefined" || typeof window.bloomTrack !== "function") return;
   window.bloomTrack(eventName, params);
@@ -71,6 +80,11 @@ function safeId() {
 
 function sanitizeLeadValue(value: string) {
   return value.trim();
+}
+
+function getMessageRouteCta(text: string) {
+  const lower = text.toLowerCase();
+  return ROUTE_CTA_CONFIG.find((item) => lower.includes(item.href)) ?? null;
 }
 
 function isLeadReady(draft: LeadDraft) {
@@ -107,6 +121,8 @@ export default function ChatConcierge() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [bottomOffset, setBottomOffset] = useState(16);
+  const [launcherHintVisible, setLauncherHintVisible] = useState(false);
   const [flow, setFlow] = useState<FlowType>("browse");
   const [leadMode, setLeadMode] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
@@ -132,7 +148,7 @@ export default function ChatConcierge() {
     {
       id: safeId(),
       role: "assistant",
-      text: "Hey! I'm Bloom, your event-sidekick. Tell me what you're dreaming up: events, workshops, displays, or just browsing?",
+      text: "Hey! I'm your Bloom'n event sidekick. Tell me what you're dreaming up: events, workshops, displays, or just browsing?",
     },
   ]);
 
@@ -143,6 +159,43 @@ export default function ChatConcierge() {
     if (!node) return;
     node.scrollTop = node.scrollHeight;
   }, [messages, isLoading, isOpen]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateBottomOffset = () => {
+      const nav = document.getElementById("main-navbar");
+      const isHome = document.body.classList.contains("home");
+      const navAtBottom = isHome && nav?.getAttribute("data-nav-pos") !== "top";
+      const navHeight = nav?.offsetHeight || 72;
+      setBottomOffset(navAtBottom ? navHeight + 12 : 16);
+    };
+
+    updateBottomOffset();
+
+    const nav = document.getElementById("main-navbar");
+    const navObserver = nav
+      ? new MutationObserver(() => {
+          updateBottomOffset();
+        })
+      : null;
+
+    if (navObserver && nav) {
+      navObserver.observe(nav, {
+        attributes: true,
+        attributeFilter: ["data-nav-pos"],
+      });
+    }
+
+    window.addEventListener("resize", updateBottomOffset);
+    window.addEventListener("scroll", updateBottomOffset, { passive: true });
+
+    return () => {
+      navObserver?.disconnect();
+      window.removeEventListener("resize", updateBottomOffset);
+      window.removeEventListener("scroll", updateBottomOffset);
+    };
+  }, []);
 
   const quickReplies = useMemo(() => {
     if (!isOpen || isLoading) return [];
@@ -331,6 +384,7 @@ export default function ChatConcierge() {
 
   function handleChipClick(chip: string) {
     const lower = chip.toLowerCase();
+    const routeMatch = chip.match(/\/(events|workshops|displays|contact|gallery|capabilities)\b/i);
 
     if (lower.startsWith("call")) {
       window.location.href = `tel:${PHONE.replace(/\s/g, "")}`;
@@ -338,6 +392,10 @@ export default function ChatConcierge() {
     }
     if (lower.startsWith("email")) {
       window.location.href = `mailto:${EMAIL}`;
+      return;
+    }
+    if (routeMatch) {
+      window.location.href = routeMatch[0].toLowerCase();
       return;
     }
 
@@ -350,7 +408,7 @@ export default function ChatConcierge() {
       style={{
         position: "fixed",
         right: "16px",
-        bottom: "16px",
+        bottom: `calc(${bottomOffset}px + env(safe-area-inset-bottom, 0px))`,
         zIndex: 9998,
         width: isOpen ? "min(380px, calc(100vw - 24px))" : "auto",
       }}
@@ -380,9 +438,17 @@ export default function ChatConcierge() {
               color: "#fff",
             }}
           >
-            <div>
-              <strong style={{ display: "block", lineHeight: 1.2 }}>Bloom Concierge</strong>
-              <small style={{ opacity: 0.85 }}>Sales + support sidekick</small>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }}>
+              <img
+                src="/assets/images/butterfly-icon.svg"
+                alt=""
+                aria-hidden="true"
+                style={{ width: "30px", height: "30px", display: "block", flexShrink: 0 }}
+              />
+              <div>
+                <strong style={{ display: "block", lineHeight: 1.2 }}>Bloom'n Concierge</strong>
+                <small style={{ opacity: 0.85 }}>Sales + support sidekick</small>
+              </div>
             </div>
             <button
               type="button"
@@ -427,11 +493,39 @@ export default function ChatConcierge() {
                     fontSize: "0.95rem",
                     whiteSpace: "pre-wrap",
                     background:
-                      message.role === "assistant" ? "rgba(191, 155, 48, 0.16)" : "var(--color-charcoal)",
-                    color: message.role === "assistant" ? "var(--color-charcoal)" : "#fff",
+                      message.role === "assistant" ? "rgba(255, 249, 237, 0.95)" : "var(--color-charcoal)",
+                    color: message.role === "assistant" ? "var(--color-gold)" : "#fff",
+                    border:
+                      message.role === "assistant" ? "1px solid rgba(191, 155, 48, 0.9)" : "1px solid transparent",
                   }}
                 >
                   {message.text}
+                  {message.role === "assistant" && (() => {
+                    const cta = getMessageRouteCta(message.text);
+                    if (!cta) return null;
+                    return (
+                      <div style={{ marginTop: "8px" }}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            window.location.href = cta.href;
+                          }}
+                          style={{
+                            borderRadius: "999px",
+                            border: "1px solid rgba(191, 155, 48, 0.9)",
+                            background: "rgba(191, 155, 48, 0.2)",
+                            color: "var(--color-charcoal)",
+                            padding: "5px 11px",
+                            fontSize: "0.78rem",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          {cta.label}
+                        </button>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             ))}
@@ -510,26 +604,92 @@ export default function ChatConcierge() {
                 Send
               </button>
             </div>
-            <div style={{ marginTop: "6px", fontSize: "0.72rem", opacity: 0.7 }}>
-              Need direct contact? <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a> |{" "}
-              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            <div style={{ marginTop: "6px", fontSize: "0.72rem", opacity: 0.78 }}>
+              Need direct contact?{" "}
+              <a href="/contact" style={{ fontWeight: 600 }}>
+                Visit our contact page
+              </a>
             </div>
           </form>
         </section>
       ) : (
-        <button
-          type="button"
-          onClick={handleOpen}
-          className="btn btn-gold"
-          aria-label="Open chat concierge"
-          style={{
-            borderRadius: "999px",
-            padding: "10px 16px",
-            boxShadow: "0 10px 24px rgba(19, 20, 24, 0.3)",
-          }}
-        >
-          Chat with Bloom
-        </button>
+        <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              right: "76px",
+              top: "50%",
+              transform: launcherHintVisible
+                ? "translate(0, -50%)"
+                : "translate(12px, -50%)",
+              opacity: launcherHintVisible ? 1 : 0,
+              transition: "opacity 180ms ease, transform 180ms ease",
+              pointerEvents: "none",
+              whiteSpace: "nowrap",
+              background: "rgba(255, 249, 237, 0.98)",
+              color: "var(--color-gold)",
+              border: "1px solid rgba(191, 155, 48, 0.9)",
+              padding: "10px 12px",
+              borderRadius: "14px",
+              fontSize: "0.84rem",
+              fontWeight: 600,
+              boxShadow: "0 10px 24px rgba(19, 20, 24, 0.26)",
+            }}
+          >
+            Chat with Bloom'n Events Co
+            <span
+              style={{
+                position: "absolute",
+                right: "-6px",
+                top: "50%",
+                width: "12px",
+                height: "12px",
+                transform: "translateY(-50%) rotate(45deg)",
+                background: "rgba(255, 249, 237, 0.98)",
+                borderTop: "1px solid rgba(191, 155, 48, 0.9)",
+                borderRight: "1px solid rgba(191, 155, 48, 0.9)",
+                borderRadius: "2px",
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={handleOpen}
+            onMouseEnter={() => setLauncherHintVisible(true)}
+            onMouseLeave={() => setLauncherHintVisible(false)}
+            onFocus={() => setLauncherHintVisible(true)}
+            onBlur={() => setLauncherHintVisible(false)}
+            aria-label="Chat with Bloom'n Events Co"
+            style={{
+              border: "2px solid rgba(191, 155, 48, 0.95)",
+              background: "rgba(255, 249, 237, 0.98)",
+              width: "68px",
+              height: "68px",
+              borderRadius: "999px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "8px",
+              margin: 0,
+              lineHeight: 0,
+              cursor: "pointer",
+              transform: launcherHintVisible ? "scale(1.05)" : "scale(1)",
+              transition: "transform 180ms ease, box-shadow 180ms ease",
+              filter: "drop-shadow(0 10px 22px rgba(19, 20, 24, 0.28))",
+              boxShadow: launcherHintVisible
+                ? "0 0 0 3px rgba(191, 155, 48, 0.2)"
+                : "0 0 0 0 rgba(191, 155, 48, 0)",
+            }}
+          >
+            <img
+              src="/assets/images/butterfly-icon.svg"
+              alt=""
+              aria-hidden="true"
+              style={{ width: "44px", height: "44px", display: "block" }}
+            />
+          </button>
+        </div>
       )}
     </div>
   );
