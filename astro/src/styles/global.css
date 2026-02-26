@@ -1712,26 +1712,68 @@ main img[data-lightbox] {
   top: 0.75rem;
   right: 0.75rem;
   z-index: 11;
-  border: 2px solid var(--color-gold);
-  background: var(--color-champers);
-  color: var(--color-charcoal);
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1;
-  padding: 0.45rem 0.75rem;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-gold);
+  border-radius: 50%;
+  padding: 0;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0.95;
 }
 
 .carousel-autoplay-toggle:hover {
-  background: var(--color-gold);
+  opacity: 1;
+  transform: scale(1.06);
 }
 
 .carousel-autoplay-toggle:focus-visible {
   outline: 2px solid var(--focus-ring-inner);
   outline-offset: 2px;
   box-shadow: 0 0 0 4px var(--focus-ring-outer);
+}
+
+.carousel-autoplay-icon {
+  display: block;
+  position: relative;
+}
+
+.carousel-autoplay-icon.is-pause {
+  width: 14px;
+  height: 14px;
+}
+
+.carousel-autoplay-icon.is-pause::before,
+.carousel-autoplay-icon.is-pause::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.carousel-autoplay-icon.is-pause::before {
+  left: 1px;
+}
+
+.carousel-autoplay-icon.is-pause::after {
+  right: 1px;
+}
+
+.carousel-autoplay-icon.is-play {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid currentColor;
+  transform: translateX(1px);
 }
 
 .carousel-control-prev-icon,

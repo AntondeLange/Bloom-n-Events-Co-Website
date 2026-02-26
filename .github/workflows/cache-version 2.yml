@@ -1,0 +1,32 @@
+name: Update Cache Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Cache version (e.g., v20250115)'
+        required: true
+        type: string
+
+jobs:
+  update-cache:
+    name: Update Cache Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Update sw.js cache version
+        run: |
+          sed -i "s/const CACHE_VERSION = 'v[0-9]*';/const CACHE_VERSION = '${{ github.event.inputs.version }}';/g" sw.js
+          sed -i "s/const CURRENT_CACHE_VERSION = 'v[0-9]*';/const CURRENT_CACHE_VERSION = '${{ github.event.inputs.version }}';/g" assets/js/cache-clear.js
+      
+      - name: Commit changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add sw.js assets/js/cache-clear.js
+          git commit -m "chore: Update cache version to ${{ github.event.inputs.version }}" || exit 0
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

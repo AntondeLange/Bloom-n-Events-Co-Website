@@ -162,8 +162,13 @@ export default function Carousel({
         className="carousel-autoplay-toggle"
         onClick={toggleAutoPlay}
         aria-pressed={isAutoPlaying}
+        aria-label={isAutoPlaying ? "Pause slides" : "Play slides"}
       >
-        {isAutoPlaying ? "Pause slides" : "Play slides"}
+        <span
+          className={`carousel-autoplay-icon ${isAutoPlaying ? "is-pause" : "is-play"}`}
+          aria-hidden="true"
+        />
+        <span className="visually-hidden">{isAutoPlaying ? "Pause slides" : "Play slides"}</span>
       </button>
       <button type="button" className="carousel-control-prev" onClick={goPrev} aria-label="Previous image">
         <span className="carousel-control-prev-icon" aria-hidden="true" />

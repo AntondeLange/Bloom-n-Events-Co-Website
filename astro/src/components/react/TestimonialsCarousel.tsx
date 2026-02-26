@@ -123,8 +123,15 @@ export default function TestimonialsCarousel() {
         className="carousel-autoplay-toggle"
         onClick={toggleAutoPlaying}
         aria-pressed={isAutoPlaying}
+        aria-label={isAutoPlaying ? "Pause testimonials" : "Play testimonials"}
       >
-        {isAutoPlaying ? "Pause testimonials" : "Play testimonials"}
+        <span
+          className={`carousel-autoplay-icon ${isAutoPlaying ? "is-pause" : "is-play"}`}
+          aria-hidden="true"
+        />
+        <span className="visually-hidden">
+          {isAutoPlaying ? "Pause testimonials" : "Play testimonials"}
+        </span>
       </button>
       <button
         type="button"
