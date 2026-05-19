@@ -38,6 +38,21 @@ const environmentSlides = [
     alt: "Tailor installation in Trinity Arcade with dress form, textiles, and sewing artefacts",
   },
 ];
+
+const behindScenesSlides = [
+  {
+    src: "/assets/images/visual-storytelling/trinity-photographic-finisher-bts.jpeg",
+    alt: "Behind-the-scenes installation work inside Trinity Arcade display cabinet",
+  },
+  {
+    src: "/assets/images/visual-storytelling/trinity-tailor-installation-side.jpeg",
+    alt: "Side view of tailor installation being worked on in Trinity Arcade",
+  },
+  {
+    src: "/assets/images/visual-storytelling/trinity-through-time-cabinet-open.jpeg",
+    alt: "Open Trinity Through Time cabinet during installation and refinement",
+  },
+];
 ---
 
 <BaseLayout
@@ -97,8 +112,8 @@ const environmentSlides = [
   <section class="section-main" aria-labelledby="whyItMattersHeading">
     <div class="mx-auto max-w-7xl px-4 md:px-6">
       <h2 id="whyItMattersHeading" class="heading-blush-bg text-center">Why It Matters</h2>
-      <div class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] items-start mb-5">
-        <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+      <div class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch mb-5">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
             <p class="lead text-charcoal mb-3">
               Visual storytelling is no longer a creative extra layered on top of a business environment. It has become a <strong>strategic commercial tool</strong> that influences attention, emotional engagement, memory, brand perception, dwell time, and ultimately commercial value.
@@ -112,29 +127,27 @@ const environmentSlides = [
           </div>
         </div>
 
-        <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-2">
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/one-forty-timeline-panel-1980s.jpg"
+        <div class="grid gap-2 grid-cols-2 lg:h-full">
+          <div class="overflow-hidden rounded shadow h-full min-h-[16rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/one-forty-timeline-panel-1980s.jpg"
               alt="One Forty St Georges timeline storytelling panel focused on the 1980s"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="700"
               height="1050"
-              sizes="(max-width: 1024px) 50vw, 22vw"
             />
           </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/one-forty-timeline-panel-1990s.jpg"
-              alt="One Forty St Georges timeline storytelling panel focused on the 1990s"
-              class="w-full h-auto"
+          <div class="overflow-hidden rounded shadow h-full min-h-[16rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-through-time-cabinet-detail.jpeg"
+              alt="Trinity Through Time cabinet detail with archival imagery and printed narrative"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="700"
               height="1050"
-              sizes="(max-width: 1024px) 50vw, 22vw"
             />
           </div>
         </div>
@@ -233,8 +246,8 @@ const environmentSlides = [
         </div>
       </section>
 
-      <div class="grid gap-4 lg:grid-cols-[1fr_1fr] items-start mb-5">
-        <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+      <div class="grid gap-4 lg:grid-cols-[1fr_1fr] lg:items-stretch mb-5">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
             <h3 class="text-gold mb-3">Trinity Arcade: immersive micro-environments</h3>
             <p class="text-charcoal mb-3">
@@ -254,87 +267,81 @@ const environmentSlides = [
           </div>
         </div>
 
-        <div class="grid gap-2 sm:grid-cols-2">
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-watchmaker-cabinet-detail.jpeg"
+        <div class="grid gap-2 sm:grid-cols-2 lg:h-full lg:auto-rows-fr">
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-watchmaker-cabinet-detail.jpeg"
               alt="Close detail of The Watchmaker cabinet in Trinity Arcade"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="720"
               height="960"
-              sizes="(max-width: 1024px) 50vw, 24vw"
             />
           </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-through-time-cabinet-detail.jpeg"
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-through-time-cabinet-detail.jpeg"
               alt="Close detail of Trinity Through Time cabinet with archival imagery and printed narrative"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="720"
               height="960"
-              sizes="(max-width: 1024px) 50vw, 24vw"
             />
           </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-tailor-central-detail.jpeg"
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-tailor-central-detail.jpeg"
               alt="Tailor cabinet centrepiece with mannequin, suit, and draped fabric"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="720"
               height="960"
-              sizes="(max-width: 1024px) 50vw, 24vw"
             />
           </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-tailor-detail-right.jpeg"
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-tailor-detail-right.jpeg"
               alt="Tailor cabinet detail with sewing machine, garment work, and textile references"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="720"
               height="960"
-              sizes="(max-width: 1024px) 50vw, 24vw"
             />
           </div>
         </div>
       </div>
 
-      <div class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] items-start mb-5">
-        <div class="grid gap-2 sm:grid-cols-2">
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/one-forty-timeline-panel-1980s.jpg"
+      <div class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch mb-5">
+        <div class="grid gap-2 sm:grid-cols-2 lg:h-full">
+          <div class="overflow-hidden rounded shadow h-full min-h-[18rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/one-forty-timeline-panel-1980s.jpg"
               alt="One Forty St Georges narrative timeline panel for the 1980s"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="720"
               height="1080"
-              sizes="(max-width: 1024px) 50vw, 22vw"
             />
           </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/one-forty-timeline-panel-1990s.jpg"
+          <div class="overflow-hidden rounded shadow h-full min-h-[18rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/one-forty-timeline-panel-1990s.jpg"
               alt="One Forty St Georges narrative timeline panel for the 1990s"
-              class="w-full h-auto"
+              class="block w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
               width="720"
               height="1080"
-              sizes="(max-width: 1024px) 50vw, 22vw"
             />
           </div>
         </div>
 
-        <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
             <h3 class="text-gold mb-3">One Forty St Georges: storytelling at architectural scale</h3>
             <p class="text-charcoal mb-3">
@@ -412,8 +419,8 @@ const environmentSlides = [
   <section class="section-main" aria-labelledby="behindScenesHeading">
     <div class="mx-auto max-w-7xl px-4 md:px-6">
       <h2 id="behindScenesHeading" class="heading-blush-bg text-center">Behind the Scenes</h2>
-      <div class="grid gap-4 lg:grid-cols-[1fr_1fr] items-start mb-5">
-        <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+      <div class="grid gap-4 lg:grid-cols-[1fr_1fr] lg:items-stretch mb-5">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
             <p class="text-charcoal mb-3">
               Visual storytelling requires substantially more strategic thinking than traditional visual merchandising. It asks not only how presentation can be optimised, but what <strong>narrative architecture</strong> is being constructed across space, emotion, memory, and identity.
@@ -436,43 +443,14 @@ const environmentSlides = [
           </div>
         </div>
 
-        <div class="grid gap-2 sm:grid-cols-2">
-          <div class="overflow-hidden rounded shadow sm:col-span-2" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-photographic-finisher-bts.jpeg"
-              alt="Behind-the-scenes installation work inside Trinity Arcade display cabinet"
-              class="w-full h-auto"
-              loading="lazy"
-              decoding="async"
-              width="1200"
-              height="900"
-              sizes="(max-width: 1024px) 100vw, 48vw"
-            />
-          </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-tailor-installation-side.jpeg"
-              alt="Side view of tailor installation being worked on in Trinity Arcade"
-              class="w-full h-auto"
-              loading="lazy"
-              decoding="async"
-              width="720"
-              height="960"
-              sizes="(max-width: 1024px) 50vw, 24vw"
-            />
-          </div>
-          <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-            <OptimizedImage
-              src="/assets/images/Visual Storytelling/trinity-through-time-cabinet-open.jpeg"
-              alt="Open Trinity Through Time cabinet during installation and refinement"
-              class="w-full h-auto"
-              loading="lazy"
-              decoding="async"
-              width="720"
-              height="960"
-              sizes="(max-width: 1024px) 50vw, 24vw"
-            />
-          </div>
+        <div class="lg:h-full min-h-[26rem] lg:min-h-0">
+          <Carousel
+            id="visualStorytellingBehindScenesCarousel"
+            slides={behindScenesSlides}
+            intervalMs={6000}
+            className="storytelling-tall-carousel h-full"
+            client:visible
+          />
         </div>
       </div>
 
@@ -526,3 +504,36 @@ const environmentSlides = [
 
   <StickyMobileCTA client:idle />
 </BaseLayout>
+
+<style is:global>
+  .storytelling-tall-carousel {
+    max-width: none;
+    width: 100%;
+    aspect-ratio: auto;
+    min-height: 100%;
+    height: 100%;
+  }
+
+  .storytelling-tall-carousel .carousel-inner {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  .storytelling-tall-carousel .carousel-item,
+  .storytelling-tall-carousel .carousel-item.active {
+    height: 100%;
+  }
+
+  .storytelling-tall-carousel .carousel-item img,
+  .storytelling-tall-carousel .carousel-item picture,
+  .storytelling-tall-carousel .carousel-item picture > img {
+    height: 100%;
+  }
+
+  @media (max-width: 1023px) {
+    .storytelling-tall-carousel {
+      min-height: 26rem;
+    }
+  }
+</style>

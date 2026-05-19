@@ -259,8 +259,8 @@ const visualEvidenceSlides = [
 
       <section class="mb-5" aria-labelledby="seasonalHeading">
         <h2 id="seasonalHeading" class="heading-blush-bg mb-4">Seasonal Evolution Strategy</h2>
-        <div class="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] items-start">
-          <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
+          <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
             <div class="card-body">
               <p class="text-charcoal mb-3">A core strength of the proposal was its built-in longevity. Rather than freezing the cabinets as static installations, Bloom'n Events Co designed the system to support <strong>quarterly refreshes, new retailer features, and seasonal storytelling layers</strong> while retaining the same cabinet framework.</p>
               <p class="text-charcoal mb-2"><strong>This creates a living feature that can:</strong></p>
@@ -273,29 +273,27 @@ const visualEvidenceSlides = [
             </div>
           </div>
 
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-              <OptimizedImage
-                src="/assets/images/Visual Storytelling/trinity-through-time-cabinet-open.jpeg"
+          <div class="grid gap-4 sm:grid-cols-2 lg:h-full lg:auto-rows-fr">
+            <div class="overflow-hidden rounded shadow h-full min-h-[18rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+              <img
+                src="/assets/images/visual-storytelling/trinity-through-time-cabinet-open.jpeg"
                 alt="Open Trinity Through Time cabinet during installation"
-                class="w-full h-auto"
+                class="block w-full h-full object-cover object-center"
                 loading="lazy"
                 decoding="async"
                 width="900"
                 height="1200"
-                sizes="(max-width: 1024px) 50vw, 25vw"
               />
             </div>
-            <div class="overflow-hidden rounded shadow" style="border: 2px solid var(--color-gold); border-radius: 12px;">
-              <OptimizedImage
-                src="/assets/images/Visual Storytelling/trinity-photographic-finisher-bts.jpeg"
+            <div class="overflow-hidden rounded shadow h-full min-h-[18rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+              <img
+                src="/assets/images/visual-storytelling/trinity-photographic-finisher-bts.jpeg"
                 alt="Behind-the-scenes view of Trinity photographic finisher cabinet installation"
-                class="w-full h-auto"
+                class="block w-full h-full object-cover object-center"
                 loading="lazy"
                 decoding="async"
                 width="900"
                 height="1200"
-                sizes="(max-width: 1024px) 50vw, 25vw"
               />
             </div>
           </div>
