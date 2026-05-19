@@ -16,8 +16,9 @@ const navLinks = [
 
 const portfolioLinks = [
   { href: "/events", label: "Events" },
-  { href: "/workshops", label: "Workshops" },
   { href: "/displays", label: "Displays" },
+  { href: "/visual-storytelling", label: "Visual Storytelling" },
+  { href: "/workshops", label: "Workshops" },
 ];
 
 const capabilitiesLink = { href: "/capabilities", label: "Our Capabilities" };

@@ -1,9 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import fetch from 'node-fetch';
 
 const outDir = path.resolve('data');
 const outFile = path.join(outDir, 'social_feeds.json');
+
+function readExistingFeeds() {
+  if (!fs.existsSync(outFile)) return null;
+
+  try {
+    const existing = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+    return existing?.feeds ?? null;
+  } catch {
+    return null;
+  }
+}
 
 async function fetchInstagram() {
   const token = process.env.IG_ACCESS_TOKEN;
@@ -38,6 +48,13 @@ async function fetchLinkedIn() {
 
 async function main() {
   const results = await Promise.all([fetchInstagram(), fetchLinkedIn()]);
+  const existingFeeds = readExistingFeeds();
+
+  if (JSON.stringify(existingFeeds) === JSON.stringify(results)) {
+    console.log('No social feed changes');
+    return;
+  }
+
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(outFile, JSON.stringify({ updatedAt: new Date().toISOString(), feeds: results }, null, 2));
   console.log('Wrote', outFile);
@@ -45,7 +62,6 @@ async function main() {
 
 main().catch(err => {
   console.error(err);
-  process.exit(0);
+  process.exitCode = 1;
 });
-
 
