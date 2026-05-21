@@ -56,6 +56,15 @@ const caseStudies: CaseStudy[] = [
     metadata: { client: "Centuria Capital", location: "140 St Georges Terrace", type: "50th Anniversary" },
   },
   {
+    image: "/assets/images/Visual Storytelling/trinity-arcade-installation-context.jpeg",
+    imageAlt: "Trinity Arcade Crafted in Trinity heritage cabinet activation",
+    title: "A Heritage Arcade Activation Built Around Story, Craft, and Place",
+    description:
+      "See how we transformed Trinity Arcade's preserved cabinets into a narrative trail celebrating specialist retail, craftsmanship, and heritage.",
+    link: "/case-study-trinity-crafted-in-trinity",
+    metadata: { client: "Trinity Arcade", location: "Perth CBD", type: "Heritage Activation" },
+  },
+  {
     image: "/assets/images/Centuria Breast Cancer/Centuria Breast Cancer Oct25.1.jpg",
     imageAlt: "Breast Cancer Awareness Day & Spring Activation",
     title: "A Purpose-Led Installation Rooted in Care",

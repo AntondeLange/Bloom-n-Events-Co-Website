@@ -1,0 +1,539 @@
+---
+import OptimizedImage from "../components/OptimizedImage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnchorNav from "../components/islands/AnchorNav";
+import Carousel from "../components/islands/Carousel";
+import StickyMobileCTA from "../components/react/StickyMobileCTA";
+import { SITE } from "../lib/constants";
+import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
+
+const heroImage = "/assets/images/Visual Storytelling/trinity-arcade-installation-context.jpeg";
+const heroImagePreloadSrc = encodeSrc(withWidthSuffix(heroImage, DEFAULT_WIDTH));
+const heroImagePreloadSrcSet = buildSrcSet(heroImage);
+const heroOgImage = `${SITE.baseUrl}${heroImage}`;
+
+const environmentSlides = [
+  {
+    src: "/assets/images/Visual Storytelling/trinity-arcade-installation-context.jpeg",
+    alt: "Wide view of Trinity Arcade visual storytelling installations beneath the illuminated heritage ceiling",
+  },
+  {
+    src: "/assets/images/Visual Storytelling/trinity-through-time-cabinet-wide.jpeg",
+    alt: "Trinity Through Time cabinet installation presenting heritage imagery and interpretive storytelling",
+  },
+  {
+    src: "/assets/images/Visual Storytelling/trinity-through-time-cabinet-angle.jpeg",
+    alt: "Angled view of the Trinity Through Time installation with layered archival visuals",
+  },
+  {
+    src: "/assets/images/Visual Storytelling/trinity-watchmaker-installation-wide.jpeg",
+    alt: "Watchmaker installation in Trinity Arcade with clocks, artefacts, and narrative graphics",
+  },
+  {
+    src: "/assets/images/Visual Storytelling/trinity-photographic-finisher-cabinet-wide.jpeg",
+    alt: "Photographic Finisher installation featuring vintage cameras and framed portraiture",
+  },
+  {
+    src: "/assets/images/Visual Storytelling/trinity-tailor-cabinet-wide.jpeg",
+    alt: "Tailor installation in Trinity Arcade with dress form, textiles, and sewing artefacts",
+  },
+];
+
+const behindScenesSlides = [
+  {
+    src: "/assets/images/visual-storytelling/trinity-photographic-finisher-bts.jpeg",
+    alt: "Behind-the-scenes installation work inside Trinity Arcade display cabinet",
+  },
+  {
+    src: "/assets/images/visual-storytelling/trinity-tailor-installation-side.jpeg",
+    alt: "Side view of tailor installation being worked on in Trinity Arcade",
+  },
+  {
+    src: "/assets/images/visual-storytelling/trinity-through-time-cabinet-open.jpeg",
+    alt: "Open Trinity Through Time cabinet during installation and refinement",
+  },
+];
+---
+
+<BaseLayout
+  title="Visual Storytelling Perth & WA | Bloom'n Events Co"
+  description="Visual storytelling transforms commercial environments into narrative environments. Explore how Bloom'n Events Co uses heritage, craft, and spatial storytelling to create emotionally resonant places across Perth and Western Australia."
+  path="/visual-storytelling"
+  ogImage={heroOgImage}
+  lcpImageSrc={heroImagePreloadSrc}
+  lcpImageSrcSet={heroImagePreloadSrcSet}
+  lcpImageSizes="100vw"
+>
+  <p class="visually-hidden">Visual storytelling for commercial environments in Perth and Western Australia</p>
+
+  <section class="hero-section" aria-label="Hero">
+    <div class="hero-background">
+      <OptimizedImage
+        src={heroImage}
+        alt="Trinity Arcade storytelling installations in context"
+        class="hero-image"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        width="1600"
+        height="900"
+        sizes="100vw"
+      />
+    </div>
+    <div class="hero-overlay" aria-hidden="true" />
+    <div class="hero-content">
+      <div class="w-full max-w-4xl px-4 text-center md:px-6">
+        <h1 class="hero-headline">Visual Storytelling</h1>
+        <p class="hero-subhead">
+          Narrative environments that shape attention, emotion, memory, and commercial value.
+        </p>
+        <p class="hero-subhead">
+          From Trinity Arcade to One Forty St Georges, Bloom'n Events Co uses spatial storytelling to turn commercial space into meaning people can feel.
+        </p>
+        <div class="hero-cta">
+          <a href="/contact" class="btn-gold">Start the Conversation</a>
+          <a href="#projectsHeading" class="btn-outline-gold">See the Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <AnchorNav
+    links={[
+      { href: "#whyItMattersHeading", label: "Why It Matters" },
+      { href: "#differenceHeading", label: "The Difference" },
+      { href: "#projectsHeading", label: "Projects" },
+      { href: "#impactHeading", label: "Commercial Impact" },
+      { href: "#behindScenesHeading", label: "Behind the Scenes" },
+    ]}
+    client:idle
+  />
+
+  <section class="section-main" aria-labelledby="whyItMattersHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="whyItMattersHeading" class="heading-blush-bg text-center">Why It Matters</h2>
+      <div class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch mb-5">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="lead text-charcoal mb-3">
+              Visual storytelling is no longer a creative extra layered on top of a business environment. It has become a <strong>strategic commercial tool</strong> that influences attention, emotional engagement, memory, brand perception, dwell time, and ultimately commercial value.
+            </p>
+            <p class="text-charcoal mb-3">
+              In a marketplace saturated with advertising, algorithmic feeds, and transactional messaging, businesses are competing not only for customers, but for <strong>emotional relevance</strong>. The environments that stand out are rarely the loudest. They are the ones that create meaning.
+            </p>
+            <p class="text-charcoal mb-0">
+              Across marketing, retail design, and cognitive psychology, the pattern is consistent: narrative-led environments create stronger engagement, clearer recall, and a more durable sense of value than information-only communication.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid gap-2 grid-cols-2 lg:h-full">
+          <div class="overflow-hidden rounded shadow h-full min-h-[16rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/one-forty-timeline-panel-1980s.jpg"
+              alt="One Forty St Georges timeline storytelling panel focused on the 1980s"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="700"
+              height="1050"
+            />
+          </div>
+          <div class="overflow-hidden rounded shadow h-full min-h-[16rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-through-time-cabinet-detail.jpeg"
+              alt="Trinity Through Time cabinet detail with archival imagery and printed narrative"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="700"
+              height="1050"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Attention</h3>
+            <p class="text-charcoal mb-0">Storytelling environments slow people down and give the eye a reason to stay.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Emotion</h3>
+            <p class="text-charcoal mb-0">People respond more strongly when space communicates identity, memory, and meaning.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Memory</h3>
+            <p class="text-charcoal mb-0">Emotionally encoded experiences are remembered far better than isolated information.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Value</h3>
+            <p class="text-charcoal mb-0">When place feels meaningful, audiences perceive higher quality, care, and authenticity.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-secondary" aria-labelledby="differenceHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="differenceHeading" class="heading-blush-bg text-center">The Difference</h2>
+      <div class="grid gap-4 md:grid-cols-2 mb-4">
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Visual Merchandising</h3>
+            <p class="text-charcoal mb-3">
+              Visual merchandising traditionally focuses on presentation. Its role is functional and commercial: display products attractively, guide movement, increase visibility, and encourage purchase behaviour.
+            </p>
+            <p class="text-charcoal mb-0">
+              It is fundamentally transactional. The product remains the centre of gravity.
+            </p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Visual Storytelling</h3>
+            <p class="text-charcoal mb-3">
+              Visual storytelling asks a different question: <strong>what experience, emotion, memory, identity, or narrative are we creating around this environment?</strong>
+            </p>
+            <p class="text-charcoal mb-0">
+              That shift turns space into a communication system. The result is not simply a better display, but an entirely different category of spatial meaning.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="card shadow" style="background-color: var(--color-charcoal); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body text-center">
+          <p class="mb-3 text-gold" style="font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase;">What Changes</p>
+          <p class="mb-3 text-white" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;">
+            A conventional display says: “Here is the product.”
+          </p>
+          <p class="mb-0 text-white" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;">
+            A storytelling environment says: “Here is why this place matters.”
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-main" aria-labelledby="projectsHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="projectsHeading" class="heading-blush-bg text-center">Projects In Practice</h2>
+
+      <div class="card shadow mb-5" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body">
+          <p class="text-charcoal mb-3">
+            The installations created for <strong>Trinity Arcade</strong> and <strong>One Forty St Georges</strong> were not designed merely to decorate space. They were designed to transform commercial environments into <strong>narrative environments</strong> where history, identity, craftsmanship, architecture, heritage, and human stories become physically visible.
+          </p>
+          <p class="text-charcoal mb-0">
+            In both projects, the environment becomes interpretive rather than decorative. A clock in isolation is merchandise. A clock positioned within a narrative about craftsmanship, repair culture, heritage trades, and the evolution of Trinity Arcade becomes cultural storytelling.
+          </p>
+        </div>
+      </div>
+
+      <section class="mb-5" aria-labelledby="environmentHeading">
+        <h3 id="environmentHeading" class="text-gold text-center mb-4" style="font-size: 2rem;">Narrative Environments</h3>
+        <div style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px; overflow: hidden;">
+          <Carousel id="visualStorytellingCarousel" slides={environmentSlides} virtualizeThreshold={8} renderWindow={5} client:visible />
+        </div>
+      </section>
+
+      <div class="grid gap-4 lg:grid-cols-[1fr_1fr] lg:items-stretch mb-5">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Trinity Arcade: immersive micro-environments</h3>
+            <p class="text-charcoal mb-3">
+              At Trinity Arcade, each cabinet acts almost like a museum vignette. The displays do not simply showcase watches, tailoring tools, cameras, fabrics, or archival photographs. They place those objects inside a story about <strong>identity, craftsmanship, time, and place</strong>.
+            </p>
+            <p class="text-charcoal mb-2"><strong>The cabinets create narrative continuity between:</strong></p>
+            <ul class="text-charcoal mb-3 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>historical trades</li>
+              <li>contemporary tenants</li>
+              <li>architectural heritage</li>
+              <li>artisan skill</li>
+              <li>lived memory of the arcade itself</li>
+            </ul>
+            <p class="text-charcoal mb-0">
+              The visual language is deliberate: consistent colour systems, archival photography, framed narratives, curated objects, layered typography, heritage references, focused lighting, and tactile arrangements all work together as a unified storytelling system.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid gap-2 sm:grid-cols-2 lg:h-full lg:auto-rows-fr">
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-watchmaker-cabinet-detail.jpeg"
+              alt="Close detail of The Watchmaker cabinet in Trinity Arcade"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="720"
+              height="960"
+            />
+          </div>
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-through-time-cabinet-detail.jpeg"
+              alt="Close detail of Trinity Through Time cabinet with archival imagery and printed narrative"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="720"
+              height="960"
+            />
+          </div>
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-tailor-central-detail.jpeg"
+              alt="Tailor cabinet centrepiece with mannequin, suit, and draped fabric"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="720"
+              height="960"
+            />
+          </div>
+          <div class="overflow-hidden rounded shadow h-full min-h-[15rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/trinity-tailor-detail-right.jpeg"
+              alt="Tailor cabinet detail with sewing machine, garment work, and textile references"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="720"
+              height="960"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch mb-5">
+        <div class="grid gap-2 sm:grid-cols-2 lg:h-full">
+          <div class="overflow-hidden rounded shadow h-full min-h-[18rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/one-forty-timeline-panel-1980s.jpg"
+              alt="One Forty St Georges narrative timeline panel for the 1980s"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="720"
+              height="1080"
+            />
+          </div>
+          <div class="overflow-hidden rounded shadow h-full min-h-[18rem] lg:min-h-0" style="border: 2px solid var(--color-gold); border-radius: 12px;">
+            <img
+              src="/assets/images/visual-storytelling/one-forty-timeline-panel-1990s.jpg"
+              alt="One Forty St Georges narrative timeline panel for the 1990s"
+              class="block w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+              width="720"
+              height="1080"
+            />
+          </div>
+        </div>
+
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">One Forty St Georges: storytelling at architectural scale</h3>
+            <p class="text-charcoal mb-3">
+              At One Forty St Georges, storytelling shifts from cabinet-scale immersion to <strong>architectural communication</strong>. Timeline panels and large-format environmental graphics turn a commercial office lobby into a spatial narrative about legacy, evolution, and institutional continuity.
+            </p>
+            <p class="text-charcoal mb-3">
+              That matters because modern office buildings, retail precincts, hospitality venues, and mixed-use developments increasingly compete on <strong>atmosphere, cultural identity, and experiential value</strong>, not purely physical function.
+            </p>
+            <p class="text-charcoal mb-0">
+              In many sectors, the environment itself has become part of the product. Storytelling installations help people understand not only what the place is, but why it belongs in memory.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body">
+          <h3 class="text-gold mb-3">Authenticity is the multiplier</h3>
+          <p class="text-charcoal mb-3">
+            One of the most commercially powerful aspects of visual storytelling is that it creates <strong>perceived authenticity</strong>. The Trinity Arcade installations are grounded in real businesses, real trades, real heritage, and real craftsmanship.
+          </p>
+          <p class="text-charcoal mb-0">
+            Tailoring tools, sewing machines, watches, fabrics, cameras, and archival imagery are not abstract branding exercises. They are tangible cultural signals tied directly to the identity of the precinct, which is exactly why the environment feels credible rather than manufactured.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-secondary" aria-labelledby="impactHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="impactHeading" class="heading-blush-bg text-center">Commercial Impact</h2>
+      <div class="card shadow mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body">
+          <p class="text-charcoal mb-3">
+            Storytelling environments work because they engage emotional and cognitive attention at the same time. In an era of attention scarcity, transactional messaging alone rarely creates durable memory. Spatial storytelling gives audiences something to interpret, not just consume.
+          </p>
+          <p class="text-charcoal mb-2"><strong>That can translate into outcomes such as:</strong></p>
+          <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+            <li>increased dwell time</li>
+            <li>stronger memory retention</li>
+            <li>reinforced brand identity</li>
+            <li>emotional attachment to place</li>
+            <li>improved visitor engagement</li>
+            <li>differentiation in otherwise generic environments</li>
+            <li>higher prestige signalling</li>
+            <li>greater shareability and memorability</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-3">
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Memory</h3>
+            <p class="text-charcoal mb-0">Stories make facts easier to keep. When space becomes narrative, visitors retain more of what the environment is trying to say.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Perceived Quality</h3>
+            <p class="text-charcoal mb-0">A well-resolved storytelling environment suggests care, depth, and intention, all of which raise how people perceive quality and trust.</p>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <h3 class="text-gold mb-3">Placemaking</h3>
+            <p class="text-charcoal mb-0">The strongest environments humanise commercial and institutional settings by giving people a reason to emotionally locate themselves inside the place.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-main" aria-labelledby="behindScenesHeading">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="behindScenesHeading" class="heading-blush-bg text-center">Behind the Scenes</h2>
+      <div class="grid gap-4 lg:grid-cols-[1fr_1fr] lg:items-stretch mb-5">
+        <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body">
+            <p class="text-charcoal mb-3">
+              Visual storytelling requires substantially more strategic thinking than traditional visual merchandising. It asks not only how presentation can be optimised, but what <strong>narrative architecture</strong> is being constructed across space, emotion, memory, and identity.
+            </p>
+            <p class="text-charcoal mb-2"><strong>That means integrating:</strong></p>
+            <ul class="text-charcoal mb-3 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>research</li>
+              <li>narrative development</li>
+              <li>environmental psychology</li>
+              <li>graphic systems</li>
+              <li>spatial planning</li>
+              <li>lighting</li>
+              <li>fabrication</li>
+              <li>behavioural design</li>
+              <li>operational execution</li>
+            </ul>
+            <p class="text-charcoal mb-0">
+              These projects were not static decorative exercises. They involved coordination, fabrication, environmental integration, assembly, refinement, and spatial problem solving because storytelling environments are <strong>experiential systems</strong>, not isolated graphics.
+            </p>
+          </div>
+        </div>
+
+        <div class="lg:h-full min-h-[26rem] lg:min-h-0">
+          <Carousel
+            id="visualStorytellingBehindScenesCarousel"
+            slides={behindScenesSlides}
+            intervalMs={6000}
+            className="storytelling-tall-carousel h-full"
+            client:visible
+          />
+        </div>
+      </div>
+
+      <div class="card shadow mb-5" style="background-color: var(--color-charcoal); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body text-center">
+          <p class="text-gold mb-3" style="font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase;">Why It Matters</p>
+          <p class="text-white mb-0" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;">
+            The future of commercial environments belongs to organisations that create emotionally resonant spaces, not merely functional ones.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-3 mb-5">
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Custom Displays</h3>
+            <p class="text-charcoal">Bespoke installations crafted to shape atmosphere, memory, and interaction.</p>
+            <a href="/displays" class="btn-gold btn-sm mt-3 inline-block">Explore Displays</a>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Corporate Events</h3>
+            <p class="text-charcoal">Experiences that bring people together with care, clarity, and presence.</p>
+            <a href="/events" class="btn-gold btn-sm mt-3 inline-block">Explore Events</a>
+          </div>
+        </article>
+        <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+          <div class="card-body text-center">
+            <h3 class="text-gold mb-3">Creative Workshops</h3>
+            <p class="text-charcoal">Hands-on activations that invite participation, learning, and connection.</p>
+            <a href="/workshops" class="btn-gold btn-sm mt-3 inline-block">Explore Workshops</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
+        <div class="card-body text-center">
+          <h3 class="text-gold mb-3">Meaning is a commercial asset</h3>
+          <p class="text-charcoal mb-3">
+            The Trinity Arcade and One Forty St Georges projects demonstrate what happens when storytelling is treated not as decoration, but as infrastructure for emotional engagement, identity formation, and spatial meaning.
+          </p>
+          <p class="text-charcoal mb-4">
+            In an increasingly commoditised commercial world, meaning may be one of the most valuable assets a business can create.
+          </p>
+          <a href="/contact" class="btn-gold">Start the Conversation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StickyMobileCTA client:idle />
+</BaseLayout>
+
+<style is:global>
+  .storytelling-tall-carousel {
+    max-width: none;
+    width: 100%;
+    aspect-ratio: auto;
+    min-height: 100%;
+    height: 100%;
+  }
+
+  .storytelling-tall-carousel .carousel-inner {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  .storytelling-tall-carousel .carousel-item,
+  .storytelling-tall-carousel .carousel-item.active {
+    height: 100%;
+  }
+
+  .storytelling-tall-carousel .carousel-item img,
+  .storytelling-tall-carousel .carousel-item picture,
+  .storytelling-tall-carousel .carousel-item picture > img {
+    height: 100%;
+  }
+
+  @media (max-width: 1023px) {
+    .storytelling-tall-carousel {
+      min-height: 26rem;
+    }
+  }
+</style>
