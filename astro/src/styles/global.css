@@ -6034,3 +6034,197 @@ html.loader-skip .site-loader {
     transform: translateY(0);
   }
 }
+
+/* Canonical shared navbar.
+   This sits after the legacy navbar rules so it can opt the live navbar out of
+   the old .navbar cascade and keep one predictable layout across every page. */
+#main-navbar.site-navbar {
+  position: fixed !important;
+  top: env(safe-area-inset-top, 0) !important;
+  bottom: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: var(--navbar-total-height, 74px) !important;
+  background: rgba(30, 30, 30, 0.96) !important;
+  color: var(--color-gold) !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+  border-top: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  translate: none !important;
+  box-shadow: 0 14px 32px rgba(30, 30, 30, 0.28) !important;
+  backdrop-filter: blur(16px) !important;
+  isolation: isolate !important;
+}
+
+body.home #main-navbar.site-navbar.site-navbar--bottom {
+  top: auto !important;
+  bottom: env(safe-area-inset-bottom, 0) !important;
+  border-top: 2px solid var(--color-gold) !important;
+  border-bottom: none !important;
+}
+
+body.home #main-navbar.site-navbar.site-navbar--top {
+  top: env(safe-area-inset-top, 0) !important;
+  bottom: auto !important;
+  border-top: none !important;
+  border-bottom: 2px solid var(--color-gold) !important;
+}
+
+#main-navbar.site-navbar .site-navbar__inner {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  max-width: 1280px !important;
+  min-height: var(--navbar-height, 72px) !important;
+  margin: 0 auto !important;
+  padding: 0.75rem 1rem !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+#main-navbar.site-navbar .site-navbar__mobile {
+  display: flex !important;
+  grid-column: 1 !important;
+  justify-self: start !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+#main-navbar.site-navbar .site-navbar__brand {
+  display: flex !important;
+  grid-column: 2 !important;
+  justify-self: center !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+#main-navbar.site-navbar .site-navbar__brand picture,
+#main-navbar.site-navbar .site-navbar__brand img {
+  display: block !important;
+}
+
+#main-navbar.site-navbar .site-navbar__brand img {
+  width: auto !important;
+  height: 3rem !important;
+  max-width: min(200px, 50vw) !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+#main-navbar.site-navbar .site-navbar__contact {
+  display: flex !important;
+  grid-column: 3 !important;
+  justify-self: end !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+#main-navbar.site-navbar .site-navbar__contact .btn-gold {
+  white-space: nowrap !important;
+}
+
+#main-navbar.site-navbar .site-navbar__desktop {
+  display: none !important;
+}
+
+#main-navbar.site-navbar .site-navbar__desktop ul {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#main-navbar.site-navbar a:not(.btn-gold):not(.btn-outline-gold),
+#main-navbar.site-navbar button:not(.btn-gold):not(.btn-outline-gold) {
+  color: var(--color-gold) !important;
+}
+
+#main-navbar.site-navbar .site-navbar__contact .btn-gold {
+  background-color: var(--color-gold) !important;
+  border-color: var(--color-gold) !important;
+  color: var(--color-charcoal) !important;
+}
+
+#main-navbar.site-navbar .site-navbar__contact .btn-gold:hover,
+#main-navbar.site-navbar .site-navbar__contact .btn-gold:active,
+#main-navbar.site-navbar .site-navbar__contact .btn-gold:focus-visible {
+  background-color: var(--color-charcoal) !important;
+  border-color: var(--color-gold) !important;
+  color: var(--color-gold) !important;
+}
+
+#main-navbar.site-navbar .mobile-menu-panel {
+  top: calc(100% + 0.25rem) !important;
+  bottom: auto !important;
+  left: 0 !important;
+  min-width: 220px !important;
+  z-index: 1100 !important;
+  background: rgba(30, 30, 30, 0.98) !important;
+  border: 1px solid rgba(191, 155, 48, 0.4) !important;
+  box-shadow: 0 18px 36px rgba(30, 30, 30, 0.38) !important;
+}
+
+#main-navbar.site-navbar[data-nav-pos="bottom"] .mobile-menu-panel {
+  top: auto !important;
+  bottom: calc(100% + 0.25rem) !important;
+}
+
+@media (min-width: 1024px) {
+  #main-navbar.site-navbar .site-navbar__inner {
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    padding: 0.75rem 1.5rem !important;
+  }
+
+  #main-navbar.site-navbar .site-navbar__mobile {
+    display: none !important;
+  }
+
+  #main-navbar.site-navbar .site-navbar__desktop {
+    display: flex !important;
+    grid-column: 1 !important;
+    justify-self: start !important;
+    align-items: center !important;
+    min-width: 0 !important;
+  }
+
+  #main-navbar.site-navbar .site-navbar__brand {
+    grid-column: 2 !important;
+  }
+
+  #main-navbar.site-navbar .site-navbar__contact {
+    grid-column: 3 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #main-navbar.site-navbar .site-navbar__inner {
+    gap: 0.5rem !important;
+    padding: 0.625rem 0.875rem !important;
+  }
+
+  #main-navbar.site-navbar .site-navbar__brand img {
+    height: 2.5rem !important;
+    max-width: min(180px, 42vw) !important;
+  }
+
+  #main-navbar.site-navbar .site-navbar__contact .btn-gold {
+    padding-inline: 0.875rem !important;
+    font-size: 0.8125rem !important;
+  }
+}

@@ -17,7 +17,7 @@ const navLinks = [
 const portfolioLinks = [
   { href: "/events", label: "Events" },
   { href: "/displays", label: "Displays" },
-  { href: "/visual-storytelling", label: "Visual Storytelling" },
+  { href: "/visual-storytelling", label: "Placemaking" },
   { href: "/workshops", label: "Workshops" },
 ];
 
@@ -115,15 +115,10 @@ export default function Navbar({ currentPath }: Props) {
     };
   }, [portfolioOpen]);
 
-  // Simplify positioning logic: always fixed, just toggle top/bottom classes
-  const navPositionClass = isHome && navPosition === "bottom"
-    ? "absolute bottom-0 top-auto left-0 right-0 z-40"
-    : "fixed top-[env(safe-area-inset-top,0px)] bottom-auto left-0 right-0 z-50 lg:z-[1030]";
-
   const navClassName = [
-    "navbar w-full bg-charcoal inset-x-0 transition-[background-color,box-shadow,transform] duration-300 border-gold",
-    navPositionClass,
-    isHome ? "navbar-home" : "navbar-top",
+    "site-navbar",
+    isHome ? "site-navbar--home" : "site-navbar--inner",
+    navPosition === "bottom" ? "site-navbar--bottom" : "site-navbar--top",
   ].join(" ");
 
   const handleMobileMenuToggle = (event: SyntheticEvent<HTMLDetailsElement>) => {
@@ -164,10 +159,10 @@ export default function Navbar({ currentPath }: Props) {
       data-nav-pos={navPosition}
       data-page={isHome ? "home" : "inner"}
     >
-      <div className="relative mx-auto flex min-h-[var(--nav-height,72px)] max-w-7xl flex-wrap items-center justify-between gap-4 px-4 md:px-6 navbar-inner">
+      <div className="site-navbar__inner">
         <details
           ref={mobileMenuRef}
-          className="group/menu relative order-1 flex self-center lg:hidden"
+          className="site-navbar__mobile group/menu relative order-1 flex self-center lg:hidden"
           onToggle={handleMobileMenuToggle}
         >
           <summary
@@ -255,7 +250,7 @@ export default function Navbar({ currentPath }: Props) {
           </div>
         </details>
 
-        <div className="order-2 hidden flex-1 basis-0 flex-wrap items-center gap-1 lg:order-1 lg:flex lg:basis-auto lg:flex-1">
+        <div className="site-navbar__desktop order-2 hidden flex-1 basis-0 flex-wrap items-center gap-1 lg:order-1 lg:flex lg:basis-auto lg:flex-1">
           <ul className="flex flex-wrap items-center gap-1">
             {visibleNavLinks.map(({ href, label }) => (
               <li key={`nav-link-${href}`}>
@@ -340,7 +335,7 @@ export default function Navbar({ currentPath }: Props) {
 
         <a
           href="/"
-          className="order-2 flex shrink-0 items-center justify-center flex-1 self-center lg:order-2 lg:flex-none"
+          className="site-navbar__brand order-2 flex shrink-0 items-center justify-center flex-1 self-center lg:order-2 lg:flex-none"
           aria-label={`${SITE.name} home`}
         >
           <OptimizedImage
@@ -356,7 +351,7 @@ export default function Navbar({ currentPath }: Props) {
           />
         </a>
 
-        <div className="navbar-contact order-3 flex shrink-0 items-center self-center">
+        <div className="site-navbar__contact navbar-contact order-3 flex shrink-0 items-center self-center">
           <a
             href="/contact"
             className="btn-gold"

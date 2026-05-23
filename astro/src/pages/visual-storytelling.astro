@@ -3,6 +3,7 @@ import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AnchorNav from "../components/islands/AnchorNav";
 import Carousel from "../components/islands/Carousel";
+import SuccessStoriesCarousel from "../components/react/SuccessStoriesCarousel";
 import StickyMobileCTA from "../components/react/StickyMobileCTA";
 import { SITE } from "../lib/constants";
 import { buildSrcSet, encodeSrc, withWidthSuffix, DEFAULT_WIDTH } from "../lib/image-utils";
@@ -56,15 +57,15 @@ const behindScenesSlides = [
 ---
 
 <BaseLayout
-  title="Visual Storytelling Perth & WA | Bloom'n Events Co"
-  description="Visual storytelling transforms commercial environments into narrative environments. Explore how Bloom'n Events Co uses heritage, craft, and spatial storytelling to create emotionally resonant places across Perth and Western Australia."
+  title="Experiential Placemaking Perth & WA | Bloom'n Events Co"
+  description="Experiential placemaking transforms commercial environments into emotionally meaningful destinations. Explore how Bloom'n Events Co uses heritage, craft, and spatial design to shape how people experience and remember place across Perth and Western Australia."
   path="/visual-storytelling"
   ogImage={heroOgImage}
   lcpImageSrc={heroImagePreloadSrc}
   lcpImageSrcSet={heroImagePreloadSrcSet}
   lcpImageSizes="100vw"
 >
-  <p class="visually-hidden">Visual storytelling for commercial environments in Perth and Western Australia</p>
+  <p class="visually-hidden">Experiential placemaking for commercial environments in Perth and Western Australia</p>
 
   <section class="hero-section" aria-label="Hero">
     <div class="hero-background">
@@ -83,12 +84,12 @@ const behindScenesSlides = [
     <div class="hero-overlay" aria-hidden="true" />
     <div class="hero-content">
       <div class="w-full max-w-4xl px-4 text-center md:px-6">
-        <h1 class="hero-headline">Visual Storytelling</h1>
+        <h1 class="hero-headline">Placemaking</h1>
         <p class="hero-subhead">
-          Narrative environments that shape attention, emotion, memory, and commercial value.
+          Experiential environments that shape how people experience, remember, and emotionally connect with a place.
         </p>
         <p class="hero-subhead">
-          From Trinity Arcade to One Forty St Georges, Bloom'n Events Co uses spatial storytelling to turn commercial space into meaning people can feel.
+          From retail to commercial, Bloom'n Events Co transforms overlooked environments into destinations with identity, atmosphere, and meaning.
         </p>
         <div class="hero-cta">
           <a href="/contact" class="btn-gold">Start the Conversation</a>
@@ -115,15 +116,15 @@ const behindScenesSlides = [
       <div class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch mb-5">
         <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
-            <p class="lead text-charcoal mb-3">
-              Visual storytelling is no longer a creative extra layered on top of a business environment. It has become a <strong>strategic commercial tool</strong> that influences attention, emotional engagement, memory, brand perception, dwell time, and ultimately commercial value.
-            </p>
-            <p class="text-charcoal mb-3">
-              In a marketplace saturated with advertising, algorithmic feeds, and transactional messaging, businesses are competing not only for customers, but for <strong>emotional relevance</strong>. The environments that stand out are rarely the loudest. They are the ones that create meaning.
-            </p>
-            <p class="text-charcoal mb-0">
-              Across marketing, retail design, and cognitive psychology, the pattern is consistent: narrative-led environments create stronger engagement, clearer recall, and a more durable sense of value than information-only communication.
-            </p>
+          <p class="lead text-charcoal mb-3">
+              Experiential placemaking is no longer a creative extra layered onto commercial environments. It has become a <strong>strategic tool</strong> for shaping how people experience, remember, and emotionally connect with a place.
+          </p>
+          <p class="text-charcoal mb-3">
+              In a world saturated with advertising, digital noise, and transactional messaging, businesses, landlords, hospitality venues, and public environments are increasingly competing on something far less tangible: <strong>meaning</strong>.
+          </p>
+          <p class="text-charcoal mb-0">
+              The environments that leave lasting impressions are rarely the ones displaying the most information. They are the ones that create atmosphere, emotional resonance, cultural identity, and human connection.
+          </p>
           </div>
         </div>
 
@@ -157,7 +158,7 @@ const behindScenesSlides = [
         <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body text-center">
             <h3 class="text-gold mb-3">Attention</h3>
-            <p class="text-charcoal mb-0">Storytelling environments slow people down and give the eye a reason to stay.</p>
+            <p class="text-charcoal mb-0">Placemaking environments slow people down and give the eye a reason to stay.</p>
           </div>
         </article>
         <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
@@ -190,21 +191,21 @@ const behindScenesSlides = [
           <div class="card-body">
             <h3 class="text-gold mb-3">Visual Merchandising</h3>
             <p class="text-charcoal mb-3">
-              Visual merchandising traditionally focuses on presentation. Its role is functional and commercial: display products attractively, guide movement, increase visibility, and encourage purchase behaviour.
+              Visual merchandising is primarily transactional. Its purpose is to present products attractively, guide customer attention, improve visibility, and encourage purchasing behaviour.
             </p>
             <p class="text-charcoal mb-0">
-              It is fundamentally transactional. The product remains the centre of gravity.
+              The product remains the centre of the experience.
             </p>
           </div>
         </article>
         <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
-            <h3 class="text-gold mb-3">Visual Storytelling</h3>
+            <h3 class="text-gold mb-3">Experiential Placemaking</h3>
             <p class="text-charcoal mb-3">
-              Visual storytelling asks a different question: <strong>what experience, emotion, memory, identity, or narrative are we creating around this environment?</strong>
+              Rather than asking, <strong>“How do we display this product?”</strong> experiential placemaking asks, <strong>“How do we shape the emotional and cultural experience of this environment?”</strong>
             </p>
             <p class="text-charcoal mb-0">
-              That shift turns space into a communication system. The result is not simply a better display, but an entirely different category of spatial meaning.
+              That distinction changes both the intent and impact of the space itself.
             </p>
           </div>
         </article>
@@ -214,10 +215,10 @@ const behindScenesSlides = [
         <div class="card-body text-center">
           <p class="mb-3 text-gold" style="font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase;">What Changes</p>
           <p class="mb-3 text-white" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;">
-            A conventional display says: “Here is the product.”
+            Not simply decorating space.
           </p>
           <p class="mb-0 text-white" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;">
-            A storytelling environment says: “Here is why this place matters.”
+            But shaping how people experience it.
           </p>
         </div>
       </div>
@@ -231,10 +232,10 @@ const behindScenesSlides = [
       <div class="card shadow mb-5" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
         <div class="card-body">
           <p class="text-charcoal mb-3">
-            The installations created for <strong>Trinity Arcade</strong> and <strong>One Forty St Georges</strong> were not designed merely to decorate space. They were designed to transform commercial environments into <strong>narrative environments</strong> where history, identity, craftsmanship, architecture, heritage, and human stories become physically visible.
+            The <strong>Trinity Arcade</strong> and <strong>One Forty St Georges</strong> installations were not designed as decorative displays. They were created as <strong>immersive placemaking environments</strong> that reconnect people with heritage, craftsmanship, architecture, identity, and memory.
           </p>
           <p class="text-charcoal mb-0">
-            In both projects, the environment becomes interpretive rather than decorative. A clock in isolation is merchandise. A clock positioned within a narrative about craftsmanship, repair culture, heritage trades, and the evolution of Trinity Arcade becomes cultural storytelling.
+            The objective was not simply visual enhancement. It was <strong>environmental transformation</strong> through layered archival imagery, historical interpretation, curated artefacts, typography systems, material textures, architectural integration, and immersive spatial composition.
           </p>
         </div>
       </div>
@@ -248,22 +249,34 @@ const behindScenesSlides = [
 
       <div class="grid gap-4 lg:grid-cols-[1fr_1fr] lg:items-stretch mb-5">
         <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
-          <div class="card-body">
+          <div class="card-body placemaking-project-copy">
             <h3 class="text-gold mb-3">Trinity Arcade: immersive micro-environments</h3>
-            <p class="text-charcoal mb-3">
-              At Trinity Arcade, each cabinet acts almost like a museum vignette. The displays do not simply showcase watches, tailoring tools, cameras, fabrics, or archival photographs. They place those objects inside a story about <strong>identity, craftsmanship, time, and place</strong>.
-            </p>
-            <p class="text-charcoal mb-2"><strong>The cabinets create narrative continuity between:</strong></p>
-            <ul class="text-charcoal mb-3 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
-              <li>historical trades</li>
-              <li>contemporary tenants</li>
-              <li>architectural heritage</li>
-              <li>artisan skill</li>
-              <li>lived memory of the arcade itself</li>
-            </ul>
-            <p class="text-charcoal mb-0">
-              The visual language is deliberate: consistent colour systems, archival photography, framed narratives, curated objects, layered typography, heritage references, focused lighting, and tactile arrangements all work together as a unified storytelling system.
-            </p>
+            <div class="placemaking-project-copy__block">
+              <p class="text-charcoal mb-3">
+                At Trinity Arcade, the displays do more than present watches, tailoring equipment, cameras, fabrics, or archival photographs. Each cabinet acts like a <strong>micro-environment</strong>, reframing these objects within the wider story of craftsmanship, specialist retail culture, generational skill, and the evolving identity of the arcade itself.
+              </p>
+              <p class="text-charcoal mb-0">
+                Instead of isolated merchandise moments, visitors encounter a place that feels interpreted, curated, and culturally alive.
+              </p>
+            </div>
+            <div class="placemaking-project-copy__block">
+              <p class="text-charcoal mb-2"><strong>The cabinets create narrative continuity between:</strong></p>
+              <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+                <li>historical trades</li>
+                <li>contemporary tenants</li>
+                <li>architectural heritage</li>
+                <li>artisan skill</li>
+                <li>lived memory of the arcade itself</li>
+              </ul>
+            </div>
+            <div class="placemaking-project-copy__block">
+              <p class="text-charcoal mb-3">
+                A sewing machine becomes more than an object. A watch becomes more than merchandise. A historic photograph becomes more than decoration. Each element is repositioned as evidence of the people, skills, and stories that shaped the precinct.
+              </p>
+              <p class="text-charcoal mb-0">
+                Together, the cabinets reconnect visitors with the cultural identity of the arcade, turning circulation space into a destination with memory, atmosphere, and emotional gravity.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -343,15 +356,15 @@ const behindScenesSlides = [
 
         <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
-            <h3 class="text-gold mb-3">One Forty St Georges: storytelling at architectural scale</h3>
+            <h3 class="text-gold mb-3">One Forty St Georges: placemaking at architectural scale</h3>
             <p class="text-charcoal mb-3">
-              At One Forty St Georges, storytelling shifts from cabinet-scale immersion to <strong>architectural communication</strong>. Timeline panels and large-format environmental graphics turn a commercial office lobby into a spatial narrative about legacy, evolution, and institutional continuity.
+              The installations at One Forty St Georges demonstrate the same principle at an <strong>architectural scale</strong>. The lobby timeline displays and tower-scale pillar installations do not function as signage or decoration.
             </p>
             <p class="text-charcoal mb-3">
-              That matters because modern office buildings, retail precincts, hospitality venues, and mixed-use developments increasingly compete on <strong>atmosphere, cultural identity, and experiential value</strong>, not purely physical function.
+              They reshape the atmosphere of the environment itself, transforming circulation zones into interpretive experiences and reinforcing a sense of continuity, permanence, and institutional identity within the building.
             </p>
             <p class="text-charcoal mb-0">
-              In many sectors, the environment itself has become part of the product. Storytelling installations help people understand not only what the place is, but why it belongs in memory.
+              This reflects a broader shift across commercial property, retail, hospitality, and public environments, where spaces increasingly compete not only on functionality, but on experience.
             </p>
           </div>
         </div>
@@ -359,12 +372,12 @@ const behindScenesSlides = [
 
       <div class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
         <div class="card-body">
-          <h3 class="text-gold mb-3">Authenticity is the multiplier</h3>
+          <h3 class="text-gold mb-3">The environment becomes part of the product</h3>
           <p class="text-charcoal mb-3">
-            One of the most commercially powerful aspects of visual storytelling is that it creates <strong>perceived authenticity</strong>. The Trinity Arcade installations are grounded in real businesses, real trades, real heritage, and real craftsmanship.
+            Modern audiences are drawn toward environments that feel <strong>authentic, immersive, culturally grounded, and emotionally engaging</strong>. This is why experiential placemaking is becoming increasingly important across luxury retail, hospitality, mixed-use developments, heritage precincts, corporate environments, destination venues, and cultural institutions.
           </p>
           <p class="text-charcoal mb-0">
-            Tailoring tools, sewing machines, watches, fabrics, cameras, and archival imagery are not abstract branding exercises. They are tangible cultural signals tied directly to the identity of the precinct, which is exactly why the environment feels credible rather than manufactured.
+            Generic spaces are forgettable. Places with identity are not.
           </p>
         </div>
       </div>
@@ -377,18 +390,19 @@ const behindScenesSlides = [
       <div class="card shadow mb-4" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
         <div class="card-body">
           <p class="text-charcoal mb-3">
-            Storytelling environments work because they engage emotional and cognitive attention at the same time. In an era of attention scarcity, transactional messaging alone rarely creates durable memory. Spatial storytelling gives audiences something to interpret, not just consume.
+            Effective placemaking environments are operational systems designed to shape perception and experience. Their impact is often indirect, but commercially powerful, especially in an era defined by attention scarcity and commoditised environments.
           </p>
           <p class="text-charcoal mb-2"><strong>That can translate into outcomes such as:</strong></p>
           <ul class="text-charcoal mb-0 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
             <li>increased dwell time</li>
-            <li>stronger memory retention</li>
-            <li>reinforced brand identity</li>
+            <li>stronger emotional attachment</li>
+            <li>elevated perception of quality</li>
+            <li>improved destination identity</li>
             <li>emotional attachment to place</li>
-            <li>improved visitor engagement</li>
-            <li>differentiation in otherwise generic environments</li>
-            <li>higher prestige signalling</li>
-            <li>greater shareability and memorability</li>
+            <li>increased social shareability</li>
+            <li>enhanced visitor engagement</li>
+            <li>stronger tenant perception</li>
+            <li>more memorable spatial experiences</li>
           </ul>
         </div>
       </div>
@@ -396,20 +410,20 @@ const behindScenesSlides = [
       <div class="grid gap-4 md:grid-cols-3">
         <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
-            <h3 class="text-gold mb-3">Memory</h3>
-            <p class="text-charcoal mb-0">Stories make facts easier to keep. When space becomes narrative, visitors retain more of what the environment is trying to say.</p>
+            <h3 class="text-gold mb-3">Dwell Time</h3>
+            <p class="text-charcoal mb-0">Emotionally engaging environments slow people down, deepen attention, and invite them to stay with the experience longer.</p>
           </div>
         </article>
         <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
-            <h3 class="text-gold mb-3">Perceived Quality</h3>
-            <p class="text-charcoal mb-0">A well-resolved storytelling environment suggests care, depth, and intention, all of which raise how people perceive quality and trust.</p>
+            <h3 class="text-gold mb-3">Destination Identity</h3>
+            <p class="text-charcoal mb-0">Curated environments help audiences understand not only what a place is, but why it matters and how it should be remembered.</p>
           </div>
         </article>
         <article class="card shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
-            <h3 class="text-gold mb-3">Placemaking</h3>
-            <p class="text-charcoal mb-0">The strongest environments humanise commercial and institutional settings by giving people a reason to emotionally locate themselves inside the place.</p>
+            <h3 class="text-gold mb-3">Emotional Attachment</h3>
+            <p class="text-charcoal mb-0">Places that feel culturally grounded and human create stronger emotional connections than generic commercial environments ever can.</p>
           </div>
         </article>
       </div>
@@ -423,22 +437,22 @@ const behindScenesSlides = [
         <div class="card shadow h-full" style="background-color: var(--color-champers); border: 2px solid var(--color-gold); border-radius: 12px;">
           <div class="card-body">
             <p class="text-charcoal mb-3">
-              Visual storytelling requires substantially more strategic thinking than traditional visual merchandising. It asks not only how presentation can be optimised, but what <strong>narrative architecture</strong> is being constructed across space, emotion, memory, and identity.
+              Successful experiential placemaking is multidisciplinary by nature. It sits at the intersection of <strong>spatial design, behavioural psychology, heritage interpretation, environmental branding, architecture, curation, lighting, graphic communication, fabrication, and visitor experience design</strong>.
             </p>
             <p class="text-charcoal mb-2"><strong>That means integrating:</strong></p>
             <ul class="text-charcoal mb-3 pl-4 md:pl-[120px] columns-1 md:columns-2 gap-4 md:gap-8">
+              <li>strategic planning</li>
               <li>research</li>
-              <li>narrative development</li>
-              <li>environmental psychology</li>
-              <li>graphic systems</li>
-              <li>spatial planning</li>
-              <li>lighting</li>
               <li>fabrication</li>
-              <li>behavioural design</li>
+              <li>environmental integration</li>
+              <li>spatial coordination</li>
+              <li>physical assembly</li>
+              <li>continual refinement</li>
+              <li>visitor experience design</li>
               <li>operational execution</li>
             </ul>
             <p class="text-charcoal mb-0">
-              These projects were not static decorative exercises. They involved coordination, fabrication, environmental integration, assembly, refinement, and spatial problem solving because storytelling environments are <strong>experiential systems</strong>, not isolated graphics.
+              These projects were not simple decorative exercises. They were operational systems designed to shape how people move through, interpret, and emotionally connect with the environment.
             </p>
           </div>
         </div>
@@ -458,7 +472,7 @@ const behindScenesSlides = [
         <div class="card-body text-center">
           <p class="text-gold mb-3" style="font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase;">Why It Matters</p>
           <p class="text-white mb-0" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;">
-            The future of commercial environments belongs to organisations that create emotionally resonant spaces, not merely functional ones.
+            This is the future direction of placemaking: not simply decorating space, but shaping how people experience it.
           </p>
         </div>
       </div>
@@ -491,12 +505,35 @@ const behindScenesSlides = [
         <div class="card-body text-center">
           <h3 class="text-gold mb-3">Meaning is a commercial asset</h3>
           <p class="text-charcoal mb-3">
-            The Trinity Arcade and One Forty St Georges projects demonstrate what happens when storytelling is treated not as decoration, but as infrastructure for emotional engagement, identity formation, and spatial meaning.
+            The Trinity Arcade and One Forty St Georges projects demonstrate how curated experiential environments can reconnect people with place, reinforce cultural identity, and transform commercial environments into destinations with emotional significance.
           </p>
           <p class="text-charcoal mb-4">
-            In an increasingly commoditised commercial world, meaning may be one of the most valuable assets a business can create.
+            Generic spaces are forgettable. Places with identity are not.
           </p>
-          <a href="/contact" class="btn-gold">Start the Conversation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-main" aria-labelledby="relatedCaseStudiesHeading" id="case-studies">
+    <div class="mx-auto max-w-7xl px-4 md:px-6">
+      <h2 id="relatedCaseStudiesHeading" class="heading-blush-bg text-center">Related Case Studies</h2>
+      <SuccessStoriesCarousel client:visible />
+    </div>
+  </section>
+
+  <section class="section-main" aria-labelledby="placemakingCtaHeading" id="cta">
+    <div class="mx-auto max-w-4xl px-4 md:px-6">
+      <h2 id="placemakingCtaHeading" class="heading-blush-bg text-center">Ready to shape a place with meaning?</h2>
+      <div class="card shadow cta-card">
+        <div class="card-body text-center p-5">
+          <p class="lead text-charcoal mb-5">
+            Whether you are activating a heritage arcade, commercial lobby, retail precinct, or destination environment, we create placemaking experiences that help people slow down, connect, and remember why the space matters.
+          </p>
+          <div class="cta-buttons mb-4">
+            <a href="/contact" class="btn-gold btn-lg me-3 mb-3">Start the Conversation</a>
+            <a href="/gallery" class="btn-outline-gold btn-lg mb-3">View Our Portfolio</a>
+          </div>
         </div>
       </div>
     </div>
@@ -506,6 +543,18 @@ const behindScenesSlides = [
 </BaseLayout>
 
 <style is:global>
+  .placemaking-project-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 100%;
+  }
+
+  .placemaking-project-copy__block:last-child {
+    margin-bottom: 0;
+  }
+
   .storytelling-tall-carousel {
     max-width: none;
     width: 100%;
@@ -532,6 +581,10 @@ const behindScenesSlides = [
   }
 
   @media (max-width: 1023px) {
+    .placemaking-project-copy {
+      gap: 1.25rem;
+    }
+
     .storytelling-tall-carousel {
       min-height: 26rem;
     }
