@@ -78,10 +78,14 @@ import { CONTACT } from "../lib/constants";
         </article>
         <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
           <div class="card-body">
-            <h2 class="text-gold mb-3">Privacy Policy</h2>
-            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> respects your privacy and is committed to protecting your personal information in accordance with the Australian Privacy Act 1988.</p>
-            <p class="text-charcoal">Your data will only be used for booking and communication purposes unless you opt in for marketing.</p>
-            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> will never sell or share your personal information with third parties without your consent, except as required by law.</p>
+            <h2 id="privacy" class="text-gold mb-3">Privacy &amp; Website Enquiries</h2>
+            <p class="text-charcoal">We use the contact details and project information you provide to respond to your enquiry and discuss our services. Please avoid sharing sensitive personal information in forms or chat.</p>
+            <p class="text-charcoal">The website is hosted on Vercel. Enquiry emails are sent using Postmark when delivery is configured. Spam protection uses a hidden form field and request rate limiting through Upstash Redis, which processes a network address to limit repeated requests.</p>
+            <p class="text-charcoal">The optional chat assistant sends your messages and recent conversation context to our server. When AI chat is configured, that context is processed by OpenAI to prepare a reply. If you choose “Send Project Brief”, your contact details, brief and a recent conversation excerpt are emailed to our team. Chat is automated; please confirm project advice with us.</p>
+            <p class="text-charcoal">Google Analytics is loaded only when a measurement ID is configured and you accept analytics. You may decline or change your preference below. Enquiry content, contact details and chat transcripts are excluded from our analytics events.</p>
+            <button type="button" class="btn btn-gold" data-analytics-preferences>Change analytics preference</button>
+            <p class="text-charcoal">Submitting an enquiry does not subscribe you to marketing. Service providers process information to operate the website and respond to enquiries; their processing may occur outside Australia.</p>
+            <p class="text-charcoal mb-0">For questions about your information, or to request access, correction or deletion, <a href={`mailto:${CONTACT.email}`}>contact us</a>. We will discuss your request and any records we need to retain.</p>
           </div>
         </article>
         <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
@@ -122,8 +126,8 @@ import { CONTACT } from "../lib/constants";
         <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">
           <div class="card-body">
             <h2 class="text-gold mb-3">Insurance Policy</h2>
-            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> holds comprehensive public liability insurance to cover any potential damages or injuries that may occur during an event.</p>
-            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> only works with contractors and clients who hold equivalent insurance cover.</p>
+            <p class="text-charcoal"><span class="highlight">Bloom'n Events Co</span> can discuss project insurance requirements and provide applicable policy information during booking. Please confirm the scope, limits and exclusions for your event.</p>
+            <p class="text-charcoal mb-0"><span class="highlight">Bloom'n Events Co</span> discusses insurance documentation required from suppliers and contractors as part of project planning.</p>
           </div>
         </article>
         <article class="card h-100 shadow" style="background-color: var(--color-champers); border: 2px solid var(--color-gold);">

@@ -1,0 +1,37 @@
+{
+  "root": {
+    "before": {
+      "vite": "7.3.1",
+      "sharp": "0.33.5",
+      "nodemailer": "7.0.13"
+    },
+    "after": {
+      "sharp": "0.35.5"
+    }
+  },
+  "astro": {
+    "before": {
+      "astro": "5.16.15",
+      "@astrojs/vercel": "9.0.4",
+      "@astrojs/react": "4.4.2",
+      "tailwindcss": "4.1.18",
+      "@tailwindcss/vite": "4.1.18",
+      "react": "19.2.3",
+      "react-dom": "19.2.3",
+      "vite": "6.4.1",
+      "sharp": "0.34.5",
+      "nodemailer": "7.0.13"
+    },
+    "after": {
+      "astro": "7.4.1",
+      "@astrojs/vercel": "11.0.16",
+      "@astrojs/react": "7.1.0",
+      "tailwindcss": "4.3.3",
+      "@tailwindcss/vite": "4.3.3",
+      "react": "19.3.1",
+      "react-dom": "19.3.1",
+      "vite": "8.3.4",
+      "sharp": "0.35.5"
+    }
+  }
+}

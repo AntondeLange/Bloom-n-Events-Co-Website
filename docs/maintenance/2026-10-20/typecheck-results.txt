@@ -1,0 +1,30 @@
+
+> bloomn-events-co-website@2.0.0 check
+> npm --prefix astro run check
+
+
+> astro@0.0.1 check
+> astro check
+
+18:21:30 [vite] Re-optimizing dependencies because lockfile has changed
+18:21:31 [types] Generated 118ms
+18:21:31 [check] Getting diagnostics for Astro files in <workspace>/astro...
+eslint.config.mjs:9:25 - warning ts(6387): The signature '(...configs: InfiniteDepthConfigWithExtends[]): ConfigArray' of 'tseslint.config' is deprecated.
+
+9 export default tseslint.config(
+                          ~~~~~~
+
+src/components/react/ChatConcierge 2.tsx:327:32 - warning ts(6385): 'FormEvent' is deprecated.
+
+327   function onFormSubmit(event: FormEvent<HTMLFormElement>) {
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/components/react/ChatConcierge 2.tsx:2:15 - warning ts(6385): 'FormEvent' is deprecated.
+
+2 import type { FormEvent } from "react";
+                ~~~~~~~~~
+
+Result (73 files): 
+- 0 errors
+- 0 warnings
+- 3 hints
+

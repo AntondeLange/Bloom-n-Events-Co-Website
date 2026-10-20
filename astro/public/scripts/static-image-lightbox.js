@@ -56,8 +56,8 @@
     const src = img.currentSrc || img.src;
     if (!src) return;
     const alt = img.alt || "";
-    activeTrigger = img;
     removeExistingLightbox({ restoreFocus: false });
+    activeTrigger = img;
 
     const overlay = document.createElement("div");
     overlay.className = "image-lightbox";

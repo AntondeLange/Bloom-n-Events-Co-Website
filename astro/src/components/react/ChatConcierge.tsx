@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { FormEvent } from "react";
+import type { SubmitEvent } from "react";
+import { validateEnquiry } from "../../lib/enquiry";
 
 type FlowType = "events" | "workshops" | "displays" | "browse";
 type NextLeadField =
@@ -88,19 +89,14 @@ function getMessageRouteCta(text: string) {
 }
 
 function isLeadReady(draft: LeadDraft) {
-  return (
-    draft.name.trim().length >= 2 &&
-    draft.email.trim().length > 4 &&
-    draft.phone.trim().length >= 8 &&
-    draft.brief.trim().length >= 10
-  );
+  return Boolean(validateEnquiry({ ...draft, source: "chat" }).data);
 }
 
 function buildTranscript(messages: ChatMessage[]) {
   return messages
     .slice(-16)
     .map((message) => `${message.role === "assistant" ? "Bloom" : "Visitor"}: ${message.text}`)
-    .join("\n");
+    .join("\n").slice(-16000);
 }
 
 async function submitLead(data: Record<string, unknown>) {
@@ -109,12 +105,13 @@ async function submitLead(data: Record<string, unknown>) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...data,
-      companyWebsite: "", // honeypot
+      source: "chat",
     }),
   });
 
-  const result = (await res.json()) as { ok?: boolean; success?: boolean };
-  return Boolean(result.ok ?? result.success);
+  if (!res.ok || !res.headers.get("content-type")?.includes("application/json")) return false;
+  const result = (await res.json()) as { ok?: boolean };
+  return result.ok === true;
 }
 
 export default function ChatConcierge() {
@@ -152,6 +149,25 @@ export default function ChatConcierge() {
     },
   ]);
 
+  const busy = useRef(false);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  const [viewport, setViewport] = useState({ height: 800, bottom: 0 });
+  const [navHeight, setNavHeight] = useState(72);
+  useEffect(() => {
+    const update = () => {
+      const visual = window.visualViewport;
+      setViewport({ height: visual?.height ?? window.innerHeight, bottom: Math.max(0, window.innerHeight - (visual?.height ?? window.innerHeight) - (visual?.offsetTop ?? 0)) });
+      setNavHeight(document.getElementById('main-navbar')?.offsetHeight || 72);
+    };
+    update(); window.addEventListener('resize', update);
+    window.visualViewport?.addEventListener('resize', update);
+    window.visualViewport?.addEventListener('scroll', update);
+    return () => { window.removeEventListener('resize', update); window.visualViewport?.removeEventListener('resize', update); window.visualViewport?.removeEventListener('scroll', update); };
+  }, []);
+  function closeChat() { setIsOpen(false); requestAnimationFrame(() => launcherRef.current?.focus()); }
+  useEffect(() => { if (isOpen) panelRef.current?.querySelector<HTMLButtonElement>('[aria-label="Close chat"]')?.focus(); }, [isOpen]);
   const messageViewportRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -290,7 +306,8 @@ export default function ChatConcierge() {
 
   async function handleSend(userText: string, selectedFlow?: FlowType) {
     const text = userText.trim();
-    if (!text || isLoading) return;
+    if (!text || busy.current) return;
+    busy.current = true;
 
     const matchedFlow = selectedFlow ?? mapReplyToFlow(text) ?? undefined;
     const effectiveFlow = matchedFlow ?? flow;
@@ -317,18 +334,20 @@ export default function ChatConcierge() {
     try {
       await runChat(matchedFlow ? FLOW_SEED_PROMPTS[matchedFlow] : text, matchedFlow, nextLeadDraft);
     } catch {
+      setInputValue(text);
       appendMessage(
         "assistant",
         `I'm having trouble connecting right now. You can still reach us on ${PHONE} or ${EMAIL}.`
       );
       setSuggestedReplies([`Call ${PHONE}`, `Email ${EMAIL}`]);
     } finally {
+      busy.current = false;
       setIsLoading(false);
     }
   }
 
   async function handleSubmitLead() {
-    if (leadSubmitted || isLoading) return;
+    if (leadSubmitted || busy.current) return;
     if (!isLeadReady(leadDraft)) {
       appendMessage("assistant", "Before I send this through, I still need your name, email, phone, and a short brief.");
       setLeadMode(true);
@@ -336,9 +355,11 @@ export default function ChatConcierge() {
       return;
     }
 
+    busy.current = true;
     setIsLoading(true);
     try {
       const ok = await submitLead({
+        companyWebsite: honeypotRef.current?.value ?? "",
         name: leadDraft.name,
         email: leadDraft.email,
         phone: leadDraft.phone,
@@ -373,11 +394,12 @@ export default function ChatConcierge() {
       );
       track("chat_lead_submit_failed", { flow: leadDraft.projectType || flow });
     } finally {
+      busy.current = false;
       setIsLoading(false);
     }
   }
 
-  function onFormSubmit(event: FormEvent<HTMLFormElement>) {
+  function onFormSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     void handleSend(inputValue);
   }
@@ -405,22 +427,25 @@ export default function ChatConcierge() {
 
   return (
     <div
+      className="bloom-chat"
       style={{
         position: "fixed",
         right: "16px",
-        bottom: `calc(${bottomOffset}px + env(safe-area-inset-bottom, 0px))`,
+        bottom: `calc(${viewport.bottom + (isOpen && viewport.height < 500 ? 8 : bottomOffset)}px + env(safe-area-inset-bottom, 0px))`,
         zIndex: 9998,
         width: isOpen ? "min(380px, calc(100vw - 24px))" : "auto",
       }}
-      aria-live="polite"
+      onKeyDown={(event) => { if (event.key === "Escape" && isOpen) closeChat(); }}
     >
       {isOpen ? (
         <section
+          ref={panelRef}
+          role="dialog"
           aria-label="Bloom concierge chat"
           style={{
             display: "flex",
             flexDirection: "column",
-            height: "min(640px, calc(100vh - 32px))",
+            height: `min(640px, ${Math.max(160, viewport.height - (viewport.height < 500 ? 16 : bottomOffset + navHeight + 32))}px)`,
             borderRadius: "16px",
             border: "2px solid var(--color-gold)",
             background: "linear-gradient(180deg, #fff9ed 0%, #fffdf7 100%)",
@@ -452,9 +477,11 @@ export default function ChatConcierge() {
             </div>
             <button
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={closeChat}
               aria-label="Close chat"
               style={{
+                minWidth: "44px",
+                minHeight: "44px",
                 border: "none",
                 background: "transparent",
                 color: "#fff",
@@ -468,10 +495,15 @@ export default function ChatConcierge() {
 
           <div
             ref={messageViewportRef}
+            role="log"
+            aria-live="polite"
+            aria-label="Conversation"
             style={{
               padding: "14px",
               overflowY: "auto",
               flex: 1,
+              minHeight: 0,
+              overflowWrap: "anywhere",
               background: "rgba(255, 255, 255, 0.82)",
             }}
           >
@@ -494,7 +526,7 @@ export default function ChatConcierge() {
                     whiteSpace: "pre-wrap",
                     background:
                       message.role === "assistant" ? "rgba(255, 249, 237, 0.95)" : "var(--color-charcoal)",
-                    color: message.role === "assistant" ? "var(--color-gold)" : "#fff",
+                    color: message.role === "assistant" ? "var(--color-charcoal)" : "#fff",
                     border:
                       message.role === "assistant" ? "1px solid rgba(191, 155, 48, 0.9)" : "1px solid transparent",
                   }}
@@ -549,7 +581,7 @@ export default function ChatConcierge() {
             </div>
           )}
 
-          {quickReplies.length > 0 && (
+          {quickReplies.length > 0 && viewport.height >= 500 && (
             <div
               style={{
                 display: "flex",
@@ -581,8 +613,10 @@ export default function ChatConcierge() {
           )}
 
           <form onSubmit={onFormSubmit} style={{ padding: "10px 12px 12px 12px" }}>
+            <div hidden aria-hidden="true"><label htmlFor="chat-website">Leave this empty</label><input ref={honeypotRef} id="chat-website" tabIndex={-1} autoComplete="off" maxLength={200} /></div>
             <div style={{ display: "flex", gap: "8px" }}>
               <input
+                aria-label="Your message"
                 value={inputValue}
                 onChange={(event) => setInputValue(event.target.value)}
                 placeholder={
@@ -597,7 +631,8 @@ export default function ChatConcierge() {
                   borderRadius: "10px",
                   border: "1px solid rgba(0, 0, 0, 0.22)",
                   padding: "10px 12px",
-                  fontSize: "0.92rem",
+                  fontSize: "16px",
+                  minWidth: 0,
                 }}
               />
               <button type="submit" className="btn btn-gold" disabled={isLoading || !inputValue.trim()}>
@@ -605,7 +640,7 @@ export default function ChatConcierge() {
               </button>
             </div>
             <div style={{ marginTop: "6px", fontSize: "0.72rem", opacity: 0.78 }}>
-              Need direct contact?{" "}
+              <a href="/policies#privacy">Privacy &amp; chat processing</a>.{" "}
               <a href="/contact" style={{ fontWeight: 600 }}>
                 Visit our contact page
               </a>
@@ -626,7 +661,7 @@ export default function ChatConcierge() {
               opacity: launcherHintVisible ? 1 : 0,
               transition: "opacity 180ms ease, transform 180ms ease",
               pointerEvents: "none",
-              whiteSpace: "nowrap",
+              maxWidth: "calc(100vw - 120px)",
               background: "rgba(255, 249, 237, 0.98)",
               color: "var(--color-gold)",
               border: "1px solid rgba(191, 155, 48, 0.9)",
@@ -655,6 +690,7 @@ export default function ChatConcierge() {
           </div>
           <button
             type="button"
+            ref={launcherRef}
             onClick={handleOpen}
             onMouseEnter={() => setLauncherHintVisible(true)}
             onMouseLeave={() => setLauncherHintVisible(false)}

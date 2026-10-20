@@ -1,3 +1,4 @@
+import { readBody } from '../../server/enquiry';
 import { getAllowedOrigins, getEnv } from './_utils/env.js';
 import { handleCorsPreflight, withCors } from './_utils/cors.js';
 import { checkRateLimit } from './_utils/rateLimit.js';
@@ -1174,7 +1175,7 @@ export const POST = async ({ request }) => {
 
   let validated;
   try {
-    const body = await request.json();
+    const body = JSON.parse(await readBody(request));
     validated = validateChatRequest(body);
   } catch (error) {
     return withCors(
@@ -1312,10 +1313,8 @@ export const POST = async ({ request }) => {
     }).finally(() => clearTimeout(timeoutId));
 
     if (!openAiResponse.ok) {
-      const details = await openAiResponse.text().catch(() => '');
       console.error('OpenAI API error', {
         status: openAiResponse.status,
-        details,
       });
       return withCors(
         json(
@@ -1378,7 +1377,7 @@ export const POST = async ({ request }) => {
       );
     }
 
-    console.error('Chat error:', err);
+    console.error('Chat request failed');
     return withCors(
       json(
         {

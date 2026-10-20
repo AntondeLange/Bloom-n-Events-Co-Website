@@ -1,483 +1,74 @@
-/**
- * Contact form – React island.
- *
- * Why React: client-side validation, focus management, loading state, and
- * controlled submit. These require hydration; Astro components are static.
- * Using client:idle so JS loads after browser idle, keeping initial load minimal.
- */
-
-import { type FormEvent, useState, useEffect, useRef } from "react";
-
-const API_URL = "/api/contact";
-const MESSAGE_MIN = 10;
-const MESSAGE_MAX = 500;
-const FORM_ID = "contact_form";
-
-interface FormState {
-  status: "idle" | "loading" | "success" | "error";
-  message: string;
-}
-
-async function submitLead(data: any) {
-  const res = await fetch("/api/lead", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...data,
-      companyWebsite: "", // honeypot
-    }),
-  });
-
-  const result = await res.json();
-  return result.ok;
-}
+import { type SubmitEvent, useEffect, useRef, useState } from 'react';
+import { MESSAGE_MIN, MESSAGE_MAX, validateEnquiry } from '../../lib/enquiry';
 
 export default function ContactForm() {
-  const [state, setState] = useState<FormState>({ status: "idle", message: "" });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [messageLength, setMessageLength] = useState(0);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [errorModalMessage, setErrorModalMessage] = useState("");
-  const lastFocusedElement = useRef<HTMLElement | null>(null);
-  const submitButtonRef = useRef<HTMLButtonElement | null>(null);
-  const errorModalRef = useRef<HTMLDivElement | null>(null);
-  const errorModalCloseRef = useRef<HTMLButtonElement | null>(null);
-
-  function track(
-    eventName: string,
-    params: Record<string, string | number | boolean> = {}
-  ) {
-    if (typeof window === "undefined" || typeof window.bloomTrack !== "function") return;
-    window.bloomTrack(eventName, params);
-  }
-
-  const closeErrorModal = () => {
-    setShowErrorModal(false);
-    const focusTarget = lastFocusedElement.current ?? submitButtonRef.current;
-    focusTarget?.focus();
-    lastFocusedElement.current = null;
-  };
-
-  // Handle ESC key and trap keyboard focus while modal is open
-  useEffect(() => {
-    if (!showErrorModal) return;
-
-    const handleModalKeys = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeErrorModal();
-        return;
-      }
-
-      if (e.key !== "Tab") return;
-      const modal = errorModalRef.current;
-      if (!modal) return;
-
-      const focusable = Array.from(
-        modal.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )
-      ).filter((el) => !el.hasAttribute("hidden"));
-
-      if (focusable.length === 0) {
-        e.preventDefault();
-        return;
-      }
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-
-      if (e.shiftKey) {
-        if (!active || active === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else if (active === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleModalKeys);
-    document.body.style.overflow = "hidden";
-    requestAnimationFrame(() => {
-      errorModalCloseRef.current?.focus();
-    });
-
-    return () => {
-      document.removeEventListener("keydown", handleModalKeys);
-      document.body.style.overflow = "";
-    };
-  }, [showErrorModal]);
-
-  function getUserFriendlyError(fieldName: string, error: string): string {
-    const fieldLabels: Record<string, string> = {
-      firstName: "First Name",
-      lastName: "Last Name",
-      phone: "Phone Number",
-      email: "Email Address",
-      company: "Company",
-      message: "Message",
-    };
-
-    const label = fieldLabels[fieldName] || fieldName;
-
-    if (error.includes("required")) {
-      return `Please share your ${label.toLowerCase()}. This helps us respond.`;
-    }
-    if (error.includes("valid email")) {
-      return "Please enter a valid email address (e.g., yourname@example.com).";
-    }
-    if (error.includes("at least")) {
-      return `Please add a little more detail (at least ${MESSAGE_MIN} characters).`;
-    }
-    if (error.includes("at most")) {
-      return `Please keep it under ${MESSAGE_MAX} characters.`;
-    }
-    return error;
-  }
-
-  function validate(form: HTMLFormElement): boolean {
-    const data = new FormData(form);
-    const next: Record<string, string> = {};
-
-    if (!(data.get("firstName") as string)?.trim()) next.firstName = "First name is required.";
-    if (!(data.get("lastName") as string)?.trim()) next.lastName = "Last name is required.";
-    const email = (data.get("email") as string)?.trim();
-    if (!email) next.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = "Please enter a valid email.";
-    if (!(data.get("phone") as string)?.trim()) next.phone = "Phone is required.";
-    const msg = (data.get("message") as string)?.trim();
-    if (!msg) next.message = "Message is required.";
-    else if (msg.length < MESSAGE_MIN) next.message = `Message must be at least ${MESSAGE_MIN} characters.`;
-    else if (msg.length > MESSAGE_MAX) next.message = `Message must be at most ${MESSAGE_MAX} characters.`;
-
+  const [length, setLength] = useState(0);
+  const submitting = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => { if (formRef.current) formRef.current.noValidate = true; }, []);
+  const track = (name: string) => window.bloomTrack?.(name, { form_id: 'contact_form', lead_method: 'form' });
+  async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (submitting.current) return;
+    const form = event.currentTarget;
+    const fields = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    const payload = { ...fields, name: `${fields.firstName.trim()} ${fields.lastName.trim()}`, brief: fields.message, companyWebsite: fields.website };
+    const result = validateEnquiry(payload);
+    const next = { ...result.errors };
+    if (!fields.firstName.trim()) next.firstName = 'Please share your first name.';
+    if (!fields.lastName.trim()) next.lastName = 'Please share your last name.';
+    if (next.name) { next.firstName = next.name; delete next.name; }
+    if (next.brief) { next.message = next.brief; delete next.brief; }
     setErrors(next);
-
-    if (Object.keys(next).length > 0) {
-      const errorMessages = Object.entries(next)
-        .map(([field, error]) => getUserFriendlyError(field, error))
-        .join("\n\n");
-      setErrorModalMessage(`Please fix the following issues:\n\n${errorMessages}`);
-      setShowErrorModal(true);
-      lastFocusedElement.current = document.activeElement as HTMLElement;
-      track("lead_form_validation_failed", {
-        form_id: FORM_ID,
-        error_count: Object.keys(next).length,
-        invalid_fields: Object.keys(next).join(","),
-      });
+    if (Object.keys(next).length) {
+      const first = Array.from(form.elements).find(element => 'name' in element && Boolean(next[String(element.name)])) as HTMLElement | undefined;
+      const details = first?.closest('details'); if (details) details.open = true;
+      first?.focus();
+      track('lead_form_validation_failed'); return;
     }
-
-    return Object.keys(next).length === 0;
-  }
-
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    lastFocusedElement.current = document.activeElement as HTMLElement;
-    track("lead_form_submit_attempted", { form_id: FORM_ID });
-    if (!validate(form)) return;
-
-    setState({ status: "loading", message: "" });
-    setErrors({});
-
-    const body = {
-      firstName: (form.querySelector('[name="firstName"]') as HTMLInputElement).value.trim(),
-      lastName: (form.querySelector('[name="lastName"]') as HTMLInputElement).value.trim(),
-      email: (form.querySelector('[name="email"]') as HTMLInputElement).value.trim(),
-      phone: (form.querySelector('[name="phone"]') as HTMLInputElement).value.trim(),
-      company: (form.querySelector('[name="company"]') as HTMLInputElement).value.trim(),
-      message: (form.querySelector('[name="message"]') as HTMLTextAreaElement).value.trim(),
-      newsletter: (form.querySelector('[name="newsletter"]') as HTMLInputElement)?.checked ?? false,
-      website: (form.querySelector('[name="website"]') as HTMLInputElement)?.value.trim() ?? "",
-    };
-
+    submitting.current = true; setStatus('loading');
     try {
-      const leadSubmitted = await submitLead({
-        name: `${body.firstName} ${body.lastName}`.trim(),
-        email: body.email,
-        phone: body.phone,
-        brief: body.message,
-      });
-
-      if (leadSubmitted) {
-        setState({ status: "success", message: "Thanks for reaching out. We'll be in touch soon." });
-        track("lead_form_submitted", {
-          form_id: FORM_ID,
-          lead_method: "form",
-          newsletter_opt_in: body.newsletter,
-        });
-        form.reset();
-        setMessageLength(0);
-      } else {
-        const errorMsg = "We couldn't send your message just now. Please check your connection and try again, or contact us directly at enquiries@bloomneventsco.com.au.";
-        setErrorModalMessage(errorMsg);
-        setShowErrorModal(true);
-        setState({ status: "error", message: errorMsg });
-        track("lead_form_submit_failed", {
-          form_id: FORM_ID,
-          failure_type: "server_error",
-        });
-      }
-    } catch {
-      const errorMsg = "We're having trouble connecting right now. Please try again, or contact us directly at enquiries@bloomneventsco.com.au or call 1800 826 268.";
-      setErrorModalMessage(errorMsg);
-      setShowErrorModal(true);
-      setState({ status: "error", message: errorMsg });
-      track("lead_form_submit_failed", {
-        form_id: FORM_ID,
-        failure_type: "network_error",
-      });
-    }
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const body = response.headers.get('content-type')?.includes('application/json') ? await response.json() : null;
+      if (!response.ok || body?.ok !== true) throw new Error('Delivery failed');
+      setStatus('success'); form.reset(); setLength(0); track('lead_form_submitted');
+    } catch { setStatus('error'); track('lead_form_submit_failed'); }
+    finally { submitting.current = false; }
   }
-
-  return (
-    <>
-      {/* Error Modal */}
-      {showErrorModal && (
-        <div
-          className="error-modal-overlay"
-          onClick={() => closeErrorModal()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="error-modal-title"
-          aria-describedby="error-modal-message"
-        >
-          <div
-            ref={errorModalRef}
-            className="error-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="error-modal-header">
-              <h3 id="error-modal-title" className="error-modal-title">
-                Almost there — a few details to fix
-              </h3>
-          <button
-            ref={errorModalCloseRef}
-            type="button"
-            className="error-modal-close"
-            onClick={() => closeErrorModal()}
-            aria-label="Close error message"
-          >
-            ×
-          </button>
-            </div>
-            <div className="error-modal-body">
-              <p id="error-modal-message" className="error-modal-message">{errorModalMessage}</p>
-            </div>
-            <div className="error-modal-footer">
-          <button
-            type="button"
-            className="btn btn-gold"
-            onClick={() => closeErrorModal()}
-          >
-            I'll update that
-          </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <form
-        onSubmit={onSubmit}
-        className="contact-form"
-        id="contactForm"
-        method="POST"
-        action={API_URL}
-        noValidate
-        aria-label="Contact form"
-      >
-        {/* Success Messages */}
-        <div id="alertContainer">
-          {state.status === "success" && (
-            <div className="alert alert-success" role="status">
-              {state.message}
-            </div>
-          )}
-        </div>
-
-      <div className="mb-3">
-        <label htmlFor="firstName" className="form-label">First Name <span className="text-danger">*</span></label>
-        <input
-          type="text"
-          className="form-control"
-          id="firstName"
-          name="firstName"
-          placeholder="First name"
-          autoComplete="given-name"
-          required
-          aria-required="true"
-          aria-invalid={!!errors.firstName}
-          aria-describedby={errors.firstName ? "err-firstName" : undefined}
-        />
-        {errors.firstName && (
-          <p id="err-firstName" className="text-danger small mt-1" role="alert">
-            {errors.firstName}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="lastName" className="form-label">Last Name <span className="text-danger">*</span></label>
-        <input
-          type="text"
-          className="form-control"
-          id="lastName"
-          name="lastName"
-          placeholder="Last name"
-          autoComplete="family-name"
-          required
-          aria-required="true"
-          aria-invalid={!!errors.lastName}
-          aria-describedby={errors.lastName ? "err-lastName" : undefined}
-        />
-        {errors.lastName && (
-          <p id="err-lastName" className="text-danger small mt-1" role="alert">
-            {errors.lastName}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="phone" className="form-label">Phone Number <span className="text-danger">*</span></label>
-        <input
-          type="tel"
-          className="form-control"
-          id="phone"
-          name="phone"
-          placeholder="Phone number"
-          autoComplete="tel"
-          required
-          aria-required="true"
-          aria-invalid={!!errors.phone}
-          aria-describedby={errors.phone ? "err-phone" : undefined}
-        />
-        {errors.phone && (
-          <p id="err-phone" className="text-danger small mt-1" role="alert">
-            {errors.phone}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">Email Address <span className="text-danger">*</span></label>
-        <input
-          type="email"
-          className="form-control"
-          id="email"
-          name="email"
-          placeholder="Email address"
-          autoComplete="email"
-          required
-          aria-required="true"
-          aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "err-email" : undefined}
-        />
-        {errors.email && (
-          <p id="err-email" className="text-danger small mt-1" role="alert">
-            {errors.email}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="company" className="form-label">Company</label>
-        <input
-          type="text"
-          className="form-control"
-          id="company"
-          name="company"
-          placeholder="Company or organisation (optional)"
-          autoComplete="organization"
-          aria-invalid={!!errors.company}
-          aria-describedby={errors.company ? "err-company" : undefined}
-        />
-        {errors.company && (
-          <p id="err-company" className="text-danger small mt-1" role="alert">
-            {errors.company}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="message" className="form-label">Message <span className="text-danger">*</span></label>
-        <div className="message-input-wrapper position-relative">
-          <textarea
-            className="form-control"
-            id="message"
-            name="message"
-            rows={4}
-            placeholder="Tell us about your event or idea"
-            autoComplete="off"
-            maxLength={MESSAGE_MAX}
-            required
-            aria-required="true"
-            aria-invalid={!!errors.message}
-            aria-describedby={errors.message ? "err-message" : "messageCounter"}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length <= MESSAGE_MAX) {
-                setMessageLength(value.length);
-              } else {
-                e.target.value = value.substring(0, MESSAGE_MAX);
-                setMessageLength(MESSAGE_MAX);
-              }
-            }}
-          />
-          <div
-            className={`message-char-counter ${
-              messageLength > MESSAGE_MAX * 0.9
-                ? "error"
-                : messageLength > MESSAGE_MAX * 0.75
-                ? "warning"
-                : ""
-            }`}
-            id="messageCounter"
-          >
-            {messageLength}/{MESSAGE_MAX}
-          </div>
-        </div>
-        {errors.message && (
-          <p id="err-message" className="text-danger small mt-1" role="alert">
-            {errors.message}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3 form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="newsletter"
-          name="newsletter"
-        />
-        <label className="form-check-label" htmlFor="newsletter">
-          Send me occasional updates and offers
-        </label>
-      </div>
-
-      {/* Honeypot: leave empty; bots that fill it are rejected server-side */}
-      <div className="visually-hidden" aria-hidden="true">
-        <label htmlFor="website">Website</label>
-        <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
-      </div>
-
-          <button
-            type="submit"
-            className="btn btn-gold w-100"
-            id="submitBtn"
-            disabled={state.status === "loading"}
-            ref={submitButtonRef}
-          >
-        <span id="submitText" className={state.status === "loading" ? "d-none" : ""}>
-          Send Message
-        </span>
-        <span id="loadingText" className={state.status === "loading" ? "" : "d-none"}>
-          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          Sending...
-        </span>
-      </button>
-    </form>
-    </>
-  );
+  const fields = [
+    ['firstName','First Name','text','given-name',100,true],
+    ['lastName','Last Name','text','family-name',100,true],
+    ['phone','Phone Number','tel','tel',32,true],
+    ['email','Email Address','email','email',254,true],
+    ['company','Company','text','organization',200,false],
+  ] as const;
+  return <form ref={formRef} onSubmit={onSubmit} className="contact-form" id="contactForm" method="POST" action="/api/contact" aria-label="Contact form">
+    <input type="hidden" name="source" value="contact-form" />
+    <div role="status" aria-live="polite">
+      {status === 'success' && <p className="alert alert-success">Thanks for reaching out. Your message has been sent to the team.</p>}
+      {status === 'error' && <p className="alert alert-danger">We couldn't send your message. Your details are still here. Please try again, <a href="mailto:enquiries@bloomneventsco.com.au">email us</a> or call <a href="tel:1800826268">1800 826 268</a>.</p>}
+    </div>
+    {fields.map(([name,label,type,autoComplete,maxLength,required]) => <div className="mb-3" key={name}>
+      <label htmlFor={name} className="form-label">{label}{required && <span> *</span>}</label>
+      <input id={name} name={name} type={type} autoComplete={autoComplete} maxLength={maxLength} required={required} className="form-control" aria-invalid={Boolean(errors[name])} aria-describedby={errors[name] ? `err-${name}` : undefined} />
+      {errors[name] && <p id={`err-${name}`} className="text-danger" role="alert">{errors[name]}</p>}
+    </div>)}
+    <details className="mb-3"><summary>Event details (optional)</summary>
+      {([['timeframe','Event date / timeframe'],['location','Event location'],['budgetConstraint','Indicative budget']] as const).map(([name,label]) => <div className="mb-3" key={name}>
+        <label htmlFor={name} className="form-label">{label}</label><input id={name} name={name} maxLength={200} className="form-control" aria-invalid={Boolean(errors[name])} aria-describedby={errors[name] ? `err-${name}` : undefined} />
+        {errors[name] && <p id={`err-${name}`} role="alert">{errors[name]}</p>}
+      </div>)}
+    </details>
+    <div className="mb-3">
+      <label htmlFor="message" className="form-label">Message *</label>
+      <textarea id="message" name="message" rows={6} className="form-control" placeholder="Tell us about your event or idea" minLength={MESSAGE_MIN} maxLength={MESSAGE_MAX} required aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? 'err-message messageCounter' : 'messageCounter'} onChange={e => setLength(e.target.value.length)} />
+      <p id="messageCounter" className="small">{length}/{MESSAGE_MAX} characters</p>
+      {errors.message && <p id="err-message" className="text-danger" role="alert">{errors.message}</p>}
+    </div>
+    <div className="visually-hidden" aria-hidden="true"><label htmlFor="website">Leave this empty</label><input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" maxLength={200} /></div>
+    <p className="small">We use these details to respond to your enquiry. <a href="/policies#privacy">How we handle your information</a>.</p>
+    <button type="submit" className="btn btn-gold w-100" disabled={status === 'loading'}>{status === 'loading' ? 'Sending…' : 'Send Message'}</button>
+  </form>;
 }
