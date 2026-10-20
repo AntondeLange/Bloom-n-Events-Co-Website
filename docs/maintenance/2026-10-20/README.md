@@ -123,3 +123,6 @@ Unauthenticated preview access redirects to authentication (302). Authenticated 
 [Initial PR CI run](https://github.com/AntondeLange/Bloom-n-Events-Co-Website/actions/runs/39407521297) passed on GitHub's Linux runner, including both clean installs, type/lint/unit/audit checks, production build, link/SEO/asset checks and all Chromium journeys. This supplements local macOS testing.
 
 GitHub initially reported signature verification `no_user` because the checkout uses a placeholder example.com author email. The maintenance commit was re-attributed using the authenticated account's public GitHub noreply identity and the already-configured, already-registered Codex signing key; no account signing keys or repository rules were changed. Verify the current PR head's signature and final CI before merging.
+
+
+Automated PR review identified that dynamic `import.meta.env[key]` could miss credentials supplied only through Astro/Vite .env files. The endpoint now references each required environment variable statically, with explicit process.env fallbacks for deployed Functions. This was corrected before handoff; no credential values were accessed or changed.

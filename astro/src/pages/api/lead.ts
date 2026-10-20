@@ -4,13 +4,20 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { createEnquiryHandler, postmarkDelivery } from '../../server/enquiry';
 export const prerender = false;
 let limiter: Ratelimit | undefined;
-const env = (key: string) => import.meta.env[key] || process.env[key];
+// Vite replaces statically named properties; runtime fallbacks support Vercel Functions.
+const config = {
+  redisUrl: import.meta.env.UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_REST_URL,
+  redisToken: import.meta.env.UPSTASH_REDIS_REST_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+  postmarkToken: import.meta.env.POSTMARK_SERVER_TOKEN || process.env.POSTMARK_SERVER_TOKEN,
+  from: import.meta.env.LEAD_FROM_EMAIL || process.env.LEAD_FROM_EMAIL,
+  to: import.meta.env.LEAD_TO_EMAIL || process.env.LEAD_TO_EMAIL,
+};
 export const handleEnquiry = createEnquiryHandler({
   limit: async (ip) => {
-    if (!env('UPSTASH_REDIS_REST_URL') || !env('UPSTASH_REDIS_REST_TOKEN')) throw new Error('Spam protection unavailable');
-    limiter ??= new Ratelimit({ redis: new Redis({ url: env('UPSTASH_REDIS_REST_URL'), token: env('UPSTASH_REDIS_REST_TOKEN') }), limiter: Ratelimit.slidingWindow(5, '1 m'), prefix: 'bloom:enquiries' });
+    if (!config.redisUrl || !config.redisToken) throw new Error('Spam protection unavailable');
+    limiter ??= new Ratelimit({ redis: new Redis({ url: config.redisUrl, token: config.redisToken }), limiter: Ratelimit.slidingWindow(5, '1 m'), prefix: 'bloom:enquiries' });
     return (await limiter.limit(ip)).success;
   },
-  deliver: (data) => postmarkDelivery({ token: env('POSTMARK_SERVER_TOKEN'), from: env('LEAD_FROM_EMAIL'), to: env('LEAD_TO_EMAIL') })(data),
+  deliver: (data) => postmarkDelivery({ token: config.postmarkToken, from: config.from, to: config.to })(data),
 });
 export const POST: APIRoute = ({ request, clientAddress }) => handleEnquiry(request, clientAddress ?? 'unknown');
