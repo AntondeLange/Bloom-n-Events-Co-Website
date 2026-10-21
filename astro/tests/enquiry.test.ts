@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createEnquiryHandler } from '../src/server/enquiry';
-import { smtpDelivery } from '../src/server/smtp';
+import { smtpAddresses, smtpDelivery } from '../src/server/smtp';
 import { createEnquiryLimiter } from '../src/server/rate-limit';
 import type { SMTPSentMessageInfo } from 'nodemailer';
 import type { SendMailOptions } from 'nodemailer';
@@ -100,4 +100,12 @@ test('shared limiter refuses missing credentials and respects exhaustion',async(
  await assert.rejects(()=>absent('test'),/unavailable/);
  const exhausted=createEnquiryLimiter({redisUrl:'https://example.invalid',redisToken:'mock'},()=>({limit:async()=>({success:false})}));
  assert.equal(await exhausted('test'),false);
+});
+
+test('retains established SMTP address variables and explicit recipient override',()=>{
+ const legacy={SMTP_FROM:'sender@example.invalid',ENQUIRIES_EMAIL:'legacy@example.invalid'};
+ assert.deepEqual(smtpAddresses(legacy),{from:legacy.SMTP_FROM,to:legacy.ENQUIRIES_EMAIL});
+ assert.deepEqual(smtpAddresses({...legacy,LEAD_TO_EMAIL:'enquiry@bloomneventsco.com.au'}),{from:legacy.SMTP_FROM,to:'enquiry@bloomneventsco.com.au'});
+ assert.deepEqual(smtpAddresses({CONTACT_FROM_EMAIL:'contact@example.invalid',CONTACT_TO_EMAIL:'inbox@example.invalid'}),{from:'contact@example.invalid',to:'inbox@example.invalid'});
+ assert.deepEqual(smtpAddresses({...legacy,LEAD_FROM_EMAIL:'override@example.invalid'}),{from:'override@example.invalid',to:legacy.ENQUIRIES_EMAIL});
 });

@@ -9,8 +9,8 @@ The shared contact/chat handler expected Postmark, while the existing Vercel pro
 | `SMTP_USER`, `SMTP_PASS` | Existing private SMTP2GO credentials. |
 | `SMTP_HOST` | Optional; defaults to `mail-au.smtp2go.com`. |
 | `SMTP_PORT` | Optional; defaults to `2525` with mandatory STARTTLS. Ports 465, 8465 and 443 use implicit TLS. Certificate verification remains enabled. |
-| `LEAD_FROM_EMAIL` or existing `CONTACT_FROM_EMAIL` | Sender authorised by SMTP2GO. Existing sender is retained. |
-| `LEAD_TO_EMAIL` or existing `CONTACT_TO_EMAIL` | Destination. Set `LEAD_TO_EMAIL=enquiry@bloomneventsco.com.au` in the release environment. |
+| `LEAD_FROM_EMAIL`, `SMTP_FROM` or existing `CONTACT_FROM_EMAIL` | Sender authorised by SMTP2GO. Existing sender is retained. |
+| `LEAD_TO_EMAIL`, `ENQUIRIES_EMAIL` or existing `CONTACT_TO_EMAIL` | Destination. Set `LEAD_TO_EMAIL=enquiry@bloomneventsco.com.au` in the release environment. |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Shared rate limiter; Marketplace `KV_REST_API_URL`, `KV_REST_API_TOKEN` aliases are also accepted. |
 
 Postmark configuration is no longer needed for the maintained `/api/lead` and `/api/contact` endpoints. Historical duplicate source files are outside this repair.
@@ -22,7 +22,7 @@ SMTP errors/rejections return a failure and preserve entered details. Success re
 ## Validation
 
 - Node 22.23.3 local checks; Vercel project remains Node 22.x.
-- 29 unit tests pass, including SMTP refusal, rejected/missing/unexpected recipient, missing configuration, network error, one-attempt behaviour, encrypted transport and exact requested recipient.
+- 30 unit tests pass, including SMTP refusal, rejected/missing/unexpected recipient, missing configuration, network error, one-attempt behaviour, encrypted transport and exact requested recipient.
 - ESLint passes. Astro check reports zero errors/warnings and three existing deprecation hints.
 - Production build succeeds. Nodemailer 10.1.7 dependency audit reports zero vulnerabilities.
 - Real TLS connection and SMTP authentication using the existing preview credentials pass; this does not send a message or prove sender verification/inbox delivery.

@@ -12,6 +12,17 @@ type MailTransport = {
 };
 type TransportFactory = (options: SMTPTransportOptions) => MailTransport;
 
+/** Keep the site's established address settings while allowing explicit overrides. */
+export function smtpAddresses(env: {
+  LEAD_FROM_EMAIL?: string; SMTP_FROM?: string; CONTACT_FROM_EMAIL?: string;
+  LEAD_TO_EMAIL?: string; ENQUIRIES_EMAIL?: string; CONTACT_TO_EMAIL?: string;
+}) {
+  return {
+    from: env.LEAD_FROM_EMAIL || env.SMTP_FROM || env.CONTACT_FROM_EMAIL,
+    to: env.LEAD_TO_EMAIL || env.ENQUIRIES_EMAIL || env.CONTACT_TO_EMAIL,
+  };
+}
+
 /** One SMTP transaction; never retry an uncertain acceptance and risk duplicates. */
 export function smtpDelivery(config: EmailConfig, createTransport: TransportFactory = nodemailer.createTransport) {
   return async (data: Enquiry) => {

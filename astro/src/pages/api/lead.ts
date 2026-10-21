@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createEnquiryLimiter } from '../../server/rate-limit';
 import { createEnquiryHandler } from '../../server/enquiry';
-import { smtpDelivery } from '../../server/smtp';
+import { smtpAddresses, smtpDelivery } from '../../server/smtp';
 export const prerender = false;
 // Vite replaces statically named properties; runtime fallbacks support Vercel Functions.
 const config = {
@@ -11,8 +11,14 @@ const config = {
   port: import.meta.env.SMTP_PORT || process.env.SMTP_PORT || '2525',
   user: import.meta.env.SMTP_USER || process.env.SMTP_USER,
   pass: import.meta.env.SMTP_PASS || process.env.SMTP_PASS,
-  from: import.meta.env.LEAD_FROM_EMAIL || process.env.LEAD_FROM_EMAIL || import.meta.env.CONTACT_FROM_EMAIL || process.env.CONTACT_FROM_EMAIL,
-  to: import.meta.env.LEAD_TO_EMAIL || process.env.LEAD_TO_EMAIL || import.meta.env.CONTACT_TO_EMAIL || process.env.CONTACT_TO_EMAIL,
+  ...smtpAddresses({
+    LEAD_FROM_EMAIL: import.meta.env.LEAD_FROM_EMAIL || process.env.LEAD_FROM_EMAIL,
+    SMTP_FROM: import.meta.env.SMTP_FROM || process.env.SMTP_FROM,
+    CONTACT_FROM_EMAIL: import.meta.env.CONTACT_FROM_EMAIL || process.env.CONTACT_FROM_EMAIL,
+    LEAD_TO_EMAIL: import.meta.env.LEAD_TO_EMAIL || process.env.LEAD_TO_EMAIL,
+    ENQUIRIES_EMAIL: import.meta.env.ENQUIRIES_EMAIL || process.env.ENQUIRIES_EMAIL,
+    CONTACT_TO_EMAIL: import.meta.env.CONTACT_TO_EMAIL || process.env.CONTACT_TO_EMAIL,
+  }),
 };
 export const handleEnquiry = createEnquiryHandler({
   limit: createEnquiryLimiter(config),
