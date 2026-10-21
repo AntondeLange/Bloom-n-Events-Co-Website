@@ -6228,3 +6228,47 @@ body.home #main-navbar.site-navbar.site-navbar--top {
     font-size: 0.8125rem !important;
   }
 }
+
+/* Maintenance: available viewport, keyboard access and concise mobile enquiries. */
+#main-navbar.site-navbar .mobile-menu-panel {
+  max-height: calc(100dvh - var(--nav-h, 80px) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+#main-navbar.site-navbar .mobile-menu-panel a { min-height: 44px; display: flex; align-items: center; }
+:focus-visible { outline: 3px solid #765a16; outline-offset: 3px; }
+.bloom-chat button, .bloom-chat input { min-height: 44px; }
+.bloom-chat header, .bloom-chat form { flex-shrink: 0; }
+.bloom-chat a { color: #624b0b; }
+.contact-form .form-control { font-size: 16px; }
+.contact-form a, .contact-form summary { color: #624b0b; text-decoration: underline; }
+.contact-form summary { cursor: pointer; padding-block: 12px; }
+.contact-secondary { padding: 2rem; }
+.contact-info-text, .contact-link { overflow-wrap: anywhere; }
+@media (min-width: 992px) {
+  .contact-hero-container > .row { display: grid; grid-template-columns: 1fr 1fr; }
+  .contact-info-section { grid-column: 1; grid-row: 1; width: 100%; padding-bottom: 1rem; }
+  .contact-form-section { grid-column: 2; grid-row: 1 / 3; width: 100%; }
+  .contact-secondary { grid-column: 1; grid-row: 2; padding: 1rem 3rem 3rem; }
+}
+@media (max-width: 991px) {
+  .contact-info-section { padding: 2rem 1.25rem 1rem; }
+  .contact-info-content { gap: 1rem; }
+  .contact-form-section { padding-top: 0; }
+  .contact-secondary { padding: 1rem 1.25rem 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+.image-lightbox-prev, .image-lightbox-next {
+  position: absolute; top: 50%; z-index: 2; min-width: 44px; min-height: 44px;
+  border: 2px solid var(--color-gold); background: var(--color-charcoal); color: white; font-size: 1.5rem;
+}
+.image-lightbox-prev { left: 8px; }
+.image-lightbox-next { right: 8px; }
+/* Explicitly hide the panel: global nav visibility rules override native details in some browsers. */
+#main-navbar.site-navbar details:not([open]) .mobile-menu-panel { display: none !important; }
+@media (max-width: 991px) {
+  .contact-info-content { min-height: 0; height: auto; }
+  .contact-info-content > p { margin-block: .5rem; }
+}

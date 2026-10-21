@@ -115,6 +115,20 @@ export default function Navbar({ currentPath }: Props) {
     };
   }, [portfolioOpen]);
 
+  useEffect(() => {
+    const dismiss = (event: PointerEvent) => {
+      if (!mobileMenuRef.current?.contains(event.target as Node)) closeMobileMenu();
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && mobileMenuRef.current?.open) { closeMobileMenu(); mobileMenuRef.current?.querySelector('summary')?.focus(); }
+    };
+    const blur = (event: globalThis.FocusEvent) => { if (!mobileMenuRef.current?.contains(event.target as Node)) closeMobileMenu(); };
+    document.addEventListener('pointerdown', dismiss);
+    document.addEventListener('keydown', escape);
+    document.addEventListener('focusin', blur as unknown as EventListener);
+    return () => { document.removeEventListener('pointerdown', dismiss); document.removeEventListener('keydown', escape); document.removeEventListener('focusin', blur as unknown as EventListener); };
+  }, []);
+
   const navClassName = [
     "site-navbar",
     isHome ? "site-navbar--home" : "site-navbar--inner",

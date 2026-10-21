@@ -5,9 +5,13 @@ interface Props {
   src: string;
   alt: string;
   onClose: () => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
 }
 
-export default function ImageLightbox({ src, alt, onClose }: Props) {
+export default function ImageLightbox({ src, alt, onClose, onPrevious, onNext }: Props) {
+  const navigation = useRef({ onPrevious, onNext });
+  useEffect(() => { navigation.current = { onPrevious, onNext }; }, [onPrevious, onNext]);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -22,6 +26,8 @@ export default function ImageLightbox({ src, alt, onClose }: Props) {
         return;
       }
 
+      if (event.key === 'ArrowLeft') { event.preventDefault(); navigation.current.onPrevious?.(); return; }
+      if (event.key === 'ArrowRight') { event.preventDefault(); navigation.current.onNext?.(); return; }
       if (event.key !== "Tab") return;
       const dialog = dialogRef.current;
       if (!dialog) return;
@@ -88,6 +94,8 @@ export default function ImageLightbox({ src, alt, onClose }: Props) {
         >
           &times;
         </button>
+        {onPrevious && <button type="button" className="image-lightbox-prev" aria-label="Previous full-size image" onClick={onPrevious}>←</button>}
+        {onNext && <button type="button" className="image-lightbox-next" aria-label="Next full-size image" onClick={onNext}>→</button>}
         <picture>
           <source type="image/avif" srcSet={avifSrcSet} sizes="100vw" />
           <source type="image/webp" srcSet={webpSrcSet} sizes="100vw" />

@@ -7,7 +7,6 @@ import "../styles/global.css";
 import Seo from "../components/Seo.astro";
 import Navbar from "../components/islands/Navbar";
 import Footer from "../components/Footer.astro";
-import Loader from "../components/Loader.astro";
 import ChatConcierge from "../components/react/ChatConcierge";
 import { getSeoProps } from "../lib/seo";
 import { isHomePath } from "../lib/url-path";
@@ -79,7 +78,6 @@ const mainPadding = isHome ? "" : "pt-2";
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class={`flex min-h-screen flex-col bg-champers text-charcoal ${bodyClass}`.trim()}>
-    {isHome && <Loader />}
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Route-aware navbar: fixed-top on non-home, multi-state on home -->
     {renderNavbar && <Navbar currentPath={Astro.url.pathname} client:idle />}

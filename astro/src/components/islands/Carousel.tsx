@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useId, useMemo, useState, type KeyboardEvent } from "react";
 import OptimizedImage from "../react/OptimizedImage";
 import ImageLightbox from "../react/ImageLightbox";
 
@@ -91,11 +91,12 @@ export default function Carousel({
     setIsAutoPlaying(false);
   };
 
-  const closeLightbox = () => {
-    setLightboxIndex(null);
-  };
+  const closeLightbox = useCallback(() => { setLightboxIndex(null); }, []);
+  const previousLightbox = useCallback(() => setLightboxIndex(index => index === null ? null : (index - 1 + slides.length) % slides.length), [slides.length]);
+  const nextLightbox = useCallback(() => setLightboxIndex(index => index === null ? null : (index + 1) % slides.length), [slides.length]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (lightboxIndex !== null) return;
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       goPrev();
@@ -183,6 +184,8 @@ export default function Carousel({
           src={slides[lightboxIndex].src}
           alt={slides[lightboxIndex].alt}
           onClose={closeLightbox}
+          onPrevious={previousLightbox}
+          onNext={nextLightbox}
         />
       )}
     </div>

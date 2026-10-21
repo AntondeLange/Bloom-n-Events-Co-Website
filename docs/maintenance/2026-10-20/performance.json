@@ -1,0 +1,56 @@
+[
+  {
+    "phase": "before",
+    "run": 0,
+    "lcp": 888,
+    "cls": 0.005635555826003171,
+    "fcp": 404,
+    "htmlBytes": 785402,
+    "loader": true
+  },
+  {
+    "phase": "before",
+    "run": 1,
+    "lcp": 892,
+    "cls": 0.005635555826003171,
+    "fcp": 404,
+    "htmlBytes": 785402,
+    "loader": true
+  },
+  {
+    "phase": "before",
+    "run": 2,
+    "lcp": 884,
+    "cls": 0.005635555826003171,
+    "fcp": 404,
+    "htmlBytes": 785402,
+    "loader": true
+  },
+  {
+    "phase": "after",
+    "run": 0,
+    "lcp": 640,
+    "cls": 0.005635555826003171,
+    "fcp": 544,
+    "htmlBytes": 79430,
+    "loader": false
+  },
+  {
+    "phase": "after",
+    "run": 1,
+    "lcp": 640,
+    "cls": 0.005635555826003171,
+    "fcp": 544,
+    "htmlBytes": 79430,
+    "loader": false
+  },
+  {
+    "phase": "after",
+    "run": 2,
+    "lcp": 640,
+    "cls": 0.005635555826003171,
+    "fcp": 536,
+    "htmlBytes": 79430,
+    "loader": false
+  }
+]

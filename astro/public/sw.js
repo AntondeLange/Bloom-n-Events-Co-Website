@@ -8,14 +8,10 @@ self.addEventListener("activate", (event) => {
       const cacheNames = await caches.keys();
       await Promise.all(cacheNames.map((name) => caches.delete(name)));
       await self.registration.unregister();
-      const clients = await self.clients.matchAll({ type: "window" });
-      for (const client of clients) {
-        client.navigate(client.url);
-      }
+      // Existing tabs use the network; do not reload and discard an unsent enquiry.
+
     })()
   );
 });
 
-self.addEventListener("fetch", (event) => {
-  event.respondWith(fetch(event.request));
-});
+// No fetch handler: all requests pass through to the network.

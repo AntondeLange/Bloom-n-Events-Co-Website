@@ -52,7 +52,7 @@ const showDeliveryUnavailable = submissionStatus === "delivery-unavailable";
           <div class="contact-info-content">
             <h1 class="hero-headline">Let's Create Something Meaningful Together</h1>
             <p class="contact-description">
-              Share your dates, budget, and the feeling you want to create. One team. One accountable partner. Full-service event production with engineering-grade care.
+              Share your dates, budget, and the feeling you want to create. One team. One accountable partner. Full-service event production with care from concept to delivery.
             </p>
             <p class="contact-info-text mt-3">
               <a href={contactEmailHref} class="contact-link">Email us</a>
@@ -60,8 +60,32 @@ const showDeliveryUnavailable = submissionStatus === "delivery-unavailable";
               <a href={contactPhoneHref} class="contact-link">Call {CONTACT.phone}</a>
             </p>
 
-            <!-- Contact Info at Bottom Left -->
-            <div class="contact-info-bottom">
+          </div>
+        </div>
+
+        <!-- Right Section - Contact Form Card -->
+        <div class="col-12 col-lg-6 contact-form-section">
+          <div class="contact-form-card">
+            {showDeliveryUnavailable && (
+              <div class="alert alert-danger mb-4" role="status">
+                Form submissions are temporarily unavailable. Please email or call us directly right now.
+                {" "}
+                <a href={contactEmailHref} class="contact-link">Email us</a>
+                {" or "}
+                <a href={contactPhoneHref} class="contact-link">call {CONTACT.phone}</a>.
+              </div>
+            )}
+            <div class="contact-form-header">
+              <h2 class="contact-form-title">Tell Us About Your Vision</h2>
+              <p class="contact-form-subtitle">Our team is ready to listen and guide every detail, big or small.</p>
+            </div>
+
+            <ContactForm client:load />
+          </div>
+        </div>
+        <!-- Secondary information follows the form in reading order. -->
+        <div class="contact-secondary">
+          <div class="contact-info-bottom">
               <div class="contact-info-grid">
                 <!-- Location -->
                 <div class="contact-info-block">
@@ -131,30 +155,9 @@ const showDeliveryUnavailable = submissionStatus === "delivery-unavailable";
                   </p>
                 </div>
               </div>
-            </div>
           </div>
         </div>
 
-        <!-- Right Section - Contact Form Card -->
-        <div class="col-12 col-lg-6 contact-form-section">
-          <div class="contact-form-card">
-            {showDeliveryUnavailable && (
-              <div class="alert alert-danger mb-4" role="status">
-                Form submissions are temporarily unavailable. Please email or call us directly right now.
-                {" "}
-                <a href={contactEmailHref} class="contact-link">Email us</a>
-                {" or "}
-                <a href={contactPhoneHref} class="contact-link">call {CONTACT.phone}</a>.
-              </div>
-            )}
-            <div class="contact-form-header">
-              <h2 class="contact-form-title">Tell Us About Your Vision</h2>
-              <p class="contact-form-subtitle">Our team is ready to listen and guide every detail, big or small.</p>
-            </div>
-
-            <ContactForm client:load />
-          </div>
-        </div>
       </div>
     </div>
   </section>
