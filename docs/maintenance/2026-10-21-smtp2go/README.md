@@ -22,11 +22,13 @@ SMTP errors/rejections return a failure and preserve entered details. Success re
 ## Validation
 
 - Node 22.23.3 local checks; Vercel project remains Node 22.x.
-- 27 unit tests pass, including SMTP refusal, rejected/missing/unexpected recipient, missing configuration, network error, one-attempt behaviour, encrypted transport and exact requested recipient.
+- 29 unit tests pass, including SMTP refusal, rejected/missing/unexpected recipient, missing configuration, network error, one-attempt behaviour, encrypted transport and exact requested recipient.
 - ESLint passes. Astro check reports zero errors/warnings and three existing deprecation hints.
 - Production build succeeds. Nodemailer 10.1.7 dependency audit reports zero vulnerabilities.
 - Real TLS connection and SMTP authentication using the existing preview credentials pass; this does not send a message or prove sender verification/inbox delivery.
-- Browser regression results and protected deployment verification are recorded in the pull request.
+- All 14 Chromium browser regressions pass using mock SMTP delivery. Protected deployment verification is recorded in the pull request.
+- The free `bloom-enquiry-rate-limit` Upstash Redis resource is provisioned in Sydney and connected to Preview/Development, with automatic paid upgrades disabled. Production connection still requires release approval.
+- Upstash SDK timeout responses are explicitly rejected even when they contain `success: true`; an integration regression verifies a 503 response without delivery.
 
 ## Release
 

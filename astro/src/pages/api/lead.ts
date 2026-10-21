@@ -1,10 +1,8 @@
 import type { APIRoute } from 'astro';
-import { Redis } from '@upstash/redis';
-import { Ratelimit } from '@upstash/ratelimit';
+import { createEnquiryLimiter } from '../../server/rate-limit';
 import { createEnquiryHandler } from '../../server/enquiry';
 import { smtpDelivery } from '../../server/smtp';
 export const prerender = false;
-let limiter: Ratelimit | undefined;
 // Vite replaces statically named properties; runtime fallbacks support Vercel Functions.
 const config = {
   redisUrl: import.meta.env.UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_REST_URL || import.meta.env.KV_REST_API_URL || process.env.KV_REST_API_URL,
@@ -17,11 +15,7 @@ const config = {
   to: import.meta.env.LEAD_TO_EMAIL || process.env.LEAD_TO_EMAIL || import.meta.env.CONTACT_TO_EMAIL || process.env.CONTACT_TO_EMAIL,
 };
 export const handleEnquiry = createEnquiryHandler({
-  limit: async (ip) => {
-    if (!config.redisUrl || !config.redisToken) throw new Error('Spam protection unavailable');
-    limiter ??= new Ratelimit({ redis: new Redis({ url: config.redisUrl, token: config.redisToken }), limiter: Ratelimit.slidingWindow(5, '1 m'), prefix: 'bloom:enquiries' });
-    return (await limiter.limit(ip)).success;
-  },
+  limit: createEnquiryLimiter(config),
   deliver: (data) => smtpDelivery(config)(data),
 });
 export const POST: APIRoute = ({ request, clientAddress }) => handleEnquiry(request, clientAddress ?? 'unknown');

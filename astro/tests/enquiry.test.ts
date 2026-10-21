@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createEnquiryHandler } from '../src/server/enquiry';
 import { smtpDelivery } from '../src/server/smtp';
+import { createEnquiryLimiter } from '../src/server/rate-limit';
 import type { SMTPSentMessageInfo } from 'nodemailer';
 import type { SendMailOptions } from 'nodemailer';
 const mailConfig = { user:'mock', pass:'mock', from:'sender@example.invalid', to:'recipient@example.invalid' };
@@ -86,4 +87,17 @@ test('native failure preserves escaped values with no-store and no personal redi
  const h=createEnquiryHandler({limit:async()=>true,deliver:async()=>false});
  const r=await h(new Request('https://preview.example/api/contact',{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body:new URLSearchParams({firstName:'<script>alert(1)</script>',lastName:'Tester',email:valid.email,phone:valid.phone,company:valid.company,message:valid.brief,source:'contact-form'})}),'test',true);
  assert.equal(r.status,502);const html=await r.text();assert.ok(html.includes('&lt;script&gt;'));assert.ok(html.includes(valid.brief));assert.equal(r.headers.get('cache-control'),'no-store');assert.equal(r.headers.get('location'),null);
+});
+
+test('Upstash timeout with success=true fails closed without sending mail',async()=>{
+ const limit=createEnquiryLimiter({redisUrl:'https://example.invalid',redisToken:'mock'},()=>({limit:async()=>({success:true,reason:'timeout'})}));
+ let sent=false;
+ const handler=createEnquiryHandler({limit,deliver:async()=>{sent=true;return true}});
+ assert.equal((await handler(request(valid),'test')).status,503);assert.equal(sent,false);
+});
+test('shared limiter refuses missing credentials and respects exhaustion',async()=>{
+ const absent=createEnquiryLimiter({},()=>{throw Error('must not construct')});
+ await assert.rejects(()=>absent('test'),/unavailable/);
+ const exhausted=createEnquiryLimiter({redisUrl:'https://example.invalid',redisToken:'mock'},()=>({limit:async()=>({success:false})}));
+ assert.equal(await exhausted('test'),false);
 });
