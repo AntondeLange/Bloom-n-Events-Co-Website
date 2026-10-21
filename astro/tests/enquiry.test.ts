@@ -1,17 +1,22 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createEnquiryHandler, postmarkDelivery } from '../src/server/enquiry';
+import { createEnquiryHandler } from '../src/server/enquiry';
+import { smtpDelivery } from '../src/server/smtp';
+import type { SMTPSentMessageInfo } from 'nodemailer';
+import type { SendMailOptions } from 'nodemailer';
+const mailConfig = { user:'mock', pass:'mock', from:'sender@example.invalid', to:'recipient@example.invalid' };
+const accepted = { accepted:['recipient@example.invalid'], rejected:[], response:'250 queued', messageId:'mock-id', envelope:{from:mailConfig.from,to:[mailConfig.to]}, envelopeTime:1, messageTime:1, messageSize:100 } satisfies SMTPSentMessageInfo;
 import { validateEnquiry, MESSAGE_MAX, REQUEST_MAX_BYTES } from '../src/lib/enquiry';
 const valid = { source: 'contact-form', name: 'Preview Tester', email: 'preview@example.invalid', phone: '0400 000 000', company: 'Example Test Company', brief: 'A controlled mock enquiry for an event.' };
 const request = (body: unknown, headers: Record<string,string> = {}) => new Request('https://preview.example/api/lead', { method: 'POST', headers: { 'content-type': 'application/json', ...headers }, body: typeof body === 'string' ? body : JSON.stringify(body) });
 for (const source of ['contact-form', 'chat']) test(`preserves ${source} payload and provider attribution`, async () => {
- let email: Record<string,unknown> = {};
- const deliver = postmarkDelivery({ token:'mock', from:'sender@example.invalid', to:'recipient@example.invalid' }, async (_url, init) => { email = JSON.parse(init!.body as string); return Response.json({ ErrorCode:0, MessageID:'mock-id' }); });
+ let email: SendMailOptions = {};
+ const deliver = smtpDelivery(mailConfig, () => ({sendMail:async mail => {email=mail;return accepted},close:()=>{}}));
  const handler = createEnquiryHandler({limit:async()=>true,deliver});
  const response = await handler(request({...valid,source,timeframe:'December',location:'Perth',budgetConstraint:'Discuss options'}), 'test');
  assert.equal(response.status,200); assert.equal((await response.json()).ok,true);
- assert.match(email.TextBody as string,/Example Test Company/); assert.match(email.TextBody as string,/December/); assert.match(email.TextBody as string,/Perth/);
- assert.equal(email.ReplyTo, valid.email); assert.match(email.Subject as string, source==='chat' ? /chat assistant/ : /contact form/);
+ assert.match(email.text as string,/Example Test Company/); assert.match(email.text as string,/December/); assert.match(email.text as string,/Perth/);
+ assert.equal(email.replyTo, valid.email); assert.match(email.subject as string, source==='chat' ? /chat assistant/ : /contact form/);
 });
 test('honeypot consumes limiter but never emails', async()=>{
  let delivered=0,limited=0;
@@ -39,15 +44,38 @@ test('rejects malformed JSON, arrays, null, unsupported type and oversized actua
 test('rejects cross-origin submission',async()=>{
  const h=createEnquiryHandler({limit:async()=>true,deliver:async()=>true});assert.equal((await h(request(valid,{origin:'https://other.example'}),'test')).status,403);
 });
-for(const [name,provider] of [
- ['HTTP error',async()=>Response.json({ErrorCode:0,MessageID:'id'},{status:500})],
- ['application error',async()=>Response.json({ErrorCode:300,Message:'Invalid'})],
- ['non-JSON success',async()=>new Response('<html>ok</html>')],
- ['malformed JSON',async()=>new Response('{',{headers:{'content-type':'application/json'}})],
- ['network error',async()=>{throw Error('offline')}],
-] as const) test(`provider ${name} never reports success`,async()=>{
- const h=createEnquiryHandler({limit:async()=>true,deliver:postmarkDelivery({token:'mock',from:'from',to:'to'},provider)});
- assert.equal((await h(request(valid),'test')).status,502);
+for(const [name,result] of [
+ ['recipient rejected',{...accepted,accepted:[],rejected:[mailConfig.to]}],
+ ['no accepted recipient',{...accepted,accepted:[]}],
+ ['different recipient',{...accepted,accepted:['someoneelse@example.invalid']}],
+ ['server rejection',{...accepted,response:'550 rejected'}],
+] as const) test(`SMTP ${name} never reports success`,async()=>{
+ let closed=false;
+ const deliver=smtpDelivery(mailConfig,()=>({sendMail:async()=>result as SMTPSentMessageInfo,close:()=>{closed=true}}));
+ const h=createEnquiryHandler({limit:async()=>true,deliver});
+ assert.equal((await h(request(valid),'test')).status,502);assert.equal(closed,true);
+});
+test('SMTP network failures close connection and never report success or retry',async()=>{
+ let attempts=0,closed=false;
+ const deliver=smtpDelivery(mailConfig,()=>({sendMail:async()=>{attempts++;throw Error('offline')},close:()=>{closed=true}}));
+ const h=createEnquiryHandler({limit:async()=>true,deliver});
+ assert.equal((await h(request(valid),'test')).status,502);assert.equal(attempts,1);assert.equal(closed,true);
+});
+test('SMTP requires credentials and a valid port before opening a connection',async()=>{
+ for(const config of [{...mailConfig,user:''},{...mailConfig,pass:''},{...mailConfig,from:''},{...mailConfig,to:''},{...mailConfig,port:'invalid'},{...mailConfig,port:'0'}]) {
+  const deliver=smtpDelivery(config,()=>{throw Error('must not connect')});
+  assert.equal(await deliver(validateEnquiry(valid).data!),false);
+ }
+});
+test('SMTP uses encrypted SMTP2GO with bounded timeouts and the configured recipient',async()=>{
+ let closed=false;
+ const deliver=smtpDelivery({...mailConfig,to:'enquiry@bloomneventsco.com.au'},options=>{
+  assert.equal(options.host,'mail-au.smtp2go.com');assert.equal(options.port,2525);
+  assert.equal(options.requireTLS,true);assert.equal(options.secure,false);
+  assert.equal(options.tls?.minVersion,'TLSv1.2');assert.equal(options.socketTimeout,15000);
+  return {sendMail:async mail=>{assert.equal(mail.to,'enquiry@bloomneventsco.com.au');return {...accepted,accepted:['enquiry@bloomneventsco.com.au']}},close:()=>{closed=true}};
+ });
+ assert.equal(await deliver(validateEnquiry(valid).data!),true);assert.equal(closed,true);
 });
 test('native form uses same payload, source, honeypot and redirect',async()=>{
  let payload:any;const h=createEnquiryHandler({limit:async()=>true,deliver:async d=>{payload=d;return true}});
