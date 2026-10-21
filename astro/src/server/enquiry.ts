@@ -72,21 +72,3 @@ export function createEnquiryHandler(deps: Dependencies) {
     } catch (error) { return fail(error instanceof RequestError ? error.status : 400); }
   };
 }
-
-type EmailConfig = { token?: string; from?: string; to?: string };
-export function postmarkDelivery(config: EmailConfig, fetcher: typeof fetch = fetch) {
-  return async (data: Enquiry) => {
-    if (!config.token || !config.from || !config.to) return false;
-    const response = await fetcher('https://api.postmarkapp.com/email', {
-      method: 'POST', signal: AbortSignal.timeout(12000),
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Postmark-Server-Token': config.token },
-      body: JSON.stringify({ From: config.from, To: config.to, ReplyTo: data.email,
-        Subject: `New website enquiry — ${data.source === 'chat' ? 'chat assistant' : 'contact form'}`,
-        TextBody: `Source: ${data.source}\nName: ${data.name}\nCompany: ${data.company || '—'}\nEmail: ${data.email}\nPhone: ${data.phone}\nProject type: ${data.projectType || '—'}\nEvent date / timeframe: ${data.timeframe || '—'}\nLocation: ${data.location || '—'}\nScale: ${data.scale || '—'}\nBudget: ${data.budgetConstraint || '—'}\n\nBrief:\n${data.brief}${data.transcriptExcerpt ? `\n\nConversation excerpt:\n${data.transcriptExcerpt}` : ''}`,
-        MessageStream: 'outbound' }),
-    });
-    if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) return false;
-    const result = await response.json();
-    return result?.ErrorCode === 0 && typeof result.MessageID === 'string' && result.MessageID.length > 0;
-  };
-}
