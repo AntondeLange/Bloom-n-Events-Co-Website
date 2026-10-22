@@ -1,3 +1,4 @@
+import { CONTACT } from "../../lib/constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SubmitEvent } from "react";
 import { validateEnquiry } from "../../lib/enquiry";
@@ -43,7 +44,7 @@ interface ChatResponse {
 }
 
 const PHONE = "1800 826 268";
-const EMAIL = "enquiries@bloomneventsco.com.au";
+const EMAIL = CONTACT.email;
 const API_CHAT_URL = "/api/chat";
 const API_LEAD_URL = "/api/lead";
 

@@ -1,3 +1,4 @@
+import { CONTACT } from "../../lib/constants";
 import { type SubmitEvent, useEffect, useRef, useState } from 'react';
 import { MESSAGE_MIN, MESSAGE_MAX, validateEnquiry } from '../../lib/enquiry';
 
@@ -48,7 +49,7 @@ export default function ContactForm() {
     <input type="hidden" name="source" value="contact-form" />
     <div role="status" aria-live="polite">
       {status === 'success' && <p className="alert alert-success">Thanks for reaching out. Your message has been sent to the team.</p>}
-      {status === 'error' && <p className="alert alert-danger">We couldn't send your message. Your details are still here. Please try again, <a href="mailto:enquiries@bloomneventsco.com.au">email us</a> or call <a href="tel:1800826268">1800 826 268</a>.</p>}
+      {status === 'error' && <p className="alert alert-danger">We couldn't send your message. Your details are still here. Please try again, <a href={`mailto:${CONTACT.email}`}>email us</a> or call <a href="tel:1800826268">1800 826 268</a>.</p>}
     </div>
     {fields.map(([name,label,type,autoComplete,maxLength,required]) => <div className="mb-3" key={name}>
       <label htmlFor={name} className="form-label">{label}{required && <span> *</span>}</label>

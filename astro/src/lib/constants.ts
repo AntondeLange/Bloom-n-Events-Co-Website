@@ -14,6 +14,6 @@ export const SITE = {
 
 export const CONTACT = {
   phone: "1800 826 268",
-  email: "enquiries@bloomneventsco.com.au",
+  email: "enquiry@bloomneventsco.com.au",
   location: "Brookton, WA 6306",
 } as const;

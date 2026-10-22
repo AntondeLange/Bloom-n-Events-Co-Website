@@ -83,7 +83,7 @@ export function getEnv() {
     ENQUIRIES_EMAIL:
       readEnv('ENQUIRIES_EMAIL') ||
       readEnv('CONTACT_TO_EMAIL') ||
-      'enquiries@bloomneventsco.com.au',
+      'enquiry@bloomneventsco.com.au',
     SMTP_HOST: smtpHost,
     SMTP_PORT: smtpPort,
     SMTP_USER: smtpUser,

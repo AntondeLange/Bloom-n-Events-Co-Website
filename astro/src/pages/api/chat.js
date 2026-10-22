@@ -210,7 +210,7 @@ const KNOWLEDGE_BASE = [
     flow: 'browse',
     title: 'Contact',
     url: '/contact',
-    text: "Primary conversion paths are contact or consult. Phone is 1800 826 268 and email is enquiries@bloomneventsco.com.au.",
+    text: "Primary conversion paths are contact or consult. Phone is 1800 826 268 and email is enquiry@bloomneventsco.com.au.",
     tags: ['contact', 'phone', 'email', 'consult', 'start project', 'get in touch'],
   },
   {
@@ -748,7 +748,7 @@ function buildStageActions({ stage, leadMode, nextLeadQuestion, flow }) {
     return [
       'Confirm fit, timing, and decision pathway before detailed pricing.',
       nextLeadQuestion || 'Ask one concise qualification question next.',
-      'Offer quick route to /contact, 1800 826 268, or enquiries@bloomneventsco.com.au.',
+      'Offer quick route to /contact, 1800 826 268, or enquiry@bloomneventsco.com.au.',
     ];
   }
 
@@ -818,10 +818,10 @@ function getRelevantKnowledge(query, flow) {
 
 function getSuggestedReplies(flow, leadMode, salesStage) {
   if (salesStage === SALES_STAGES.DECISION_CONTRACT) {
-    return ['Send Project Brief', 'Call 1800 826 268', 'Email enquiries@bloomneventsco.com.au'];
+    return ['Send Project Brief', 'Call 1800 826 268', 'Email enquiry@bloomneventsco.com.au'];
   }
   if (leadMode) {
-    return ['Share details', 'Call 1800 826 268', 'Email enquiries@bloomneventsco.com.au'];
+    return ['Share details', 'Call 1800 826 268', 'Email enquiry@bloomneventsco.com.au'];
   }
 
   if (flow === 'events') {
