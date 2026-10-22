@@ -84,7 +84,7 @@ router.post('/contact', formLimiter, async (req, res) => {
     const msgHtml = e(formData.message).replace(/\n/g, '<br>');
     const mailOptions = {
       from: process.env.SMTP_FROM || `"Bloom'n Events Co Website" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL || 'enquiries@bloomneventsco.com.au',
+      to: process.env.CONTACT_EMAIL || 'enquiry@bloomneventsco.com.au',
       replyTo: formData.email,
       subject: `New Contact Form Submission from ${formData.firstName} ${formData.lastName}`,
       html: `
